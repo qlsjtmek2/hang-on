@@ -1,0 +1,5 @@
+# Claude Code Infrastructure
+.claude/tsc-cache/
+CLAUDE_CODE_SHOWCASE_README.md
+CLAUDE_INTEGRATION_GUIDE.md
+dev/
