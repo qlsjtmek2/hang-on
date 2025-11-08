@@ -317,6 +317,58 @@
           "(계획|플래닝).*?(프로젝트|개발|앱)"
         ]
       }
+    },
+    "requirements-analyst": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "requirements",
+          "요구사항",
+          "requirement",
+          "specification",
+          "스펙",
+          "사양",
+          "spec",
+          "feature request",
+          "기능 요청",
+          "user story",
+          "사용자 스토리",
+          "analysis",
+          "분석",
+          "review",
+          "검토",
+          "refinement",
+          "개선",
+          "improvement",
+          "clarity",
+          "명확성",
+          "completeness",
+          "완전성",
+          "ambiguous",
+          "애매",
+          "모호",
+          "unclear",
+          "불명확",
+          "missing",
+          "부족",
+          "필요",
+          "need"
+        ],
+        "intentPatterns": [
+          "(analyze|analysis|review|refine|improve|enhance).*?(requirements?|spec|specification|feature|request)",
+          "(분석|검토|개선|향상).*?(요구사항|스펙|사양|기능|요청)",
+          "(check|verify|validate).*?(requirements?|completeness|clarity)",
+          "(확인|검증|검사).*?(요구사항|완전성|명확성)",
+          "(what|어떤).*(missing|부족|빠진|필요)",
+          "(identify|find|detect).*?(gap|issue|problem|ambiguity)",
+          "(찾|식별|발견).*?(문제|이슈|애매|모호|부족)",
+          "(requirements?|요구사항).*(incomplete|unclear|ambiguous|vague|애매|모호|불명확|부족)",
+          "(help|도움|도와).*(requirements?|spec|요구사항|스펙).*(write|작성|refine|개선)",
+          "(transform|convert|변환).*?(idea|아이디어|concept|개념).*(requirements?|spec|요구사항|스펙)"
+        ]
+      }
     }
   }
 }

@@ -30,7 +30,7 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 
 ## 사용 가능한 스킬
 
-이 프로젝트에는 8개의 전문화된 스킬이 설정되어 있습니다. 각 스킬은 한글 및 영문 키워드로 자동 활성화됩니다.
+이 프로젝트에는 9개의 전문화된 스킬이 설정되어 있습니다. 각 스킬은 한글 및 영문 키워드로 자동 활성화됩니다.
 
 ### 1. react-native-dev (고우선순위)
 
@@ -99,7 +99,52 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 "로그인 기능 구현해줘"
 ```
 
-### 4. rn-unit-testing (중우선순위)
+### 4. rn-supabase-project-planner (고우선순위)
+
+**용도**: 개발 Todolist 자동 생성
+
+**활성화 키워드**:
+- 한글: 투두리스트, 체크리스트, 프로젝트 계획, 개발 계획, 로드맵
+- 영문: todolist, checklist, project plan, development plan, roadmap
+
+**주요 기능**:
+- 요구사항 자동 분석
+- MVP Features 자동 추출
+- Phase별 체크리스트 생성
+- PROJECT_TODOLIST.md 파일 생성
+
+**사용 예시**:
+```
+"SNS 앱 todolist 만들어줘"
+"프로젝트 계획 세워줘"
+"개발 체크리스트 생성해줘"
+```
+
+### 5. requirements-analyst (고우선순위)
+
+**용도**: 요구사항 분석 및 개선을 위한 대화형 스킬
+
+**활성화 키워드**:
+- 한글: 요구사항, 스펙, 사양, 분석, 검토, 개선, 애매, 모호, 부족
+- 영문: requirements, specification, spec, analysis, review, refinement, ambiguous
+
+**주요 기능**:
+- 요구사항의 완전성(Completeness) 분석 - 부족한 부분 식별
+- 요구사항의 명확성(Clarity) 검토 - 애매한 표현 구체화
+- 간결성(Conciseness) 분석 - 불필요한 요소 제거
+- 품질(Quality) 개선 - 개선 기회 발견
+- AskUserQuestion을 통한 대화형 요구사항 발전
+- 개선된 요구사항 문서 생성
+
+**사용 예시**:
+```
+"이 요구사항 분석해줘"
+"스펙이 애매해서 개선이 필요해"
+"기능 요청서를 검토해줘"
+"아이디어를 구체적인 스펙으로 만들어줘"
+```
+
+### 6. rn-unit-testing (중우선순위)
 
 **용도**: Jest + RNTL 유닛 테스트
 
@@ -119,7 +164,7 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 "테스트 커버리지 확인해줘"
 ```
 
-### 5. rn-integration-testing (중우선순위)
+### 7. rn-integration-testing (중우선순위)
 
 **용도**: 통합 테스트 + pgTAP
 
@@ -139,7 +184,7 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 "데이터베이스 테스트 만들어줘"
 ```
 
-### 6. maestro-e2e-testing (중우선순위)
+### 8. maestro-e2e-testing (중우선순위)
 
 **용도**: Maestro E2E 테스트
 
@@ -158,7 +203,7 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 "로그인 플로우 테스트해줘"
 ```
 
-### 7. github-actions-cicd (중우선순위)
+### 9. github-actions-cicd (중우선순위)
 
 **용도**: GitHub Actions CI/CD 파이프라인
 
@@ -176,27 +221,6 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 ```
 "CI/CD 파이프라인 설정해줘"
 "배포 자동화 구성해줘"
-```
-
-### 8. rn-supabase-project-planner (고우선순위)
-
-**용도**: 개발 Todolist 자동 생성
-
-**활성화 키워드**:
-- 한글: 투두리스트, 체크리스트, 프로젝트 계획, 개발 계획, 로드맵
-- 영문: todolist, checklist, project plan, development plan, roadmap
-
-**주요 기능**:
-- 요구사항 자동 분석
-- MVP Features 자동 추출
-- Phase별 체크리스트 생성
-- PROJECT_TODOLIST.md 파일 생성
-
-**사용 예시**:
-```
-"SNS 앱 todolist 만들어줘"
-"프로젝트 계획 세워줘"
-"개발 체크리스트 생성해줘"
 ```
 
 ---
