@@ -1,0 +1,322 @@
+{
+  "skills": {
+    "react-native-dev": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "react native",
+          "리액트 네이티브",
+          "native module",
+          "네이티브 모듈",
+          "native linking",
+          "네이티브 연동",
+          "react navigation",
+          "리액트 네비게이션",
+          "project setup",
+          "프로젝트 설정",
+          "프로젝트 초기화",
+          "mobile development",
+          "모바일 개발",
+          "cross-platform",
+          "크로스 플랫폼",
+          "ios android",
+          "swift kotlin",
+          "objective-c java",
+          "상태 관리",
+          "네비게이션",
+          "테마",
+          "타이포그래피"
+        ],
+        "intentPatterns": [
+          "(create|setup|initialize|configure).*?(react native|mobile).*?(project|app)",
+          "(생성|설정|초기화|구성).*?(리액트 네이티브|모바일|앱|프로젝트)",
+          "(integrate|add|link).*?(native module|swift|kotlin)",
+          "(통합|연동|추가).*?(네이티브 모듈|네이티브|swift|kotlin)",
+          "(setup|configure).*?(navigation|routing)",
+          "(설정|구성).*?(네비게이션|라우팅)",
+          "(reuse|use).*?(existing|theme|component|utility)",
+          "(재활용|사용).*?(기존|테마|컴포넌트|유틸)"
+        ]
+      }
+    },
+    "react-native-components": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "component",
+          "컴포넌트",
+          "ui component",
+          "UI 컴포넌트",
+          "button",
+          "버튼",
+          "input",
+          "입력",
+          "입력창",
+          "card",
+          "카드",
+          "list",
+          "리스트",
+          "목록",
+          "custom component",
+          "커스텀 컴포넌트",
+          "reusable component",
+          "재사용 컴포넌트",
+          "animation",
+          "애니메이션",
+          "gesture",
+          "제스처",
+          "accessibility",
+          "접근성",
+          "styling",
+          "스타일링"
+        ],
+        "intentPatterns": [
+          "(create|build|make).*?(component|button|input|card|ui)",
+          "(만들|생성|작성).*?(컴포넌트|버튼|입력|카드|UI)",
+          "(add|implement).*?(animation|gesture)",
+          "(추가|구현).*?(애니메이션|제스처)",
+          "(style|design).*?(component|ui)",
+          "(스타일|디자인).*?(컴포넌트|UI)",
+          "accessibility",
+          "접근성"
+        ]
+      }
+    },
+    "supabase-backend": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "supabase",
+          "수파베이스",
+          "database",
+          "데이터베이스",
+          "DB",
+          "postgres",
+          "포스트그레스",
+          "auth",
+          "인증",
+          "로그인",
+          "회원가입",
+          "authentication",
+          "storage",
+          "저장소",
+          "파일 업로드",
+          "edge function",
+          "엣지 함수",
+          "서버리스",
+          "rls",
+          "row level security",
+          "보안 정책",
+          "real-time",
+          "realtime",
+          "실시간",
+          "subscription",
+          "구독"
+        ],
+        "intentPatterns": [
+          "(create|design|setup).*?(database|schema|table)",
+          "(생성|설계|설정).*?(데이터베이스|스키마|테이블)",
+          "(add|create|configure).*?(rls|policy|security)",
+          "(추가|생성|설정).*?(rls|정책|보안)",
+          "(setup|configure|integrate).*?(auth|authentication)",
+          "(설정|구성|통합).*?(인증|로그인|회원가입)",
+          "(upload|store).*?(file|image|storage)",
+          "(업로드|저장).*?(파일|이미지|사진)",
+          "(create|deploy).*?(edge function|serverless)",
+          "(생성|배포).*?(엣지 함수|서버리스)",
+          "(subscribe|listen).*?(real-time|realtime|changes)",
+          "(구독|수신).*?(실시간|변경)"
+        ]
+      }
+    },
+    "rn-unit-testing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "unit test",
+          "유닛 테스트",
+          "단위 테스트",
+          "jest",
+          "testing library",
+          "테스팅 라이브러리",
+          "rntl",
+          "component test",
+          "컴포넌트 테스트",
+          "hook test",
+          "훅 테스트",
+          "mock",
+          "모킹",
+          "모의",
+          "spy",
+          "스파이",
+          "test coverage",
+          "테스트 커버리지",
+          "커버리지",
+          "snapshot test",
+          "스냅샷 테스트",
+          "snapshot",
+          "스냅샷"
+        ],
+        "intentPatterns": [
+          "(write|create|add).*?(unit test|test)",
+          "(작성|생성|추가).*?(유닛 테스트|단위 테스트|테스트)",
+          "(test|testing).*?(component|hook|function)",
+          "(테스트|테스팅).*?(컴포넌트|훅|함수)",
+          "(mock|spy).*?(api|module|navigation)",
+          "(모킹|모의|스파이).*?(api|모듈|네비게이션)",
+          "(measure|check|improve).*?(coverage|test coverage)",
+          "(측정|확인|개선).*?(커버리지|테스트 커버리지)"
+        ]
+      }
+    },
+    "rn-integration-testing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "integration test",
+          "통합 테스트",
+          "pgtap",
+          "database test",
+          "데이터베이스 테스트",
+          "DB 테스트",
+          "api test",
+          "API 테스트",
+          "frontend-backend",
+          "프론트엔드 백엔드",
+          "end-to-end data",
+          "data consistency",
+          "데이터 일관성",
+          "workflow test",
+          "워크플로우 테스트"
+        ],
+        "intentPatterns": [
+          "(write|create|add).*?(integration test)",
+          "(작성|생성|추가).*?(통합 테스트)",
+          "(test|testing).*?(api|database|backend)",
+          "(테스트|테스팅).*?(api|데이터베이스|백엔드)",
+          "(test|verify).*?(frontend.*backend|data.*flow|consistency)",
+          "(테스트|검증).*?(프론트.*백|데이터.*흐름|일관성)",
+          "pgtap"
+        ]
+      }
+    },
+    "maestro-e2e-testing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "e2e test",
+          "E2E 테스트",
+          "maestro",
+          "마에스트로",
+          "end-to-end",
+          "엔드투엔드",
+          "종단간",
+          "ui test",
+          "UI 테스트",
+          "flow",
+          "플로우",
+          "흐름",
+          "user journey",
+          "사용자 여정",
+          "사용자 시나리오",
+          "automation",
+          "자동화",
+          "mobile test",
+          "모바일 테스트"
+        ],
+        "intentPatterns": [
+          "(write|create|add).*?(e2e test|end-to-end test|maestro flow)",
+          "(작성|생성|추가).*?(e2e 테스트|엔드투엔드|마에스트로|플로우)",
+          "(test|automate).*?(user journey|workflow|flow)",
+          "(테스트|자동화).*?(사용자 여정|워크플로우|플로우|흐름)",
+          "(test|testing).*?(ui|user interface)",
+          "(테스트|테스팅).*?(ui|사용자 인터페이스)",
+          "maestro",
+          "마에스트로"
+        ]
+      }
+    },
+    "github-actions-cicd": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "ci/cd",
+          "cicd",
+          "github actions",
+          "깃허브 액션",
+          "deployment",
+          "배포",
+          "workflow",
+          "워크플로우",
+          "pipeline",
+          "파이프라인",
+          "automation",
+          "자동화",
+          "continuous integration",
+          "지속적 통합",
+          "continuous deployment",
+          "지속적 배포",
+          "testflight",
+          "테스트플라이트",
+          "google play",
+          "구글 플레이",
+          "build automation",
+          "빌드 자동화"
+        ],
+        "intentPatterns": [
+          "(setup|configure|create).*?(ci/cd|pipeline|workflow|github actions)",
+          "(설정|구성|생성).*?(ci/cd|파이프라인|워크플로우|깃허브 액션)",
+          "(automate|automation).*?(test|build|deploy)",
+          "(자동화).*?(테스트|빌드|배포)",
+          "(deploy|deployment).*?(testflight|google play|app store)",
+          "(배포).*?(테스트플라이트|구글 플레이|앱스토어)",
+          "(run|execute).*?(test|build).*?(ci|pipeline)",
+          "(실행).*?(테스트|빌드).*?(ci|파이프라인)"
+        ]
+      }
+    },
+    "rn-supabase-project-planner": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "todolist",
+          "투두리스트",
+          "체크리스트",
+          "checklist",
+          "project plan",
+          "development plan",
+          "프로젝트 계획",
+          "개발 계획",
+          "task list",
+          "작업 목록",
+          "roadmap",
+          "로드맵",
+          "planning",
+          "계획"
+        ],
+        "intentPatterns": [
+          "(create|make|generate).*?(todolist|checklist|plan|roadmap)",
+          "(생성|작성|만들).*?(투두리스트|체크리스트|개발 계획|프로젝트 계획|로드맵)",
+          "(plan|planning).*?(project|development|app)",
+          "(계획|플래닝).*?(프로젝트|개발|앱)"
+        ]
+      }
+    }
+  }
+}
