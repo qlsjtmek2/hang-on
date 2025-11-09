@@ -369,6 +369,83 @@
           "(transform|convert|변환).*?(idea|아이디어|concept|개념).*(requirements?|spec|요구사항|스펙)"
         ]
       }
+    },
+    "ui-ux-design-architect": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "design system",
+          "디자인 시스템",
+          "design guideline",
+          "디자인 가이드라인",
+          "design criteria",
+          "디자인 기준",
+          "user flow",
+          "사용자 플로우",
+          "user journey",
+          "사용자 여정",
+          "user scenario",
+          "사용자 시나리오",
+          "screen flow",
+          "화면 플로우",
+          "화면 흐름",
+          "ui/ux",
+          "UI/UX",
+          "layout",
+          "레이아웃",
+          "화면 설계",
+          "color palette",
+          "컬러 팔레트",
+          "색상",
+          "typography",
+          "타이포그래피",
+          "타이포",
+          "폰트",
+          "component guideline",
+          "컴포넌트 기준",
+          "컴포넌트 가이드라인",
+          "dialog",
+          "다이얼로그",
+          "modal",
+          "모달",
+          "interaction pattern",
+          "인터랙션 패턴",
+          "visual hierarchy",
+          "시각적 계층",
+          "계층 구조",
+          "point design",
+          "포인트 디자인",
+          "design concept",
+          "디자인 컨셉",
+          "wireframe",
+          "와이어프레임",
+          "prototype",
+          "프로토타입",
+          "persona",
+          "페르소나"
+        ],
+        "intentPatterns": [
+          "(create|make|establish|define|setup).*?(design system|ui guideline|design guideline)",
+          "(생성|만들|정립|정의|설정).*?(디자인 시스템|디자인 기준|UI 가이드라인)",
+          "(design|설계|디자인).*?(flow|screen|화면|플로우|흐름|레이아웃|layout)",
+          "(사용자|유저|user).*(시나리오|여정|플로우|journey|scenario|flow)",
+          "(define|정의|정립).*?(color|컬러|색상|typography|타이포|component|컴포넌트).*(system|기준|guideline|가이드라인)",
+          "(when|언제).*(dialog|다이얼로그|modal|모달|screen|화면|스크린)",
+          "(create|make|작성|생성).*?(wireframe|prototype|와이어프레임|프로토타입)",
+          "(establish|정립|수립).*?(design.*standard|디자인.*기준|일관.*기준|consistent)",
+          "(visual|시각).*(hierarchy|계층|우선순위)",
+          "(point|포인트).*(design|디자인)"
+        ],
+        "filePaths": [
+          "**/docs/DESIGN_SYSTEM.md",
+          "**/docs/UI_UX_SPEC.md",
+          "**/docs/USER_SCENARIOS.md",
+          "**/docs/SCREEN_FLOW.md",
+          "**/src/theme/**"
+        ]
+      }
     }
   }
 }

@@ -187,6 +187,104 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
+## 프로젝트 문서
+
+### 요구사항 및 설계 문서
+
+**위치**: `docs/`
+
+**주요 문서**:
+- **요구사항 명세서** (`docs/REQUIREMENTS.md`)
+  - 프로젝트 개요 및 핵심 가치
+  - 기능적/비기능적 요구사항
+  - UI/UX 가이드라인 (감정 날씨, 메시지 프리셋)
+  - 우선순위 및 로드맵 (Phase 0-3)
+  - 성공 지표 및 위험 요소
+
+- **API 명세서** (`docs/API_SPEC.md`)
+  - RESTful API 엔드포인트
+  - 요청/응답 스키마
+  - 에러 코드 정의
+  - Supabase RPC 함수
+  - Real-time Subscriptions
+  - 푸시 알림 구조
+
+**사용 시기**:
+- 새 기능 개발 전: 요구사항 확인
+- API 연동 시: API 명세서 참조
+- 우선순위 결정 시: 로드맵 확인
+
+---
+
+## 스킬 시스템
+
+### 사용 가능한 스킬
+
+프로젝트에는 자동 활성화되는 도메인 스킬들이 포함되어 있습니다:
+
+#### 1. UI/UX 설계 스킬
+
+**ui-ux-design-architect**
+- **용도**: 사용자 시나리오 기반 화면 Flow 설계 및 디자인 시스템 수립
+- **자동 활성화**: 디자인 시스템, 사용자 시나리오, 화면 플로우, 레이아웃 설계 관련 작업 시
+- **제공 기능**:
+  - 요구사항 분석 → 사용자 시나리오 도출
+  - 화면 Flow 다이어그램 작성
+  - 레이아웃 설계 가이드
+  - 디자인 시스템 수립 (컬러, 타이포, 간격, 컴포넌트)
+  - 인터랙션 패턴 정의 (Dialog vs Screen vs Bottom Sheet)
+  - 포인트 디자인 사용 기준
+
+#### 2. 개발 스킬
+
+**react-native-dev**
+- React Native 프로젝트 설정, 네이티브 모듈 연동, 네비게이션 설정
+
+**react-native-components**
+- UI 컴포넌트 생성, 애니메이션, 제스처, 접근성 구현
+
+**supabase-backend**
+- 데이터베이스 설계, RLS 정책, 인증, 저장소, Edge Functions, Real-time
+
+#### 3. 테스팅 스킬
+
+**rn-unit-testing**
+- Jest + RNTL을 이용한 유닛 테스트 작성
+
+**rn-integration-testing**
+- 프론트엔드-백엔드 통합 테스트, pgTAP 데이터베이스 테스트
+
+**maestro-e2e-testing**
+- Maestro를 이용한 E2E 테스트 Flow 작성
+
+#### 4. 기획 스킬
+
+**requirements-analyst**
+- 요구사항 분석, 검토, 개선, 명확화
+
+**rn-supabase-project-planner**
+- 프로젝트 계획 및 todolist 자동 생성
+
+#### 5. CI/CD 스킬
+
+**github-actions-cicd**
+- GitHub Actions 워크플로우 설정, 자동 테스트, 빌드, 배포
+
+### 스킬 활용 예시
+
+```
+사용자: "사용자 시나리오를 기반으로 화면 플로우와 디자인 기준을 만들어줘"
+→ ui-ux-design-architect 스킬 자동 활성화
+
+사용자: "감정 선택 버튼 컴포넌트를 만들어줘"
+→ react-native-components 스킬 자동 활성화
+
+사용자: "데이터베이스 테이블과 RLS 정책을 설계해줘"
+→ supabase-backend 스킬 자동 활성화
+```
+
+---
+
 ## 추가 리소스
 
 - 각 스킬의 상세 가이드: `.claude/skills/[skill-name]/SKILL.md`
@@ -195,6 +293,6 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-11-08
-**프로젝트 타입**: React Native + Supabase Mobile App
+**마지막 업데이트**: 2025-11-09
+**프로젝트 타입**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **Claude Code 버전**: Compatible with Claude Code skill system
