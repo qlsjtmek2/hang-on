@@ -194,14 +194,16 @@ SUPABASE_ANON_KEY=your-anon-key
 **위치**: `docs/`
 
 **주요 문서**:
-- **요구사항 명세서** (`docs/REQUIREMENTS.md`)
+
+#### 요구사항 및 기획
+- **[요구사항 명세서](docs/REQUIREMENTS.md)**
   - 프로젝트 개요 및 핵심 가치
   - 기능적/비기능적 요구사항
   - UI/UX 가이드라인 (감정 날씨, 메시지 프리셋)
   - 우선순위 및 로드맵 (Phase 0-3)
   - 성공 지표 및 위험 요소
 
-- **API 명세서** (`docs/API_SPEC.md`)
+- **[API 명세서](docs/API_SPEC.md)**
   - RESTful API 엔드포인트
   - 요청/응답 스키마
   - 에러 코드 정의
@@ -209,10 +211,39 @@ SUPABASE_ANON_KEY=your-anon-key
   - Real-time Subscriptions
   - 푸시 알림 구조
 
+#### UI/UX 설계
+- **[사용자 시나리오](docs/USER_SCENARIOS.md)**
+  - 5개 핵심 사용자 여정 (감정 털어놓기, 누군가와 함께, 공감 받기, 기록 관리, 온보딩)
+  - 각 시나리오별 단계, 감정 변화, Touchpoint
+  - 성공 지표 정의
+
+- **[화면 Flow 다이어그램](docs/SCREEN_FLOW.md)**
+  - Mermaid 다이어그램으로 앱 구조 시각화
+  - 인증, 털어놓기, 피드, 기록 관리, 설정 Flow
+  - 30개 이상 화면/상태 정의
+  - Dialog vs Screen vs Bottom Sheet 선택 기준
+
+- **[레이아웃 스케치](docs/LAYOUT_SKETCHES.md)**
+  - 8개 주요 화면 상세 레이아웃 (ASCII 아트)
+  - 8pt Grid System 적용
+  - 재사용 가능한 컴포넌트 명세
+  - 반응형 고려사항
+
+- **[디자인 시스템](docs/DESIGN_SYSTEM.md)**
+  - **컬러 팔레트**: 감정 날씨 5단계 색상 + Primary/Semantic/Neutral
+  - **타이포그래피**: 7개 폰트 스케일 (h1-h3, body, caption, button)
+  - **간격 시스템**: 8pt Grid (xs: 4pt ~ xxxl: 48pt)
+  - **컴포넌트 라이브러리**: Button, RecordCard, EmotionButton, BottomSheet, Dialog
+  - **인터랙션 패턴**: Dialog vs Screen vs Bottom Sheet 사용 기준
+  - **애니메이션**: Fade, Scale, Slide, Pulse (200-300ms)
+  - **접근성**: WCAG 2.1 AA 준수
+
 **사용 시기**:
-- 새 기능 개발 전: 요구사항 확인
-- API 연동 시: API 명세서 참조
-- 우선순위 결정 시: 로드맵 확인
+- 새 기능 개발 전: [요구사항 명세서](docs/REQUIREMENTS.md) 확인
+- UI 구현 전: [디자인 시스템](docs/DESIGN_SYSTEM.md), [레이아웃 스케치](docs/LAYOUT_SKETCHES.md) 참조
+- 사용자 경험 설계: [사용자 시나리오](docs/USER_SCENARIOS.md), [화면 Flow](docs/SCREEN_FLOW.md) 참조
+- API 연동 시: [API 명세서](docs/API_SPEC.md) 참조
+- 우선순위 결정 시: [요구사항 명세서](docs/REQUIREMENTS.md) 로드맵 확인
 
 ---
 
