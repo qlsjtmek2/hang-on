@@ -24,26 +24,25 @@
 ## Phase 1: 프로젝트 초기화
 
 ### 1.1 React Native 프로젝트 생성
-- [ ] React Native CLI 프로젝트 생성 (`npx @react-native-community/cli@latest init HangOn`)
-- [ ] TypeScript 설정 확인 (`tsconfig.json`)
-- [ ] Git 저장소 초기화 및 첫 커밋
+- [x] React Native CLI 프로젝트 생성 (`npx @react-native-community/cli@latest init HangOn`)
+- [x] TypeScript 설정 확인 (`tsconfig.json`)
 
 ### 1.2 Supabase 프로젝트 생성
-- [ ] Supabase 프로젝트 생성 (MCP: `create_project`)
-- [ ] 프로젝트 URL 및 API 키 확인 (MCP: `get_project_url`, `get_anon_key`)
-- [ ] `.env` 파일 생성 및 환경 변수 설정
-- [ ] `.env.example` 파일 생성 (보안 참고용)
+- [x] Supabase 프로젝트 생성 (MCP: `create_project`)
+- [x] 프로젝트 URL 및 API 키 확인 (MCP: `get_project_url`, `get_anon_key`)
+- [x] `.env` 파일 생성 및 환경 변수 설정
+- [x] `.env.example` 파일 생성 (보안 참고용)
 
 ### 1.3 필수 패키지 설치
-- [ ] React Navigation 설치
+- [x] React Navigation 설치
   ```bash
   npm install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs
   npm install react-native-screens react-native-safe-area-context
   ```
-- [ ] Zustand 설치 (`npm install zustand`)
-- [ ] Supabase 클라이언트 설치 (`npm install @supabase/supabase-js`)
-- [ ] 환경 변수 관리 (`npm install react-native-config`)
-- [ ] 의존성 호환성 체크 (`npm install`)
+- [x] Zustand 설치 (`npm install zustand`)
+- [x] Supabase 클라이언트 설치 (`npm install @supabase/supabase-js`)
+- [x] 환경 변수 관리 (`npm install react-native-config`)
+- [x] 의존성 호환성 체크 (`npm install`)
 
 ---
 
@@ -51,7 +50,6 @@
 
 ### 2.1 에뮬레이터/시뮬레이터 설정
 - [ ] Android 에뮬레이터 실행 확인 (`npx react-native run-android`)
-- [ ] iOS 시뮬레이터 실행 확인 (`npx react-native run-ios`) - macOS만
 - [ ] 실행 스크립트 확인 (`package.json`의 `scripts`)
 
 ### 2.2 개발 도구 설정
