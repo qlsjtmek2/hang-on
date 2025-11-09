@@ -316,6 +316,26 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
+## 배운 내용 및 트러블슈팅
+
+### 라이브러리 호환성
+
+#### react-native-config 버전 관리
+- **문제**: `react-native-config` v1.5.9에서 React Native 0.82와 CMake 호환성 문제 발생
+  - 에러: `add_subdirectory given source "codegen/jni/" which is not an existing directory`
+  - 근본 원인: v1.5.8, v1.5.9에서 Android 빌드 수정 시도 중 autolinking 문제 발생
+- **해결**: v1.5.5로 다운그레이드
+  - `npm install react-native-config@1.5.5`
+  - v1.5.5는 React Native 0.78-0.82와 안정적으로 호환됨
+- **참고**: [GitHub Issue #848](https://github.com/lugg/react-native-config/issues/848)
+- **교훈**: React Native 프로젝트에서 native 모듈 업데이트 시 항상 GitHub Issues 확인 필요
+
+### 빌드 캐시 관리
+- Android 빌드 에러 발생 시 `./gradlew clean` 실행 후 재빌드 권장
+- 특히 native 모듈 버전 변경 후 필수
+
+---
+
 ## 추가 리소스
 
 - 각 스킬의 상세 가이드: `.claude/skills/[skill-name]/SKILL.md`
