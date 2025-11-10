@@ -1,0 +1,30 @@
+# 빌드 산출물
+/android/
+/ios/
+/build/
+/dist/
+/coverage/
+
+# 의존성
+/node_modules/
+
+# 메타데이터
+/.git/
+/.vscode/
+/.idea/
+
+# 설정 파일들
+*.json
+*.lock
+*.log
+
+# 생성된 파일
+*.generated.ts
+*.generated.tsx
+
+# 테스트 커버리지
+coverage/
+.nyc_output
+
+# Metro
+.metro-health-check*

@@ -80,7 +80,7 @@ export const getEmotionColor = (level: 1 | 2 | 3 | 4 | 5): string => {
  */
 export const getEmotionColorWithOpacity = (
   level: 1 | 2 | 3 | 4 | 5,
-  opacity: number = 0.1
+  opacity: number = 0.1,
 ): string => {
   const hexToRgb = (hex: string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

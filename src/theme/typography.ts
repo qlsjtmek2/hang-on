@@ -118,7 +118,7 @@ export const typography: Record<string, TextStyle> = {
  */
 export const getScaledFontSize = (
   baseSize: number,
-  fontScale: number
+  fontScale: number,
 ): number => {
   return baseSize * fontScale;
 };
@@ -136,7 +136,7 @@ export const getScaledFontSize = (
  */
 export const withColor = (
   typographyStyle: TextStyle,
-  color: string
+  color: string,
 ): TextStyle => {
   return {
     ...typographyStyle,

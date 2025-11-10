@@ -34,8 +34,8 @@ export type { Spacing, SpacingKey } from './spacing';
  * 한 번에 모든 테마 요소를 가져올 때 사용
  */
 import { colors } from './colors';
-import { typography } from './typography';
 import { spacing } from './spacing';
+import { typography } from './typography';
 
 export const theme = {
   colors,

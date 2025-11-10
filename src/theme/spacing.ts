@@ -98,7 +98,7 @@ export const getSpacing = (multiplier: number): number => {
  */
 export const getPadding = (
   horizontal: keyof typeof spacing,
-  vertical: keyof typeof spacing
+  vertical: keyof typeof spacing,
 ) => {
   return {
     paddingHorizontal: spacing[horizontal],
@@ -120,7 +120,7 @@ export const getPadding = (
 export const getDirectionalSpacing = (
   direction: 'top' | 'right' | 'bottom' | 'left',
   value: keyof typeof spacing,
-  type: 'padding' | 'margin' = 'padding'
+  type: 'padding' | 'margin' = 'padding',
 ) => {
   const property = `${type}${direction.charAt(0).toUpperCase()}${direction.slice(1)}`;
   return {

@@ -79,7 +79,11 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 │   ├── utils/            # 유틸리티 함수
 │   ├── services/         # API 서비스, Supabase 클라이언트
 │   ├── store/            # 상태 관리 (Zustand)
-│   ├── theme/            # 중앙화된 테마 (colors, typography, spacing)
+│   ├── theme/            # 중앙화된 테마 ✅ 구현 완료
+│   │   ├── colors.ts     # 감정 날씨 5단계 색상 + Primary/Semantic/Neutral
+│   │   ├── typography.ts # 7개 폰트 스케일 (h1-h3, body, caption, button)
+│   │   ├── spacing.ts    # 8pt Grid System (xs: 4pt ~ xxxl: 48pt)
+│   │   └── index.ts      # 통합 테마 export
 │   ├── types/            # TypeScript 타입 정의
 │   └── App.tsx
 ├── android/              # Android 네이티브 코드
@@ -92,8 +96,21 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 ### 핵심 원칙
 
 1. **중앙화된 테마 사용**
-   - `src/theme/` 디렉토리의 colors, typography, spacing 활용
+   - `src/theme/` 디렉토리의 colors, typography, spacing 활용 (✅ 구현 완료)
    - 절대 하드코딩하지 말 것
+   - **사용 예시**:
+   ```typescript
+   import { theme } from '@/theme';
+
+   // 색상 사용
+   const style = { color: theme.colors.primary.main };
+
+   // 타이포그래피 사용
+   const textStyle = { ...theme.typography.h1 };
+
+   // 간격 사용
+   const spacing = { padding: theme.spacing.md };
+   ```
 
 2. **컴포넌트 재사용**
    - 새 컴포넌트 생성 전 `src/components/` 확인
@@ -129,6 +146,15 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 - 유닛 테스트
 - 통합 테스트
 - E2E 테스트
+
+**로컬 개발 명령어**:
+```bash
+npm run lint          # ESLint 실행
+npm run lint:fix      # ESLint 자동 수정
+npm run format        # Prettier 포맷팅
+npm run format:check  # Prettier 체크
+npm run typecheck     # TypeScript 컴파일 체크
+```
 
 **로컬에서는**:
 - 스킬 기반 개발 지원
@@ -318,6 +344,36 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ## 배운 내용 및 트러블슈팅
 
+### 개발 도구 설정
+
+#### ESLint 설정
+- TypeScript ESLint 플러그인 설치 및 설정 완료
+- React Hooks 규칙 적용
+- Import 순서 자동 정렬 규칙 추가
+- 설치 패키지:
+  - `@typescript-eslint/eslint-plugin`
+  - `@typescript-eslint/parser`
+  - `eslint-plugin-react-hooks`
+  - `eslint-plugin-import`
+  - `eslint-import-resolver-typescript`
+
+#### Prettier 설정
+- 코드 포맷팅 규칙 통일
+- 100자 줄 길이 제한
+- 후행 콤마 사용 (trailingComma: 'all')
+- `.prettierignore` 파일로 제외 경로 관리
+
+#### TypeScript 설정
+- 엄격한 타입 체크 모드 활성화 (strict: true)
+- 경로 별칭 설정 (@/* → src/*)
+- 사용하지 않는 변수/매개변수 오류 설정
+
+### 테마 시스템 구현 완료
+- `src/theme/colors.ts`: 감정 날씨 5단계 색상, Primary/Semantic/Neutral 색상 정의
+- `src/theme/typography.ts`: 7개 폰트 스케일 정의 (h1-h3, body, caption, button)
+- `src/theme/spacing.ts`: 8pt Grid System 구현 (xs: 4pt ~ xxxl: 48pt)
+- `src/theme/index.ts`: 통합 테마 export
+
 ### 라이브러리 호환성
 
 #### react-native-config 버전 관리
@@ -344,6 +400,16 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-11-09
+**마지막 업데이트**: 2025-11-10
 **프로젝트 타입**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **Claude Code 버전**: Compatible with Claude Code skill system
+
+### 현재 진행 상황
+- Phase 1: 프로젝트 초기화 ✅ 완료
+- Phase 2: 개발 환경 구축 ✅ 완료
+  - ESLint, Prettier, TypeScript 설정 완료
+  - 테마 시스템 (colors, typography, spacing) 구현 완료
+  - Android 에뮬레이터 설정 완료
+- Phase 3: 공통 리소스 제작 🚧 진행 중
+  - 테마 시스템 ✅ 완료
+  - 공통 컴포넌트 제작 예정

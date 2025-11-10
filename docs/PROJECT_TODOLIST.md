@@ -49,7 +49,7 @@
 ## Phase 2: 개발 환경 구축
 
 ### 2.1 에뮬레이터/시뮬레이터 설정
-- [x] Android 에뮬레이터 실행 확인 (`npx react-native run-android`)
+- [ ] Android 에뮬레이터 실행 확인 (`npx react-native run-android`)
 - [x] 실행 스크립트 확인 (`package.json`의 `scripts`)
   - `npm run emulator:phone`: Phone_9_16 에뮬레이터 실행
   - `npm run emulator:tablet-7`: 7인치 태블릿 에뮬레이터 실행
@@ -58,9 +58,9 @@
   - `npm run android`: 에뮬레이터에 앱 빌드 및 실행
 
 ### 2.2 개발 도구 설정
-- [ ] ESLint 설정 (`.eslintrc.js`)
-- [ ] Prettier 설정 (`.prettierrc`)
-- [ ] TypeScript 컴파일 확인 (`npx tsc --noEmit`)
+- [x] ESLint 설정 (`.eslintrc.js`)
+- [x] Prettier 설정 (`.prettierrc`)
+- [x] TypeScript 컴파일 확인 (`npx tsc --noEmit`)
 
 ### 2.3 디렉토리 구조 설정
 - [x] `src/` 디렉토리 구조 생성
