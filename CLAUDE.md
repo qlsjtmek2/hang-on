@@ -115,12 +115,53 @@ React Native CLI + Supabase 기반 모바일 애플리케이션 개발 프로젝
 2. **컴포넌트 재사용**
    - 새 컴포넌트 생성 전 `src/components/` 확인
    - 기존 컴포넌트 재활용 우선
+   - **사용 가능한 컴포넌트** (✅ 구현 완료):
+     - `Button`: Primary/Secondary/Ghost 스타일 버튼
+     - `Input`: 글자 수 카운터, 에러 상태 지원 입력 필드
+     - `EmotionButton`: 5단계 감정 날씨 선택기
+     - `RecordCard`: 감정 기록 카드
+     - `BottomSheet`: 하단 슬라이드 모달
 
-3. **타입 안정성**
+3. **유틸리티 함수 사용**
+   - **날짜 처리**: `src/utils/dateFormatter.ts` 사용 (✅ 구현 완료)
+     ```typescript
+     import { formatRelativeTime, formatSmartTime, formatDate } from '@/utils';
+
+     // 상대적 시간 표시: "5분 전", "어제"
+     const relativeTime = formatRelativeTime(date);
+
+     // 스마트 포맷: 상황에 따라 최적 형식 자동 선택
+     const smartTime = formatSmartTime(date);
+
+     // 절대적 날짜: "2024년 1월 15일"
+     const fullDate = formatDate(date);
+     ```
+
+   - **에러 처리**: `src/utils/errorHandler.ts` 사용 (✅ 구현 완료)
+     ```typescript
+     import { handleError, handleSupabaseError, logError } from '@/utils';
+
+     try {
+       // 작업 수행
+     } catch (error) {
+       // 표준화된 에러 처리
+       const standardError = handleError(error);
+
+       // Supabase 에러 처리
+       if (supabaseError) {
+         const supaError = handleSupabaseError(supabaseError);
+       }
+
+       // 개발 환경 로깅
+       logError(standardError, 'ComponentName');
+     }
+     ```
+
+4. **타입 안정성**
    - 모든 파일에 TypeScript 사용
    - Props, State, API 응답 타입 정의
 
-4. **테스트 작성**
+5. **테스트 작성**
    - 모든 컴포넌트에 유닛 테스트
    - 핵심 기능에 통합 테스트
    - 주요 사용자 여정에 E2E 테스트
@@ -410,6 +451,11 @@ SUPABASE_ANON_KEY=your-anon-key
   - ESLint, Prettier, TypeScript 설정 완료
   - 테마 시스템 (colors, typography, spacing) 구현 완료
   - Android 에뮬레이터 설정 완료
-- Phase 3: 공통 리소스 제작 🚧 진행 중
+- Phase 3: 공통 리소스 제작 ✅ 완료
   - 테마 시스템 ✅ 완료
-  - 공통 컴포넌트 제작 예정
+  - 공통 컴포넌트 ✅ 완료
+    - Button, Input, EmotionButton, RecordCard, BottomSheet
+    - 모든 컴포넌트 유닛 테스트 작성 완료
+  - 유틸리티 함수 ✅ 완료
+    - dateFormatter: 날짜 포맷팅 (상대/절대/스마트)
+    - errorHandler: Supabase 및 일반 에러 처리

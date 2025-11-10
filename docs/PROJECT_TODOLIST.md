@@ -82,41 +82,41 @@
 ## Phase 3: 공통 리소스 제작 (디자인 시스템)
 
 ### 3.1 테마 시스템
-- [ ] 컬러 팔레트 정의 (`src/theme/colors.ts`)
+- [x] 컬러 팔레트 정의 (`src/theme/colors.ts`)
   - 감정 날씨 5단계 색상 (최상/상/중/하/최하)
   - Primary/Secondary/Semantic 색상
   - Neutral 색상 (배경, 텍스트, 보더)
-- [ ] 타이포그래피 정의 (`src/theme/typography.ts`)
+- [x] 타이포그래피 정의 (`src/theme/typography.ts`)
   - 폰트 패밀리, 크기, 행간
   - h1, h2, h3, body, caption, button
-- [ ] 간격 시스템 정의 (`src/theme/spacing.ts`)
+- [x] 간격 시스템 정의 (`src/theme/spacing.ts`)
   - 8pt Grid System (xs: 4pt ~ xxxl: 48pt)
-- [ ] 통합 테마 export (`src/theme/index.ts`)
+- [x] 통합 테마 export (`src/theme/index.ts`)
 
 ### 3.2 공통 컴포넌트
-- [ ] Button 컴포넌트 (`src/components/Button.tsx`)
+- [x] Button 컴포넌트 (`src/components/Button.tsx`)
   - Primary, Secondary, Ghost 스타일
   - 접근성 라벨
   - 유닛 테스트
-- [ ] Input 컴포넌트 (`src/components/Input.tsx`)
+- [x] Input 컴포넌트 (`src/components/Input.tsx`)
   - 텍스트 입력, 글자 수 카운터
   - 에러 상태 표시
   - 유닛 테스트
-- [ ] EmotionButton 컴포넌트 (`src/components/EmotionButton.tsx`)
+- [x] EmotionButton 컴포넌트 (`src/components/EmotionButton.tsx`)
   - 5단계 감정 날씨 아이콘
   - 선택 상태 애니메이션
   - 유닛 테스트
-- [ ] RecordCard 컴포넌트 (`src/components/RecordCard.tsx`)
+- [x] RecordCard 컴포넌트 (`src/components/RecordCard.tsx`)
   - 감정, 시간, 글 미리보기, 공감/메시지 수
   - 유닛 테스트
-- [ ] BottomSheet 컴포넌트 (`src/components/BottomSheet.tsx`)
+- [x] BottomSheet 컴포넌트 (`src/components/BottomSheet.tsx`)
   - 공유 설정용
   - 유닛 테스트
 
 ### 3.3 유틸리티 함수
-- [ ] 날짜 포맷터 (`src/utils/dateFormatter.ts`)
+- [x] 날짜 포맷터 (`src/utils/dateFormatter.ts`)
   - "5분 전", "오늘 오전 10:30" 형식
-- [ ] 에러 핸들러 (`src/utils/errorHandler.ts`)
+- [x] 에러 핸들러 (`src/utils/errorHandler.ts`)
   - Supabase 에러 처리
 
 ---
