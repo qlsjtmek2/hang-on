@@ -22,7 +22,11 @@ React Native CLI + Supabase 기반 **Hang On** - 감정 공유 플랫폼
 ### 실행
 
 ```bash
+npm run dev              # 🚀 통합 개발 세션 시작 (에뮬레이터 + Metro + 앱 빌드)
+
+# 개별 명령어 (필요시)
 npm run emulator:phone    # Android 에뮬레이터 시작
+npm run emulator:phone-cold  # Cold Boot (스냅샷 문제 시)
 npm start                 # Metro 서버 (--host 127.0.0.1)
 npm run android          # 앱 빌드 및 설치
 npm run ios              # iOS 앱 실행
@@ -160,25 +164,40 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ### 개발 세션 시작
 
-자동: `./scripts/start-dev-session.sh`
-수동: `npm run emulator:phone` → `npm start` → `npm run android`
+**통합 명령어**: `npm run dev` (권장)
+**개별 실행**: `npm run emulator:phone` → `npm start` → `npm run android`
+
+`npm run dev` 명령어는 다음을 자동으로 수행합니다:
+1. Android 에뮬레이터 시작 및 부팅 대기
+2. Metro 서버 시작 및 준비 대기
+3. 앱 빌드 및 설치
 
 ### 주요 트러블슈팅
 
 **Gradle installDebug 실패**:
 
 - `wslinfo --networking-mode` 확인 (출력: mirrored)
-- Legacy Mode 환경 변수 제거: `unset ADB_SERVER_SOCKET WSL_HOST`
-- `~/.bashrc`에서 WSL_HOST, ADB_SERVER_SOCKET 주석 처리
 - Windows ADB alias 확인: `which adb` (출력: `/mnt/c/Users/.../adb.exe`)
-- 폴백: `npm run android:legacy`
+- Legacy Mode 환경 변수 자동 제거됨 (`npm run dev`, `npm run android`에서 자동 처리)
+- 수동 정리: `./scripts/clean-legacy-env.sh` 실행
 
 **Metro 연결 실패**:
 
 - Metro를 127.0.0.1에 바인딩: `npm start` (package.json에 이미 설정됨)
 - 방화벽 규칙 확인
 
-**중요**: `ADB_SERVER_SOCKET` 환경 변수가 남아있으면 Mirrored Mode에서도 NAT로 연결 시도 → 제거 필수
+**에뮬레이터 offline 상태 지속**:
+
+- 증상: `adb devices`에서 `emulator-5554 offline`이 오래 지속됨
+- 원인: 에뮬레이터 스냅샷 로딩 문제
+- 해결: Cold Boot로 재시작 `npm run emulator:phone-cold`
+- 참고: Cold Boot는 스냅샷 없이 처음부터 부팅 (느리지만 안정적)
+
+**중요 - Legacy NAT 환경 변수**:
+- `ADB_SERVER_SOCKET`, `WSL_HOST` 환경 변수는 Mirrored Mode와 충돌
+- `.bashrc`에 자동 unset 추가됨 (새 터미널 세션에서 자동 제거)
+- `npm run dev`, `npm run android` 명령어는 실행 시 자동으로 환경 변수 제거
+- 완전 정리: `./scripts/clean-legacy-env.sh` 실행 후 터미널 재시작
 
 ---
 

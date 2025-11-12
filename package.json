@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --deviceId=emulator-5554",
+    "dev": "./scripts/start-dev-session.sh",
+    "clean-env": "./scripts/clean-legacy-env.sh",
+    "android": "bash -c 'unset ADB_SERVER_SOCKET WSL_HOST; react-native run-android --deviceId=emulator-5554'",
     "ios": "react-native run-ios",
     "emulator:phone": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe' -avd Phone_9_16 }\"",
+    "emulator:phone-cold": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe' -avd Phone_9_16 -no-snapshot-load }\"",
     "emulator:list": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\cmdline-tools\\latest\\bin\\avdmanager.bat' list avd }\"",
     "emulator:devices": "adb devices",
     "emulator:stop": "adb emu kill",
