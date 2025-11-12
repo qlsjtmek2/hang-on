@@ -12,6 +12,7 @@ Comprehensive guide for React Native CLI development covering project setup, nat
 ## When to Use
 
 Use this skill when:
+
 - Setting up a new React Native CLI project
 - Integrating native modules (Swift/Kotlin/Objective-C/Java)
 - Configuring React Navigation
@@ -24,6 +25,7 @@ Use this skill when:
 ## MCP Integration
 
 **context7**: Use for fetching latest React Native documentation
+
 ```
 - React Native API documentation
 - Platform-specific guides (iOS/Android)
@@ -108,6 +110,7 @@ cd ..
 ### Centralized Theme (`src/theme/`)
 
 **colors.ts**
+
 ```typescript
 export const colors = {
   // Primary colors
@@ -139,18 +142,19 @@ export const colors = {
     surface: '#2C2C2E',
     text: '#FFFFFF',
     textSecondary: '#AEAEB2',
-  }
+  },
 } as const;
 
 export type ColorKey = keyof typeof colors;
 ```
 
 **typography.ts**
+
 ```typescript
 export const typography = {
   // Font families
   fontFamily: {
-    regular: 'System',  // Platform default
+    regular: 'System', // Platform default
     medium: 'System',
     bold: 'System',
     // Add custom fonts here
@@ -186,6 +190,7 @@ export const typography = {
 ```
 
 **spacing.ts**
+
 ```typescript
 export const spacing = {
   xs: 4,
@@ -199,6 +204,7 @@ export const spacing = {
 ```
 
 **index.ts**
+
 ```typescript
 export { colors } from './colors';
 export { typography } from './typography';
@@ -238,6 +244,7 @@ const styles = StyleSheet.create({
 ### Basic Navigator Configuration
 
 **src/navigation/RootNavigator.tsx**
+
 ```typescript
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -255,8 +262,10 @@ export type RootStackParamList = {
 };
 
 // Helper type for screen props
-export type RootStackScreenProps<T extends keyof RootStackParamList> =
-  NativeStackScreenProps<RootStackParamList, T>;
+export type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
+  RootStackParamList,
+  T
+>;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -270,11 +279,7 @@ export default function RootNavigator() {
           headerBackTitleVisible: false,
         }}
       >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: '홈' }}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: '홈' }} />
         <Stack.Screen
           name="Details"
           component={DetailsScreen}
@@ -318,6 +323,7 @@ export default function HomeScreen({ navigation }: Props) {
 ### Creating a Native Module (iOS - Swift)
 
 **ios/YourApp/MyNativeModule.swift**
+
 ```swift
 import Foundation
 
@@ -343,6 +349,7 @@ class MyNativeModule: NSObject {
 ```
 
 **ios/YourApp/MyNativeModule.m (Bridge)**
+
 ```objc
 #import <React/RCTBridgeModule.h>
 
@@ -359,6 +366,7 @@ RCT_EXTERN_METHOD(multiply:(double)a
 ### Creating a Native Module (Android - Kotlin)
 
 **android/app/src/main/java/.../MyNativeModule.kt**
+
 ```kotlin
 package com.yourapp
 
@@ -389,6 +397,7 @@ class MyNativeModule(reactContext: ReactApplicationContext) :
 ```
 
 **android/app/src/main/java/.../MyNativePackage.kt**
+
 ```kotlin
 package com.yourapp
 
@@ -411,6 +420,7 @@ class MyNativePackage : ReactPackage {
 ```
 
 **Register in MainApplication.kt**
+
 ```kotlin
 override fun getPackages(): List<ReactPackage> {
     return PackageList(this).packages.apply {
@@ -422,6 +432,7 @@ override fun getPackages(): List<ReactPackage> {
 ### Using Native Module in React Native
 
 **src/modules/MyNativeModule.ts**
+
 ```typescript
 import { NativeModules } from 'react-native';
 
@@ -436,6 +447,7 @@ export default MyNativeModule as MyNativeModuleInterface;
 ```
 
 **Usage**
+
 ```typescript
 import MyNativeModule from '@/modules/MyNativeModule';
 
@@ -449,6 +461,7 @@ console.log(MyNativeModule.EXAMPLE_CONSTANT); // "value"
 ### Option 1: Context API (Simple Apps)
 
 **src/store/AppContext.tsx**
+
 ```typescript
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
@@ -495,6 +508,7 @@ export function useApp() {
 ### Option 2: Zustand (Recommended)
 
 **src/store/useAuthStore.ts**
+
 ```typescript
 import { create } from 'zustand';
 
@@ -511,21 +525,22 @@ interface AuthStore {
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>(set => ({
   user: null,
   isAuthenticated: false,
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
+  setUser: user => set({ user, isAuthenticated: !!user }),
   logout: () => set({ user: null, isAuthenticated: false }),
 }));
 ```
 
 **Usage**
+
 ```typescript
 import { useAuthStore } from '@/store/useAuthStore';
 
 function ProfileScreen() {
-  const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore(state => state.user);
+  const logout = useAuthStore(state => state.logout);
 
   return (
     <View>
@@ -567,7 +582,7 @@ import { colors } from '@/theme';
   onPress={handlePress}
   variant="primary"
   // Existing component already has theme integration
-/>
+/>;
 ```
 
 ## Common Patterns
@@ -578,11 +593,7 @@ import { colors } from '@/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Screen() {
-  return (
-    <SafeAreaView style={styles.container}>
-      {/* Content */}
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={styles.container}>{/* Content */}</SafeAreaView>;
 }
 ```
 
@@ -608,6 +619,7 @@ const styles = StyleSheet.create({
 ### Absolute Imports
 
 **tsconfig.json**
+
 ```json
 {
   "compilerOptions": {
@@ -620,6 +632,7 @@ const styles = StyleSheet.create({
 ```
 
 **babel.config.js**
+
 ```javascript
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
@@ -655,12 +668,14 @@ cd android && ./gradlew clean && cd ..
 ### Native Module Not Found
 
 1. **iOS**: Rebuild after adding native module
+
 ```bash
 cd ios && pod install && cd ..
 npx react-native run-ios
 ```
 
 2. **Android**: Clean and rebuild
+
 ```bash
 cd android && ./gradlew clean && cd ..
 npx react-native run-android
@@ -669,6 +684,7 @@ npx react-native run-android
 ### Type Errors with Navigation
 
 Ensure you're using the correct type helpers:
+
 ```typescript
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/navigation/RootNavigator';

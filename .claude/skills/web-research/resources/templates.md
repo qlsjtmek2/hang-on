@@ -17,7 +17,7 @@
 
 **Use when:** Evaluating a new technology, library, or framework for potential adoption
 
-```markdown
+````markdown
 # [Technology Name] Research Summary
 
 **Date:** [YYYY-MM-DD]
@@ -46,10 +46,12 @@
 ## ✨ Key Features
 
 1. **Feature 1**
+
    - Description
    - Benefit for our project
 
 2. **Feature 2**
+
    - Description
    - Benefit for our project
 
@@ -77,15 +79,15 @@
 
 ## 📊 Technical Metrics
 
-| Metric | Value | Notes |
-|--------|-------|-------|
-| Bundle Size | XX KB | Minified + gzipped |
-| Performance | [benchmark] | Compared to alternatives |
-| TypeScript Support | ⭐⭐⭐⭐⭐ | First-class / Good / Basic |
-| Documentation | ⭐⭐⭐⭐☆ | Coverage and quality |
-| Community | [size] | GitHub stars, npm downloads |
-| Last Release | [date] | Update frequency |
-| License | [type] | Commercial friendliness |
+| Metric             | Value       | Notes                       |
+| ------------------ | ----------- | --------------------------- |
+| Bundle Size        | XX KB       | Minified + gzipped          |
+| Performance        | [benchmark] | Compared to alternatives    |
+| TypeScript Support | ⭐⭐⭐⭐⭐  | First-class / Good / Basic  |
+| Documentation      | ⭐⭐⭐⭐☆   | Coverage and quality        |
+| Community          | [size]      | GitHub stars, npm downloads |
+| Last Release       | [date]      | Update frequency            |
+| License            | [type]      | Commercial friendliness     |
 
 ---
 
@@ -101,13 +103,16 @@
 ## 🚀 Getting Started
 
 **Installation:**
+
 ```bash
 npm install [package-name]
 # or
 yarn add [package-name]
 ```
+````
 
 **Basic Usage:**
+
 ```typescript
 // Minimal working example
 ```
@@ -120,11 +125,13 @@ yarn add [package-name]
 ## 🔀 Migration Considerations
 
 ### If Adopting New
+
 - **Setup Time:** [estimate]
 - **Integration Points:** [list]
 - **Dependencies:** [list]
 
 ### If Migrating From [Current Solution]
+
 - **Breaking Changes:** [list]
 - **Deprecations:** [list]
 - **Upgrade Path:** [steps]
@@ -138,11 +145,13 @@ yarn add [package-name]
 **Maturity:** Experimental / Stable / Battle-tested
 
 **Production Users:**
+
 - Company 1 (use case)
 - Company 2 (use case)
 - Company 3 (use case)
 
 **Known Issues:**
+
 - Issue 1 (severity, workaround)
 - Issue 2 (severity, workaround)
 
@@ -156,6 +165,7 @@ yarn add [package-name]
 [2-3 paragraphs explaining the recommendation based on research]
 
 **Next Steps:**
+
 1. Step 1
 2. Step 2
 3. Step 3
@@ -175,7 +185,8 @@ yarn add [package-name]
 ## 📝 Additional Notes
 
 [Any other relevant information, caveats, or considerations]
-```
+
+````
 
 ---
 
@@ -196,9 +207,11 @@ yarn add [package-name]
 ## 🚨 Error Details
 
 **Full Error Message:**
-```
+````
+
 [Complete error message or stack trace]
-```
+
+````
 
 **First Occurrence:** [date/time]
 **Frequency:** One-time / Intermittent / Consistent
@@ -292,9 +305,10 @@ yarn add [package-name]
 **Implementation:**
 ```typescript
 // Code implementation
-```
+````
 
 **Verification:**
+
 ```bash
 # Commands to verify fix
 ```
@@ -307,11 +321,13 @@ yarn add [package-name]
 ## 🛡️ Prevention
 
 **To avoid this in the future:**
+
 1. Prevention measure 1
 2. Prevention measure 2
 3. Prevention measure 3
 
 **Add to documentation:**
+
 - [ ] Update README with gotcha
 - [ ] Add comment in code
 - [ ] Update setup guide
@@ -330,7 +346,8 @@ yarn add [package-name]
 ## 🏷️ Tags
 
 `error`, `[package-name]`, `[error-type]`, `[environment]`
-```
+
+````
 
 ---
 
@@ -366,7 +383,7 @@ yarn add [package-name]
 **How:**
 ```typescript
 // Code example
-```
+````
 
 **Source:** [URL with credibility note]
 **Adoption:** Widely adopted / Growing / Niche
@@ -374,11 +391,13 @@ yarn add [package-name]
 ---
 
 ### 2. [Practice Name]
+
 [Same structure as above]
 
 ---
 
 ### 3. [Practice Name]
+
 [Same structure as above]
 
 ---
@@ -388,15 +407,18 @@ yarn add [package-name]
 ### Pitfall 1: [Name]
 
 **What not to do:**
+
 ```typescript
 // Anti-pattern code
 ```
 
 **Why it's bad:**
+
 - Reason 1
 - Reason 2
 
 **What to do instead:**
+
 ```typescript
 // Better approach
 ```
@@ -407,6 +429,7 @@ yarn add [package-name]
 ---
 
 ### Pitfall 2: [Name]
+
 [Same structure as above]
 
 ---
@@ -419,6 +442,7 @@ yarn add [package-name]
 [Scenarios where this pattern applies]
 
 **Structure:**
+
 ```
 project/
 ├── directory1/
@@ -427,11 +451,13 @@ project/
 ```
 
 **Example:**
+
 ```typescript
 // Implementation example
 ```
 
 **Real-world usage:**
+
 - [Company/Project 1](URL)
 - [Company/Project 2](URL)
 
@@ -440,6 +466,7 @@ project/
 ## 💡 Implementation Examples
 
 ### Example 1: [Scenario]
+
 **Source:** [URL]
 **Production:** ✅ Yes / ❌ No
 
@@ -453,6 +480,7 @@ project/
 ---
 
 ### Example 2: [Scenario]
+
 [Same structure as above]
 
 ---
@@ -462,6 +490,7 @@ project/
 **For this project, we should:**
 
 1. **Practice 1**
+
    - Implementation steps
    - Timeline
    - Owner
@@ -472,6 +501,7 @@ project/
    - Owner
 
 **Avoid:**
+
 - Anti-pattern 1 (reason)
 - Anti-pattern 2 (reason)
 
@@ -479,11 +509,11 @@ project/
 
 ## 📊 Comparison Matrix
 
-| Practice | Complexity | Perf Impact | Maint Cost | Recommended |
-|----------|------------|-------------|------------|-------------|
-| Practice 1 | Low | High | Low | ✅ Yes |
-| Practice 2 | Medium | Medium | Medium | ⚠️ Consider |
-| Practice 3 | High | Low | High | ❌ No |
+| Practice   | Complexity | Perf Impact | Maint Cost | Recommended |
+| ---------- | ---------- | ----------- | ---------- | ----------- |
+| Practice 1 | Low        | High        | Low        | ✅ Yes      |
+| Practice 2 | Medium     | Medium      | Medium     | ⚠️ Consider |
+| Practice 3 | High       | Low         | High       | ❌ No       |
 
 ---
 
@@ -500,7 +530,8 @@ project/
 
 **Next Review:** [Date]
 **Review Trigger:** Major version update / New standards emerge
-```
+
+````
 
 ---
 
@@ -560,31 +591,33 @@ project/
 **Code Example:**
 ```typescript
 // Basic usage
-```
+````
 
 ---
 
 ### [Library 2]
+
 [Same structure as Library 1]
 
 ---
 
 ### [Library 3]
+
 [Same structure as Library 1]
 
 ---
 
 ## 🎯 Decision Matrix
 
-| Criterion | Weight | [Lib 1] | [Lib 2] | [Lib 3] |
-|-----------|--------|---------|---------|---------|
-| Performance | 25% | 9/10 | 7/10 | 8/10 |
-| DX | 20% | 8/10 | 9/10 | 6/10 |
-| Ecosystem | 15% | 9/10 | 6/10 | 4/10 |
-| Stability | 20% | 9/10 | 8/10 | 6/10 |
-| Bundle Size | 10% | 7/10 | 9/10 | 8/10 |
-| Migration | 10% | 6/10 | 8/10 | 5/10 |
-| **Total** | **100%** | **8.3** | **7.8** | **6.4** |
+| Criterion   | Weight   | [Lib 1] | [Lib 2] | [Lib 3] |
+| ----------- | -------- | ------- | ------- | ------- |
+| Performance | 25%      | 9/10    | 7/10    | 8/10    |
+| DX          | 20%      | 8/10    | 9/10    | 6/10    |
+| Ecosystem   | 15%      | 9/10    | 6/10    | 4/10    |
+| Stability   | 20%      | 9/10    | 8/10    | 6/10    |
+| Bundle Size | 10%      | 7/10    | 9/10    | 8/10    |
+| Migration   | 10%      | 6/10    | 8/10    | 5/10    |
+| **Total**   | **100%** | **8.3** | **7.8** | **6.4** |
 
 ---
 
@@ -596,11 +629,13 @@ project/
 [Detailed explanation with project context]
 
 **Implementation Plan:**
+
 1. Phase 1: [tasks]
 2. Phase 2: [tasks]
 3. Phase 3: [tasks]
 
 **Risk Mitigation:**
+
 - Risk 1 → Mitigation
 - Risk 2 → Mitigation
 
@@ -609,7 +644,8 @@ project/
 ## 📚 Sources
 
 [List all sources consulted]
-```
+
+````
 
 ---
 
@@ -639,13 +675,14 @@ project/
 **Setup:**
 ```typescript
 // Auth code example
-```
+````
 
 ---
 
 ## 📡 Endpoints
 
 ### GET /[endpoint]
+
 **Purpose:** [What it does]
 
 **Parameters:**
@@ -655,6 +692,7 @@ project/
 | param2 | number | ❌ | Description |
 
 **Response:**
+
 ```json
 {
   "example": "response"
@@ -662,6 +700,7 @@ project/
 ```
 
 **Example:**
+
 ```typescript
 // Usage example
 ```
@@ -681,11 +720,11 @@ project/
 
 ## 🚨 Error Codes
 
-| Code | Meaning | Action |
-|------|---------|--------|
-| 400 | Bad Request | Check params |
-| 401 | Unauthorized | Check auth |
-| 429 | Rate Limited | Implement backoff |
+| Code | Meaning      | Action            |
+| ---- | ------------ | ----------------- |
+| 400  | Bad Request  | Check params      |
+| 401  | Unauthorized | Check auth        |
+| 429  | Rate Limited | Implement backoff |
 
 ---
 
@@ -694,7 +733,8 @@ project/
 1. Practice 1
 2. Practice 2
 3. Practice 3
-```
+
+````
 
 ---
 
@@ -739,9 +779,10 @@ project/
 
 ```bash
 # Commands
-```
+````
 
 **Verification:**
+
 ```bash
 # How to verify this step worked
 ```
@@ -764,10 +805,12 @@ project/
 ## 🔙 Rollback Plan
 
 **If migration fails:**
+
 1. Step 1
 2. Step 2
 3. Step 3
-```
+
+````
 
 ---
 
@@ -812,9 +855,10 @@ project/
 **Immediate action:**
 ```bash
 npm update package-name
-```
+````
 
 **Verification:**
+
 ```bash
 npm audit
 ```
@@ -829,6 +873,7 @@ npm audit
 - [Security Advisory](URL)
 - [GitHub Issue](URL)
 - [CVE Details](URL)
+
 ```
 
 ---
@@ -862,3 +907,4 @@ npm audit
 - Be honest about unknowns
 - Update as new information emerges
 - Archive completed research for future reference
+```

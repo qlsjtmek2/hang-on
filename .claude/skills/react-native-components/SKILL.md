@@ -12,6 +12,7 @@ Specialized guide for creating high-quality, reusable React Native UI components
 ## When to Use
 
 Use this skill when:
+
 - Creating new UI components
 - Building reusable component libraries
 - Implementing custom buttons, inputs, cards, lists
@@ -23,12 +24,14 @@ Use this skill when:
 ## MCP Integration
 
 **magic**: Use for UI component generation and inspiration
+
 ```typescript
 // Request UI components through Magic MCP
 // Example: "Create a card component with image and text"
 ```
 
 **context7**: Fetch React Native component documentation
+
 ```
 - React Native core components
 - Animation APIs (Animated, Reanimated)
@@ -188,9 +191,7 @@ export function Button({
       activeOpacity={0.7}
     >
       {loading ? (
-        <ActivityIndicator
-          color={variant === 'primary' ? colors.background : colors.primary}
-        />
+        <ActivityIndicator color={variant === 'primary' ? colors.background : colors.primary} />
       ) : (
         <>
           {icon}
@@ -417,11 +418,7 @@ export function Card({ children, onPress, style, elevation = 2 }: CardProps) {
 
   if (onPress) {
     return (
-      <TouchableOpacity
-        style={containerStyle}
-        onPress={onPress}
-        activeOpacity={0.9}
-      >
+      <TouchableOpacity style={containerStyle} onPress={onPress} activeOpacity={0.9}>
         {children}
       </TouchableOpacity>
     );
@@ -452,28 +449,19 @@ const styles = StyleSheet.create({
 ```typescript
 // Controlled component (parent manages state)
 function ControlledInput({ value, onChange }) {
-  return (
-    <TextInput
-      value={value}
-      onChangeText={onChange}
-    />
-  );
+  return <TextInput value={value} onChangeText={onChange} />;
 }
 
 // Usage
 const [text, setText] = useState('');
-<ControlledInput value={text} onChange={setText} />
+<ControlledInput value={text} onChange={setText} />;
 
 // Uncontrolled component (component manages state)
 function UncontrolledInput({ defaultValue, onSubmit }) {
   const [value, setValue] = useState(defaultValue);
 
   return (
-    <TextInput
-      value={value}
-      onChangeText={setValue}
-      onSubmitEditing={() => onSubmit(value)}
-    />
+    <TextInput value={value} onChangeText={setValue} onSubmitEditing={() => onSubmit(value)} />
   );
 }
 ```
@@ -488,12 +476,7 @@ interface ListProps<T> {
   ListEmptyComponent?: React.ReactNode;
 }
 
-function List<T>({
-  data,
-  renderItem,
-  keyExtractor,
-  ListEmptyComponent,
-}: ListProps<T>) {
+function List<T>({ data, renderItem, keyExtractor, ListEmptyComponent }: ListProps<T>) {
   if (data.length === 0 && ListEmptyComponent) {
     return <>{ListEmptyComponent}</>;
   }
@@ -501,9 +484,7 @@ function List<T>({
   return (
     <View>
       {data.map((item, index) => (
-        <View key={keyExtractor(item, index)}>
-          {renderItem(item, index)}
-        </View>
+        <View key={keyExtractor(item, index)}>{renderItem(item, index)}</View>
       ))}
     </View>
   );
@@ -512,10 +493,10 @@ function List<T>({
 // Usage
 <List
   data={users}
-  renderItem={(user) => <UserCard user={user} />}
-  keyExtractor={(user) => user.id}
+  renderItem={user => <UserCard user={user} />}
+  keyExtractor={user => user.id}
   ListEmptyComponent={<EmptyState />}
-/>
+/>;
 ```
 
 ### Compound Components Pattern
@@ -583,7 +564,7 @@ Tabs.Panel = TabPanel;
   <Tabs.Panel value="profile">
     <ProfileContent />
   </Tabs.Panel>
-</Tabs>
+</Tabs>;
 ```
 
 ## Animations
@@ -605,11 +586,7 @@ function FadeInView({ children }) {
     }).start();
   }, [fadeAnim]);
 
-  return (
-    <Animated.View style={{ opacity: fadeAnim }}>
-      {children}
-    </Animated.View>
-  );
+  return <Animated.View style={{ opacity: fadeAnim }}>{children}</Animated.View>;
 }
 ```
 
@@ -625,17 +602,16 @@ function DraggableView({ children }) {
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event(
-        [null, { dx: pan.x, dy: pan.y }],
-        { useNativeDriver: false }
-      ),
+      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
+        useNativeDriver: false,
+      }),
       onPanResponderRelease: () => {
         Animated.spring(pan, {
           toValue: { x: 0, y: 0 },
           useNativeDriver: true,
         }).start();
       },
-    })
+    }),
   ).current;
 
   return (
@@ -700,7 +676,7 @@ export const ExpensiveComponent = React.memo(
   (prevProps, nextProps) => {
     // Custom comparison function
     return prevProps.data.id === nextProps.data.id;
-  }
+  },
 );
 ```
 
@@ -711,7 +687,7 @@ function UserList({ users, filter }) {
   // Memoize expensive computation
   const filteredUsers = useMemo(
     () => users.filter(user => user.name.includes(filter)),
-    [users, filter]
+    [users, filter],
   );
 
   // Memoize callback
@@ -719,16 +695,14 @@ function UserList({ users, filter }) {
     (userId: string) => {
       navigation.navigate('UserDetail', { userId });
     },
-    [navigation]
+    [navigation],
   );
 
   return (
     <FlatList
       data={filteredUsers}
-      renderItem={({ item }) => (
-        <UserCard user={item} onPress={() => handleUserPress(item.id)} />
-      )}
-      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <UserCard user={item} onPress={() => handleUserPress(item.id)} />}
+      keyExtractor={item => item.id}
     />
   );
 }
@@ -746,19 +720,15 @@ interface ListItemProps<T> {
 }
 
 function ListItem<T>({ item, onPress, renderContent }: ListItemProps<T>) {
-  return (
-    <TouchableOpacity onPress={() => onPress(item)}>
-      {renderContent(item)}
-    </TouchableOpacity>
-  );
+  return <TouchableOpacity onPress={() => onPress(item)}>{renderContent(item)}</TouchableOpacity>;
 }
 
 // Usage with type inference
 <ListItem<User>
   item={user}
-  onPress={(u) => console.log(u.name)}
-  renderContent={(u) => <Text>{u.name}</Text>}
-/>
+  onPress={u => console.log(u.name)}
+  renderContent={u => <Text>{u.name}</Text>}
+/>;
 ```
 
 ### Strict Prop Types
@@ -766,12 +736,10 @@ function ListItem<T>({ item, onPress, renderContent }: ListItemProps<T>) {
 ```typescript
 // Use const assertions for literal types
 const SIZES = ['small', 'medium', 'large'] as const;
-type Size = typeof SIZES[number]; // 'small' | 'medium' | 'large'
+type Size = (typeof SIZES)[number]; // 'small' | 'medium' | 'large'
 
 // Discriminated unions for variants
-type ButtonVariant =
-  | { variant: 'primary'; color?: never }
-  | { variant: 'custom'; color: string };
+type ButtonVariant = { variant: 'primary'; color?: never } | { variant: 'custom'; color: string };
 
 interface ButtonProps {
   title: string;

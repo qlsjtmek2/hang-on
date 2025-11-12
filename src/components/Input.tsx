@@ -10,9 +10,10 @@ import {
   TextInputProps,
   Platform,
 } from 'react-native';
+
 import { theme } from '@/theme';
 
-interface InputProps extends Omit<TextInputProps, 'style'> {
+export interface InputProps extends Omit<TextInputProps, 'style'> {
   label?: string;
   error?: string;
   helperText?: string;
@@ -43,7 +44,7 @@ export const Input = forwardRef<TextInput, InputProps>(
       editable = true,
       ...textInputProps
     },
-    ref
+    ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
     const [internalValue, setInternalValue] = useState(value);
@@ -66,19 +67,13 @@ export const Input = forwardRef<TextInput, InputProps>(
       !editable && styles.inputContainer_disabled,
     ];
 
-    const textInputStyle = [
-      styles.input,
-      !editable && styles.input_disabled,
-      inputStyle,
-    ];
+    const textInputStyle = [styles.input, !editable && styles.input_disabled, inputStyle];
 
     return (
       <View style={[styles.container, containerStyle]}>
         {/* Label */}
         {label && (
-          <Text style={[styles.label, error && styles.label_error, labelStyle]}>
-            {label}
-          </Text>
+          <Text style={[styles.label, error && styles.label_error, labelStyle]}>{label}</Text>
         )}
 
         {/* Input Container */}
@@ -116,19 +111,14 @@ export const Input = forwardRef<TextInput, InputProps>(
 
           {/* Character Counter */}
           {showCounter && maxLength && (
-            <Text
-              style={[
-                styles.counter,
-                charCount > maxLength && styles.counter_error,
-              ]}
-            >
+            <Text style={[styles.counter, charCount > maxLength && styles.counter_error]}>
               {charCount}/{maxLength}
             </Text>
           )}
         </View>
       </View>
     );
-  }
+  },
 );
 
 Input.displayName = 'Input';

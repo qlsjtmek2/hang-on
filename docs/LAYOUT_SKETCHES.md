@@ -25,6 +25,7 @@
 ### 1. 8pt Grid System
 
 모든 요소는 8의 배수로 정렬합니다:
+
 - **간격**: 8, 16, 24, 32, 40, 48pt
 - **컴포넌트 높이**: 44, 48, 56pt (터치 영역 최소 44pt)
 - **화면 여백**: 좌우 16pt
@@ -111,6 +112,7 @@
 ### 디자인 상세
 
 **Header**:
+
 - 높이: 56pt
 - 좌측: 타이틀 "Hang On" (h2, 24pt, Bold)
 - 우측: 설정 아이콘 (24x24pt)
@@ -118,6 +120,7 @@
 - 하단 구분선: 1pt, `colors.border`
 
 **Record Card**:
+
 - 높이: 최소 120pt (내용에 따라 가변)
 - 패딩: 16pt (상하좌우)
 - 간격: 카드 간 16pt
@@ -126,6 +129,7 @@
 - 그림자: elevation 2 (Android) / shadowOpacity 0.1 (iOS)
 
 **Floating Button**:
+
 - 크기: 56x56pt
 - 위치: 우하단 (우측 16pt, 하단 탭바 위 16pt)
 - 배경: `colors.primary` (#4A90E2)
@@ -133,6 +137,7 @@
 - 그림자: elevation 4
 
 **Tab Bar**:
+
 - 높이: 56pt
 - 3개 탭: 동일한 너비
 - 선택된 탭: `colors.primary` 색상 + Bold
@@ -214,6 +219,7 @@
 ### 디자인 상세
 
 **Emotion Button**:
+
 - 크기: 80x80pt (기본), 96x96pt (선택됨)
 - 배경: 투명 → `emotion.*` 색상 (선택 시)
 - 모서리: 40pt border-radius (원형)
@@ -223,6 +229,7 @@
 - 애니메이션: 선택 시 scale(1.2) + 색상 전환 (300ms)
 
 **인터랙션**:
+
 - 탭하면 확대 + 배경색 표시
 - 0.5초 후 자동으로 글쓰기 화면 전환
 
@@ -274,12 +281,14 @@
 ### 디자인 상세
 
 **Selected Emotion Bar**:
+
 - 높이: 48pt
 - 패딩: 16pt (좌우)
 - 배경: `emotion.*` 색상 (10% 투명도)
 - 아이콘 + 텍스트: 좌측 정렬
 
 **Text Input**:
+
 - 여백: 16pt (좌우)
 - 최소 높이: 240pt
 - 최대 글자: 500자
@@ -290,6 +299,7 @@
 - 500자 초과 시: 글자 수 빨간색 (#F44336) + "500자를 초과했어요" 툴팁
 
 **CTA Button**:
+
 - 높이: 56pt
 - 패딩: 16pt (좌우)
 - 배경: `colors.primary` (#4A90E2)
@@ -342,12 +352,14 @@
 ### 디자인 상세
 
 **Bottom Sheet**:
+
 - 모서리: 상단만 16pt border-radius
 - 배경: 흰색
 - 그림자: elevation 8
 - 패딩: 24pt (좌우), 16pt (상하)
 
 **Option Card**:
+
 - 높이: 80pt
 - 패딩: 16pt
 - 배경: `colors.surface` (#F5F5F5)
@@ -357,6 +369,7 @@
 - "지금 나누기": 배경 `colors.primary` (10% 투명도)
 
 **아이콘**:
+
 - 크기: 24x24pt
 - 좌측 정렬
 - 타이틀과 수평 중앙 정렬
@@ -415,6 +428,7 @@
 ### 디자인 상세
 
 **조회 제한 표시**:
+
 - 위치: Header 우측
 - 폰트: caption (14pt)
 - 색상: `colors.text.secondary`
@@ -422,6 +436,7 @@
 - 남은 수 = 0개: `colors.error` (#F44336)
 
 **Feed Card**:
+
 - 높이: 최소 140pt (내용에 따라 가변)
 - 패딩: 16pt
 - 간격: 카드 간 16pt
@@ -512,17 +527,20 @@
 ### 디자인 상세
 
 **Content Area**:
+
 - 패딩: 16pt (좌우), 24pt (상하)
 - 폰트: body (16pt)
 - Line height: 24pt
 - 색상: `colors.text.primary`
 
 **Empathy Section**:
+
 - 하트 크기: 32x32pt
 - 간격: 하트 간 8pt
 - 애니메이션: 순차적 fade-in (각 100ms 간격)
 
 **Message Card**:
+
 - 높이: 56pt
 - 패딩: 16pt
 - 배경: `colors.surface`
@@ -530,6 +548,7 @@
 - 간격: 카드 간 8pt
 
 **Action Buttons**:
+
 - 높이: 56pt
 - 2개 버튼: 동일한 너비 (간격 8pt)
 - 좌측: "공감하기 💙" (Primary Button)
@@ -608,12 +627,14 @@
 ### 디자인 상세
 
 **Section Header**:
+
 - 높이: 32pt
 - 패딩: 16pt (좌)
 - 폰트: caption (14pt), Bold
 - 색상: `colors.text.secondary`
 
 **List Item**:
+
 - 높이: 56pt
 - 패딩: 16pt (좌우)
 - 배경: 흰색
@@ -622,11 +643,13 @@
 - 우측: 값 또는 화살표 (14pt, 회색)
 
 **Toggle Switch**:
+
 - 크기: 51x31pt (iOS 기본)
 - On 색상: `colors.primary`
 - Off 색상: `colors.text.disabled`
 
 **계정 삭제**:
+
 - 텍스트 색상: `colors.error` (#F44336)
 - 나머지 스타일 동일
 
@@ -641,6 +664,7 @@
 **용도**: 기록 목록 카드 (내 기록, 피드)
 
 **Props**:
+
 - `emotion`: 감정 레벨 (1-5)
 - `time`: 작성 시간
 - `content`: 글 내용 (미리보기)
@@ -649,6 +673,7 @@
 - `onPress`: 탭 이벤트
 
 **레이아웃**:
+
 ```
 ┌─ RecordCard (120pt) ──────────────────┐
 │ [emotion] [emotionText]    [time]     │  ← Header
@@ -664,12 +689,14 @@
 **용도**: 모든 버튼
 
 **Variants**:
+
 - `primary`: 파란색 배경 (CTA)
 - `secondary`: 흰색 배경 + 테두리
 - `text`: 배경 없음 (텍스트만)
 - `destructive`: 빨간색 (삭제)
 
 **States**:
+
 - `default`: 기본 상태
 - `pressed`: 탭 시 (10% 어둡게)
 - `disabled`: 비활성화 (50% 투명도)
@@ -679,11 +706,13 @@
 **용도**: 감정 선택 버튼
 
 **Props**:
+
 - `level`: 감정 레벨 (1-5)
 - `selected`: 선택 여부
 - `onPress`: 탭 이벤트
 
 **레이아웃**:
+
 ```
 ┌─ EmotionButton (80x80pt) ─┐
 │                            │
@@ -698,11 +727,13 @@
 **용도**: 하단 시트 (공유 옵션, 메시지 프리셋)
 
 **Props**:
+
 - `visible`: 표시 여부
 - `children`: 내용
 - `onClose`: 닫기 이벤트
 
 **애니메이션**:
+
 - 진입: translateY (아래 → 위, 300ms)
 - 퇴장: translateY (위 → 아래, 300ms)
 
@@ -711,6 +742,7 @@
 **용도**: 확인 다이얼로그
 
 **Props**:
+
 - `visible`: 표시 여부
 - `title`: 제목
 - `message`: 메시지
@@ -718,6 +750,7 @@
 - `onClose`: 닫기 이벤트
 
 **레이아웃**:
+
 ```
 ┌────────────────────────────┐
 │                            │
@@ -738,17 +771,21 @@
 ### 화면 크기별 대응
 
 **Small (iPhone SE, 375x667)**:
+
 - 카드 간격: 12pt (기본 16pt → 축소)
 - 폰트 크기: 기본 유지 (사용자 접근성)
 
 **Medium (iPhone 14, 390x844)**:
+
 - 기본 레이아웃 적용
 
 **Large (iPhone 14 Pro Max, 430x932)**:
+
 - 최대 너비: 600pt (중앙 정렬)
 - 카드 간격: 20pt (기본 16pt → 확대)
 
 **Tablet (iPad, 768x1024)**:
+
 - 2열 그리드 레이아웃 (기록 카드)
 - 좌우 패딩: 32pt (기본 16pt → 확대)
 

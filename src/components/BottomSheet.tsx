@@ -15,11 +15,12 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+
 import { theme } from '@/theme';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-interface BottomSheetProps {
+export interface BottomSheetProps {
   visible: boolean;
   onClose: () => void;
   title?: string;
@@ -43,7 +44,6 @@ export function BottomSheet({
   showHandle = true,
   closeOnBackdrop = true,
   closeOnSwipeDown = true,
-  snapPoints = [],
   style,
   headerStyle,
   contentStyle,
@@ -79,7 +79,7 @@ export function BottomSheet({
           }).start();
         }
       },
-    })
+    }),
   ).current;
 
   // Open sheet animation
@@ -209,7 +209,7 @@ export function BottomSheet({
 }
 
 // Preset bottom sheet components for common use cases
-interface ActionSheetProps {
+export interface ActionSheetProps {
   visible: boolean;
   onClose: () => void;
   title?: string;
@@ -230,21 +230,12 @@ export function ActionSheet({
   cancelLabel = '취소',
 }: ActionSheetProps) {
   return (
-    <BottomSheet
-      visible={visible}
-      onClose={onClose}
-      title={title}
-      height="auto"
-      showHandle={false}
-    >
+    <BottomSheet visible={visible} onClose={onClose} title={title} height="auto" showHandle={false}>
       <View style={styles.actionContainer}>
         {actions.map((action, index) => (
           <TouchableOpacity
             key={index}
-            style={[
-              styles.actionButton,
-              action.disabled && styles.actionButtonDisabled,
-            ]}
+            style={[styles.actionButton, action.disabled && styles.actionButtonDisabled]}
             onPress={() => {
               action.onPress();
               onClose();
@@ -262,10 +253,7 @@ export function ActionSheet({
             </Text>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity
-          style={[styles.actionButton, styles.cancelButton]}
-          onPress={onClose}
-        >
+        <TouchableOpacity style={[styles.actionButton, styles.cancelButton]} onPress={onClose}>
           <Text style={styles.cancelText}>{cancelLabel}</Text>
         </TouchableOpacity>
       </View>

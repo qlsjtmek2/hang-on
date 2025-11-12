@@ -9,31 +9,34 @@
 
 ## 📋 Phase 개요
 
-| Phase | 카테고리 | 설명 | 우선순위 |
-|-------|---------|------|---------|
-| 1-4 | 기초 설정 | 프로젝트 초기화, 환경 구축, 공통 리소스, CI/CD | P0 |
-| 5 | 인증 | 회원가입/로그인 시스템 | P0 |
-| 6-8 | 털어놓기 | 감정 기록 작성 및 관리 | P0 |
-| 9-11 | 누군가와 함께 | 감정 매칭 및 공감 시스템 | P0 |
-| 12 | 모더레이션 | 신고 시스템 | P0 |
-| 13-14 | 글로벌 | 다국어 지원 및 푸시 알림 | P0 |
-| 15-17 | 배포 | 테스트, 배포 준비, 프로덕션 배포 | P0 |
+| Phase | 카테고리      | 설명                                           | 우선순위 |
+| ----- | ------------- | ---------------------------------------------- | -------- |
+| 1-4   | 기초 설정     | 프로젝트 초기화, 환경 구축, 공통 리소스, CI/CD | P0       |
+| 5     | 인증          | 회원가입/로그인 시스템                         | P0       |
+| 6-8   | 털어놓기      | 감정 기록 작성 및 관리                         | P0       |
+| 9-11  | 누군가와 함께 | 감정 매칭 및 공감 시스템                       | P0       |
+| 12    | 모더레이션    | 신고 시스템                                    | P0       |
+| 13-14 | 글로벌        | 다국어 지원 및 푸시 알림                       | P0       |
+| 15-17 | 배포          | 테스트, 배포 준비, 프로덕션 배포               | P0       |
 
 ---
 
 ## Phase 1: 프로젝트 초기화
 
 ### 1.1 React Native 프로젝트 생성
+
 - [x] React Native CLI 프로젝트 생성 (`npx @react-native-community/cli@latest init HangOn`)
 - [x] TypeScript 설정 확인 (`tsconfig.json`)
 
 ### 1.2 Supabase 프로젝트 생성
+
 - [x] Supabase 프로젝트 생성 (MCP: `create_project`)
 - [x] 프로젝트 URL 및 API 키 확인 (MCP: `get_project_url`, `get_anon_key`)
 - [x] `.env` 파일 생성 및 환경 변수 설정
 - [x] `.env.example` 파일 생성 (보안 참고용)
 
 ### 1.3 필수 패키지 설치
+
 - [x] React Navigation 설치
   ```bash
   npm install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs
@@ -49,6 +52,7 @@
 ## Phase 2: 개발 환경 구축
 
 ### 2.1 에뮬레이터/시뮬레이터 설정
+
 - [ ] Android 에뮬레이터 실행 확인 (`npx react-native run-android`)
 - [x] 실행 스크립트 확인 (`package.json`의 `scripts`)
   - `npm run emulator:phone`: Phone_9_16 에뮬레이터 실행
@@ -58,11 +62,13 @@
   - `npm run android`: 에뮬레이터에 앱 빌드 및 실행
 
 ### 2.2 개발 도구 설정
+
 - [x] ESLint 설정 (`.eslintrc.js`)
 - [x] Prettier 설정 (`.prettierrc`)
 - [x] TypeScript 컴파일 확인 (`npx tsc --noEmit`)
 
 ### 2.3 디렉토리 구조 설정
+
 - [x] `src/` 디렉토리 구조 생성
   ```
   src/
@@ -82,6 +88,7 @@
 ## Phase 3: 공통 리소스 제작 (디자인 시스템)
 
 ### 3.1 테마 시스템
+
 - [x] 컬러 팔레트 정의 (`src/theme/colors.ts`)
   - 감정 날씨 5단계 색상 (최상/상/중/하/최하)
   - Primary/Secondary/Semantic 색상
@@ -94,6 +101,7 @@
 - [x] 통합 테마 export (`src/theme/index.ts`)
 
 ### 3.2 공통 컴포넌트
+
 - [x] Button 컴포넌트 (`src/components/Button.tsx`)
   - Primary, Secondary, Ghost 스타일
   - 접근성 라벨
@@ -114,6 +122,7 @@
   - 유닛 테스트
 
 ### 3.3 유틸리티 함수
+
 - [x] 날짜 포맷터 (`src/utils/dateFormatter.ts`)
   - "5분 전", "오늘 오전 10:30" 형식
 - [x] 에러 핸들러 (`src/utils/errorHandler.ts`)
@@ -124,6 +133,7 @@
 ## Phase 4: CI/CD 구축 ✅ 완료
 
 ### 4.1 GitHub Actions 워크플로우
+
 - [x] 워크플로우 파일 생성 (`.github/workflows/ci.yml`)
 - [x] TypeScript 타입 체크 자동화
 - [x] ESLint 자동 실행
@@ -131,6 +141,7 @@
 - [x] Android 빌드 자동화 (선택적)
 
 ### 4.2 테스트 환경 설정
+
 - [x] Jest 설정 (`jest.config.js`)
 - [x] React Native Testing Library 설치
 - [x] 테스트 커버리지 목표 설정 (현재 30%, 점진적 개선 예정)
@@ -140,6 +151,7 @@
 ## Phase 5: 인증 시스템
 
 ### 5.1 데이터베이스
+
 - [x] `profiles` 테이블 생성 (Supabase MCP: `apply_migration`) ✅ 2025-11-10
   ```sql
   CREATE TABLE profiles (
@@ -160,6 +172,7 @@
 - [x] 성능 최적화: RLS 정책 initplan 최적화 완료 ✅ 2025-11-10
 
 ### 5.2 프론트엔드
+
 - [ ] 로그인 화면 (`src/screens/LoginScreen.tsx`)
   - 이메일/비밀번호 입력 폼
   - Google 소셜 로그인 버튼
@@ -177,6 +190,7 @@
   - 인증 여부에 따라 화면 라우팅
 
 ### 5.3 통합
+
 - [ ] Supabase Auth 연동 (`src/services/authService.ts`)
   - 이메일/비밀번호 로그인
   - Google OAuth
@@ -192,6 +206,7 @@
 ## Phase 6: 감정 상태 선택 (디자인 시스템 기반)
 
 ### 6.1 감정 데이터 구조
+
 - [ ] 감정 타입 정의 (`src/types/emotion.ts`)
   ```typescript
   type EmotionLevel = 1 | 2 | 3 | 4 | 5;
@@ -200,6 +215,7 @@
 - [ ] 감정-날씨 매핑 상수 (`src/constants/emotions.ts`)
 
 ### 6.2 프론트엔드
+
 - [ ] 감정 선택 화면 (`src/screens/EmotionSelectScreen.tsx`)
   - 5단계 날씨 아이콘 원형 배치
   - 선택 시 확대 + 색상 강조 애니메이션
@@ -210,6 +226,7 @@
   - 유닛 테스트
 
 ### 6.3 상태 관리
+
 - [ ] 감정 기록 상태 관리 (Zustand: `src/store/recordStore.ts`)
   - 현재 선택된 감정 레벨
   - 임시 저장 (네트워크 오류 대비)
@@ -219,6 +236,7 @@
 ## Phase 7: 털어놓기 - 글쓰기 및 공유 설정
 
 ### 7.1 데이터베이스
+
 - [ ] `records` 테이블 생성 (Supabase MCP: `apply_migration`)
   ```sql
   CREATE TABLE records (
@@ -242,6 +260,7 @@
 - [ ] pgTAP 통합 테스트 (기록 CRUD, RLS 정책)
 
 ### 7.2 프론트엔드
+
 - [ ] 글쓰기 화면 (`src/screens/WriteScreen.tsx`)
   - 감정 레벨 표시 (읽기 전용)
   - 텍스트 입력 (최대 500자)
@@ -256,6 +275,7 @@
   - 탭 시 공유 설정 바텀시트 표시
 
 ### 7.3 통합
+
 - [ ] 기록 API 서비스 (`src/services/recordService.ts`)
   - 기록 생성 (POST)
   - 임시 저장 (로컬 스토리지)
@@ -266,6 +286,7 @@
 - [ ] 통합 테스트: 감정 선택 → 글쓰기 → 공유 설정 → DB 저장
 
 ### 7.4 자동화 작업
+
 - [ ] 크론잡 설정 (Supabase Edge Function 또는 GitHub Actions)
   - 매일 자정 00:00: `scheduled` → `public` 자동 전환
   - 테스트: 내일 나누기 → 다음 날 자동 공개 확인
@@ -275,6 +296,7 @@
 ## Phase 8: 내 기록 관리 (조회/수정/삭제)
 
 ### 8.1 프론트엔드
+
 - [ ] 메인 화면 - 내 기록 목록 (`src/screens/MyRecordsScreen.tsx`)
   - FlatList로 기록 카드 목록 표시
   - 시간순 정렬 (최신순)
@@ -299,6 +321,7 @@
   - 유닛 테스트
 
 ### 8.2 통합
+
 - [ ] 기록 API 서비스 확장 (`src/services/recordService.ts`)
   - 내 기록 목록 조회 (GET, 페이지네이션)
   - 기록 수정 (PATCH)
@@ -310,6 +333,7 @@
 - [ ] 통합 테스트: 기록 조회 → 수정 → 삭제
 
 ### 8.3 삭제 확인 다이얼로그
+
 - [ ] 삭제 확인 Dialog 컴포넌트
   - "이 기록을 삭제할까요? 받은 공감과 메시지도 함께 사라져요."
   - 취소/삭제 버튼
@@ -319,6 +343,7 @@
 ## Phase 9: 감정 유사도 매칭 시스템
 
 ### 9.1 데이터베이스
+
 - [ ] 매칭 알고리즘 SQL 함수 작성
   ```sql
   CREATE OR REPLACE FUNCTION get_matched_records(
@@ -344,6 +369,7 @@
 - [ ] pgTAP 테스트: 매칭 알고리즘 검증
 
 ### 9.2 프론트엔드
+
 - [ ] 누군가와 함께 화면 (`src/screens/EmpathyFeedScreen.tsx`)
   - 매칭된 기록 목록 표시
   - RecordCard 컴포넌트 재사용
@@ -354,6 +380,7 @@
   - 새로고침 버튼
 
 ### 9.3 통합
+
 - [ ] 매칭 API 서비스 (`src/services/matchingService.ts`)
   - 매칭된 기록 조회
   - 조회 기록 저장
@@ -364,6 +391,7 @@
 ## Phase 10: 공감 및 메시지 프리셋
 
 ### 10.1 데이터베이스
+
 - [ ] `hearts` 테이블 생성
   ```sql
   CREATE TABLE hearts (
@@ -390,6 +418,7 @@
 - [ ] pgTAP 테스트: 공감/메시지 CRUD, 카운트 업데이트
 
 ### 10.2 프론트엔드
+
 - [ ] 공감 버튼 컴포넌트 (`src/components/HeartButton.tsx`)
   - 하트 아이콘
   - 탭 시 공감 전송 + 펄스 애니메이션
@@ -405,6 +434,7 @@
   - 메시지 버튼 (탭 시 바텀시트 열림)
 
 ### 10.3 통합
+
 - [ ] 공감/메시지 API 서비스 (`src/services/empathyService.ts`)
   - 공감 전송 (POST)
   - 메시지 전송 (POST)
@@ -413,6 +443,7 @@
 - [ ] 통합 테스트: 공감 전송 → DB 저장 → 카운트 증가
 
 ### 10.4 메시지 프리셋 다국어
+
 - [ ] 프리셋 번역 상수 (`src/constants/messagePresets.ts`)
   - 6개 언어 매핑 (ko, en, ja, es, pt, fr)
 
@@ -421,6 +452,7 @@
 ## Phase 11: 일일 조회 제한
 
 ### 11.1 데이터베이스
+
 - [ ] `daily_views` 테이블 생성
   ```sql
   CREATE TABLE daily_views (
@@ -435,6 +467,7 @@
 - [ ] pgTAP 테스트: 일일 조회 제한 로직
 
 ### 11.2 프론트엔드
+
 - [ ] 남은 조회 수 헤더 (`src/components/DailyViewHeader.tsx`)
   - "오늘 남은 이야기: 15/20"
   - 유닛 테스트
@@ -443,6 +476,7 @@
   - 빈 상태 일러스트 (선택적)
 
 ### 11.3 통합
+
 - [ ] 조회 수 API 서비스 (`src/services/viewLimitService.ts`)
   - 오늘의 조회 수 조회
   - 조회 수 증가
@@ -455,6 +489,7 @@
 ## Phase 12: 콘텐츠 모더레이션 (신고 시스템)
 
 ### 12.1 데이터베이스
+
 - [ ] `reports` 테이블 생성
   ```sql
   CREATE TABLE reports (
@@ -472,6 +507,7 @@
 - [ ] pgTAP 테스트: 신고 로직
 
 ### 12.2 프론트엔드
+
 - [ ] 신고 바텀시트 (`src/components/ReportBottomSheet.tsx`)
   - 신고 사유 선택 (욕설/스팸/자해/개인정보/기타)
   - 기타 선택 시 직접 입력
@@ -481,12 +517,14 @@
   - "신고하기" 옵션
 
 ### 12.3 통합
+
 - [ ] 신고 API 서비스 (`src/services/reportService.ts`)
   - 신고 제출 (POST)
 - [ ] 신고 후 해당 기록 자동 숨김 (신고자에게만)
 - [ ] 통합 테스트: 신고 제출 → DB 저장
 
 ### 12.4 관리자 대시보드 (Phase 2 고려)
+
 - [ ] ❌ MVP에서 제외, 간단한 Supabase 대시보드 사용
 
 ---
@@ -494,6 +532,7 @@
 ## Phase 13: 다국어 지원
 
 ### 13.1 i18n 설정
+
 - [ ] i18n 라이브러리 설치 (`npm install i18next react-i18next`)
 - [ ] 번역 파일 생성 (`src/locales/`)
   ```
@@ -510,11 +549,13 @@
   - 폴백 언어: 영어
 
 ### 13.2 UI 텍스트 번역
+
 - [ ] 모든 UI 텍스트를 번역 키로 변경
   - 버튼, 레이블, 플레이스홀더, 에러 메시지 등
 - [ ] 6개 언어 번역 작성 (ko, en, ja, es, pt, fr)
 
 ### 13.3 설정 화면
+
 - [ ] 설정 화면 (`src/screens/SettingsScreen.tsx`)
   - 언어 선택 드롭다운
   - 푸시 알림 On/Off 토글
@@ -526,6 +567,7 @@
   - 유닛 테스트
 
 ### 13.4 계정 삭제 로직
+
 - [ ] 계정 삭제 확인 다이얼로그
   - "모든 기록과 공감이 영구 삭제됩니다. 정말 삭제할까요?"
 - [ ] 계정 삭제 API (`src/services/authService.ts`)
@@ -537,6 +579,7 @@
 ## Phase 14: 푸시 알림
 
 ### 14.1 푸시 알림 설정
+
 - [ ] Firebase Cloud Messaging (FCM) 설정
   - Firebase 프로젝트 생성
   - `google-services.json` (Android) 및 `GoogleService-Info.plist` (iOS) 추가
@@ -544,6 +587,7 @@
 - [ ] 푸시 토큰 등록 로직 (`src/services/pushService.ts`)
 
 ### 14.2 데이터베이스
+
 - [ ] `push_tokens` 테이블 생성
   ```sql
   CREATE TABLE push_tokens (
@@ -557,6 +601,7 @@
 - [ ] RLS 정책: 본인 토큰만 읽기/쓰기
 
 ### 14.3 알림 트리거
+
 - [ ] Supabase Edge Function: 공감/메시지 수신 시 푸시 알림 전송
   - 함수 작성 (`supabase/functions/send-push-notification/index.ts`)
   - FCM API 호출
@@ -564,6 +609,7 @@
 - [ ] Database Trigger: `hearts`, `messages` 테이블 INSERT 시 Edge Function 호출
 
 ### 14.4 프론트엔드
+
 - [ ] 푸시 알림 권한 요청 (앱 실행 시)
 - [ ] 알림 수신 핸들러 (포그라운드/백그라운드)
 - [ ] 알림 탭 시 기록 상세 화면으로 이동
@@ -573,10 +619,12 @@
 ## Phase 15: E2E 테스트
 
 ### 15.1 Maestro 설정
+
 - [ ] Maestro 설치 (`curl -Ls https://get.maestro.mobile.dev | bash`)
 - [ ] `.maestro/` 디렉토리 생성
 
 ### 15.2 E2E 플로우 작성
+
 - [ ] 회원가입 → 로그인 플로우 (`.maestro/auth.yaml`)
 - [ ] 감정 선택 → 글쓰기 → 공유 플로우 (`.maestro/write-record.yaml`)
 - [ ] 누군가와 함께 → 공감 전송 플로우 (`.maestro/empathy-feed.yaml`)
@@ -584,6 +632,7 @@
 - [ ] 설정 변경 플로우 (`.maestro/settings.yaml`)
 
 ### 15.3 테스트 실행
+
 - [ ] 개발 빌드 생성 (`npx react-native run-android --variant=release`)
 - [ ] Maestro 테스트 실행 (`maestro test .maestro/`)
 - [ ] 스크린샷 촬영 및 검토
@@ -593,12 +642,14 @@
 ## Phase 16: 배포 준비
 
 ### 16.1 앱 아이콘 및 스플래시 스크린
+
 - [ ] 앱 아이콘 제작 (1024x1024)
 - [ ] Android 아이콘 생성 (`android/app/src/main/res/mipmap-*`)
 - [ ] iOS 아이콘 생성 (`ios/HangOn/Images.xcassets/AppIcon.appiconset/`)
 - [ ] 스플래시 스크린 제작 (선택적)
 
 ### 16.2 스토어 자료
+
 - [ ] Google Play Store 스크린샷 촬영 (5-8장)
   - 다양한 화면 크기 (Phone, Tablet)
 - [ ] 앱 설명 작성 (한국어, 영어)
@@ -610,6 +661,7 @@
 - [ ] 이용약관 작성 및 호스팅
 
 ### 16.3 Google Play Console 설정
+
 - [ ] Google Play Console 계정 등록
 - [ ] 앱 등록
 - [ ] 스토어 등록정보 입력 (아이콘, 스크린샷, 설명 등)
@@ -617,6 +669,7 @@
 - [ ] 개인정보 처리방침 URL 등록
 
 ### 16.4 CI/CD 자동 배포 설정
+
 - [ ] GitHub Actions 배포 워크플로우 (`.github/workflows/deploy.yml`)
   - Android 릴리스 빌드
   - Google Play 내부 테스트 트랙 업로드
@@ -627,6 +680,7 @@
 ## Phase 17: 배포
 
 ### 17.1 프로덕션 빌드
+
 - [ ] Android 프로덕션 빌드 생성
   ```bash
   cd android
@@ -636,18 +690,21 @@
 - [ ] 빌드 크기 최적화 (ProGuard/R8)
 
 ### 17.2 내부 테스트
+
 - [ ] Google Play 내부 테스트 트랙 업로드
 - [ ] 5-10명 내부 테스터 초대
 - [ ] 주요 기능 테스트 (체크리스트)
 - [ ] 버그 수정 및 재배포
 
 ### 17.3 베타 테스트
+
 - [ ] Google Play 오픈 베타 트랙 업로드
 - [ ] 100-500명 베타 테스터 모집
 - [ ] 피드백 수집 (Google Play Console 리뷰)
 - [ ] 성능 모니터링 (Firebase Crashlytics 선택적)
 
 ### 17.4 프로덕션 배포
+
 - [ ] Google Play 프로덕션 트랙 업로드
 - [ ] 단계별 출시 (10% → 50% → 100%)
 - [ ] 모니터링 (크래시, 리뷰, 성공 지표)
@@ -656,25 +713,25 @@
 
 ## 📊 진행 상황 추적
 
-| Phase | 상태 | 완료일 | 비고 |
-|-------|------|--------|------|
-| 1 | ⬜ Pending | - | 프로젝트 초기화 |
-| 2 | ⬜ Pending | - | 개발 환경 구축 |
-| 3 | ⬜ Pending | - | 공통 리소스 제작 |
-| 4 | ⬜ Pending | - | CI/CD 구축 |
-| 5 | ⬜ Pending | - | 인증 시스템 |
-| 6 | ⬜ Pending | - | 감정 상태 선택 |
-| 7 | ⬜ Pending | - | 글쓰기 및 공유 설정 |
-| 8 | ⬜ Pending | - | 내 기록 관리 |
-| 9 | ⬜ Pending | - | 감정 유사도 매칭 |
-| 10 | ⬜ Pending | - | 공감 및 메시지 프리셋 |
-| 11 | ⬜ Pending | - | 일일 조회 제한 |
-| 12 | ⬜ Pending | - | 신고 시스템 |
-| 13 | ⬜ Pending | - | 다국어 지원 |
-| 14 | ⬜ Pending | - | 푸시 알림 |
-| 15 | ⬜ Pending | - | E2E 테스트 |
-| 16 | ⬜ Pending | - | 배포 준비 |
-| 17 | ⬜ Pending | - | 프로덕션 배포 |
+| Phase | 상태       | 완료일 | 비고                  |
+| ----- | ---------- | ------ | --------------------- |
+| 1     | ⬜ Pending | -      | 프로젝트 초기화       |
+| 2     | ⬜ Pending | -      | 개발 환경 구축        |
+| 3     | ⬜ Pending | -      | 공통 리소스 제작      |
+| 4     | ⬜ Pending | -      | CI/CD 구축            |
+| 5     | ⬜ Pending | -      | 인증 시스템           |
+| 6     | ⬜ Pending | -      | 감정 상태 선택        |
+| 7     | ⬜ Pending | -      | 글쓰기 및 공유 설정   |
+| 8     | ⬜ Pending | -      | 내 기록 관리          |
+| 9     | ⬜ Pending | -      | 감정 유사도 매칭      |
+| 10    | ⬜ Pending | -      | 공감 및 메시지 프리셋 |
+| 11    | ⬜ Pending | -      | 일일 조회 제한        |
+| 12    | ⬜ Pending | -      | 신고 시스템           |
+| 13    | ⬜ Pending | -      | 다국어 지원           |
+| 14    | ⬜ Pending | -      | 푸시 알림             |
+| 15    | ⬜ Pending | -      | E2E 테스트            |
+| 16    | ⬜ Pending | -      | 배포 준비             |
+| 17    | ⬜ Pending | -      | 프로덕션 배포         |
 
 ---
 

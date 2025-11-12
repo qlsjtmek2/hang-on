@@ -3,7 +3,7 @@
  * 상대적 시간 표시와 절대적 시간 표시를 지원합니다.
  */
 
-interface DateFormatterOptions {
+export interface DateFormatterOptions {
   showSeconds?: boolean;
   use24Hour?: boolean;
   showYear?: boolean;
@@ -86,7 +86,7 @@ export function formatRelativeTime(date: Date | string | number): string {
  */
 export function formatAbsoluteTime(
   date: Date | string | number,
-  options: DateFormatterOptions = {}
+  options: DateFormatterOptions = {},
 ): string {
   const { use24Hour = false, showYear = false, shortFormat = false } = options;
   const d = toDate(date);
@@ -139,25 +139,17 @@ export function formatAbsoluteTime(
   const day = d.getDate();
 
   if (isThisYear && !showYear) {
-    return shortFormat
-      ? `${month}/${day}`
-      : `${month}월 ${day}일 ${timeStr}`;
+    return shortFormat ? `${month}/${day}` : `${month}월 ${day}일 ${timeStr}`;
   }
 
   const year = d.getFullYear();
-  return shortFormat
-    ? `${year}.${month}.${day}`
-    : `${year}년 ${month}월 ${day}일 ${timeStr}`;
+  return shortFormat ? `${year}.${month}.${day}` : `${year}년 ${month}월 ${day}일 ${timeStr}`;
 }
 
 /**
  * 시간 포맷팅 (오전/오후 또는 24시간 형식)
  */
-export function formatTime(
-  hours: number,
-  minutes: number,
-  use24Hour: boolean = false
-): string {
+export function formatTime(hours: number, minutes: number, use24Hour: boolean = false): string {
   const minuteStr = minutes.toString().padStart(2, '0');
 
   if (use24Hour) {
@@ -175,7 +167,7 @@ export function formatTime(
  */
 export function formatDate(
   date: Date | string | number,
-  format: 'full' | 'short' | 'numeric' = 'full'
+  format: 'full' | 'short' | 'numeric' = 'full',
 ): string {
   const d = toDate(date);
   const year = d.getFullYear();
@@ -186,9 +178,7 @@ export function formatDate(
     case 'short':
       return `${month}/${day}`;
     case 'numeric':
-      return `${year}.${month.toString().padStart(2, '0')}.${day
-        .toString()
-        .padStart(2, '0')}`;
+      return `${year}.${month.toString().padStart(2, '0')}.${day.toString().padStart(2, '0')}`;
     case 'full':
     default:
       return `${year}년 ${month}월 ${day}일`;
@@ -198,10 +188,7 @@ export function formatDate(
 /**
  * 요일 포함 날짜 포맷팅
  */
-export function formatDateWithDay(
-  date: Date | string | number,
-  showYear: boolean = true
-): string {
+export function formatDateWithDay(date: Date | string | number, showYear: boolean = true): string {
   const d = toDate(date);
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   const dayOfWeek = days[d.getDay()];
@@ -227,7 +214,7 @@ export function formatDateWithDay(
  */
 export function formatSmartTime(
   date: Date | string | number,
-  options: DateFormatterOptions = {}
+  options: DateFormatterOptions = {},
 ): string {
   const d = toDate(date);
   const now = new Date();
@@ -270,7 +257,7 @@ export function formatSmartTime(
  */
 export function formatDateDifference(
   startDate: Date | string | number,
-  endDate: Date | string | number
+  endDate: Date | string | number,
 ): string {
   const start = toDate(startDate);
   const end = toDate(endDate);

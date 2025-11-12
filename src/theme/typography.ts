@@ -116,10 +116,7 @@ export const typography: Record<string, TextStyle> = {
  * const fontScale = PixelRatio.getFontScale();
  * const adjustedSize = getScaledFontSize(16, fontScale);
  */
-export const getScaledFontSize = (
-  baseSize: number,
-  fontScale: number,
-): number => {
+export const getScaledFontSize = (baseSize: number, fontScale: number): number => {
   return baseSize * fontScale;
 };
 
@@ -134,10 +131,7 @@ export const getScaledFontSize = (
  * import { colors } from './colors';
  * const style = withColor(typography.h1, colors.text.primary);
  */
-export const withColor = (
-  typographyStyle: TextStyle,
-  color: string,
-): TextStyle => {
+export const withColor = (typographyStyle: TextStyle, color: string): TextStyle => {
   return {
     ...typographyStyle,
     color,

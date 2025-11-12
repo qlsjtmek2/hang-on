@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
   View,
@@ -10,13 +12,12 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import { Input } from '@/components/Input';
+
 import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { RootStackParamList } from '@/navigation/AuthNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
-import { RootStackParamList } from '@/navigation/AuthNavigator';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -88,19 +89,11 @@ export const LoginScreen: React.FC = () => {
   };
 
   const handleForgotPassword = () => {
-    Alert.alert(
-      '비밀번호 찾기',
-      '비밀번호 재설정 기능은 준비 중입니다.',
-      [{ text: '확인' }],
-    );
+    Alert.alert('비밀번호 찾기', '비밀번호 재설정 기능은 준비 중입니다.', [{ text: '확인' }]);
   };
 
   const handleGoogleLogin = () => {
-    Alert.alert(
-      'Google 로그인',
-      'Google 소셜 로그인은 준비 중입니다.',
-      [{ text: '확인' }],
-    );
+    Alert.alert('Google 로그인', 'Google 소셜 로그인은 준비 중입니다.', [{ text: '확인' }]);
   };
 
   return (
@@ -144,11 +137,11 @@ export const LoginScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password"
               editable={!isLoading}
-              style={{ marginTop: theme.spacing.md }}
+              containerStyle={{ marginTop: theme.spacing.md }}
             />
 
             <Button
-              label={isLoading ? '로그인 중...' : '로그인'}
+              title={isLoading ? '로그인 중...' : '로그인'}
               onPress={handleLogin}
               variant="primary"
               disabled={isLoading}
@@ -164,7 +157,7 @@ export const LoginScreen: React.FC = () => {
             )}
 
             <Button
-              label="비밀번호를 잊으셨나요?"
+              title="비밀번호를 잊으셨나요?"
               onPress={handleForgotPassword}
               variant="ghost"
               disabled={isLoading}
@@ -182,7 +175,7 @@ export const LoginScreen: React.FC = () => {
           {/* 소셜 로그인 */}
           <View style={styles.socialSection}>
             <Button
-              label="Google로 로그인"
+              title="Google로 로그인"
               onPress={handleGoogleLogin}
               variant="secondary"
               disabled={isLoading}
@@ -193,7 +186,7 @@ export const LoginScreen: React.FC = () => {
           <View style={styles.footer}>
             <Text style={styles.footerText}>아직 계정이 없으신가요?</Text>
             <Button
-              label="회원가입"
+              title="회원가입"
               onPress={() => navigation.navigate('SignUp')}
               variant="ghost"
               disabled={isLoading}

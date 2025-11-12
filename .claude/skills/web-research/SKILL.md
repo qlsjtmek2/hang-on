@@ -30,29 +30,34 @@ Use this skill whenever you need to find up-to-date information, research techni
 ## 🔑 Core Principles
 
 ### 1. Strategic Research
+
 - Choose the right strategy for your goal (fact check, deep dive, comparison, troubleshooting)
 - Start broad, then narrow based on findings
 - Know when you have enough information
 
 ### 2. Quality Information
+
 - Cross-reference multiple sources (3+ for important decisions)
 - Prioritize official documentation
 - Check publication dates (prefer past 12 months)
 - Verify version compatibility
 
 ### 3. Effective Queries
+
 - Be specific with versions and context
 - Include year for recency (e.g., "2025")
 - Use technical terminology
 - Apply domain filtering when needed
 
 ### 4. Efficient Process
+
 - Set time limits (5-90 min depending on scope)
 - Document as you research
 - Cite sources with URLs and dates
 - Share findings with team
 
 ### 5. Bilingual Approach (Korean + English)
+
 - English: Official docs, latest updates
 - Korean: Community insights, local examples
 - Combine both for comprehensive understanding
@@ -64,12 +69,14 @@ Use this skill whenever you need to find up-to-date information, research techni
 ### Available Tools
 
 **WebSearch** - Search the web for information
+
 ```
 WebSearch: "React 19 new features 2025"
 WebSearch: "Next.js app router vs pages router performance"
 ```
 
 **WebFetch** - Fetch and analyze specific URL content
+
 ```
 WebFetch: "https://react.dev/blog/2024/12/05/react-19"
 Prompt: "Summarize the key new features and breaking changes"
@@ -78,11 +85,13 @@ Prompt: "Summarize the key new features and breaking changes"
 ### Quick Reference
 
 **For simple questions (5-10 min):**
+
 1. WebSearch with specific query
 2. Review top results
 3. Verify consistency
 
 **For important decisions (30-60 min):**
+
 1. WebSearch for overview
 2. WebFetch official documentation
 3. WebSearch for real-world examples
@@ -90,6 +99,7 @@ Prompt: "Summarize the key new features and breaking changes"
 5. Create comparison matrix or summary
 
 **For debugging (10-30 min):**
+
 1. WebSearch exact error in quotes
 2. WebSearch error + library + version
 3. WebFetch relevant solutions
@@ -101,12 +111,12 @@ Prompt: "Summarize the key new features and breaking changes"
 
 Use this guide to navigate to detailed resources based on your research needs:
 
-| **When You Need To...** | **Resource File** | **What You'll Find** |
-|--------------------------|-------------------|----------------------|
-| Choose a research approach | [search-strategies.md](resources/search-strategies.md) | 4 research strategies (Quick Fact Check, Deep Technical, Comparison, Troubleshooting), multi-step workflow examples, tool usage patterns, strategy selection guide |
-| Write effective search queries | [query-best-practices.md](resources/query-best-practices.md) | Effective query patterns (version-specific, time-bounded, Korean queries), domain filtering, advanced search operators, anti-patterns to avoid, important guidelines |
-| Document your research findings | [templates.md](resources/templates.md) | 7 research output templates (Technology Evaluation, Error Investigation, Best Practices, Library Comparison, API Documentation Summary, Migration Guide, Security Advisory) |
-| Handle common research tasks | [scenarios.md](resources/scenarios.md) | 8+ common scenarios (implementation, library selection, debugging, updates, migrations), example research sessions, integration with development workflow |
+| **When You Need To...**         | **Resource File**                                            | **What You'll Find**                                                                                                                                                        |
+| ------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Choose a research approach      | [search-strategies.md](resources/search-strategies.md)       | 4 research strategies (Quick Fact Check, Deep Technical, Comparison, Troubleshooting), multi-step workflow examples, tool usage patterns, strategy selection guide          |
+| Write effective search queries  | [query-best-practices.md](resources/query-best-practices.md) | Effective query patterns (version-specific, time-bounded, Korean queries), domain filtering, advanced search operators, anti-patterns to avoid, important guidelines        |
+| Document your research findings | [templates.md](resources/templates.md)                       | 7 research output templates (Technology Evaluation, Error Investigation, Best Practices, Library Comparison, API Documentation Summary, Migration Guide, Security Advisory) |
+| Handle common research tasks    | [scenarios.md](resources/scenarios.md)                       | 8+ common scenarios (implementation, library selection, debugging, updates, migrations), example research sessions, integration with development workflow                   |
 
 ### Quick Links by Need
 
@@ -149,6 +159,7 @@ Use this guide to navigate to detailed resources based on your research needs:
 ### Search Query Formula
 
 **Basic pattern:**
+
 ```
 "[Technology] [Feature] [Context] [Year]"
 
@@ -159,6 +170,7 @@ Examples:
 ```
 
 **For errors:**
+
 ```
 "[Exact Error]" [Library] [Version]
 
@@ -167,6 +179,7 @@ Example:
 ```
 
 **For comparisons:**
+
 ```
 "[Option 1] vs [Option 2] [Year]"
 
@@ -177,12 +190,14 @@ Example:
 ### Domain Filtering
 
 **Official docs:**
+
 ```
 WebSearch: "authentication site:supabase.com"
 WebSearch: "hooks site:react.dev"
 ```
 
 **Exclude unreliable sources:**
+
 ```
 WebSearch: "React patterns -w3schools"
 ```
@@ -200,11 +215,13 @@ Know when to stop researching and start implementing!
 ## 📋 Research Workflow Checklist
 
 **Before starting:**
+
 - [ ] Define clear research question
 - [ ] Set time limit
 - [ ] Identify what decision this enables
 
 **During research:**
+
 - [ ] Start with official documentation
 - [ ] Cross-reference 3+ sources for important claims
 - [ ] Check publication dates
@@ -212,6 +229,7 @@ Know when to stop researching and start implementing!
 - [ ] Document sources as you go
 
 **After research:**
+
 - [ ] Summarize findings
 - [ ] Make recommendation with evidence
 - [ ] Document decision rationale
@@ -222,6 +240,7 @@ Know when to stop researching and start implementing!
 ## 🎯 When to Use This Skill
 
 **Use web-research skill when:**
+
 - ✅ Finding latest library/framework documentation
 - ✅ Researching current best practices or design patterns
 - ✅ Checking latest versions and changelogs
@@ -234,6 +253,7 @@ Know when to stop researching and start implementing!
 - ✅ Researching security vulnerabilities or fixes
 
 **Integration with other skills:**
+
 - **Before implementing:** Research best practices (this skill) → Implement (domain skill)
 - **When debugging:** Research error (this skill) → Apply fix
 - **When deciding:** Research options (this skill) → Make informed decision
@@ -243,12 +263,14 @@ Know when to stop researching and start implementing!
 ## 📚 Related Skills
 
 **Domain Skills:**
+
 - **react-native-guidelines** - Frontend patterns (reference web-research for latest React docs)
 - **firebase-supabase-integration** - BaaS integration (use web-research for latest Supabase/Firebase docs)
 - **state-management-mobile** - State patterns (research latest library versions)
 - **native-modules** - Expo SDK (use Context7 MCP + web-research for up-to-date docs)
 
 **General Skills:**
+
 - **skill-development** - Creating new skills (research skill creation best practices)
 
 ---
@@ -258,6 +280,7 @@ Know when to stop researching and start implementing!
 ### Context7 MCP Integration
 
 For library-specific documentation with better context retention:
+
 ```
 1. Use web-research to identify library
 2. Use Context7 MCP to fetch detailed library docs
@@ -265,6 +288,7 @@ For library-specific documentation with better context retention:
 ```
 
 **Example workflow:**
+
 ```
 WebSearch: "best React state management 2025"
 → Identify: Zustand
@@ -281,6 +305,7 @@ Combine: Complete evaluation
 ### Tavily MCP for Deep Research
 
 For complex multi-hop research requiring deep analysis:
+
 ```
 Use @web-research-specialist agent
 → Activates Tavily MCP for advanced research
@@ -294,6 +319,7 @@ Use @web-research-specialist agent
 ## ⚡ Quick Examples
 
 ### Example 1: Quick Fact Check
+
 ```
 User: "What's the latest React version?"
 
@@ -302,6 +328,7 @@ WebSearch: "React latest version 2025"
 ```
 
 ### Example 2: Library Comparison
+
 ```
 User: "Should I use Prisma or Drizzle ORM?"
 
@@ -313,6 +340,7 @@ User: "Should I use Prisma or Drizzle ORM?"
 ```
 
 ### Example 3: Error Investigation
+
 ```
 User: "Why am I getting 'Hydration mismatch' error?"
 
@@ -327,6 +355,7 @@ User: "Why am I getting 'Hydration mismatch' error?"
 ## 📊 Success Metrics
 
 **Effective research achieves:**
+
 - Clear answer or recommendation
 - Multiple source verification (3+)
 - Recent information (within 12 months)
@@ -335,6 +364,7 @@ User: "Why am I getting 'Hydration mismatch' error?"
 - Time limit respected
 
 **Poor research indicators:**
+
 - Single source reliance
 - Outdated information (>2 years old)
 - No version context
@@ -347,12 +377,14 @@ User: "Why am I getting 'Hydration mismatch' error?"
 ## 🎓 Learning Path
 
 **New to web research?**
+
 1. Start with [scenarios.md](resources/scenarios.md) - See complete examples
 2. Practice with [query-best-practices.md](resources/query-best-practices.md) - Improve queries
 3. Use [templates.md](resources/templates.md) - Structure your findings
 4. Master [search-strategies.md](resources/search-strategies.md) - Advanced techniques
 
 **Experienced researcher?**
+
 - Jump to specific resources based on current need
 - Use Navigation Guide to find what you need
 - Refer to templates for documentation

@@ -22,11 +22,13 @@
 **Use when:** Need to verify specific information
 
 **Pattern:**
+
 1. WebSearch with specific query
 2. Review top 3-5 results
 3. Verify consistency across sources
 
 **Example:**
+
 ```
 Query: "Prisma 5 major changes migration guide"
 → Scan results for official docs and migration guides
@@ -34,6 +36,7 @@ Query: "Prisma 5 major changes migration guide"
 ```
 
 **When to use:**
+
 - Confirming version numbers
 - Verifying breaking changes
 - Checking compatibility
@@ -50,6 +53,7 @@ Query: "Prisma 5 major changes migration guide"
 **Use when:** Need comprehensive understanding of a topic
 
 **Pattern:**
+
 1. WebSearch for overview and official docs
 2. WebFetch official documentation
 3. WebSearch for real-world examples
@@ -57,6 +61,7 @@ Query: "Prisma 5 major changes migration guide"
 5. Synthesize findings
 
 **Example:**
+
 ```
 1. WebSearch: "Supabase Edge Functions best practices"
 2. WebFetch: https://supabase.com/docs/guides/functions
@@ -66,6 +71,7 @@ Query: "Prisma 5 major changes migration guide"
 ```
 
 **When to use:**
+
 - Learning new technology
 - Architecture decisions
 - Implementation planning
@@ -74,6 +80,7 @@ Query: "Prisma 5 major changes migration guide"
 **Time:** 30-60 minutes
 
 **Output:** Comprehensive guide with:
+
 - Overview
 - Key concepts
 - Best practices
@@ -88,12 +95,14 @@ Query: "Prisma 5 major changes migration guide"
 **Use when:** Evaluating multiple options
 
 **Pattern:**
+
 1. WebSearch each option separately
 2. WebSearch direct comparisons
 3. WebFetch detailed comparison articles
 4. Create comparison matrix
 
 **Example:**
+
 ```
 1. WebSearch: "TanStack Query features 2025"
 2. WebSearch: "SWR features 2025"
@@ -103,6 +112,7 @@ Query: "Prisma 5 major changes migration guide"
 ```
 
 **When to use:**
+
 - Choosing between libraries
 - Evaluating frameworks
 - Technology selection
@@ -111,6 +121,7 @@ Query: "Prisma 5 major changes migration guide"
 **Time:** 20-45 minutes
 
 **Comparison Dimensions:**
+
 - Features and capabilities
 - Performance characteristics
 - Bundle size / resource usage
@@ -131,6 +142,7 @@ Query: "Prisma 5 major changes migration guide"
 **Use when:** Debugging specific errors
 
 **Pattern:**
+
 1. WebSearch exact error message (in quotes)
 2. WebSearch error + library/framework name
 3. WebFetch relevant Stack Overflow or GitHub issues
@@ -138,6 +150,7 @@ Query: "Prisma 5 major changes migration guide"
 5. Verify solution applies to your version
 
 **Example:**
+
 ```
 1. WebSearch: "Error: Cannot find module 'next/dist/compiled/@edge-runtime/primitives'"
 2. WebSearch: "Next.js 14 edge runtime module error"
@@ -146,6 +159,7 @@ Query: "Prisma 5 major changes migration guide"
 ```
 
 **When to use:**
+
 - Runtime errors
 - Build failures
 - Deployment issues
@@ -155,6 +169,7 @@ Query: "Prisma 5 major changes migration guide"
 **Time:** 10-30 minutes
 
 **Troubleshooting Checklist:**
+
 - [ ] Error message exact match
 - [ ] Version compatibility check
 - [ ] Known issue verification
@@ -173,12 +188,14 @@ Query: "Prisma 5 major changes migration guide"
 **Goal:** Evaluate library for project adoption
 
 **Step 1: Discovery**
+
 ```
 WebSearch: "best state management React 2025"
 → Identify candidates: Zustand, Jotai, Valtio
 ```
 
 **What to look for:**
+
 - Actively maintained projects
 - Recent releases (within 6 months)
 - Strong community signals
@@ -187,12 +204,14 @@ WebSearch: "best state management React 2025"
 ---
 
 **Step 2: Official Documentation**
+
 ```
 WebFetch: "https://zustand.docs.pmnd.rs/getting-started/introduction"
 Prompt: "Summarize key concepts, API surface, and bundle size"
 ```
 
 **What to extract:**
+
 - Core concepts and mental model
 - API complexity
 - Bundle size
@@ -202,12 +221,14 @@ Prompt: "Summarize key concepts, API surface, and bundle size"
 ---
 
 **Step 3: Real-World Usage**
+
 ```
 WebSearch: "Zustand production experience Reddit"
 WebSearch: "Zustand vs Redux 2025"
 ```
 
 **What to gather:**
+
 - Production war stories
 - Common pain points
 - Success stories
@@ -217,12 +238,14 @@ WebSearch: "Zustand vs Redux 2025"
 ---
 
 **Step 4: Technical Deep Dive**
+
 ```
 WebFetch: "https://github.com/pmndrs/zustand/issues?q=is:issue+is:closed+label:bug"
 Prompt: "What are the most common issues and how were they resolved?"
 ```
 
 **What to investigate:**
+
 - Issue resolution speed
 - Breaking change frequency
 - Backward compatibility
@@ -232,6 +255,7 @@ Prompt: "What are the most common issues and how were they resolved?"
 ---
 
 **Step 5: Decision Matrix**
+
 ```
 Compile findings:
 - Bundle size: 1.2 KB (excellent)
@@ -245,6 +269,7 @@ Compile findings:
 ```
 
 **Decision Framework:**
+
 1. **Must-have requirements** - Deal breakers
 2. **Nice-to-have features** - Weighted by importance
 3. **Risk assessment** - What could go wrong?
@@ -261,23 +286,27 @@ Compile findings:
 **Purpose:** Search the web for information
 
 **Best for:**
+
 - Finding recent content
 - Discovering resources
 - Getting multiple perspectives
 - Trend analysis
 
 **Syntax:**
+
 ```javascript
-WebSearch: "query string"
+WebSearch: 'query string';
 ```
 
 **Query Tips:**
+
 - Be specific with versions
 - Include year for recency
 - Use technical terminology
 - Add framework/language context
 
 **Example Queries:**
+
 ```
 ✅ "React 19 new features 2025"
 ✅ "Next.js app router vs pages router performance"
@@ -286,6 +315,7 @@ WebSearch: "query string"
 ```
 
 **Advanced Options:**
+
 - `site:domain.com` - Search specific domain
 - `-term` - Exclude term
 - `"exact phrase"` - Exact match
@@ -298,24 +328,28 @@ WebSearch: "query string"
 **Purpose:** Fetch and analyze specific URL content
 
 **Best for:**
+
 - Reading documentation
 - Extracting detailed info from known sources
 - Analyzing specific pages
 - Downloading content
 
 **Syntax:**
+
 ```javascript
-WebFetch: "https://url.com"
-Prompt: "What to extract or analyze"
+WebFetch: 'https://url.com';
+Prompt: 'What to extract or analyze';
 ```
 
 **Prompt Tips:**
+
 - Be specific about what you need
 - Ask for structure (tables, lists)
 - Request comparisons
 - Specify format
 
 **Example Usage:**
+
 ```
 WebFetch: "https://react.dev/blog/2024/12/05/react-19"
 Prompt: "Summarize the key new features and breaking changes"
@@ -328,6 +362,7 @@ Prompt: "Extract code examples for Server Components"
 ```
 
 **When to use WebFetch:**
+
 - URL is already known
 - Need detailed analysis
 - Extracting code examples
@@ -335,6 +370,7 @@ Prompt: "Extract code examples for Server Components"
 - Analyzing specific documentation
 
 **When to use WebSearch first:**
+
 - Don't know the URL
 - Need multiple sources
 - Looking for comparisons
@@ -346,15 +382,16 @@ Prompt: "Extract code examples for Server Components"
 
 **Choose based on your goal:**
 
-| Goal | Strategy | Time | Tools |
-|------|----------|------|-------|
-| Quick verification | Quick Fact Check | 5-10 min | WebSearch |
-| Learn new tech | Deep Technical Research | 30-60 min | Both |
-| Compare options | Comparison Research | 20-45 min | Both |
-| Fix error | Troubleshooting Research | 10-30 min | Both |
-| Evaluate library | Multi-Step Workflow | 45-90 min | Both |
+| Goal               | Strategy                 | Time      | Tools     |
+| ------------------ | ------------------------ | --------- | --------- |
+| Quick verification | Quick Fact Check         | 5-10 min  | WebSearch |
+| Learn new tech     | Deep Technical Research  | 30-60 min | Both      |
+| Compare options    | Comparison Research      | 20-45 min | Both      |
+| Fix error          | Troubleshooting Research | 10-30 min | Both      |
+| Evaluate library   | Multi-Step Workflow      | 45-90 min | Both      |
 
 **General workflow:**
+
 1. Start with WebSearch to discover
 2. Use WebFetch to dive deep
 3. Return to WebSearch for alternatives
@@ -362,6 +399,7 @@ Prompt: "Extract code examples for Server Components"
 5. Synthesize findings
 
 **Pro tips:**
+
 - Don't over-research simple questions
 - Know when you have enough information
 - Start broad, then narrow

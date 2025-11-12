@@ -42,6 +42,7 @@ autoProxy=true
 ```
 
 PowerShell에서 WSL2 재시작:
+
 ```powershell
 wsl --shutdown
 ```
@@ -62,12 +63,14 @@ alias adb="/mnt/c/Users/사용자명/AppData/Local/Android/Sdk/platform-tools/ad
 ```
 
 **⚠️ 중요**: Legacy Mode 설정이 있다면 **반드시 주석 처리**:
+
 ```bash
 # export WSL_HOST=$(ip route | grep default | awk '{print $3}')  # 주석 처리
 # export ADB_SERVER_SOCKET=tcp:$WSL_HOST:5037                    # 주석 처리
 ```
 
 적용:
+
 ```bash
 source ~/.bashrc
 ```
@@ -114,6 +117,7 @@ WSL2 Network:    172.x.x.x (별도 IP)
 이로 인해 발생하는 문제:
 
 1. **Gradle installDebug 실패**
+
    - WSL2의 Gradle → Windows ADB 서버(127.0.0.1:5037) 연결 불가
    - DeviceMonitor가 다른 네트워크 대역의 ADB 서버를 찾지 못함
 
@@ -137,6 +141,7 @@ localhost 공유 ✅
 ```
 
 결과:
+
 - ✅ WSL2 Gradle → Windows ADB (127.0.0.1:5037) 직접 연결
 - ✅ 에뮬레이터 → WSL2 Metro (127.0.0.1:8081) 직접 연결
 - ✅ 포트 포워딩 불필요
@@ -153,6 +158,7 @@ localhost 공유 ✅
 **위치**: `C:\Users\[사용자명]\.wslconfig`
 
 **내용**:
+
 ```ini
 [wsl2]
 networkingMode=mirrored
@@ -162,12 +168,14 @@ autoProxy=true
 ```
 
 **각 옵션 설명**:
+
 - `networkingMode=mirrored`: WSL2 네트워크를 Windows와 미러링
 - `hostAddressLoopback=true`: WSL2에서 Windows의 127.0.0.1 접근 허용
 - `dnsTunneling=true`: DNS 쿼리 터널링
 - `autoProxy=true`: Windows 프록시 설정 자동 사용
 
 **적용**:
+
 ```powershell
 wsl --shutdown
 # 모든 WSL2 인스턴스 종료 후 재시작
@@ -176,6 +184,7 @@ wsl --shutdown
 #### 1-2. 방화벽 규칙 (선택사항)
 
 **자동 설정 (권장)**:
+
 ```powershell
 # 관리자 권한 PowerShell
 cd 프로젝트경로
@@ -207,6 +216,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 ```
 
 **경로 확인**:
+
 ```bash
 ls ~/Android/Sdk
 # 출력: build-tools  cmdline-tools  emulator  licenses  patcher  platform-tools  platforms
@@ -222,12 +232,14 @@ alias adb="/mnt/c/Users/사용자명/AppData/Local/Android/Sdk/platform-tools/ad
 ```
 
 **❌ 환경 변수 방식 (사용 안 함)**:
+
 ```bash
 # ❌ 이 방식은 사용하지 마세요
 export ADB_SERVER_SOCKET=tcp:172.x.x.x:5037
 ```
 
 **이유**:
+
 - Mirrored Mode는 localhost를 공유하므로 환경 변수 불필요
 - `ADB_SERVER_SOCKET`이 설정되어 있으면 Mirrored Mode에서도 NAT 방식으로 연결 시도
 - Windows ADB alias만으로 충분
@@ -243,6 +255,7 @@ export ADB_SERVER_SOCKET=tcp:172.x.x.x:5037
 ```
 
 **왜 문제가 되나?**
+
 - React Native CLI는 환경 변수를 우선 사용
 - `ADB_SERVER_SOCKET`이 설정되어 있으면 Mirrored Mode를 무시하고 NAT 연결 시도
 - 결과: Mirrored Mode임에도 연결 실패
@@ -277,6 +290,7 @@ which adb
 ```
 
 **왜 `--host 127.0.0.1`?**
+
 - Metro가 기본적으로 IPv6(::)에 바인딩될 수 있음
 - 일부 에뮬레이터는 IPv6를 지원하지 않음
 - IPv4로 명시하여 호환성 보장
@@ -307,6 +321,7 @@ which adb
 ```
 
 **검증 항목 (7가지)**:
+
 1. ✅ WSL2 Networking Mode: mirrored
 2. ✅ Windows ADB alias 설정
 3. ✅ ADB 버전 확인
@@ -316,6 +331,7 @@ which adb
 7. ✅ Legacy Mode 설정 없음 (ADB_SERVER_SOCKET 미설정)
 
 **출력 예시**:
+
 ```
 ========================================
 WSL2 Android 개발 환경 검증
@@ -342,12 +358,14 @@ WSL2 Android 개발 환경 검증
 ### 수동 검증
 
 #### 1. Networking Mode 확인
+
 ```bash
 wslinfo --networking-mode
 # 출력: mirrored ✅
 ```
 
 #### 2. 환경 변수 확인
+
 ```bash
 env | grep ADB
 # ADB_SERVER_SOCKET이 출력되면 안 됨 ❌
@@ -355,6 +373,7 @@ env | grep ADB
 ```
 
 #### 3. ADB 연결 확인
+
 ```bash
 # 에뮬레이터 실행 후
 adb devices
@@ -366,12 +385,14 @@ adb devices
 #### 4. 전체 워크플로우 테스트
 
 **터미널 1**:
+
 ```bash
 npm run emulator:phone
 # 에뮬레이터 시작 대기 (30-60초)
 ```
 
 **터미널 2**:
+
 ```bash
 npm start
 # Metro Bundler 시작
@@ -379,6 +400,7 @@ npm start
 ```
 
 **터미널 3**:
+
 ```bash
 npm run android
 # 예상 결과:
@@ -388,6 +410,7 @@ npm run android
 ```
 
 **성공 기준**:
+
 - ✅ 빌드 시간: 30-60초 (초기), 10-20초 (증분)
 - ✅ 에러 없이 APK 설치
 - ✅ 에뮬레이터에 앱 표시
@@ -399,6 +422,7 @@ npm run android
 ### 문제 1: ADB 연결 실패
 
 **증상**:
+
 ```
 adb: failed to check server version: cannot connect to daemon at tcp:172.x.x.x:5037
 ```
@@ -407,6 +431,7 @@ adb: failed to check server version: cannot connect to daemon at tcp:172.x.x.x:5
 `ADB_SERVER_SOCKET` 환경 변수가 Legacy Mode(NAT)로 설정됨
 
 **해결**:
+
 ```bash
 # 1. ~/.bashrc 확인
 grep ADB_SERVER_SOCKET ~/.bashrc
@@ -427,6 +452,7 @@ env | grep ADB
 ### 문제 2: Gradle installDebug 실패
 
 **증상**:
+
 ```
 > Task :app:installDebug FAILED
 Execution failed for task ':app:installDebug'.
@@ -437,6 +463,7 @@ Execution failed for task ':app:installDebug'.
 Mirrored Mode가 활성화되지 않음
 
 **해결**:
+
 ```bash
 # 1. Networking Mode 확인
 wslinfo --networking-mode
@@ -459,6 +486,7 @@ wslinfo --networking-mode
 
 **증상**:
 앱이 설치되지만 화면이 빨간색 에러:
+
 ```
 Unable to load script. Make sure you're running Metro bundler.
 ```
@@ -467,6 +495,7 @@ Unable to load script. Make sure you're running Metro bundler.
 Metro가 IPv6나 다른 호스트에 바인딩됨
 
 **해결**:
+
 ```bash
 # 1. package.json 확인
 grep "\"start\"" package.json
@@ -489,6 +518,7 @@ npm start
 
 **해결**:
 스크립트는 이미 수정되었으므로 최신 버전 사용:
+
 ```bash
 # Git에서 최신 버전 받기
 git pull origin main
@@ -501,6 +531,7 @@ head -10 scripts/verify-wsl2-setup.sh
 ### 문제 5: 에뮬레이터가 디바이스 목록에 없음
 
 **증상**:
+
 ```bash
 adb devices
 # List of devices attached
@@ -508,6 +539,7 @@ adb devices
 ```
 
 **해결**:
+
 ```bash
 # 1. 에뮬레이터 실행 확인 (Windows에서)
 adb devices  # Windows PowerShell에서
@@ -529,6 +561,7 @@ adb devices
 ### 교훈 1: 환경 변수가 모든 것을 망칠 수 있다
 
 **실패 사례**:
+
 ```bash
 # ~/.bashrc가 올바르게 설정됨
 # Mirrored Mode도 활성화됨
@@ -540,6 +573,7 @@ echo $ADB_SERVER_SOCKET
 ```
 
 **교훈**:
+
 - ✅ `~/.bashrc`를 수정해도 **현재 실행 중인 셸은 영향 받지 않음**
 - ✅ 설정 변경 후 반드시 `source ~/.bashrc` 또는 새 터미널
 - ✅ 검증 스크립트로 환경 변수 확인 필수
@@ -547,12 +581,14 @@ echo $ADB_SERVER_SOCKET
 ### 교훈 2: Mirrored Mode에서 환경 변수는 독
 
 **잘못된 접근**:
+
 ```bash
 # Mirrored Mode인데도 불구하고
 export ADB_SERVER_SOCKET=tcp:172.x.x.x:5037  # ❌ 틀렸음!
 ```
 
 **올바른 접근**:
+
 ```bash
 # Mirrored Mode는 localhost 공유
 # 환경 변수 설정 불필요
@@ -560,6 +596,7 @@ alias adb="/mnt/c/.../adb.exe"  # ✅ 이것만으로 충분
 ```
 
 **이유**:
+
 - Mirrored Mode는 WSL2와 Windows가 같은 127.0.0.1 공유
 - `ADB_SERVER_SOCKET`을 설정하면 React Native CLI가 이를 우선 사용
 - 결과: Mirrored Mode를 무시하고 NAT 방식으로 연결 시도 → 실패
@@ -567,6 +604,7 @@ alias adb="/mnt/c/.../adb.exe"  # ✅ 이것만으로 충분
 ### 교훈 3: package.json에 방어 코드는 불필요
 
 **초기 시도**:
+
 ```json
 {
   "scripts": {
@@ -576,6 +614,7 @@ alias adb="/mnt/c/.../adb.exe"  # ✅ 이것만으로 충분
 ```
 
 **개선**:
+
 ```json
 {
   "scripts": {
@@ -585,6 +624,7 @@ alias adb="/mnt/c/.../adb.exe"  # ✅ 이것만으로 충분
 ```
 
 **이유**:
+
 - `~/.bashrc`가 올바르게 설정되면 환경 변수가 애초에 없음
 - 매번 `unset`은 과도한 방어 코딩
 - 근본 원인(~/.bashrc)을 수정하는 게 올바른 접근
@@ -592,6 +632,7 @@ alias adb="/mnt/c/.../adb.exe"  # ✅ 이것만으로 충분
 ### 교훈 4: 검증 스크립트는 실패를 계속 보고해야 함
 
 **잘못된 스크립트**:
+
 ```bash
 #!/bin/bash
 set -e  # ❌ 첫 실패에서 종료
@@ -603,6 +644,7 @@ check_environment
 ```
 
 **올바른 스크립트**:
+
 ```bash
 #!/bin/bash
 # set -e 없음 ✅
@@ -618,6 +660,7 @@ echo "실패: $FAILED"
 ```
 
 **이유**:
+
 - 검증 스크립트는 **모든 문제를 찾아야** 함
 - 첫 문제만 보고하면 나머지 문제를 놓침
 - 전체 상황 파악이 트러블슈팅의 핵심
@@ -625,6 +668,7 @@ echo "실패: $FAILED"
 ### 함정 1: Windows ADB vs WSL2 ADB
 
 **문제**:
+
 ```bash
 # WSL2에 ADB 설치
 sudo apt install adb
@@ -634,6 +678,7 @@ sudo apt install adb
 ```
 
 **해결**:
+
 ```bash
 # WSL2 ADB 제거 (선택사항)
 sudo apt remove adb
@@ -645,6 +690,7 @@ alias adb="/mnt/c/.../adb.exe"  # ✅
 ### 함정 2: 에뮬레이터 이름의 공백
 
 **문제**:
+
 ```bash
 npm run emulator:phone
 # 에뮬레이터 이름: "Pixel 5 API 33"
@@ -652,6 +698,7 @@ npm run emulator:phone
 ```
 
 **해결**:
+
 ```bash
 # AVD 이름에 공백 제거
 # "Pixel 5 API 33" → "Pixel_5_API_33" ✅
@@ -663,12 +710,14 @@ npm run emulator:phone
 ### 함정 3: Java Home 경로 오류
 
 **문제**:
+
 ```bash
 npm run emulator:phone
 # Error: JAVA_HOME is not set
 ```
 
 **해결**:
+
 ```json
 {
   "scripts": {
@@ -685,14 +734,14 @@ npm run emulator:phone
 
 **A**: **Mirrored Mode 강력 권장**
 
-| 항목 | Mirrored Mode | Legacy Mode |
-|------|---------------|-------------|
-| 설정 복잡도 | ⭐⭐ (간단) | ⭐⭐⭐⭐⭐ (복잡) |
-| 성공률 | 70-80% | 100% |
-| 유지보수 | 쉬움 | 어려움 |
-| 미래성 | Microsoft 공식 | 해킹적 방법 |
-| 환경 변수 | 최소 | 다수 |
-| socat 필요 | ❌ | ✅ |
+| 항목        | Mirrored Mode  | Legacy Mode       |
+| ----------- | -------------- | ----------------- |
+| 설정 복잡도 | ⭐⭐ (간단)    | ⭐⭐⭐⭐⭐ (복잡) |
+| 성공률      | 70-80%         | 100%              |
+| 유지보수    | 쉬움           | 어려움            |
+| 미래성      | Microsoft 공식 | 해킹적 방법       |
+| 환경 변수   | 최소           | 다수              |
+| socat 필요  | ❌             | ✅                |
 
 **Mirrored Mode 실패 시에만** Legacy Mode 고려
 
@@ -701,6 +750,7 @@ npm run emulator:phone
 **A**: **~/.bashrc 권장**
 
 이유:
+
 - 사용자별 설정 가능
 - 수정이 쉬움
 - root 권한 불필요
@@ -711,6 +761,7 @@ npm run emulator:phone
 **A**: **Mirrored Mode에서는 Windows ADB 필수**
 
 이유:
+
 - 에뮬레이터가 Windows ADB 서버(127.0.0.1:5037)에 연결됨
 - WSL2 ADB는 별도 서버 시작 → 충돌
 - Windows ADB alias로 같은 서버 공유
@@ -730,6 +781,7 @@ echo $ANDROID_HOME
 ```
 
 단, **Mirrored Mode 활성화는 WSL2 재시작 필요**:
+
 ```powershell
 wsl --shutdown
 ```
@@ -739,10 +791,12 @@ wsl --shutdown
 **A**: **대부분 무시 가능, 하지만 확인은 필수**
 
 **무시 가능한 경고**:
+
 - ⚠️ ADB 경로가 Windows ADB가 아님 → alias가 우선순위 높으므로 OK
 - ⚠️ 연결된 디바이스 없음 → 에뮬레이터 실행 전이면 정상
 
 **무시하면 안 되는 경고**:
+
 - ⚠️ ADB_SERVER_SOCKET 설정됨 → **반드시 제거**
 - ⚠️ Metro 설정 --host 누락 → **추가 필요**
 
@@ -759,13 +813,16 @@ wsl --shutdown
 ```
 
 **장점**:
+
 - 여러 디바이스 연결 시 특정 디바이스 지정
 - 빌드 시간 단축 (디바이스 자동 감지 생략)
 
 **단점**:
+
 - 에뮬레이터 포트가 다르면 수정 필요
 
 **확인**:
+
 ```bash
 adb devices
 # emulator-5554   device ← 이 번호 사용
@@ -805,11 +862,13 @@ npm run android:legacy
 **A**: **새 터미널 사용 또는 무시**
 
 Claude Code의 bash 프로세스가 Legacy Mode 환경 변수를 가지고 있어도:
+
 - ✅ `~/.bashrc`가 올바르게 설정되어 있으면 OK
 - ✅ 새 터미널을 열면 깨끗한 환경
 - ✅ package.json의 npm 스크립트는 자식 프로세스 → ~/.bashrc 상속
 
 **굳이 신경 쓸 필요 없음**, 하지만 깔끔하게 하려면:
+
 ```bash
 exec bash  # 현재 셸 재시작
 ```
@@ -830,12 +889,14 @@ exec bash  # 현재 셸 재시작
 ### 핵심 3가지
 
 1. **Windows .wslconfig에 Mirrored Mode 설정**
+
    ```ini
    [wsl2]
    networkingMode=mirrored
    ```
 
 2. **~/.bashrc에 Windows ADB alias**
+
    ```bash
    alias adb="/mnt/c/Users/사용자명/AppData/Local/Android/Sdk/platform-tools/adb.exe"
    ```

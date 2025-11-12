@@ -7,6 +7,9 @@ global.console = {
   error: jest.fn(),
 };
 
+// Set timezone to UTC+9 (KST) for consistent date testing
+process.env.TZ = 'Asia/Seoul';
+
 // Mock react-native-config
 jest.mock('react-native-config', () => ({
   SUPABASE_URL: 'https://test.supabase.co',

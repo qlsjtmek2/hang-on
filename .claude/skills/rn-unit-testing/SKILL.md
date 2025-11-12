@@ -12,6 +12,7 @@ Comprehensive guide for unit testing React Native applications using Jest and Re
 ## When to Use
 
 Use this skill when:
+
 - Writing unit tests for React Native components
 - Testing custom hooks
 - Mocking dependencies (APIs, navigation, native modules)
@@ -23,6 +24,7 @@ Use this skill when:
 ## MCP Integration
 
 **context7**: Fetch testing documentation
+
 ```
 - Jest API documentation
 - React Native Testing Library guides
@@ -42,6 +44,7 @@ npm install --save-dev @types/jest
 ### Jest Configuration
 
 **jest.config.js**
+
 ```javascript
 module.exports = {
   preset: 'react-native',
@@ -68,12 +71,13 @@ module.exports = {
 ```
 
 **jest.setup.js**
+
 ```javascript
 import '@testing-library/jest-native/extend-expect';
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
-  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
 // Silence console warnings in tests
@@ -85,6 +89,7 @@ global.console = {
 ```
 
 **package.json**
+
 ```json
 {
   "scripts": {
@@ -146,13 +151,7 @@ import { Input } from '@/components/Input';
 describe('Input', () => {
   it('updates value on text change', () => {
     const onChangeTextMock = jest.fn();
-    render(
-      <Input
-        label="Email"
-        value=""
-        onChangeText={onChangeTextMock}
-      />
-    );
+    render(<Input label="Email" value="" onChangeText={onChangeTextMock} />);
 
     const input = screen.getByLabelText('Email');
     fireEvent.changeText(input, 'test@example.com');
@@ -162,12 +161,7 @@ describe('Input', () => {
 
   it('displays error message', () => {
     render(
-      <Input
-        label="Email"
-        value="invalid"
-        onChangeText={jest.fn()}
-        error="Invalid email format"
-      />
+      <Input label="Email" value="invalid" onChangeText={jest.fn()} error="Invalid email format" />,
     );
 
     expect(screen.getByText('Invalid email format')).toBeOnTheScreen();
@@ -336,6 +330,7 @@ export const NavigationContainer = ({ children }: any) => children;
 ```
 
 **Test usage:**
+
 ```typescript
 import { useNavigation } from '@react-navigation/native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
@@ -381,6 +376,7 @@ export const supabase = {
 ```
 
 **Test usage:**
+
 ```typescript
 import { supabase } from '@/services/supabase';
 
@@ -444,17 +440,13 @@ import { Button } from '@/components/Button';
 
 describe('Button snapshots', () => {
   it('matches snapshot for primary variant', () => {
-    const { toJSON } = render(
-      <Button title="Click Me" onPress={jest.fn()} variant="primary" />
-    );
+    const { toJSON } = render(<Button title="Click Me" onPress={jest.fn()} variant="primary" />);
 
     expect(toJSON()).toMatchSnapshot();
   });
 
   it('matches snapshot for disabled state', () => {
-    const { toJSON } = render(
-      <Button title="Click Me" onPress={jest.fn()} disabled />
-    );
+    const { toJSON } = render(<Button title="Click Me" onPress={jest.fn()} disabled />);
 
     expect(toJSON()).toMatchSnapshot();
   });
@@ -557,12 +549,7 @@ import { render as rtlRender } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 function render(ui: React.ReactElement, options = {}) {
-  return rtlRender(
-    <NavigationContainer>
-      {ui}
-    </NavigationContainer>,
-    options
-  );
+  return rtlRender(<NavigationContainer>{ui}</NavigationContainer>, options);
 }
 
 export * from '@testing-library/react-native';
@@ -595,6 +582,7 @@ All files           |   85.23 |    78.45 |   82.11 |   85.67 |
 ### Improving Coverage
 
 Focus on:
+
 1. **Branches**: Test all conditional paths (if/else, switch)
 2. **Functions**: Test all exported functions
 3. **Lines**: Ensure all code lines are executed
@@ -715,6 +703,7 @@ it('debugs component tree', () => {
 ## Common Pitfalls
 
 ❌ **Don't test implementation details**
+
 ```typescript
 // Bad
 expect(component.state.count).toBe(5);
@@ -724,6 +713,7 @@ expect(screen.getByText('Count: 5')).toBeOnTheScreen();
 ```
 
 ❌ **Don't use delays**
+
 ```typescript
 // Bad
 await new Promise(resolve => setTimeout(resolve, 1000));
@@ -733,6 +723,7 @@ await waitFor(() => expect(screen.getByText('Done')).toBeOnTheScreen());
 ```
 
 ❌ **Don't test third-party libraries**
+
 ```typescript
 // Bad: Testing React Navigation itself
 expect(navigation.navigate).toBeDefined();

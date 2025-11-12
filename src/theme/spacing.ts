@@ -96,10 +96,7 @@ export const getSpacing = (multiplier: number): number => {
  * const padding = getPadding('md', 'lg');
  * // { paddingHorizontal: 16, paddingVertical: 24 }
  */
-export const getPadding = (
-  horizontal: keyof typeof spacing,
-  vertical: keyof typeof spacing,
-) => {
+export const getPadding = (horizontal: keyof typeof spacing, vertical: keyof typeof spacing) => {
   return {
     paddingHorizontal: spacing[horizontal],
     paddingVertical: spacing[vertical],

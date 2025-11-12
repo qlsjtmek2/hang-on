@@ -29,6 +29,7 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 **목표**: 요구사항 문서에서 핵심 가치와 사용자 목표를 추출합니다.
 
 **체크리스트**:
+
 - [ ] `docs/REQUIREMENTS.md` 파일 확인
 - [ ] 핵심 가치 및 비즈니스 목표 파악
 - [ ] 타겟 사용자 특성 이해
@@ -36,6 +37,7 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 - [ ] UI/UX 가이드라인 섹션 검토
 
 **질문 목록**:
+
 1. 이 프로젝트의 핵심 가치는 무엇인가? (예: 익명성, 간결함, 공감)
 2. 타겟 사용자는 누구인가?
 3. 사용자가 해결하려는 주요 문제는 무엇인가?
@@ -118,6 +120,7 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 4. **종료점 정의**: 목표 달성, 이탈
 
 **표기법**:
+
 ```
 [화면명] → [화면명]
 ├─ [조건부 화면]
@@ -143,6 +146,7 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 ```
 
 **도구 추천**:
+
 - Mermaid 다이어그램 (markdown 내 포함 가능)
 - Excalidraw (간단한 스케치)
 - Figma FigJam (협업 시)
@@ -156,14 +160,17 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 **레이아웃 설계 원칙**:
 
 1. **Visual Hierarchy (시각적 계층)**
+
    - 가장 중요한 요소가 가장 눈에 띄어야 함
    - 크기, 색상, 위치를 활용한 우선순위 표현
 
 2. **F-Pattern / Z-Pattern**
+
    - F-Pattern: 텍스트 중심 화면 (왼쪽 → 오른쪽 → 아래)
    - Z-Pattern: 액션 중심 화면 (왼쪽 상단 → 오른쪽 상단 → 왼쪽 하단 → 오른쪽 하단)
 
 3. **8pt Grid System**
+
    - 모든 요소는 8의 배수로 정렬 (8, 16, 24, 32, 40...)
    - 일관성 유지 및 픽셀 정렬 보장
 
@@ -225,6 +232,7 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 #### 5.1 컬러 팔레트
 
 **구성**:
+
 - **Primary Colors**: 브랜드 색상 (CTA, 강조)
 - **Secondary Colors**: 보조 색상
 - **Semantic Colors**: 감정/상태 표현 (성공, 경고, 에러)
@@ -238,17 +246,17 @@ description: 요구사항 기반 사용자 시나리오 도출, 화면 Flow 설�
 
 export const colors = {
   // Primary
-  primary: '#4A90E2',         // 메인 블루 (CTA, 강조)
+  primary: '#4A90E2', // 메인 블루 (CTA, 강조)
   primaryLight: '#7AB8FF',
   primaryDark: '#2E5C8A',
 
   // Emotion Weather Colors
   emotion: {
-    sunny: '#FFD700',         // 맑음 (최상)
-    partlyCloudy: '#87CEEB',  // 구름 조금 (상)
-    cloudy: '#A9A9A9',        // 흐림 (중)
-    rainy: '#708090',         // 비 (하)
-    stormy: '#483D8B',        // 폭풍 (최하)
+    sunny: '#FFD700', // 맑음 (최상)
+    partlyCloudy: '#87CEEB', // 구름 조금 (상)
+    cloudy: '#A9A9A9', // 흐림 (중)
+    rainy: '#708090', // 비 (하)
+    stormy: '#483D8B', // 폭풍 (최하)
   },
 
   // Semantic
@@ -272,6 +280,7 @@ export const colors = {
 ```
 
 **사용 기준**:
+
 - CTA 버튼: `primary`
 - 감정 표현: `emotion.*`
 - 에러 메시지: `error`
@@ -283,6 +292,7 @@ export const colors = {
 #### 5.2 타이포그래피
 
 **구성**:
+
 - **Heading**: 제목 (H1~H3)
 - **Body**: 본문 (Regular, Bold)
 - **Caption**: 보조 텍스트
@@ -336,6 +346,7 @@ export const typography = {
 ```
 
 **사용 기준**:
+
 - 화면 타이틀: `h1`
 - 섹션 제목: `h2`
 - 카드 제목: `h3`
@@ -365,6 +376,7 @@ export const spacing = {
 ```
 
 **사용 기준**:
+
 - 컴포넌트 내부 패딩: `sm` (8pt) 또는 `md` (16pt)
 - 컴포넌트 간 간격: `md` (16pt) 또는 `lg` (24pt)
 - 섹션 간 간격: `xl` (32pt)
@@ -375,6 +387,7 @@ export const spacing = {
 #### 5.4 컴포넌트 라이브러리
 
 **기본 컴포넌트**:
+
 1. **Button**: Primary, Secondary, Text
 2. **Input**: Text, TextArea
 3. **Card**: 기록 카드, 프리셋 카드
@@ -384,15 +397,15 @@ export const spacing = {
 
 **컴포넌트 사용 기준**:
 
-| 상황 | 컴포넌트 | 이유 |
-|------|----------|------|
-| 주요 액션 (제출, 저장) | Primary Button | 시각적 강조 |
-| 보조 액션 (취소) | Text Button | 덜 눈에 띄게 |
-| 짧은 입력 (이메일) | Text Input | 한 줄 입력 |
-| 긴 입력 (감정 글) | TextArea | 여러 줄 입력 |
-| 간단한 확인 | Dialog | 빠른 응답 |
-| 복잡한 선택 | Bottom Sheet | 여러 옵션 제공 |
-| 목록 아이템 | Card | 정보 그룹화 |
+| 상황                   | 컴포넌트       | 이유           |
+| ---------------------- | -------------- | -------------- |
+| 주요 액션 (제출, 저장) | Primary Button | 시각적 강조    |
+| 보조 액션 (취소)       | Text Button    | 덜 눈에 띄게   |
+| 짧은 입력 (이메일)     | Text Input     | 한 줄 입력     |
+| 긴 입력 (감정 글)      | TextArea       | 여러 줄 입력   |
+| 간단한 확인            | Dialog         | 빠른 응답      |
+| 복잡한 선택            | Bottom Sheet   | 여러 옵션 제공 |
+| 목록 아이템            | Card           | 정보 그룹화    |
 
 ---
 
@@ -400,23 +413,24 @@ export const spacing = {
 
 **Dialog vs Screen vs Bottom Sheet**
 
-| 패턴 | 사용 시점 | 예시 |
-|------|-----------|------|
-| **Dialog** | - 간단한 확인/선택<br>- 2-3개 옵션<br>- 중요한 결정 | "정말 삭제할까요?" |
-| **Bottom Sheet** | - 3개 이상 옵션<br>- 추가 설명 필요<br>- 비파괴적 선택 | 공유 옵션 선택 |
-| **Screen** | - 복잡한 입력<br>- 여러 단계<br>- 많은 정보 | 글쓰기 화면 |
+| 패턴             | 사용 시점                                              | 예시               |
+| ---------------- | ------------------------------------------------------ | ------------------ |
+| **Dialog**       | - 간단한 확인/선택<br>- 2-3개 옵션<br>- 중요한 결정    | "정말 삭제할까요?" |
+| **Bottom Sheet** | - 3개 이상 옵션<br>- 추가 설명 필요<br>- 비파괴적 선택 | 공유 옵션 선택     |
+| **Screen**       | - 복잡한 입력<br>- 여러 단계<br>- 많은 정보            | 글쓰기 화면        |
 
 **포인트 디자인 사용 기준**:
 
-| 상황 | 포인트 디자인 | 목적 |
-|------|---------------|------|
-| 첫 사용 | 온보딩 애니메이션 | 사용법 안내 |
-| 성공 액션 | 체크 애니메이션 | 피드백 제공 |
-| 공감 전송 | 하트 펄스 효과 | 감정적 연결 |
-| 로딩 | 스켈레톤 UI | 대기 시간 체감 감소 |
-| 에러 | 에러 일러스트 | 부드러운 에러 경험 |
+| 상황      | 포인트 디자인     | 목적                |
+| --------- | ----------------- | ------------------- |
+| 첫 사용   | 온보딩 애니메이션 | 사용법 안내         |
+| 성공 액션 | 체크 애니메이션   | 피드백 제공         |
+| 공감 전송 | 하트 펄스 효과    | 감정적 연결         |
+| 로딩      | 스켈레톤 UI       | 대기 시간 체감 감소 |
+| 에러      | 에러 일러스트     | 부드러운 에러 경험  |
 
 **애니메이션 원칙**:
+
 - 지속 시간: 200-300ms (짧고 빠르게)
 - Easing: `ease-out` (자연스러운 감속)
 - 목적: 정보 전달, 피드백 제공 (장식 X)
@@ -426,11 +440,13 @@ export const spacing = {
 #### 5.6 아이콘 시스템
 
 **구성**:
+
 - **시스템 아이콘**: 뒤로가기, 설정, 닫기 등
 - **감정 아이콘**: 날씨 이모지
 - **액션 아이콘**: 하트, 메시지, 공유 등
 
 **사용 기준**:
+
 - 아이콘 크기: 24x24pt (기본), 20x20pt (작게), 32x32pt (크게)
 - 터치 영역: 최소 44x44pt (접근성)
 - 색상: 단색 사용 (텍스트 색상과 동일)
@@ -444,6 +460,7 @@ export const spacing = {
 **파일 위치**: `docs/DESIGN_SYSTEM.md`
 
 **구조**:
+
 1. 개요 및 목적
 2. 컬러 팔레트 (코드 포함)
 3. 타이포그래피 (코드 포함)
@@ -462,18 +479,22 @@ export const spacing = {
 이 스킬을 완료하면 다음 산출물을 생성해야 합니다:
 
 1. **사용자 시나리오 문서**
+
    - 파일: `docs/USER_SCENARIOS.md`
    - 3-5개 핵심 시나리오
 
 2. **화면 Flow 다이어그램**
+
    - 파일: `docs/SCREEN_FLOW.md`
    - Mermaid 다이어그램 포함
 
 3. **레이아웃 스케치**
+
    - 파일: `docs/LAYOUT_SKETCHES.md` (텍스트) 또는 Figma 링크
    - 주요 화면 3-5개
 
 4. **디자인 시스템 문서**
+
    - 파일: `docs/DESIGN_SYSTEM.md`
    - 컬러, 타이포, 간격, 컴포넌트, 인터랙션 패턴
 
@@ -508,15 +529,18 @@ export const spacing = {
 ## Related Files
 
 **참조 문서**:
+
 - [DESIGN_PROCESS.md](DESIGN_PROCESS.md) - 디자인 프로세스 상세 가이드
 - [DESIGN_SYSTEM_TEMPLATE.md](DESIGN_SYSTEM_TEMPLATE.md) - 디자인 시스템 문서 템플릿
 - [USER_JOURNEY_EXAMPLES.md](USER_JOURNEY_EXAMPLES.md) - 사용자 여정 예시 모음
 
 **프로젝트 문서**:
+
 - `docs/REQUIREMENTS.md` - 요구사항 명세서
 - `docs/API_SPEC.md` - API 명세서
 
 **테마 코드**:
+
 - `src/theme/colors.ts`
 - `src/theme/typography.ts`
 - `src/theme/spacing.ts`

@@ -45,6 +45,7 @@ Content-Type: application/json
 ### 응답 형식
 
 **성공 응답**:
+
 ```json
 {
   "data": [...],
@@ -56,6 +57,7 @@ Content-Type: application/json
 ```
 
 **에러 응답**:
+
 ```json
 {
   "data": null,
@@ -79,6 +81,7 @@ Content-Type: application/json
 **Endpoint**: `POST /auth/v1/signup`
 
 **요청**:
+
 ```json
 {
   "email": "user@example.com",
@@ -87,6 +90,7 @@ Content-Type: application/json
 ```
 
 **응답**:
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -108,6 +112,7 @@ Content-Type: application/json
 **Endpoint**: `POST /auth/v1/token?grant_type=password`
 
 **요청**:
+
 ```json
 {
   "email": "user@example.com",
@@ -124,6 +129,7 @@ Content-Type: application/json
 **Endpoint**: `POST /auth/v1/token?grant_type=id_token`
 
 **요청**:
+
 ```json
 {
   "provider": "google",
@@ -142,6 +148,7 @@ Content-Type: application/json
 **헤더**: `Authorization: Bearer <JWT_TOKEN>`
 
 **응답**:
+
 ```json
 {
   "message": "Successfully logged out"
@@ -155,6 +162,7 @@ Content-Type: application/json
 **Endpoint**: `POST /auth/v1/recover`
 
 **요청**:
+
 ```json
 {
   "email": "user@example.com"
@@ -162,6 +170,7 @@ Content-Type: application/json
 ```
 
 **응답**:
+
 ```json
 {
   "message": "Password recovery email sent"
@@ -179,6 +188,7 @@ Content-Type: application/json
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "emotion_level": 3,
@@ -189,12 +199,14 @@ Content-Type: application/json
 ```
 
 **필드 설명**:
+
 - `emotion_level`: 1-5 (1: 최하, 5: 최상)
 - `content`: 최대 500자 (null 가능)
 - `visibility`: `"private"` | `"public"` | `"scheduled"`
 - `scheduled_at`: ISO 8601 형식 (visibility가 "scheduled"일 때 필수)
 
 **응답**:
+
 ```json
 {
   "id": "uuid",
@@ -218,17 +230,20 @@ Content-Type: application/json
 **헤더**: 인증 필요
 
 **쿼리 파라미터**:
+
 - `select`: `id,emotion_level,content,visibility,created_at,updated_at`
 - `order`: `created_at.desc` (최신순)
 - `limit`: `20`
 - `offset`: `0` (페이지네이션)
 
 **예시**:
+
 ```
 GET /rest/v1/journal_entries?select=id,emotion_level,content,visibility,created_at,updated_at&order=created_at.desc&limit=20&offset=0
 ```
 
 **응답**:
+
 ```json
 [
   {
@@ -251,14 +266,17 @@ GET /rest/v1/journal_entries?select=id,emotion_level,content,visibility,created_
 **헤더**: 인증 필요
 
 **쿼리 파라미터**:
+
 - `select`: `*,empathies(count),messages(count)`
 
 **예시**:
+
 ```
 GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count)
 ```
 
 **응답**:
+
 ```json
 [
   {
@@ -283,6 +301,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "content": "수정된 내용",
@@ -291,6 +310,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 ```
 
 **응답**:
+
 ```json
 {
   "id": "uuid",
@@ -309,6 +329,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 **헤더**: 인증 필요
 
 **요청** (공개 → 비공개):
+
 ```json
 {
   "visibility": "private"
@@ -316,6 +337,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 ```
 
 **요청** (비공개 → 내일 공개):
+
 ```json
 {
   "visibility": "scheduled",
@@ -332,6 +354,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "deleted_at": "2025-11-09T14:00:00Z"
@@ -339,6 +362,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 ```
 
 **응답**:
+
 ```json
 {
   "id": "uuid",
@@ -357,6 +381,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "user_id": "uuid",
@@ -365,6 +390,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 ```
 
 **응답**:
+
 ```json
 [
   {
@@ -377,6 +403,7 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 ```
 
 **참고**:
+
 - `user_id` 필드는 응답에 포함되지 않음 (익명성 보장)
 - RPC 함수 내부에서 매칭 알고리즘 실행
 
@@ -389,14 +416,17 @@ GET /rest/v1/journal_entries?id=eq.uuid&select=*,empathies(count),messages(count
 **헤더**: 인증 필요
 
 **쿼리 파라미터**:
+
 - `date`: `YYYY-MM-DD` 형식
 
 **예시**:
+
 ```
 GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 ```
 
 **응답**:
+
 ```json
 [
   {
@@ -417,6 +447,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "entry_id": "uuid",
@@ -425,6 +456,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 ```
 
 **응답**:
+
 ```json
 {
   "success": true,
@@ -443,6 +475,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "entry_id": "uuid",
@@ -451,6 +484,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 ```
 
 **응답**:
+
 ```json
 {
   "id": "uuid",
@@ -461,6 +495,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 ```
 
 **에러** (중복 공감 시도):
+
 ```json
 {
   "error": {
@@ -479,6 +514,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "entry_id": "uuid",
@@ -488,9 +524,11 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 ```
 
 **필드 설명**:
+
 - `preset_key`: `"cheer_up"` | `"me_too"` | `"be_okay"` | `"together"`
 
 **응답**:
+
 ```json
 {
   "id": "uuid",
@@ -510,9 +548,11 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 인증 필요
 
 **쿼리 파라미터**:
+
 - `select`: `id,created_at`
 
 **응답**:
+
 ```json
 [
   {
@@ -533,9 +573,11 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 인증 필요
 
 **쿼리 파라미터**:
+
 - `select`: `id,preset_key,created_at`
 
 **응답**:
+
 ```json
 [
   {
@@ -557,6 +599,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 인증 필요
 
 **요청**:
+
 ```json
 {
   "entry_id": "uuid",
@@ -567,10 +610,12 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 ```
 
 **필드 설명**:
+
 - `reason`: 신고 사유 (자유 텍스트 또는 사전 정의된 카테고리)
 - `status`: `"pending"` (기본값)
 
 **응답**:
+
 ```json
 {
   "id": "uuid",
@@ -591,6 +636,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **헤더**: 관리자 인증 필요
 
 **응답**:
+
 ```json
 [
   {
@@ -610,40 +656,40 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 
 ### 인증 에러
 
-| 코드 | 메시지 | 설명 |
-|------|--------|------|
-| `401` | Unauthorized | 인증 토큰이 없거나 유효하지 않음 |
-| `403` | Forbidden | 권한이 없음 (RLS 정책 위반) |
-| `400` | Invalid credentials | 잘못된 이메일/비밀번호 |
+| 코드  | 메시지              | 설명                             |
+| ----- | ------------------- | -------------------------------- |
+| `401` | Unauthorized        | 인증 토큰이 없거나 유효하지 않음 |
+| `403` | Forbidden           | 권한이 없음 (RLS 정책 위반)      |
+| `400` | Invalid credentials | 잘못된 이메일/비밀번호           |
 
 ---
 
 ### 데이터 검증 에러
 
-| 코드 | 메시지 | 설명 |
-|------|--------|------|
-| `422` | Unprocessable Entity | 필수 필드 누락 또는 데이터 형식 오류 |
-| `23505` | Duplicate key | 고유 제약 조건 위반 (중복 공감/메시지) |
+| 코드    | 메시지                | 설명                                        |
+| ------- | --------------------- | ------------------------------------------- |
+| `422`   | Unprocessable Entity  | 필수 필드 누락 또는 데이터 형식 오류        |
+| `23505` | Duplicate key         | 고유 제약 조건 위반 (중복 공감/메시지)      |
 | `23503` | Foreign key violation | 존재하지 않는 참조 (예: 삭제된 기록에 공감) |
 
 ---
 
 ### 비즈니스 로직 에러
 
-| 코드 | 메시지 | 설명 |
-|------|--------|------|
-| `429` | Too Many Requests | 일일 조회 제한 초과 (20개) |
-| `400` | Content too long | 글자 수 제한 초과 (500자) |
+| 코드  | 메시지                | 설명                        |
+| ----- | --------------------- | --------------------------- |
+| `429` | Too Many Requests     | 일일 조회 제한 초과 (20개)  |
+| `400` | Content too long      | 글자 수 제한 초과 (500자)   |
 | `400` | Invalid emotion level | emotion_level이 1-5 범위 밖 |
 
 ---
 
 ### 서버 에러
 
-| 코드 | 메시지 | 설명 |
-|------|--------|------|
-| `500` | Internal Server Error | 서버 내부 오류 |
-| `503` | Service Unavailable | 서비스 일시 중단 |
+| 코드  | 메시지                | 설명             |
+| ----- | --------------------- | ---------------- |
+| `500` | Internal Server Error | 서버 내부 오류   |
+| `503` | Service Unavailable   | 서비스 일시 중단 |
 
 ---
 
@@ -654,10 +700,12 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **설명**: 사용자의 최근 감정 레벨을 분석하여 유사한 기록 반환
 
 **파라미터**:
+
 - `user_id` (UUID): 사용자 ID
 - `limit_count` (INT): 반환할 기록 수 (기본값: 20)
 
 **로직**:
+
 1. 사용자의 최근 3개 기록 감정 레벨 평균 계산
 2. ±1 범위 내 공개 기록 필터링
 3. 자신의 기록 제외
@@ -674,16 +722,19 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **설명**: 기록 조회 시 daily_view_limits 업데이트
 
 **파라미터**:
+
 - `entry_id` (UUID): 조회한 기록 ID
 - `user_id` (UUID): 사용자 ID
 
 **로직**:
+
 1. 오늘 날짜의 daily_view_limits 레코드 조회
 2. viewed_count 증가
 3. viewed_entry_ids에 entry_id 추가
 4. viewed_count가 20 초과 시 에러 반환
 
 **반환**:
+
 ```json
 {
   "success": true,
@@ -698,6 +749,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **설명**: 매일 자정 실행되는 크론잡 (Edge Function)
 
 **로직**:
+
 1. 어제 날짜 이전의 모든 daily_view_limits 레코드 삭제
 
 **실행 주기**: 매일 00:05 (UTC)
@@ -709,6 +761,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **설명**: 매일 자정 실행되는 크론잡 (Edge Function)
 
 **로직**:
+
 1. scheduled_at <= NOW()인 모든 기록 조회
 2. visibility를 "public"으로 변경
 3. scheduled_at를 null로 변경
@@ -726,6 +779,7 @@ GET /rest/v1/daily_view_limits?user_id=eq.uuid&date=eq.2025-11-09
 **필터**: `entry_id=eq.{entry_id}`
 
 **예시** (JavaScript):
+
 ```javascript
 const channel = supabase
   .channel('empathies')
@@ -735,12 +789,12 @@ const channel = supabase
       event: 'INSERT',
       schema: 'public',
       table: 'empathies',
-      filter: `entry_id=eq.${entryId}`
+      filter: `entry_id=eq.${entryId}`,
     },
-    (payload) => {
+    payload => {
       console.log('New empathy received:', payload.new);
       // UI 업데이트
-    }
+    },
   )
   .subscribe();
 ```
@@ -754,6 +808,7 @@ const channel = supabase
 **필터**: `entry_id=eq.{entry_id}`
 
 **예시** (JavaScript):
+
 ```javascript
 const channel = supabase
   .channel('messages')
@@ -763,12 +818,12 @@ const channel = supabase
       event: 'INSERT',
       schema: 'public',
       table: 'messages',
-      filter: `entry_id=eq.${entryId}`
+      filter: `entry_id=eq.${entryId}`,
     },
-    (payload) => {
+    payload => {
       console.log('New message received:', payload.new);
       // 푸시 알림 트리거
-    }
+    },
   )
   .subscribe();
 ```
@@ -782,12 +837,10 @@ const channel = supabase
 **플랫폼**: Firebase Cloud Messaging
 
 **디바이스 토큰 저장**:
+
 ```typescript
 // 디바이스 토큰 획득 후 users 테이블에 저장
-await supabase
-  .from('users')
-  .update({ fcm_token: deviceToken })
-  .eq('id', userId);
+await supabase.from('users').update({ fcm_token: deviceToken }).eq('id', userId);
 ```
 
 ---
@@ -797,6 +850,7 @@ await supabase
 **이벤트**: 공감/메시지 수신
 
 **페이로드**:
+
 ```json
 {
   "to": "device_token_here",
@@ -818,29 +872,32 @@ await supabase
 
 ### Rate Limiting
 
-| 엔드포인트 | 제한 | 단위 |
-|-----------|------|------|
-| POST /auth/v1/signup | 10 | 시간 |
-| POST /auth/v1/token | 20 | 시간 |
-| POST /rest/v1/journal_entries | 100 | 일 |
-| POST /rest/v1/empathies | 500 | 일 |
-| POST /rest/v1/messages | 500 | 일 |
-| POST /rest/v1/reports | 20 | 일 |
+| 엔드포인트                    | 제한 | 단위 |
+| ----------------------------- | ---- | ---- |
+| POST /auth/v1/signup          | 10   | 시간 |
+| POST /auth/v1/token           | 20   | 시간 |
+| POST /rest/v1/journal_entries | 100  | 일   |
+| POST /rest/v1/empathies       | 500  | 일   |
+| POST /rest/v1/messages        | 500  | 일   |
+| POST /rest/v1/reports         | 20   | 일   |
 
 ---
 
 ### Row Level Security (RLS)
 
 **journal_entries**:
+
 - 사용자는 자신의 모든 기록 조회 가능
 - 공개 기록(`visibility='public'`)은 모든 사용자가 조회 가능 (user_id 제외)
 - 삭제된 기록(`deleted_at IS NOT NULL`)은 조회 불가
 
 **empathies/messages**:
+
 - 작성자와 공감/메시지를 보낸 사람만 조회 가능
 - 익명성 유지를 위해 `from_user_id`는 기록 작성자에게 노출 안 됨
 
 **reports**:
+
 - 신고자 본인과 관리자만 조회 가능
 
 ---
@@ -852,6 +909,7 @@ await supabase
 **Endpoint**: `GET /rest/v1/rpc/get_message_preset`
 
 **요청**:
+
 ```json
 {
   "preset_key": "cheer_up",
@@ -860,6 +918,7 @@ await supabase
 ```
 
 **응답**:
+
 ```json
 {
   "text": "힘내세요 💪"
@@ -875,26 +934,26 @@ await supabase
 ### A. Supabase SDK 사용 예시
 
 **기록 생성**:
+
 ```typescript
 const { data, error } = await supabase
   .from('journal_entries')
   .insert({
     emotion_level: 3,
     content: '오늘은 힘든 하루였어요',
-    visibility: 'public'
+    visibility: 'public',
   })
   .select()
   .single();
 ```
 
 **공감 보내기**:
+
 ```typescript
-const { data, error } = await supabase
-  .from('empathies')
-  .insert({
-    entry_id: entryId,
-    from_user_id: userId
-  });
+const { data, error } = await supabase.from('empathies').insert({
+  entry_id: entryId,
+  from_user_id: userId,
+});
 ```
 
 ---

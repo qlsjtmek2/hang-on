@@ -16,6 +16,7 @@ WSL2 환경에서 Windows Android 에뮬레이터를 효과적으로 관리하�
 Android 기기와 다른 OS 환경 사이의 통신 브리지입니다.
 
 **구조**:
+
 - **클라이언트** (WSL2): 명령어 실행
 - **서버** (Windows/WSL2): 명령 중개
 - **데몬** (Android 기기): 명령 수행
@@ -32,6 +33,7 @@ adb --version
 React Native의 JavaScript 번들러입니다.
 
 **역할**:
+
 - JavaScript 코드 번들링
 - 핫 리로드 (Hot Reload)
 - 개발 서버 실행 (기본 포트: 8081)
@@ -48,6 +50,7 @@ React Native의 JavaScript 번들러입니다.
 ### React Native 빌드 시점
 
 앱을 다시 빌드해야 하는 경우:
+
 - ✅ **네이티브 모듈** 의존성 변경
 - ✅ **React Native 버전** 업그레이드
 - ✅ **SDK/JDK 버전** 변경
@@ -70,6 +73,7 @@ WSL2는 NAT 네트워크를 사용하여 Windows와 분리된 네트워크를 �
 ### 발생하는 문제
 
 #### 1. Gradle installDebug 실패
+
 ```
 WSL2 Gradle → Windows ADB 서버(127.0.0.1:5037) 연결 불가
 DeviceMonitor가 다른 네트워크 대역의 ADB 서버를 찾지 못함
@@ -78,6 +82,7 @@ DeviceMonitor가 다른 네트워크 대역의 ADB 서버를 찾지 못함
 **증상**: 빌드는 성공하지만 APK 설치 실패
 
 #### 2. Metro Bundler 연결 실패
+
 ```
 에뮬레이터 → WSL2 Metro 서버(8081 포트) 연결 불가
 JavaScript 번들 로딩 실패
@@ -119,6 +124,7 @@ WSL2:    192.168.1.100 ✅ 동일한 네트워크
 **파일 위치**: `C:\Users\[사용자명]\.wslconfig`
 
 **내용**:
+
 ```ini
 [wsl2]
 networkingMode=mirrored
@@ -128,6 +134,7 @@ autoProxy=true
 ```
 
 **적용**:
+
 ```powershell
 wsl --shutdown
 ```
@@ -137,6 +144,7 @@ wsl --shutdown
 **방법**: Windows Defender 방화벽 → 고급 설정 → 인바운드 규칙 → 새 규칙
 
 **설정**:
+
 - 규칙 유형: 포트
 - 프로토콜: TCP
 - 포트: 5037 (ADB), 8081 (Metro)
@@ -151,6 +159,7 @@ wsl --shutdown
 **파일**: `~/.bashrc`
 
 **추가 내용**:
+
 ```bash
 # Android SDK
 export ANDROID_HOME=/home/사용자명/Android/Sdk
@@ -163,11 +172,13 @@ alias adb="/mnt/c/Users/사용자명/AppData/Local/Android/Sdk/platform-tools/ad
 ```
 
 **적용**:
+
 ```bash
 source ~/.bashrc
 ```
 
 **⚠️ Legacy Mode 환경 변수 제거** (중요!):
+
 ```bash
 unset ADB_SERVER_SOCKET WSL_HOST
 ```
@@ -196,11 +207,13 @@ wslinfo --networking-mode
 ### 개발 세션 시작
 
 **자동화 스크립트**:
+
 ```bash
 ./scripts/start-dev-session.sh
 ```
 
 **또는 수동**:
+
 ```bash
 # 1. Windows에서 에뮬레이터 시작
 npm run emulator:phone
@@ -215,6 +228,7 @@ npm run android
 ### 개발 중 (코드 수정 후)
 
 **JavaScript 코드 수정 시**:
+
 ```bash
 # Metro가 자동으로 핫 리로드
 # 또는 수동 리로드
@@ -222,6 +236,7 @@ npm run debug:reload
 ```
 
 **네이티브 코드 수정 시**:
+
 ```bash
 # 다시 빌드 필요
 npm run android
@@ -240,6 +255,7 @@ adb shell input keyevent 82
 ```
 
 **사용 가능한 옵션**:
+
 - Reload: JavaScript 번들 새로고침
 - Debug: Chrome DevTools 연결
 - Show Inspector: UI Inspector
@@ -303,11 +319,13 @@ adb devices
 **증상**: 빌드 성공, APK 설치 실패
 
 **원인**:
+
 1. Mirrored Mode가 활성화되지 않음
 2. Legacy Mode 환경 변수가 남아있음
 3. Windows ADB alias 미설정
 
 **해결**:
+
 ```bash
 # 1. Mirrored Mode 확인
 wslinfo --networking-mode  # 출력: mirrored
@@ -334,10 +352,12 @@ npm run android:legacy
 **증상**: "Could not connect to development server"
 
 **원인**:
+
 1. Metro 서버가 IPv6로만 바인딩됨
 2. 방화벽 규칙 누락
 
 **해결**:
+
 ```bash
 # Metro를 127.0.0.1에 명시적으로 바인딩
 npm start -- --host 127.0.0.1
@@ -351,10 +371,12 @@ npm start -- --host 127.0.0.1
 **증상**: AVD 실행 안됨
 
 **원인**:
+
 1. JAVA_HOME 미설정
 2. Hyper-V/WHPX 비활성화
 
 **해결**:
+
 ```bash
 # Windows에서 확인
 # 1. Android Studio → AVD Manager → GPU: Hardware - GLES 2.0
@@ -367,10 +389,12 @@ npm start -- --host 127.0.0.1
 **증상**: `adb devices` 빈 목록
 
 **원인**:
+
 1. 에뮬레이터 미실행
 2. ADB 서버 문제
 
 **해결**:
+
 ```bash
 # ADB 서버 재시작
 adb kill-server
@@ -387,6 +411,7 @@ adb devices
 **위치**: `scripts/verify-wsl2-setup.sh`
 
 **기능**:
+
 - Networking Mode 확인 (mirrored)
 - Windows ADB alias 설정 확인
 - ADB 디바이스 연결 확인
@@ -394,6 +419,7 @@ adb devices
 - Android 환경 변수 확인
 
 **실행**:
+
 ```bash
 ./scripts/verify-wsl2-setup.sh
 ```
@@ -403,11 +429,13 @@ adb devices
 **위치**: `scripts/start-dev-session.sh`
 
 **기능**:
+
 - 에뮬레이터 자동 시작
 - Metro 서버 자동 시작
 - 앱 빌드 및 설치
 
 **실행**:
+
 ```bash
 ./scripts/start-dev-session.sh
 ```
@@ -417,9 +445,11 @@ adb devices
 **위치**: `scripts/setup-windows-firewall.ps1`
 
 **기능**:
+
 - ADB (5037) 및 Metro (8081) 포트 방화벽 규칙 자동 생성
 
 **실행** (관리자 권한 PowerShell):
+
 ```powershell
 .\scripts\setup-windows-firewall.ps1
 ```
@@ -428,11 +458,11 @@ adb devices
 
 ## 주요 포트
 
-| 포트 | 용도 | 프로토콜 |
-|------|------|----------|
-| 5037 | ADB Server | TCP |
-| 8081 | Metro Bundler | TCP |
-| 8097 | React DevTools | TCP |
+| 포트 | 용도           | 프로토콜 |
+| ---- | -------------- | -------- |
+| 5037 | ADB Server     | TCP      |
+| 8081 | Metro Bundler  | TCP      |
+| 8097 | React DevTools | TCP      |
 
 ---
 

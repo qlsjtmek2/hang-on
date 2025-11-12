@@ -12,6 +12,7 @@ Comprehensive guide for building backends with Supabase, covering database desig
 ## When to Use
 
 Use this skill when:
+
 - Designing database schemas
 - Creating RLS (Row Level Security) policies
 - Setting up authentication and user management
@@ -23,6 +24,7 @@ Use this skill when:
 ## MCP Integration
 
 **supabase**: Use for all Supabase operations
+
 - list_projects: Get all Supabase projects
 - get_project: Get project details
 - list_tables: List database tables
@@ -33,6 +35,7 @@ Use this skill when:
 - get_advisors: Security and performance recommendations
 
 **context7**: Fetch Supabase documentation
+
 - Supabase client library docs
 - Database best practices
 - RLS policy patterns
@@ -43,12 +46,14 @@ Use this skill when:
 ### Install Supabase Client
 
 Required packages:
+
 - @supabase/supabase-js: Main Supabase client
 - react-native-url-polyfill: Required polyfill for React Native
 
 ### Initialize Supabase Client
 
 Create client in src/services/supabase.ts:
+
 - Import react-native-url-polyfill/auto
 - Create client with URL and anon key from environment variables
 - Configure auth with AsyncStorage for persistence
@@ -58,6 +63,7 @@ Create client in src/services/supabase.ts:
 ### Environment Variables
 
 Create .env file with:
+
 - SUPABASE_URL: Your project URL
 - SUPABASE_ANON_KEY: Your anonymous key
 
@@ -66,6 +72,7 @@ Create .env file with:
 ### Creating Tables
 
 Use Supabase MCP apply_migration to create tables:
+
 - Use UUID for primary keys with gen_random_uuid()
 - Add foreign key relationships with ON DELETE CASCADE
 - Include created_at and updated_at timestamps
@@ -89,29 +96,36 @@ RLS policies control which rows users can access in queries. They run at the dat
 ### Basic RLS Patterns
 
 **1. Users can only read their own data**
+
 - Policy: FOR SELECT USING (auth.uid() = id)
 
 **2. Users can update their own data**
+
 - Policy: FOR UPDATE USING (auth.uid() = id)
 
 **3. Public read, authenticated write**
+
 - SELECT policy: USING (true)
 - INSERT policy: WITH CHECK (auth.role() = 'authenticated')
 
 **4. Owner-based access**
+
 - Policy: USING (auth.uid() = user_id)
 
 **5. Role-based access**
+
 - Add role column to profiles table
 - Policy: Check user role from profiles table
 
 **6. Relationship-based access**
+
 - Use subquery to check relationships (followers, team members, etc.)
 - Example: User can see posts from users they follow
 
 ### Testing RLS Policies
 
 Use Supabase MCP execute_sql with role switching:
+
 - SET LOCAL role authenticated
 - SET LOCAL request.jwt.claim.sub to test user UUID
 - Run query to test policy
@@ -122,6 +136,7 @@ Use Supabase MCP execute_sql with role switching:
 ### Sign Up
 
 Use supabase.auth.signUp with:
+
 - Email and password
 - Optional user metadata in options.data
 - Create profile record after successful signup
@@ -137,6 +152,7 @@ Use supabase.auth.signOut
 ### Auth State Listener
 
 Create custom hook to listen for auth changes:
+
 - Get initial session with getSession()
 - Subscribe to auth state changes with onAuthStateChange()
 - Update app state when session changes
@@ -145,6 +161,7 @@ Create custom hook to listen for auth changes:
 ### Social Authentication
 
 Use supabase.auth.signInWithOAuth:
+
 - Specify provider (google, github, etc.)
 - Set redirectTo URL for mobile deep linking
 
@@ -153,6 +170,7 @@ Use supabase.auth.signInWithOAuth:
 ### Upload Files
 
 Use supabase.storage.from(bucket).upload:
+
 - Generate unique file path with user ID and timestamp
 - Set cache control headers
 - Get public URL after upload
@@ -160,6 +178,7 @@ Use supabase.storage.from(bucket).upload:
 ### React Native File Upload
 
 Use image picker library:
+
 - Pick image with launchImageLibrary
 - Create FormData with file data
 - Upload via fetch to Supabase storage endpoint
@@ -169,6 +188,7 @@ Use image picker library:
 ### Storage Policies
 
 Create RLS policies on storage.objects:
+
 - INSERT policy: Users can upload to their own folder
 - SELECT policy: Public read access for avatars
 - UPDATE policy: Users can update their own files
@@ -177,11 +197,13 @@ Create RLS policies on storage.objects:
 ## CRUD Operations
 
 ### Insert
+
 - Use .from(table).insert(data).select().single()
 - Return inserted row with select()
 
 ### Select
-- Basic: .from(table).select('*')
+
+- Basic: .from(table).select('\*')
 - Specific columns: .select('id, title, created_at')
 - With filters: .eq(), .gte(), .lt(), etc.
 - With ordering: .order('created_at', { ascending: false })
@@ -189,10 +211,12 @@ Create RLS policies on storage.objects:
 - With relationships: Join syntax in select string
 
 ### Update
+
 - Use .from(table).update(data).eq(id, value).select().single()
 - Return updated row with select()
 
 ### Delete
+
 - Use .from(table).delete().eq(id, value)
 - Consider soft delete with deleted_at column instead
 
@@ -201,6 +225,7 @@ Create RLS policies on storage.objects:
 ### Subscribe to Changes
 
 Create channel and subscribe to postgres_changes:
+
 - Initial data fetch
 - Subscribe to INSERT, UPDATE, DELETE events
 - Update local state based on event type
@@ -209,6 +234,7 @@ Create channel and subscribe to postgres_changes:
 ### Presence (Online Users)
 
 Use channel presence for tracking online users:
+
 - Create channel for room
 - Subscribe to presence sync event
 - Track user presence with channel.track()
@@ -221,6 +247,7 @@ Use channel presence for tracking online users:
 Use deploy_edge_function MCP tool to deploy serverless TypeScript functions.
 
 Edge Function structure:
+
 - Written in TypeScript for Deno runtime
 - Use Deno serve handler
 - Parse request with req.json()
@@ -229,6 +256,7 @@ Edge Function structure:
 ### Call Edge Function from React Native
 
 Use supabase.functions.invoke:
+
 - Pass function name and payload body
 - Handle response data and errors
 - Process returned data
@@ -238,12 +266,14 @@ Use supabase.functions.invoke:
 Use Supabase MCP generate_typescript_types to auto-generate types from database schema.
 
 Generated types include:
+
 - Database interface with all tables
 - Row types for SELECT queries
 - Insert types for INSERT operations
 - Update types for UPDATE operations
 
 Usage:
+
 - Import Database type from generated file
 - Extract table types: Database['public']['Tables']['table_name']['Row']
 - Apply types to queries and state
@@ -251,6 +281,7 @@ Usage:
 ## Error Handling
 
 Always check both data and error in responses:
+
 - Supabase returns { data, error } structure
 - Check if error exists before using data
 - Handle specific error codes (PGRST116: no rows, 42501: access denied)
@@ -274,6 +305,7 @@ Always check both data and error in responses:
 ### Pagination
 
 Use range() for pagination:
+
 - Calculate from/to based on page and page size
 - Use count: 'exact' to get total count
 - Order results consistently
@@ -281,12 +313,14 @@ Use range() for pagination:
 ### Search
 
 Use textSearch() for full-text search:
+
 - Requires tsvector column or GIN index
 - Supports websearch type for natural language queries
 
 ### Upsert (Insert or Update)
 
 Use upsert() for atomic insert-or-update:
+
 - Requires unique constraint or primary key
 - Updates existing row or inserts new one
 

@@ -12,6 +12,7 @@ Guide for integration testing React Native applications with backend services, f
 ## When to Use
 
 Use this skill when:
+
 - Testing frontend-backend integration
 - Validating API responses and data flow
 - Testing database operations with pgTAP
@@ -22,6 +23,7 @@ Use this skill when:
 ## MCP Integration
 
 **supabase**: Use for database testing with pgTAP
+
 ```typescript
 - execute_sql: Run pgTAP tests
 - apply_migration: Set up test database
@@ -29,6 +31,7 @@ Use this skill when:
 ```
 
 **context7**: Fetch integration testing documentation
+
 ```
 - Integration testing patterns
 - pgTAP documentation
@@ -57,7 +60,8 @@ Create separate test database or use Supabase branches:
 
 ### Frontend-Backend Integration
 
-**__tests__/integration/auth.integration.test.ts**
+****tests**/integration/auth.integration.test.ts**
+
 ```typescript
 import { supabase } from '@/services/supabase';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
@@ -89,10 +93,7 @@ describe('Authentication Integration', () => {
     fireEvent.press(screen.getByText('Sign Up'));
 
     // Wait for sign up to complete
-    await waitFor(
-      () => expect(screen.getByText('Welcome!')).toBeOnTheScreen(),
-      { timeout: 5000 }
-    );
+    await waitFor(() => expect(screen.getByText('Welcome!')).toBeOnTheScreen(), { timeout: 5000 });
 
     // Verify user in database
     const { data: profile } = await supabase
@@ -106,18 +107,24 @@ describe('Authentication Integration', () => {
     });
 
     // Verify auth user exists
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     expect(user?.email).toBe('test@example.com');
   });
 
   it('enforces RLS policies', async () => {
     // Create test user
-    const { data: { user: user1 } } = await supabase.auth.signUp({
+    const {
+      data: { user: user1 },
+    } = await supabase.auth.signUp({
       email: 'user1@example.com',
       password: 'password123',
     });
 
-    const { data: { user: user2 } } = await supabase.auth.signUp({
+    const {
+      data: { user: user2 },
+    } = await supabase.auth.signUp({
       email: 'user2@example.com',
       password: 'password123',
     });
@@ -132,10 +139,7 @@ describe('Authentication Integration', () => {
 
     // Try to update as user2 (should fail)
     await supabase.auth.setSession(user2!.session!);
-    const { error } = await supabase
-      .from('posts')
-      .update({ title: 'Hacked!' })
-      .eq('id', post!.id);
+    const { error } = await supabase.from('posts').update({ title: 'Hacked!' }).eq('id', post!.id);
 
     expect(error).toBeTruthy();
     expect(error?.message).toContain('policy');
@@ -145,7 +149,8 @@ describe('Authentication Integration', () => {
 
 ### API Testing
 
-**__tests__/integration/posts.integration.test.ts**
+****tests**/integration/posts.integration.test.ts**
+
 ```typescript
 describe('Posts API Integration', () => {
   let authToken: string;
@@ -199,10 +204,7 @@ describe('Posts API Integration', () => {
     expect(updatedPost?.title).toBe('Updated Title');
 
     // Delete
-    const { error: deleteError } = await supabase
-      .from('posts')
-      .delete()
-      .eq('id', createdPost!.id);
+    const { error: deleteError } = await supabase.from('posts').delete().eq('id', createdPost!.id);
 
     expect(deleteError).toBeNull();
 
@@ -217,13 +219,11 @@ describe('Posts API Integration', () => {
   });
 
   it('enforces foreign key constraints', async () => {
-    const { error } = await supabase
-      .from('comments')
-      .insert({
-        post_id: 'non-existent-id',
-        content: 'This should fail',
-        user_id: userId,
-      });
+    const { error } = await supabase.from('comments').insert({
+      post_id: 'non-existent-id',
+      content: 'This should fail',
+      user_id: userId,
+    });
 
     expect(error).toBeTruthy();
     expect(error?.message).toContain('foreign key');
@@ -236,6 +236,7 @@ describe('Posts API Integration', () => {
 ### Basic pgTAP Tests
 
 **tests/database/schema.sql**
+
 ```sql
 -- Test table existence
 SELECT has_table('public', 'profiles', 'profiles table exists');
@@ -295,6 +296,7 @@ ROLLBACK;
 ### pgTAP Function Testing
 
 **tests/database/functions.sql**
+
 ```sql
 -- Test trigger function
 BEGIN;
@@ -331,6 +333,7 @@ ROLLBACK;
 ### RLS Policy Testing
 
 **tests/database/rls_policies.sql**
+
 ```sql
 BEGIN;
 SELECT plan(4);
@@ -373,19 +376,15 @@ ROLLBACK;
 
 ```typescript
 describe('Real-time Integration', () => {
-  it('receives new posts via subscription', async (done) => {
+  it('receives new posts via subscription', async done => {
     const receivedPosts: Post[] = [];
 
     // Subscribe to posts
     const channel = supabase
       .channel('posts_test')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'posts' },
-        (payload) => {
-          receivedPosts.push(payload.new as Post);
-        }
-      )
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, payload => {
+        receivedPosts.push(payload.new as Post);
+      })
       .subscribe();
 
     // Wait for subscription to be ready
@@ -398,10 +397,13 @@ describe('Real-time Integration', () => {
     });
 
     // Wait for real-time event
-    await waitFor(() => {
-      expect(receivedPosts.length).toBe(1);
-      expect(receivedPosts[0].title).toBe('Real-time Test');
-    }, { timeout: 5000 });
+    await waitFor(
+      () => {
+        expect(receivedPosts.length).toBe(1);
+        expect(receivedPosts[0].title).toBe('Real-time Test');
+      },
+      { timeout: 5000 },
+    );
 
     channel.unsubscribe();
     done();
@@ -444,18 +446,16 @@ export async function createTestUser(email: string, password: string) {
 
 ```typescript
 // test-utils/api.ts
-export async function makeAuthenticatedRequest(
-  method: string,
-  endpoint: string,
-  body?: any
-) {
-  const { data: { session } } = await supabase.auth.getSession();
+export async function makeAuthenticatedRequest(method: string, endpoint: string, body?: any) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${session?.access_token}`,
+      Authorization: `Bearer ${session?.access_token}`,
     },
     body: body ? JSON.stringify(body) : undefined,
   });
@@ -506,7 +506,9 @@ export const testPosts = [
 export async function seedTestData() {
   // Create users
   for (const userData of testUsers) {
-    const { data: { user } } = await supabase.auth.signUp({
+    const {
+      data: { user },
+    } = await supabase.auth.signUp({
       email: userData.email,
       password: userData.password,
     });
@@ -519,7 +521,9 @@ export async function seedTestData() {
   }
 
   // Create posts
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   for (const postData of testPosts) {
     await supabase.from('posts').insert({
       ...postData,
@@ -534,6 +538,7 @@ export async function seedTestData() {
 ### Jest Configuration for Integration Tests
 
 **jest.integration.config.js**
+
 ```javascript
 module.exports = {
   ...require('./jest.config'),
@@ -543,6 +548,7 @@ module.exports = {
 ```
 
 **package.json**
+
 ```json
 {
   "scripts": {
@@ -596,10 +602,10 @@ async function retryOperation(fn: () => Promise<any>, retries = 3) {
 
 ```typescript
 // Use waitFor for async operations
-await waitFor(
-  () => expect(screen.getByText('Success')).toBeOnTheScreen(),
-  { timeout: 5000, interval: 100 }
-);
+await waitFor(() => expect(screen.getByText('Success')).toBeOnTheScreen(), {
+  timeout: 5000,
+  interval: 100,
+});
 ```
 
 ## Related Skills

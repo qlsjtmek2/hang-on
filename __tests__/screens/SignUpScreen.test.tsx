@@ -1,9 +1,11 @@
-import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import React from 'react';
 import { Alert } from 'react-native';
+
 import { SignUpScreen } from '@/screens/SignUpScreen';
 import { useAuthStore } from '@/store/authStore';
-import { NavigationContainer } from '@react-navigation/native';
+
 
 // Mock 설정
 jest.mock('@/store/authStore');
@@ -47,7 +49,7 @@ describe('SignUpScreen', () => {
     return render(
       <NavigationContainer>
         <SignUpScreen />
-      </NavigationContainer>
+      </NavigationContainer>,
     );
   };
 
@@ -251,7 +253,7 @@ describe('SignUpScreen', () => {
         expect(alertSpy).toHaveBeenCalledWith(
           '회원가입 완료',
           '이메일을 확인하여 계정을 활성화해주세요.',
-          expect.any(Array)
+          expect.any(Array),
         );
       });
     });
@@ -281,10 +283,7 @@ describe('SignUpScreen', () => {
       fireEvent.press(signUpButton);
 
       await waitFor(() => {
-        expect(alertSpy).toHaveBeenCalledWith(
-          '회원가입 실패',
-          '이미 등록된 이메일입니다'
-        );
+        expect(alertSpy).toHaveBeenCalledWith('회원가입 실패', '이미 등록된 이메일입니다');
       });
     });
   });
@@ -300,7 +299,7 @@ describe('SignUpScreen', () => {
       expect(alertSpy).toHaveBeenCalledWith(
         'Google 회원가입',
         'Google 소셜 회원가입은 준비 중입니다.',
-        [{ text: '확인' }]
+        [{ text: '확인' }],
       );
     });
   });

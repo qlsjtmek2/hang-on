@@ -12,6 +12,7 @@
 **Hang On**은 사용자들이 자신의 감정을 안전하게 표현하고, 다른 사람들과 공감을 나누며, 혼자가 아니라는 것을 느낄 수 있도록 돕는 모바일 애플리케이션입니다.
 
 ### 핵심 가치
+
 - 🌈 **감정 날씨 시스템**: 5단계 감정을 날씨로 표현
 - 💬 **익명 메시지**: 안전한 환경에서 감정 표현
 - 🤝 **공감과 연결**: 비슷한 감정을 가진 사람들과 연결
@@ -20,12 +21,14 @@
 ## 🛠 기술 스택
 
 ### Frontend
+
 - **React Native CLI** (0.82.1)
 - **TypeScript** (5.8.3)
 - **React Navigation** - 네비게이션
 - **Zustand** - 상태 관리
 
 ### Backend
+
 - **Supabase**
   - PostgreSQL 데이터베이스
   - 인증 시스템
@@ -34,6 +37,7 @@
   - Storage
 
 ### 개발 도구
+
 - **ESLint** - 코드 품질
 - **Prettier** - 코드 포맷팅
 - **Jest** - 유닛 테스트
@@ -60,23 +64,27 @@ WSL2 환경에서 Windows Android 에뮬레이터를 사용하는 경우:
 ### 설치
 
 1. 저장소 클론
+
 ```bash
 git clone https://github.com/[username]/hang-on.git
 cd hang-on
 ```
 
 2. 의존성 설치
+
 ```bash
 npm install
 ```
 
 3. 환경 변수 설정
+
 ```bash
 cp .env.example .env
 # .env 파일에 Supabase 자격 증명 입력
 ```
 
 4. iOS 의존성 설치 (macOS에서만)
+
 ```bash
 cd ios && pod install && cd ..
 ```
@@ -84,6 +92,7 @@ cd ios && pod install && cd ..
 ### 실행
 
 #### Android
+
 ```bash
 # 에뮬레이터 실행
 npm run emulator:phone
@@ -93,6 +102,7 @@ npm run android
 ```
 
 #### iOS (macOS에서만)
+
 ```bash
 npm run ios
 ```
@@ -146,6 +156,7 @@ hang-on/
 ## 🎨 디자인 시스템
 
 ### 감정 날씨 5단계
+
 - ☀️ **맑음** - 긍정적이고 밝은 감정
 - 🌤️ **구름 조금** - 대체로 괜찮은 상태
 - ☁️ **흐림** - 보통이거나 애매한 감정
@@ -153,6 +164,7 @@ hang-on/
 - ⛈️ **폭풍** - 매우 힘들거나 격한 감정
 
 ### 테마
+
 - **색상 시스템**: Primary, Semantic, Neutral 색상
 - **타이포그래피**: 7개 텍스트 스케일
 - **간격 시스템**: 8pt Grid System

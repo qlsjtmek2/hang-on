@@ -20,6 +20,7 @@ React Native CLI + Supabase 기반 **Hang On** - 감정 공유 플랫폼
 ## 핵심 개발 명령어
 
 ### 실행
+
 ```bash
 npm run emulator:phone    # Android 에뮬레이터 시작
 npm start                 # Metro 서버 (--host 127.0.0.1)
@@ -28,6 +29,7 @@ npm run ios              # iOS 앱 실행
 ```
 
 ### 개발 도구
+
 ```bash
 npm run lint             # ESLint
 npm run lint:fix         # ESLint 자동 수정
@@ -39,6 +41,7 @@ npm run test:watch       # 감시 모드
 ```
 
 ### 디버깅
+
 ```bash
 npm run debug:menu       # 디버그 메뉴 열기 (Cmd+M)
 npm run debug:reload     # 수동 리로드
@@ -69,25 +72,30 @@ src/
 ## 핵심 개발 원칙
 
 ### 1. 중앙화된 테마 사용 (필수)
+
 - **위치**: `src/theme/`
 - **구성**: `colors.ts`, `typography.ts`, `spacing.ts`
 - **사용**: `import { theme } from '@/theme'`
 - ❌ 하드코딩 금지
 
 ### 2. 컴포넌트 재사용 우선
+
 - **사용 가능한 컴포넌트**: Button, Input, EmotionButton, RecordCard, BottomSheet
 - **위치**: `src/components/`
 - 새 컴포넌트 생성 전 기존 확인
 
 ### 3. 유틸리티 함수 활용
+
 - **날짜 처리**: `src/utils/dateFormatter.ts` - formatRelativeTime, formatSmartTime, formatDate
 - **에러 처리**: `src/utils/errorHandler.ts` - handleError, handleSupabaseError, logError
 
 ### 4. 타입 안정성
+
 - 모든 파일 TypeScript 사용
 - Props, State, API 응답 타입 정의
 
 ### 5. 테스트 작성
+
 - 컴포넌트: 유닛 테스트 필수
 - 핵심 기능: 통합 테스트
 - 주요 여정: E2E 테스트
@@ -97,6 +105,7 @@ src/
 ## 환경 변수
 
 `.env` 파일 구조:
+
 ```
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=your-anon-key
@@ -109,6 +118,7 @@ SUPABASE_ANON_KEY=your-anon-key
 ## 주요 문서
 
 ### 요구사항 및 설계
+
 - [요구사항 명세서](docs/REQUIREMENTS.md) - 기능 요구사항, 로드맵, 우선순위
 - [API 명세서](docs/API_SPEC.md) - 엔드포인트, 스키마, 에러 코드
 - [사용자 시나리오](docs/USER_SCENARIOS.md) - 5개 핵심 사용자 여정
@@ -117,6 +127,7 @@ SUPABASE_ANON_KEY=your-anon-key
 - [디자인 시스템](docs/DESIGN_SYSTEM.md) - 컬러, 타이포, 간격, 컴포넌트 가이드
 
 ### 개발 환경
+
 - [WSL2 Android 완전 가이드](docs/WSL2_ANDROID_COMPLETE_GUIDE.md) - 5분 설정, 트러블슈팅
 - [Windows 설정](docs/WINDOWS_SETUP_GUIDE.md) - .wslconfig, 방화벽
 - [WSL2 설정](docs/WSL2_SETUP_GUIDE.md) - ADB alias, Metro 설정
@@ -155,6 +166,7 @@ SUPABASE_ANON_KEY=your-anon-key
 ### 주요 트러블슈팅
 
 **Gradle installDebug 실패**:
+
 - `wslinfo --networking-mode` 확인 (출력: mirrored)
 - Legacy Mode 환경 변수 제거: `unset ADB_SERVER_SOCKET WSL_HOST`
 - `~/.bashrc`에서 WSL_HOST, ADB_SERVER_SOCKET 주석 처리
@@ -162,6 +174,7 @@ SUPABASE_ANON_KEY=your-anon-key
 - 폴백: `npm run android:legacy`
 
 **Metro 연결 실패**:
+
 - Metro를 127.0.0.1에 바인딩: `npm start` (package.json에 이미 설정됨)
 - 방화벽 규칙 확인
 
@@ -172,11 +185,13 @@ SUPABASE_ANON_KEY=your-anon-key
 ## 라이브러리 호환성
 
 ### react-native-config
+
 - **사용 버전**: 1.5.5
 - **이유**: v1.5.9는 React Native 0.82와 CMake 호환성 문제
 - **참고**: [GitHub Issue #848](https://github.com/lugg/react-native-config/issues/848)
 
 ### 빌드 캐시
+
 - Android 에러 시: `cd android && ./gradlew clean && cd ..` → 재빌드
 - 네이티브 모듈 변경 후 필수
 

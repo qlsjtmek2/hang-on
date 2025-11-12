@@ -12,6 +12,7 @@ Comprehensive guide for end-to-end testing React Native applications using Maest
 ## When to Use
 
 Use this skill when:
+
 - Creating E2E test flows
 - Testing complete user journeys
 - Automating UI interactions
@@ -24,6 +25,7 @@ Use this skill when:
 ## MCP Integration
 
 **context7**: Fetch Maestro documentation
+
 ```
 - Maestro CLI documentation
 - Flow syntax and commands
@@ -54,43 +56,45 @@ brew install maestro-studio
 ### Simple Flow
 
 **.maestro/login.yaml**
+
 ```yaml
 appId: com.yourapp
 ---
 - launchApp
-- tapOn: "Email"
-- inputText: "test@example.com"
-- tapOn: "Password"
-- inputText: "password123"
-- tapOn: "Sign In"
-- assertVisible: "Welcome"
+- tapOn: 'Email'
+- inputText: 'test@example.com'
+- tapOn: 'Password'
+- inputText: 'password123'
+- tapOn: 'Sign In'
+- assertVisible: 'Welcome'
 ```
 
 ### Flow with Assertions
 
 **.maestro/signup.yaml**
+
 ```yaml
 appId: com.yourapp
 ---
 - launchApp
-- tapOn: "Sign Up"
+- tapOn: 'Sign Up'
 
 # Fill form
-- tapOn: "Email"
-- inputText: "newuser@example.com"
-- tapOn: "Password"
-- inputText: "securepass123"
-- tapOn: "Confirm Password"
-- inputText: "securepass123"
-- tapOn: "Username"
-- inputText: "newuser"
+- tapOn: 'Email'
+- inputText: 'newuser@example.com'
+- tapOn: 'Password'
+- inputText: 'securepass123'
+- tapOn: 'Confirm Password'
+- inputText: 'securepass123'
+- tapOn: 'Username'
+- inputText: 'newuser'
 
 # Submit
-- tapOn: "Create Account"
+- tapOn: 'Create Account'
 
 # Wait for navigation
-- assertVisible: "Welcome, newuser!"
-- assertNotVisible: "Sign Up"
+- assertVisible: 'Welcome, newuser!'
+- assertNotVisible: 'Sign Up'
 ```
 
 ## Maestro Commands
@@ -101,50 +105,50 @@ appId: com.yourapp
 - launchApp
 - launchApp:
     appId: com.yourapp
-    clearState: true  # Clear app data before launch
+    clearState: true # Clear app data before launch
 
-- back  # Press back button (Android)
+- back # Press back button (Android)
 - swipe:
-    direction: UP  # UP, DOWN, LEFT, RIGHT
-    duration: 500  # Optional duration in ms
+    direction: UP # UP, DOWN, LEFT, RIGHT
+    duration: 500 # Optional duration in ms
 ```
 
 ### Tapping
 
 ```yaml
 # Tap by text
-- tapOn: "Button Text"
+- tapOn: 'Button Text'
 
 # Tap by ID (testID)
 - tapOn:
-    id: "login-button"
+    id: 'login-button'
 
 # Tap at coordinates
 - tapOn:
-    point: "50%,80%"  # x%, y%
+    point: '50%,80%' # x%, y%
 
 # Long press
-- longPressOn: "Item"
+- longPressOn: 'Item'
 - longPressOn:
-    duration: 2000  # 2 seconds
+    duration: 2000 # 2 seconds
 ```
 
 ### Text Input
 
 ```yaml
 # Input text
-- inputText: "Hello World"
+- inputText: 'Hello World'
 
 # Input into specific field
-- tapOn: "Email"
-- inputText: "test@example.com"
+- tapOn: 'Email'
+- inputText: 'test@example.com'
 
 # Clear text
 - eraseText
 
 # Input with keyboard type
-- tapOn: "Phone"
-- inputText: "1234567890"
+- tapOn: 'Phone'
+- inputText: '1234567890'
 ```
 
 ### Scrolling
@@ -153,14 +157,14 @@ appId: com.yourapp
 # Scroll to element
 - scrollUntilVisible:
     element:
-      text: "Item at Bottom"
-    direction: DOWN  # UP, DOWN, LEFT, RIGHT
+      text: 'Item at Bottom'
+    direction: DOWN # UP, DOWN, LEFT, RIGHT
 
 # Scroll with timeout
 - scrollUntilVisible:
     element:
-      id: "product-123"
-    timeout: 10000  # 10 seconds
+      id: 'product-123'
+    timeout: 10000 # 10 seconds
     direction: DOWN
 ```
 
@@ -168,37 +172,37 @@ appId: com.yourapp
 
 ```yaml
 # Assert visible
-- assertVisible: "Success Message"
+- assertVisible: 'Success Message'
 - assertVisible:
-    id: "success-icon"
+    id: 'success-icon'
 
 # Assert not visible
-- assertNotVisible: "Error"
+- assertNotVisible: 'Error'
 
 # Assert text
 - assertVisible:
-    text: "Welcome"
+    text: 'Welcome'
     enabled: true
 
 # Assert multiple conditions
 - assertVisible:
-    id: "submit-button"
+    id: 'submit-button'
     enabled: true
 - assertNotVisible:
-    text: "Loading"
+    text: 'Loading'
 ```
 
 ### Waiting
 
 ```yaml
 # Wait for element
-- waitForVisible: "Loading Complete"
+- waitForVisible: 'Loading Complete'
 - waitForVisible:
-    id: "data-loaded"
-    timeout: 5000  # 5 seconds
+    id: 'data-loaded'
+    timeout: 5000 # 5 seconds
 
 # Wait fixed time
-- wait: 2000  # 2 seconds (use sparingly)
+- wait: 2000 # 2 seconds (use sparingly)
 ```
 
 ### Conditional Logic
@@ -207,13 +211,13 @@ appId: com.yourapp
 # Run if visible
 - runFlow:
     when:
-      visible: "Login Required"
+      visible: 'Login Required'
     flow: login.yaml
 
 # Run if not visible
 - runFlow:
     when:
-      notVisible: "Already Logged In"
+      notVisible: 'Already Logged In'
     flow: login.yaml
 ```
 
@@ -222,6 +226,7 @@ appId: com.yourapp
 ### Multi-Screen Flow
 
 **.maestro/create_post.yaml**
+
 ```yaml
 appId: com.yourapp
 ---
@@ -229,101 +234,103 @@ appId: com.yourapp
 - runFlow: login.yaml
 
 # Navigate to create post
-- tapOn: "New Post"
-- assertVisible: "Create Post"
+- tapOn: 'New Post'
+- assertVisible: 'Create Post'
 
 # Fill content
-- tapOn: "Title"
-- inputText: "My Amazing Post"
-- tapOn: "Content"
-- inputText: "This is the content of my post"
+- tapOn: 'Title'
+- inputText: 'My Amazing Post'
+- tapOn: 'Content'
+- inputText: 'This is the content of my post'
 
 # Add image (optional)
-- tapOn: "Add Image"
-- assertVisible: "Choose Photo"
-- tapOn: "Camera Roll"
+- tapOn: 'Add Image'
+- assertVisible: 'Choose Photo'
+- tapOn: 'Camera Roll'
 - tapOn:
-    index: 0  # First image
-- assertVisible: "My Amazing Post"
+    index: 0 # First image
+- assertVisible: 'My Amazing Post'
 
 # Publish
-- tapOn: "Publish"
-- assertVisible: "Post published successfully"
+- tapOn: 'Publish'
+- assertVisible: 'Post published successfully'
 
 # Verify on feed
 - back
-- assertVisible: "My Amazing Post"
+- assertVisible: 'My Amazing Post'
 ```
 
 ### Testing Forms
 
 **.maestro/form_validation.yaml**
+
 ```yaml
 appId: com.yourapp
 ---
 - launchApp
-- tapOn: "Sign Up"
+- tapOn: 'Sign Up'
 
 # Test empty form
-- tapOn: "Create Account"
-- assertVisible: "Email is required"
-- assertVisible: "Password is required"
+- tapOn: 'Create Account'
+- assertVisible: 'Email is required'
+- assertVisible: 'Password is required'
 
 # Test invalid email
-- tapOn: "Email"
-- inputText: "invalid-email"
-- tapOn: "Password"
-- inputText: "password123"
-- tapOn: "Create Account"
-- assertVisible: "Invalid email format"
+- tapOn: 'Email'
+- inputText: 'invalid-email'
+- tapOn: 'Password'
+- inputText: 'password123'
+- tapOn: 'Create Account'
+- assertVisible: 'Invalid email format'
 
 # Test password mismatch
-- tapOn: "Email"
+- tapOn: 'Email'
 - eraseText
-- inputText: "test@example.com"
-- tapOn: "Password"
+- inputText: 'test@example.com'
+- tapOn: 'Password'
 - eraseText
-- inputText: "password123"
-- tapOn: "Confirm Password"
-- inputText: "different"
-- tapOn: "Create Account"
-- assertVisible: "Passwords do not match"
+- inputText: 'password123'
+- tapOn: 'Confirm Password'
+- inputText: 'different'
+- tapOn: 'Create Account'
+- assertVisible: 'Passwords do not match'
 
 # Test successful submission
-- tapOn: "Confirm Password"
+- tapOn: 'Confirm Password'
 - eraseText
-- inputText: "password123"
-- tapOn: "Create Account"
-- assertNotVisible: "Email is required"
-- assertVisible: "Welcome"
+- inputText: 'password123'
+- tapOn: 'Create Account'
+- assertNotVisible: 'Email is required'
+- assertVisible: 'Welcome'
 ```
 
 ### Testing Lists
 
 **.maestro/scroll_and_select.yaml**
+
 ```yaml
 appId: com.yourapp
 ---
 - launchApp
-- tapOn: "Products"
+- tapOn: 'Products'
 
 # Scroll to specific item
 - scrollUntilVisible:
     element:
-      text: "Product 50"
+      text: 'Product 50'
     direction: DOWN
     timeout: 10000
 
 # Tap on item
-- tapOn: "Product 50"
-- assertVisible: "Product Details"
-- assertVisible: "Product 50"
+- tapOn: 'Product 50'
+- assertVisible: 'Product Details'
+- assertVisible: 'Product 50'
 
 # Go back and scroll up
 - back
 - scrollUntilVisible:
     element:
-      text: "Product 1"
+      text: 'Product 1'
     direction: UP
 ```
 
@@ -335,16 +342,17 @@ appId: com.yourapp
 - launchApp
 - takeScreenshot: screenshots/home_screen.png
 
-- tapOn: "Profile"
+- tapOn: 'Profile'
 - takeScreenshot: screenshots/profile.png
 
-- tapOn: "Settings"
+- tapOn: 'Settings'
 - takeScreenshot: screenshots/settings.png
 ```
 
 ## Environment Variables
 
 **.maestro/login_env.yaml**
+
 ```yaml
 appId: com.yourapp
 env:
@@ -352,15 +360,16 @@ env:
   PASSWORD: password123
 ---
 - launchApp
-- tapOn: "Email"
+- tapOn: 'Email'
 - inputText: ${EMAIL}
-- tapOn: "Password"
+- tapOn: 'Password'
 - inputText: ${PASSWORD}
-- tapOn: "Sign In"
-- assertVisible: "Welcome"
+- tapOn: 'Sign In'
+- assertVisible: 'Welcome'
 ```
 
 **Run with custom environment:**
+
 ```bash
 maestro test --env EMAIL=custom@example.com --env PASSWORD=custom123 login_env.yaml
 ```
@@ -427,19 +436,21 @@ maestro studio
 ### Reusable Sub-Flows
 
 **helpers/login_helper.yaml**
+
 ```yaml
 appId: com.yourapp
 ---
 - launchApp
-- tapOn: "Email"
+- tapOn: 'Email'
 - inputText: ${EMAIL}
-- tapOn: "Password"
+- tapOn: 'Password'
 - inputText: ${PASSWORD}
-- tapOn: "Sign In"
-- waitForVisible: "Welcome"
+- tapOn: 'Sign In'
+- waitForVisible: 'Welcome'
 ```
 
 **Use in other flows:**
+
 ```yaml
 appId: com.yourapp
 env:
@@ -449,8 +460,8 @@ env:
 - runFlow: helpers/login_helper.yaml
 
 # Continue with authenticated flow
-- tapOn: "Profile"
-- assertVisible: "My Profile"
+- tapOn: 'Profile'
+- assertVisible: 'My Profile'
 ```
 
 ## CI/CD Integration
@@ -458,6 +469,7 @@ env:
 ### GitHub Actions
 
 **.github/workflows/e2e-tests.yml**
+
 ```yaml
 name: E2E Tests
 
@@ -551,9 +563,9 @@ maestro studio
 ### Screenshot Debugging
 
 ```yaml
-- tapOn: "Button"
+- tapOn: 'Button'
 - takeScreenshot: debug/before_assertion.png
-- assertVisible: "Expected Text"
+- assertVisible: 'Expected Text'
 - takeScreenshot: debug/after_assertion.png
 ```
 
@@ -589,9 +601,9 @@ appId: com.yourapp
 appId: com.yourapp
 ---
 - launchApp:
-    url: "yourapp://profile/123"
-- assertVisible: "Profile Details"
-- assertVisible: "User 123"
+    url: 'yourapp://profile/123'
+- assertVisible: 'Profile Details'
+- assertVisible: 'User 123'
 ```
 
 ### Testing Permissions
@@ -600,9 +612,9 @@ appId: com.yourapp
 appId: com.yourapp
 ---
 - launchApp
-- tapOn: "Enable Notifications"
-- tapOn: "Allow"  # System permission dialog
-- assertVisible: "Notifications Enabled"
+- tapOn: 'Enable Notifications'
+- tapOn: 'Allow' # System permission dialog
+- assertVisible: 'Notifications Enabled'
 ```
 
 ## Troubleshooting
@@ -612,10 +624,10 @@ appId: com.yourapp
 ```yaml
 # Add explicit wait
 - waitForVisible:
-    id: "element-id"
+    id: 'element-id'
     timeout: 5000
 - tapOn:
-    id: "element-id"
+    id: 'element-id'
 ```
 
 ### Flaky Tests
@@ -624,7 +636,7 @@ appId: com.yourapp
 # Add retry logic via runFlow
 - runFlow:
     when:
-      visible: "Retry Button"
+      visible: 'Retry Button'
     flow: retry_logic.yaml
 ```
 

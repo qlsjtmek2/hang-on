@@ -77,8 +77,8 @@ const SUPABASE_ERROR_MAP: Record<string, ErrorType> = {
   '23502': ErrorType.VALIDATION, // not null violation
   '23514': ErrorType.VALIDATION, // check constraint violation
   '22P02': ErrorType.VALIDATION, // invalid text representation
-  'PGRST301': ErrorType.AUTH, // JWT expired
-  'PGRST302': ErrorType.AUTH, // Invalid JWT
+  PGRST301: ErrorType.AUTH, // JWT expired
+  PGRST302: ErrorType.AUTH, // Invalid JWT
   '42501': ErrorType.PERMISSION, // insufficient privileges
   '42P01': ErrorType.NOT_FOUND, // table does not exist
   '42703': ErrorType.NOT_FOUND, // column does not exist

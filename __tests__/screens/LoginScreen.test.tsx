@@ -1,9 +1,11 @@
-import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import React from 'react';
 import { Alert } from 'react-native';
+
 import { LoginScreen } from '@/screens/LoginScreen';
 import { useAuthStore } from '@/store/authStore';
-import { NavigationContainer } from '@react-navigation/native';
+
 
 // Mock 설정
 jest.mock('@/store/authStore');
@@ -35,7 +37,7 @@ describe('LoginScreen', () => {
     return render(
       <NavigationContainer>
         <LoginScreen />
-      </NavigationContainer>
+      </NavigationContainer>,
     );
   };
 
@@ -66,7 +68,7 @@ describe('LoginScreen', () => {
 
   describe('유효성 검증', () => {
     it('이메일이 비어있을 때 에러 메시지를 표시해야 한다', async () => {
-      const { getByText, getByPlaceholderText } = renderLoginScreen();
+      const { getByText } = renderLoginScreen();
 
       const loginButton = getByText('로그인');
       fireEvent.press(loginButton);
@@ -178,10 +180,7 @@ describe('LoginScreen', () => {
       fireEvent.press(loginButton);
 
       await waitFor(() => {
-        expect(alertSpy).toHaveBeenCalledWith(
-          '로그인 실패',
-          '로그인에 실패했습니다'
-        );
+        expect(alertSpy).toHaveBeenCalledWith('로그인 실패', '로그인에 실패했습니다');
       });
     });
   });
@@ -197,7 +196,7 @@ describe('LoginScreen', () => {
       expect(alertSpy).toHaveBeenCalledWith(
         '비밀번호 찾기',
         '비밀번호 재설정 기능은 준비 중입니다.',
-        [{ text: '확인' }]
+        [{ text: '확인' }],
       );
     });
 
@@ -211,7 +210,7 @@ describe('LoginScreen', () => {
       expect(alertSpy).toHaveBeenCalledWith(
         'Google 로그인',
         'Google 소셜 로그인은 준비 중입니다.',
-        [{ text: '확인' }]
+        [{ text: '확인' }],
       );
     });
   });

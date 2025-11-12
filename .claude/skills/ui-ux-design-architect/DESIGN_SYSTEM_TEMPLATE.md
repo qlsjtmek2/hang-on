@@ -45,13 +45,14 @@
 // src/theme/colors.ts
 
 export const colors = {
-  primary: '#4A90E2',       // Main Blue
-  primaryLight: '#7AB8FF',  // Light variant (hover, disabled)
-  primaryDark: '#2E5C8A',   // Dark variant (pressed)
+  primary: '#4A90E2', // Main Blue
+  primaryLight: '#7AB8FF', // Light variant (hover, disabled)
+  primaryDark: '#2E5C8A', // Dark variant (pressed)
 };
 ```
 
 **사용 예시**:
+
 - Primary Button 배경: `primary`
 - Primary Button Hover: `primaryLight`
 - Primary Button Pressed: `primaryDark`
@@ -81,6 +82,7 @@ export const colors = {
 ```
 
 **사용 예시**:
+
 - Secondary Button 배경: `secondary`
 - 뱃지, 라벨
 
@@ -93,14 +95,15 @@ export const colors = {
 ```typescript
 export const colors = {
   // ...
-  success: '#4CAF50',   // 초록 (성공, 완료)
-  warning: '#FF9800',   // 주황 (경고)
-  error: '#F44336',     // 빨강 (에러)
-  info: '#2196F3',      // 파랑 (정보)
+  success: '#4CAF50', // 초록 (성공, 완료)
+  warning: '#FF9800', // 주황 (경고)
+  error: '#F44336', // 빨강 (에러)
+  info: '#2196F3', // 파랑 (정보)
 };
 ```
 
 **사용 예시**:
+
 - 성공 메시지: `success`
 - 에러 메시지: `error`
 - 경고 배너: `warning`
@@ -114,20 +117,21 @@ export const colors = {
 ```typescript
 export const colors = {
   // ...
-  background: '#FFFFFF',   // 메인 배경
-  surface: '#F5F5F5',      // 카드, 패널 배경
-  border: '#E0E0E0',       // 구분선, 테두리
+  background: '#FFFFFF', // 메인 배경
+  surface: '#F5F5F5', // 카드, 패널 배경
+  border: '#E0E0E0', // 구분선, 테두리
 
   text: {
-    primary: '#212121',    // 주요 텍스트 (제목, 본문)
-    secondary: '#757575',  // 보조 텍스트 (설명, 캡션)
-    disabled: '#BDBDBD',   // 비활성 텍스트
-    inverse: '#FFFFFF',    // 역전 텍스트 (어두운 배경 위)
+    primary: '#212121', // 주요 텍스트 (제목, 본문)
+    secondary: '#757575', // 보조 텍스트 (설명, 캡션)
+    disabled: '#BDBDBD', // 비활성 텍스트
+    inverse: '#FFFFFF', // 역전 텍스트 (어두운 배경 위)
   },
 };
 ```
 
 **색상 대비 (Contrast Ratio)**:
+
 - `text.primary` / `background`: 16.5:1 (AAA ✅)
 - `text.secondary` / `background`: 7.0:1 (AA ✅)
 
@@ -141,16 +145,17 @@ export const colors = {
 export const colors = {
   // ...
   emotion: {
-    sunny: '#FFD700',         // 맑음 (최상)
-    partlyCloudy: '#87CEEB',  // 구름 조금 (상)
-    cloudy: '#A9A9A9',        // 흐림 (중)
-    rainy: '#708090',         // 비 (하)
-    stormy: '#483D8B',        // 폭풍 (최하)
+    sunny: '#FFD700', // 맑음 (최상)
+    partlyCloudy: '#87CEEB', // 구름 조금 (상)
+    cloudy: '#A9A9A9', // 흐림 (중)
+    rainy: '#708090', // 비 (하)
+    stormy: '#483D8B', // 폭풍 (최하)
   },
 };
 ```
 
 **사용 예시**:
+
 - 감정 선택 아이콘 배경
 - 기록 카드 액센트 색상
 
@@ -164,9 +169,9 @@ export const colors = {
 // src/theme/typography.ts
 
 export const fontFamily = {
-  regular: 'Pretendard-Regular',  // 본문
-  medium: 'Pretendard-Medium',    // 강조
-  bold: 'Pretendard-Bold',        // 제목
+  regular: 'Pretendard-Regular', // 본문
+  medium: 'Pretendard-Medium', // 강조
+  bold: 'Pretendard-Bold', // 제목
 };
 ```
 
@@ -227,15 +232,15 @@ export const typography = {
 
 ### 사용 기준
 
-| 요소 | 타입 스타일 | 예시 |
-|------|-------------|------|
-| 화면 타이틀 | `h1` | "털어놓기" |
-| 섹션 제목 | `h2` | "오늘의 이야기" |
-| 카드 제목 | `h3` | "감정 날씨 선택" |
-| 본문 | `body` | 기록 내용 |
-| 강조 본문 | `bodyBold` | "중요한 안내" |
-| 보조 텍스트 | `caption` | "3분 전", "15/20" |
-| 버튼 | `button` | "다 썼어요! 💙" |
+| 요소        | 타입 스타일 | 예시              |
+| ----------- | ----------- | ----------------- |
+| 화면 타이틀 | `h1`        | "털어놓기"        |
+| 섹션 제목   | `h2`        | "오늘의 이야기"   |
+| 카드 제목   | `h3`        | "감정 날씨 선택"  |
+| 본문        | `body`      | 기록 내용         |
+| 강조 본문   | `bodyBold`  | "중요한 안내"     |
+| 보조 텍스트 | `caption`   | "3분 전", "15/20" |
+| 버튼        | `button`    | "다 썼어요! 💙"   |
 
 ---
 
@@ -249,28 +254,28 @@ export const typography = {
 // src/theme/spacing.ts
 
 export const spacing = {
-  xs: 4,    // 0.5x
-  sm: 8,    // 1x
-  md: 16,   // 2x
-  lg: 24,   // 3x
-  xl: 32,   // 4x
-  xxl: 40,  // 5x
+  xs: 4, // 0.5x
+  sm: 8, // 1x
+  md: 16, // 2x
+  lg: 24, // 3x
+  xl: 32, // 4x
+  xxl: 40, // 5x
   xxxl: 48, // 6x
 };
 ```
 
 ### 사용 기준
 
-| 요소 | 간격 | 값 |
-|------|------|-----|
-| 버튼 내부 패딩 (상하) | `sm` | 8pt |
-| 버튼 내부 패딩 (좌우) | `md` | 16pt |
-| 카드 내부 패딩 | `md` | 16pt |
-| 카드 간 간격 | `md` | 16pt |
-| 섹션 간 간격 | `xl` | 32pt |
-| 화면 좌우 마진 | `md` | 16pt |
-| 화면 상하 마진 | `lg` | 24pt |
-| 텍스트 줄 간격 | `xs` ~ `sm` | 4-8pt |
+| 요소                  | 간격        | 값    |
+| --------------------- | ----------- | ----- |
+| 버튼 내부 패딩 (상하) | `sm`        | 8pt   |
+| 버튼 내부 패딩 (좌우) | `md`        | 16pt  |
+| 카드 내부 패딩        | `md`        | 16pt  |
+| 카드 간 간격          | `md`        | 16pt  |
+| 섹션 간 간격          | `xl`        | 32pt  |
+| 화면 좌우 마진        | `md`        | 16pt  |
+| 화면 상하 마진        | `lg`        | 24pt  |
+| 텍스트 줄 간격        | `xs` ~ `sm` | 4-8pt |
 
 ### 간격 시각화
 
@@ -294,6 +299,7 @@ export const spacing = {
 ### Button
 
 **Primary Button**:
+
 - 배경: `colors.primary`
 - 텍스트: `colors.text.inverse`
 - 패딩: `spacing.sm` (상하), `spacing.md` (좌우)
@@ -305,12 +311,11 @@ export const spacing = {
 ```typescript
 // src/components/Button/PrimaryButton.tsx
 
-<PrimaryButton onPress={handleSubmit}>
-  다 썼어요! 💙
-</PrimaryButton>
+<PrimaryButton onPress={handleSubmit}>다 썼어요! 💙</PrimaryButton>
 ```
 
 **Secondary Button**:
+
 - 배경: 투명
 - 텍스트: `colors.primary`
 - Border: 1pt solid `colors.primary`
@@ -318,6 +323,7 @@ export const spacing = {
 **사용 시점**: 보조 액션 (취소, 뒤로가기)
 
 **Text Button**:
+
 - 배경: 투명
 - 텍스트: `colors.primary`
 - Border: 없음
@@ -329,6 +335,7 @@ export const spacing = {
 ### Input
 
 **Text Input**:
+
 - 배경: `colors.surface`
 - Border: 1pt solid `colors.border`
 - Border Radius: 8pt
@@ -336,12 +343,14 @@ export const spacing = {
 - 타이포: `typography.body`
 
 **상태별 스타일**:
+
 - **Default**: Border `colors.border`
 - **Focus**: Border `colors.primary`, 2pt
 - **Error**: Border `colors.error`, 2pt
 - **Disabled**: 배경 `colors.surface`, 텍스트 `colors.text.disabled`
 
 **TextArea**:
+
 - Text Input과 동일하지만 여러 줄 입력
 - 최소 높이: 120pt
 
@@ -350,6 +359,7 @@ export const spacing = {
 ### Card
 
 **기록 카드**:
+
 - 배경: `colors.background`
 - Border: 1pt solid `colors.border`
 - Border Radius: 12pt
@@ -357,6 +367,7 @@ export const spacing = {
 - 패딩: `spacing.md`
 
 **구성 요소**:
+
 1. 감정 아이콘 (좌상단)
 2. 작성 시간 (우상단)
 3. 글 내용 (2줄 미리보기)
@@ -367,6 +378,7 @@ export const spacing = {
 ### Modal
 
 **Dialog**:
+
 - 배경: `colors.background`
 - Border Radius: 16pt
 - 패딩: `spacing.lg`
@@ -375,6 +387,7 @@ export const spacing = {
 **사용 시점**: 간단한 확인/선택
 
 **Bottom Sheet**:
+
 - 배경: `colors.background`
 - Border Radius: 24pt (상단만)
 - 패딩: `spacing.lg`
@@ -386,6 +399,7 @@ export const spacing = {
 ### Badge
 
 **알림 뱃지**:
+
 - 배경: `colors.error`
 - 텍스트: `colors.text.inverse`
 - Border Radius: 12pt (완전 원형)
@@ -401,16 +415,19 @@ export const spacing = {
 ### Navigation Patterns
 
 **1. Stack Navigation** (화면 푸시)
+
 - 사용: 계층적 화면 이동 (메인 → 상세)
 - 애니메이션: 오른쪽에서 슬라이드
 - 지속 시간: 300ms
 
 **2. Tab Navigation** (탭 전환)
+
 - 사용: 동등한 레벨의 화면 전환
 - 애니메이션: 페이드 인/아웃
 - 지속 시간: 200ms
 
 **3. Modal Navigation** (모달 표시)
+
 - 사용: 임시적인 작업 (선택, 확인)
 - 애니메이션: 아래에서 슬라이드 업
 - 지속 시간: 300ms
@@ -419,27 +436,30 @@ export const spacing = {
 
 ### Dialog vs Bottom Sheet vs Screen
 
-| 패턴 | 사용 시점 | 예시 |
-|------|-----------|------|
-| **Dialog** | - 간단한 확인 (Yes/No)<br>- 2-3개 옵션<br>- 중요한 결정 | "정말 삭제할까요?" |
-| **Bottom Sheet** | - 3개 이상 옵션<br>- 추가 설명 필요<br>- 비파괴적 선택 | 공유 옵션 선택 |
-| **Screen** | - 복잡한 입력<br>- 여러 단계<br>- 많은 정보 표시 | 글쓰기 화면 |
+| 패턴             | 사용 시점                                               | 예시               |
+| ---------------- | ------------------------------------------------------- | ------------------ |
+| **Dialog**       | - 간단한 확인 (Yes/No)<br>- 2-3개 옵션<br>- 중요한 결정 | "정말 삭제할까요?" |
+| **Bottom Sheet** | - 3개 이상 옵션<br>- 추가 설명 필요<br>- 비파괴적 선택  | 공유 옵션 선택     |
+| **Screen**       | - 복잡한 입력<br>- 여러 단계<br>- 많은 정보 표시        | 글쓰기 화면        |
 
 ---
 
 ### Loading States
 
 **1. Skeleton UI**
+
 - 사용: 콘텐츠 로딩 중
 - 디자인: 회색 플레이스홀더 + 반짝이는 애니메이션
 - 지속 시간: 콘텐츠 로드 완료까지
 
 **2. Spinner**
+
 - 사용: 짧은 로딩 (< 2초)
 - 디자인: 원형 스피너 (primary 색상)
 - 크기: 24pt x 24pt
 
 **3. Progress Bar**
+
 - 사용: 진행률 표시 (파일 업로드 등)
 - 디자인: 수평 바 (primary 색상)
 - 높이: 4pt
@@ -449,16 +469,19 @@ export const spacing = {
 ### Error States
 
 **Inline Error** (입력 필드 옆):
+
 - 텍스트: `colors.error`
 - 아이콘: ⚠️
 - 타이포: `typography.caption`
 
 **Error Banner** (화면 상단):
+
 - 배경: `colors.error`
 - 텍스트: `colors.text.inverse`
 - 높이: 48pt
 
 **Empty State** (빈 목록):
+
 - 일러스트 + 메시지
 - 색상: `colors.text.secondary`
 - 타이포: `typography.body`
@@ -468,16 +491,19 @@ export const spacing = {
 ### Feedback & Microinteractions
 
 **1. Button Press**
+
 - 배경 투명도: 80% (눌렀을 때)
 - 지속 시간: 100ms
 - Easing: `ease-out`
 
 **2. Heart Animation** (공감):
+
 - Scale: 1.0 → 1.3 → 1.0
 - 지속 시간: 300ms
 - Easing: `ease-in-out`
 
 **3. Toast Message**
+
 - 위치: 화면 하단 (Safe Area 위)
 - 지속 시간: 3초
 - 애니메이션: 아래에서 슬라이드 업
@@ -489,6 +515,7 @@ export const spacing = {
 ### Icon Library
 
 **추천 라이브러리**:
+
 - [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 - Icon Set: Ionicons, Feather
 
@@ -498,21 +525,21 @@ export const spacing = {
 // src/theme/icons.ts
 
 export const iconSizes = {
-  small: 20,    // 작은 아이콘 (리스트 아이템)
-  medium: 24,   // 기본 아이콘 (버튼, 탭바)
-  large: 32,    // 큰 아이콘 (감정 날씨)
-  xlarge: 48,   // 매우 큰 아이콘 (Empty State)
+  small: 20, // 작은 아이콘 (리스트 아이템)
+  medium: 24, // 기본 아이콘 (버튼, 탭바)
+  large: 32, // 큰 아이콘 (감정 날씨)
+  xlarge: 48, // 매우 큰 아이콘 (Empty State)
 };
 ```
 
 ### 사용 기준
 
-| 요소 | 크기 | 색상 |
-|------|------|------|
-| 뒤로가기 버튼 | `medium` (24pt) | `text.primary` |
-| 탭바 아이콘 | `medium` (24pt) | `primary` (active), `text.secondary` (inactive) |
-| 감정 날씨 아이콘 | `large` (32pt) | `emotion.*` |
-| Empty State 아이콘 | `xlarge` (48pt) | `text.secondary` |
+| 요소               | 크기            | 색상                                            |
+| ------------------ | --------------- | ----------------------------------------------- |
+| 뒤로가기 버튼      | `medium` (24pt) | `text.primary`                                  |
+| 탭바 아이콘        | `medium` (24pt) | `primary` (active), `text.secondary` (inactive) |
+| 감정 날씨 아이콘   | `large` (32pt)  | `emotion.*`                                     |
+| Empty State 아이콘 | `xlarge` (48pt) | `text.secondary`                                |
 
 ### 터치 영역
 
@@ -534,29 +561,30 @@ export const iconSizes = {
 ### WCAG 2.1 AA 준수
 
 **1. 색상 대비 (Contrast Ratio)**
+
 - 일반 텍스트: 최소 4.5:1
 - 큰 텍스트 (18pt 이상): 최소 3:1
 
 **확인 도구**: [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
 
 **2. 터치 타겟 크기**
+
 - 최소 크기: 44pt x 44pt
 - 간격: 최소 8pt
 
 **3. 스크린 리더 지원**
+
 - 모든 버튼: `accessibilityLabel` 제공
 - 아이콘 버튼: 텍스트 대체
 
 ```typescript
-<TouchableOpacity
-  accessibilityLabel="뒤로가기"
-  accessibilityRole="button"
->
+<TouchableOpacity accessibilityLabel="뒤로가기" accessibilityRole="button">
   <Icon name="arrow-back" />
 </TouchableOpacity>
 ```
 
 **4. 포커스 인디케이터**
+
 - 키보드 포커스 시 테두리 표시
 - 색상: `colors.primary`
 - Border Width: 2pt

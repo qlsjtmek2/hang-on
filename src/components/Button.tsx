@@ -7,11 +7,11 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
-  Platform,
 } from 'react-native';
+
 import { theme } from '@/theme';
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'ghost';

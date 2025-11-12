@@ -8,11 +8,12 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+
 import { theme } from '@/theme';
 
 export type EmotionLevel = 1 | 2 | 3 | 4 | 5;
 
-interface EmotionButtonProps {
+export interface EmotionButtonProps {
   emotionLevel: EmotionLevel;
   isSelected?: boolean;
   onPress?: (level: EmotionLevel) => void;
@@ -164,7 +165,9 @@ export function EmotionButton({
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={`감정 ${emotionInfo.label}`}
-      accessibilityHint={`현재 ${isSelected ? '선택됨' : '선택 안 됨'}. 탭하여 ${emotionInfo.label} 감정을 선택하세요.`}
+      accessibilityHint={`현재 ${isSelected ? '선택됨' : '선택 안 됨'}. 탭하여 ${
+        emotionInfo.label
+      } 감정을 선택하세요.`}
       accessibilityState={{
         selected: isSelected,
         disabled,
@@ -202,7 +205,7 @@ export function EmotionButton({
 }
 
 // 여러 개의 EmotionButton을 그룹으로 관리하는 컴포넌트
-interface EmotionSelectorProps {
+export interface EmotionSelectorProps {
   selectedLevel?: EmotionLevel | null;
   onSelect?: (level: EmotionLevel) => void;
   size?: 'small' | 'medium' | 'large';
@@ -221,7 +224,7 @@ export function EmotionSelector({
 
   return (
     <View style={[styles.selectorContainer, style]}>
-      {emotions.map((level) => (
+      {emotions.map(level => (
         <EmotionButton
           key={level}
           emotionLevel={level}

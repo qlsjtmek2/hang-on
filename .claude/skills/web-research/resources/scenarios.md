@@ -16,13 +16,13 @@
 
 ### Quick Reference by Need
 
-| Need | Scenario Type | Time | Strategy |
-|------|---------------|------|----------|
-| "How do I...?" | Implementation | 15-30 min | Quick Fact Check |
-| "Which library?" | Library Selection | 30-60 min | Comparison Research |
-| "Error: ..." | Debugging | 10-30 min | Troubleshooting Research |
-| "What's new?" | Updates | 15-30 min | Deep Technical Research |
-| "Best way to...?" | Best Practices | 20-40 min | Deep Technical Research |
+| Need              | Scenario Type     | Time      | Strategy                 |
+| ----------------- | ----------------- | --------- | ------------------------ |
+| "How do I...?"    | Implementation    | 15-30 min | Quick Fact Check         |
+| "Which library?"  | Library Selection | 30-60 min | Comparison Research      |
+| "Error: ..."      | Debugging         | 10-30 min | Troubleshooting Research |
+| "What's new?"     | Updates           | 15-30 min | Deep Technical Research  |
+| "Best way to...?" | Best Practices    | 20-40 min | Deep Technical Research  |
 
 ---
 
@@ -33,6 +33,7 @@
 **Example:** "How do I implement authentication in Next.js 14 App Router?"
 
 **Research Steps:**
+
 ```
 1. WebSearch: "Next.js 14 App Router authentication guide 2025"
    → Find official docs and popular approaches
@@ -50,17 +51,21 @@
 ```
 
 **Output:**
+
 ```markdown
 # Next.js 14 App Router Authentication Implementation
 
 ## Approach
+
 [Chosen method based on research]
 
 ## Prerequisites
+
 - Next.js 14+
 - [Auth library] vX.Y.Z
 
 ## Step-by-Step Guide
+
 1. Install dependencies
 2. Configure auth provider
 3. Create auth routes
@@ -68,15 +73,18 @@
 5. Add UI components
 
 ## Code Examples
+
 [Complete working examples]
 
 ## Sources
+
 - [Official docs](URL)
 - [Example repo](URL)
 - [Best practices](URL)
 ```
 
 **Common "How do I" Questions:**
+
 - How do I handle file uploads in [framework]?
 - How do I implement real-time features with [technology]?
 - How do I optimize images in [framework]?
@@ -90,6 +98,7 @@
 **Example:** "How do I improve React app performance?"
 
 **Research Steps:**
+
 ```
 1. WebSearch: "React performance optimization 2025"
    → Find current best practices
@@ -107,15 +116,18 @@
 ```
 
 **Output:**
+
 ```markdown
 # React Performance Optimization Guide
 
 ## Profiling
+
 1. Use React DevTools Profiler
 2. Identify slow components
 3. Measure before optimizing
 
 ## Optimization Techniques
+
 1. Memoization (React.memo, useMemo, useCallback)
 2. Code splitting (lazy, Suspense)
 3. Virtualization (react-window)
@@ -123,9 +135,11 @@
 5. Bundle optimization
 
 ## Measurement
+
 [How to measure improvements]
 
 ## Sources
+
 [Citations]
 ```
 
@@ -138,6 +152,7 @@
 **Example:** "Which state management library for React 2025?"
 
 **Research Steps:**
+
 ```
 1. WebSearch: "best state management React 2025"
    → Discover current options
@@ -164,28 +179,33 @@
 ```
 
 **Output:**
+
 ```markdown
 # React State Management Comparison (2025)
 
 ## Candidates
+
 1. Zustand - Minimalist, 1.2KB
 2. Jotai - Atomic, primitive approach
 3. Redux Toolkit - Full-featured, 13KB
 4. TanStack Query - Server state specialist
 
 ## Comparison Matrix
-| Feature | Zustand | Jotai | Redux Toolkit | TanStack Query |
-|---------|---------|-------|---------------|----------------|
-| Bundle Size | 1.2KB | 3KB | 13KB | 12KB |
-| Learning Curve | Low | Medium | High | Medium |
-| Async Support | Good | Excellent | Good | Excellent |
-| DevTools | Basic | Good | Excellent | Excellent |
-| Use Case | Simple global | Atomic state | Complex apps | Server data |
+
+| Feature        | Zustand       | Jotai        | Redux Toolkit | TanStack Query |
+| -------------- | ------------- | ------------ | ------------- | -------------- |
+| Bundle Size    | 1.2KB         | 3KB          | 13KB          | 12KB           |
+| Learning Curve | Low           | Medium       | High          | Medium         |
+| Async Support  | Good          | Excellent    | Good          | Excellent      |
+| DevTools       | Basic         | Good         | Excellent     | Excellent      |
+| Use Case       | Simple global | Atomic state | Complex apps  | Server data    |
 
 ## Recommendation
+
 **For our project:** Zustand + TanStack Query
 
 **Reasoning:**
+
 - Zustand for client state (simple, small)
 - TanStack Query for server state (caching, sync)
 - Combined size: ~13KB (less than Redux Toolkit alone)
@@ -193,10 +213,12 @@
 - Modern patterns
 
 ## Sources
+
 [Citations with dates]
 ```
 
 **Common Library Selection Questions:**
+
 - Which form library? (React Hook Form vs Formik)
 - Which styling solution? (Tailwind vs CSS-in-JS)
 - Which testing framework? (Jest vs Vitest)
@@ -210,6 +232,7 @@
 **Example:** "Is Bun better than Node.js for my project?"
 
 **Research Steps:**
+
 ```
 1. WebSearch: "Bun vs Node.js 2025"
    → Get current comparison landscape
@@ -230,34 +253,42 @@
 ```
 
 **Output:**
+
 ```markdown
 # Bun vs Node.js for [Project Type]
 
 ## Feature Comparison
+
 [Detailed comparison]
 
 ## Performance Benchmarks
+
 [Real-world numbers]
 
 ## Ecosystem Compatibility
+
 - Works with: [list]
 - Issues with: [list]
 
 ## Production Readiness
+
 - Maturity: [assessment]
 - Known issues: [list]
 - Risk level: [High/Medium/Low]
 
 ## Recommendation
+
 **Stick with Node.js for now**
 
 **Reasoning:**
+
 - Project stability > performance gains
 - Bun still maturing (v1.0.X)
 - Wait for v2.0 and wider adoption
 - Re-evaluate in 6 months
 
 **Monitoring:**
+
 - Track Bun v2.0 release
 - Watch compatibility improvements
 - Follow production adoption
@@ -272,6 +303,7 @@
 **Example:** "TypeError: Cannot read properties of undefined (reading 'map')"
 
 **Research Steps:**
+
 ```
 1. WebSearch exact error in quotes:
    "TypeError: Cannot read properties of undefined (reading 'map')"
@@ -289,13 +321,16 @@
 ```
 
 **Output:**
+
 ```markdown
 # Error Investigation: Cannot read properties of undefined
 
 ## Error
 ```
+
 TypeError: Cannot read properties of undefined (reading 'map')
-```
+
+````
 
 ## Context
 - Framework: Next.js 14.0.3
@@ -316,15 +351,18 @@ return users?.map(user => ...) ?? []
 // or
 if (!users) return <Loading />
 return users.map(user => ...)
-```
+````
 
 ## Prevention
+
 - Always handle loading states
 - Use optional chaining for potentially undefined data
 - Type data as `User[] | undefined` not `User[]`
 
 ## Related Issues
+
 - [Next.js #12345](URL) - Similar pattern
+
 ```
 
 **Common Debugging Questions:**
@@ -341,6 +379,7 @@ return users.map(user => ...)
 
 **Research Steps:**
 ```
+
 1. WebSearch: "Prisma query performance optimization"
    → Learn general optimization
 
@@ -354,7 +393,8 @@ return users.map(user => ...)
    → Common issue research
 
 5. Apply: Profiling → Diagnosis → Fix
-```
+
+````
 
 **Output:**
 ```markdown
@@ -371,33 +411,38 @@ return users.map(user => ...)
 const users = await prisma.user.findMany({
   include: { posts: true }
 })
-```
+````
 
 **Problem:** N+1 query pattern (100 users = 101 queries)
 
 ## Solution
+
 **Optimized Query:**
+
 ```typescript
 const users = await prisma.user.findMany({
   include: {
     posts: {
-      select: { id: true, title: true }  // Only needed fields
-    }
+      select: { id: true, title: true }, // Only needed fields
+    },
   },
-  take: 10  // Pagination
-})
+  take: 10, // Pagination
+});
 ```
 
 **Results:**
+
 - Before: 2000ms, 101 queries
 - After: 50ms, 1 query
 - Improvement: 40x faster
 
 ## Prevention
+
 - Use `include` strategically
 - Select only needed fields
 - Implement pagination
 - Monitor query count
+
 ```
 
 ---
@@ -410,6 +455,7 @@ const users = await prisma.user.findMany({
 
 **Research Steps:**
 ```
+
 1. WebSearch: "React 19 new features release notes 2025"
    → Find official announcement
 
@@ -423,7 +469,8 @@ const users = await prisma.user.findMany({
    → Learn from early adopters
 
 5. Synthesize: Summary for team
-```
+
+````
 
 **Output:**
 ```markdown
@@ -469,7 +516,7 @@ const users = await prisma.user.findMany({
 - [Official Blog](URL)
 - [Migration Guide](URL)
 - [Breaking Changes](URL)
-```
+````
 
 ---
 
@@ -478,6 +525,7 @@ const users = await prisma.user.findMany({
 **Example:** "Should I upgrade Next.js 13 → 14?"
 
 **Research Steps:**
+
 ```
 1. WebSearch: "Next.js 14 new features"
    → What's new
@@ -495,42 +543,51 @@ const users = await prisma.user.findMany({
 ```
 
 **Output:**
+
 ```markdown
 # Next.js 13 → 14 Upgrade Assessment
 
 ## New Features We Need
+
 1. ✅ Partial Prerendering (improves performance)
 2. ✅ Server Actions stable (we use these)
 3. ⚠️ Turbopack dev (nice-to-have)
 
 ## Breaking Changes Affecting Us
+
 1. ❌ None critical
 2. ⚠️ Minor: Some deprecated APIs
 
 ## Benefits
+
 - Performance: 20-30% faster builds
 - DX: Better error messages
 - Stability: Server Actions now stable
 
 ## Costs
+
 - Development time: 4-8 hours
 - Testing time: 8 hours
 - Risk: Low (smooth upgrade reports)
 
 ## Recommendation
+
 ✅ **Yes, upgrade**
 
 **Reasoning:**
+
 - Clear benefits (performance, stability)
 - Low risk (no major breaking changes)
 - Active development (stay current)
 
 **Timeline:**
+
 - Week 1: Upgrade in dev branch
 - Week 2: Testing
 - Week 3: Production deployment
 
 ## Rollback Plan
+
 Keep v13 branch for 2 weeks post-upgrade
 ```
 
@@ -570,22 +627,26 @@ Identifying migration concerns...
 
 **Research Summary:**
 
-```markdown
+````markdown
 # React 19 - Key Updates for Our Project
 
 ## 🎯 Major New Features
 
 ### 1. React Compiler
+
 **What it does:**
+
 - Automatic optimization without manual memoization
 - Eliminates need for useMemo, useCallback, React.memo in most cases
 
 **Impact on our codebase:**
+
 - ~150 useMemo calls can likely be removed
 - Simplified code, better performance
 - Estimated dev time saved: 20%
 
 **Action items:**
+
 1. Review all useMemo/useCallback usage
 2. Run React Compiler on dev branch
 3. Compare performance metrics
@@ -593,12 +654,15 @@ Identifying migration concerns...
 ---
 
 ### 2. Actions
+
 **What it does:**
+
 - New pattern for handling async operations in forms
 - Built-in pending states
 - Error handling integration
 
 **Example:**
+
 ```typescript
 // Before (React 18)
 function Form() {
@@ -624,13 +688,16 @@ function Form() {
   return <form action={submitAction}>
 }
 ```
+````
 
 **Impact on our codebase:**
+
 - 23 forms could use Actions
 - Simpler code, less boilerplate
 - Better UX with built-in pending states
 
 **Action items:**
+
 1. Refactor contact form (pilot)
 2. Migrate other forms if successful
 3. Update form patterns guide
@@ -640,23 +707,26 @@ function Form() {
 ### 3. New Hooks
 
 **use()** - Read resources
+
 ```typescript
 function Component({ promise }) {
-  const data = use(promise)  // Suspends until resolved
+  const data = use(promise); // Suspends until resolved
 }
 ```
 
 **useOptimistic()** - Optimistic UI
+
 ```typescript
 function Todos() {
-  const [optimisticTodos, addOptimistic] = useOptimistic(
-    todos,
-    (state, newTodo) => [...state, newTodo]
-  )
+  const [optimisticTodos, addOptimistic] = useOptimistic(todos, (state, newTodo) => [
+    ...state,
+    newTodo,
+  ]);
 }
 ```
 
 **Impact on our codebase:**
+
 - `use()` can simplify async data loading
 - `useOptimistic()` perfect for our todo app
 - Better UX with instant feedback
@@ -666,7 +736,9 @@ function Todos() {
 ## ⚠️ Breaking Changes
 
 ### 1. Removed: String Refs
+
 **What changed:**
+
 ```typescript
 // ❌ No longer works
 <div ref="myDiv" />
@@ -680,7 +752,9 @@ function Todos() {
 ---
 
 ### 2. Changed: Context API
+
 **What changed:**
+
 - `Context.Provider` → `Context`
 - Simpler syntax
 
@@ -692,6 +766,7 @@ function Todos() {
 ## 📊 Performance Improvements
 
 Based on community reports:
+
 - **Build time:** 20-30% faster
 - **Runtime:** 15-25% faster (with compiler)
 - **Bundle size:** 5-10% smaller
@@ -702,20 +777,24 @@ Based on community reports:
 ## 🎯 Recommendation for Our Project
 
 ### Should we upgrade?
+
 **✅ Yes, but not immediately**
 
 **Timeline:**
+
 1. **Q1 2025:** Test in development
 2. **Q2 2025:** Migrate non-critical features
 3. **Q3 2025:** Full migration
 
 **Reasoning:**
+
 - Let ecosystem catch up (library compatibility)
 - React 19.1 will fix early bugs
 - Benefits are significant
 - Breaking changes are manageable
 
 **Preparation now:**
+
 1. ✅ Audit useMemo/useCallback usage
 2. ✅ Document our Context usage
 3. ✅ Test our dependencies with React 19
@@ -746,6 +825,7 @@ Based on community reports:
 - [ ] Run compatibility checks
 - [ ] Update documentation
 - [ ] Set Q2 2025 migration date
+
 ```
 
 **End of research session**
@@ -758,6 +838,7 @@ Based on community reports:
 
 **Workflow:**
 ```
+
 1. Research best practices (web-research skill)
    ↓
 2. Check latest library versions (web-research skill)
@@ -769,10 +850,12 @@ Based on community reports:
 5. Implement following patterns (backend/frontend skills)
    ↓
 6. Test and iterate
+
 ```
 
 **Example:**
 ```
+
 Feature: Real-time notifications
 
 1. WebSearch: "real-time notifications best practices 2025"
@@ -781,6 +864,7 @@ Feature: Real-time notifications
 4. Design: Notification architecture
 5. Implement: Following mobile-ui-components skill
 6. Test: Using testing-guide patterns
+
 ```
 
 ---
@@ -789,6 +873,7 @@ Feature: Real-time notifications
 
 **Workflow:**
 ```
+
 1. Reproduce error locally
    ↓
 2. Research error message (web-research skill)
@@ -800,10 +885,12 @@ Feature: Real-time notifications
 5. Test fix
    ↓
 6. Document solution (for future reference)
+
 ```
 
 **Example:**
 ```
+
 Error: "Hydration mismatch" in Next.js
 
 1. Reproduce: Copy production error to dev
@@ -812,6 +899,7 @@ Error: "Hydration mismatch" in Next.js
 4. Apply: Identified fix
 5. Test: Verify error gone
 6. Document: Add to troubleshooting.md
+
 ```
 
 ---
@@ -820,6 +908,7 @@ Error: "Hydration mismatch" in Next.js
 
 **Workflow:**
 ```
+
 1. Identify requirements
    ↓
 2. Research all candidates (web-research skill)
@@ -831,18 +920,22 @@ Error: "Hydration mismatch" in Next.js
 5. Make informed decision
    ↓
 6. Document rationale
+
 ```
 
 **Example:**
 ```
+
 Decision: Choose state management library
 
 1. Requirements:
+
    - TypeScript support
    - Small bundle (<5KB)
    - Good DevTools
 
 2. Research candidates:
+
    - Zustand
    - Jotai
    - Valtio
@@ -850,16 +943,18 @@ Decision: Choose state management library
 3. Compare:
    | Feature | Zustand | Jotai | Valtio |
    |---------|---------|-------|--------|
-   | ...     | ...     | ...   | ...    |
+   | ... | ... | ... | ... |
 
 4. Team discussion: Prefer simple API
 
 5. Decision: Zustand
+
    - Simplest API
    - Smallest bundle
    - Best docs
 
 6. Document: Added to ADR (Architecture Decision Record)
+
 ```
 
 ---
@@ -921,3 +1016,4 @@ Decision: Choose state management library
 - Tag by technology
 - Date all research
 - Link related docs
+```

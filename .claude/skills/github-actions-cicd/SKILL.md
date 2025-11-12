@@ -12,6 +12,7 @@ Comprehensive guide for setting up CI/CD pipelines using GitHub Actions for Reac
 ## When to Use
 
 Use this skill when:
+
 - Setting up automated testing workflows
 - Configuring build pipelines for iOS/Android
 - Deploying to TestFlight or Google Play
@@ -23,6 +24,7 @@ Use this skill when:
 ## MCP Integration
 
 **github**: Use for GitHub Actions management
+
 ```typescript
 - create_pull_request: Create PRs automatically
 - update_pull_request: Update PR status
@@ -31,6 +33,7 @@ Use this skill when:
 ```
 
 **context7**: Fetch CI/CD documentation
+
 ```
 - GitHub Actions documentation
 - React Native CI/CD best practices
@@ -42,19 +45,20 @@ Use this skill when:
 ### Workflow Anatomy
 
 **.github/workflows/ci.yml**
-```yaml
-name: CI  # Workflow name
 
-on:  # Trigger events
+```yaml
+name: CI # Workflow name
+
+on: # Trigger events
   push:
     branches: [main, develop]
   pull_request:
     branches: [main]
 
-jobs:  # Jobs to run
+jobs: # Jobs to run
   test:
-    runs-on: ubuntu-latest  # Runner OS
-    steps:  # Steps to execute
+    runs-on: ubuntu-latest # Runner OS
+    steps: # Steps to execute
       - uses: actions/checkout@v3
       - name: Run tests
         run: npm test
@@ -65,6 +69,7 @@ jobs:  # Jobs to run
 ### Unit Tests
 
 **.github/workflows/test.yml**
+
 ```yaml
 name: Test
 
@@ -112,6 +117,7 @@ jobs:
 ### Integration Tests
 
 **.github/workflows/integration-tests.yml**
+
 ```yaml
 name: Integration Tests
 
@@ -166,6 +172,7 @@ jobs:
 ### E2E Tests with Maestro
 
 **.github/workflows/e2e-tests.yml**
+
 ```yaml
 name: E2E Tests
 
@@ -233,6 +240,7 @@ jobs:
 ### Android Build
 
 **.github/workflows/android-build.yml**
+
 ```yaml
 name: Android Build
 
@@ -314,6 +322,7 @@ jobs:
 ### iOS Build
 
 **.github/workflows/ios-build.yml**
+
 ```yaml
 name: iOS Build
 
@@ -379,6 +388,7 @@ jobs:
 ### Deploy to TestFlight
 
 **.github/workflows/deploy-testflight.yml**
+
 ```yaml
 name: Deploy to TestFlight
 
@@ -430,6 +440,7 @@ jobs:
 ### Deploy to Google Play
 
 **.github/workflows/deploy-playstore.yml**
+
 ```yaml
 name: Deploy to Google Play
 
@@ -489,6 +500,7 @@ jobs:
 ### Lint and Type Check
 
 **.github/workflows/code-quality.yml**
+
 ```yaml
 name: Code Quality
 
@@ -673,6 +685,7 @@ jobs:
 ### Define Reusable Workflow
 
 **.github/workflows/reusable-test.yml**
+
 ```yaml
 name: Reusable Test Workflow
 

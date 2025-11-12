@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
   View,
@@ -10,13 +12,12 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import { Input } from '@/components/Input';
+
 import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { RootStackParamList } from '@/navigation/AuthNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
-import { RootStackParamList } from '@/navigation/AuthNavigator';
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 
@@ -87,22 +88,14 @@ export const SignUpScreen: React.FC = () => {
     if (success) {
       if (error) {
         // 이메일 확인이 필요한 경우
-        Alert.alert(
-          '회원가입 완료',
-          '이메일을 확인하여 계정을 활성화해주세요.',
-          [
-            {
-              text: '확인',
-              onPress: () => navigation.navigate('Login'),
-            },
-          ],
-        );
+        Alert.alert('회원가입 완료', '이메일을 확인하여 계정을 활성화해주세요.', [
+          {
+            text: '확인',
+            onPress: () => navigation.navigate('Login'),
+          },
+        ]);
       } else {
-        Alert.alert(
-          '회원가입 성공',
-          '회원가입이 완료되었습니다.',
-          [{ text: '확인' }],
-        );
+        Alert.alert('회원가입 성공', '회원가입이 완료되었습니다.', [{ text: '확인' }]);
       }
     } else if (error) {
       let errorMessage = error;
@@ -146,11 +139,7 @@ export const SignUpScreen: React.FC = () => {
   };
 
   const handleGoogleSignUp = () => {
-    Alert.alert(
-      'Google 회원가입',
-      'Google 소셜 회원가입은 준비 중입니다.',
-      [{ text: '확인' }],
-    );
+    Alert.alert('Google 회원가입', 'Google 소셜 회원가입은 준비 중입니다.', [{ text: '확인' }]);
   };
 
   return (
@@ -194,7 +183,7 @@ export const SignUpScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              style={{ marginTop: theme.spacing.md }}
+              containerStyle={{ marginTop: theme.spacing.md }}
             />
 
             <Input
@@ -207,22 +196,19 @@ export const SignUpScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              style={{ marginTop: theme.spacing.md }}
+              containerStyle={{ marginTop: theme.spacing.md }}
             />
 
             {/* 비밀번호 요구사항 */}
             <View style={styles.requirementsContainer}>
               <Text style={styles.requirementTitle}>비밀번호 요구사항:</Text>
-              <Text style={[
-                styles.requirement,
-                password.length >= 8 && styles.requirementMet
-              ]}>
+              <Text style={[styles.requirement, password.length >= 8 && styles.requirementMet]}>
                 • 최소 8자 이상
               </Text>
             </View>
 
             <Button
-              label={isLoading ? '가입 중...' : '회원가입'}
+              title={isLoading ? '가입 중...' : '회원가입'}
               onPress={handleSignUp}
               variant="primary"
               disabled={isLoading}
@@ -248,7 +234,7 @@ export const SignUpScreen: React.FC = () => {
           {/* 소셜 회원가입 */}
           <View style={styles.socialSection}>
             <Button
-              label="Google로 회원가입"
+              title="Google로 회원가입"
               onPress={handleGoogleSignUp}
               variant="secondary"
               disabled={isLoading}
@@ -259,7 +245,7 @@ export const SignUpScreen: React.FC = () => {
           <View style={styles.footer}>
             <Text style={styles.footerText}>이미 계정이 있으신가요?</Text>
             <Button
-              label="로그인"
+              title="로그인"
               onPress={() => navigation.navigate('Login')}
               variant="ghost"
               disabled={isLoading}

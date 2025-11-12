@@ -8,10 +8,12 @@ import {
   ViewStyle,
   Platform,
 } from 'react-native';
+
 import { theme } from '@/theme';
+
 import type { EmotionLevel } from './EmotionButton';
 
-interface RecordCardProps {
+export interface RecordCardProps {
   id: string;
   emotionLevel: EmotionLevel;
   content: string;
@@ -133,12 +135,7 @@ export function RecordCard({
       {/* Header: 감정 아이콘과 시간 */}
       <View style={styles.header}>
         <View style={styles.emotionContainer}>
-          <View
-            style={[
-              styles.emotionIcon,
-              { backgroundColor: emotionInfo.color + '20' },
-            ]}
-          >
+          <View style={[styles.emotionIcon, { backgroundColor: emotionInfo.color + '20' }]}>
             <Text style={styles.emotionEmoji}>{emotionInfo.emoji}</Text>
           </View>
           <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
@@ -168,9 +165,7 @@ export function RecordCard({
           activeOpacity={0.7}
         >
           <Text style={styles.actionIcon}>💗</Text>
-          {empathyCount > 0 && (
-            <Text style={styles.actionCount}>{empathyCount}</Text>
-          )}
+          {empathyCount > 0 && <Text style={styles.actionCount}>{empathyCount}</Text>}
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -179,9 +174,7 @@ export function RecordCard({
           activeOpacity={0.7}
         >
           <Text style={styles.actionIcon}>💬</Text>
-          {messageCount > 0 && (
-            <Text style={styles.actionCount}>{messageCount}</Text>
-          )}
+          {messageCount > 0 && <Text style={styles.actionCount}>{messageCount}</Text>}
         </TouchableOpacity>
       </View>
     </TouchableOpacity>

@@ -1,6 +1,7 @@
 import 'react-native-url-polyfill/auto';
 import { createClient } from '@supabase/supabase-js';
 import Config from 'react-native-config';
+
 import { Database } from '@/types/database';
 
 // Supabase URL과 Anon Key는 환경변수에서 가져옵니다
@@ -8,9 +9,7 @@ const supabaseUrl = Config.SUPABASE_URL || '';
 const supabaseAnonKey = Config.SUPABASE_ANON_KEY || '';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    'Supabase URL 또는 Anon Key가 설정되지 않았습니다. .env 파일을 확인해주세요.',
-  );
+  console.warn('Supabase URL 또는 Anon Key가 설정되지 않았습니다. .env 파일을 확인해주세요.');
 }
 
 // Supabase 클라이언트 생성
@@ -49,7 +48,9 @@ export const signOut = async () => {
 };
 
 export const getCurrentUser = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user;
 };
 

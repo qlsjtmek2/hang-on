@@ -1,14 +1,16 @@
-import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { BottomSheet, ActionSheet } from '@/components/BottomSheet';
+import React from 'react';
 import { Text } from 'react-native';
+
+import { BottomSheet, ActionSheet } from '@/components/BottomSheet';
+
 
 describe('BottomSheet Component', () => {
   it('renders when visible is true', () => {
     const { getByText } = render(
       <BottomSheet visible={true} onClose={() => {}}>
         <Text>Bottom Sheet Content</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
     expect(getByText('Bottom Sheet Content')).toBeTruthy();
@@ -18,7 +20,7 @@ describe('BottomSheet Component', () => {
     const { queryByText } = render(
       <BottomSheet visible={false} onClose={() => {}}>
         <Text>Bottom Sheet Content</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
     expect(queryByText('Bottom Sheet Content')).toBeNull();
@@ -28,24 +30,19 @@ describe('BottomSheet Component', () => {
     const { getByText } = render(
       <BottomSheet visible={true} onClose={() => {}} title="시트 제목">
         <Text>Content</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
     expect(getByText('시트 제목')).toBeTruthy();
   });
 
   it('shows handle when showHandle is true', () => {
-    const { container } = render(
+    const {} = render(
       <BottomSheet visible={true} onClose={() => {}} showHandle={true}>
         <Text>Content</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
-    // Check for handle element (using style property as identifier)
-    const handleElement = container.findByProps?.((props: any) =>
-      props.style && props.style.width === 40 && props.style.height === 4
-    );
-    // Handle should exist when showHandle is true
   });
 
   it('calls onClose when close button is pressed', () => {
@@ -53,7 +50,7 @@ describe('BottomSheet Component', () => {
     const { getByText } = render(
       <BottomSheet visible={true} onClose={onClose} title="Test">
         <Text>Content</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
     fireEvent.press(getByText('✕'));
@@ -70,7 +67,7 @@ describe('BottomSheet Component', () => {
         <Text>Child 1</Text>
         <Text>Child 2</Text>
         <Text>Child 3</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
     expect(getByText('Child 1')).toBeTruthy();
@@ -92,7 +89,7 @@ describe('BottomSheet Component', () => {
         contentStyle={customContentStyle}
       >
         <Text>Content</Text>
-      </BottomSheet>
+      </BottomSheet>,
     );
 
     // Styles should be applied (testing is limited in RNTL)
@@ -110,11 +107,7 @@ describe('ActionSheet Component', () => {
 
   it('renders all action buttons', () => {
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={() => {}}
-        actions={mockActions}
-      />
+      <ActionSheet visible={true} onClose={() => {}} actions={mockActions} />,
     );
 
     expect(getByText('편집')).toBeTruthy();
@@ -125,12 +118,7 @@ describe('ActionSheet Component', () => {
 
   it('renders cancel button with custom label', () => {
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={() => {}}
-        actions={mockActions}
-        cancelLabel="닫기"
-      />
+      <ActionSheet visible={true} onClose={() => {}} actions={mockActions} cancelLabel="닫기" />,
     );
 
     expect(getByText('닫기')).toBeTruthy();
@@ -138,11 +126,7 @@ describe('ActionSheet Component', () => {
 
   it('renders default cancel button', () => {
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={() => {}}
-        actions={mockActions}
-      />
+      <ActionSheet visible={true} onClose={() => {}} actions={mockActions} />,
     );
 
     expect(getByText('취소')).toBeTruthy();
@@ -153,11 +137,7 @@ describe('ActionSheet Component', () => {
     const action = { label: '테스트 액션', onPress: jest.fn() };
 
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={onClose}
-        actions={[action]}
-      />
+      <ActionSheet visible={true} onClose={onClose} actions={[action]} />,
     );
 
     fireEvent.press(getByText('테스트 액션'));
@@ -175,11 +155,7 @@ describe('ActionSheet Component', () => {
     };
 
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={onClose}
-        actions={[disabledAction]}
-      />
+      <ActionSheet visible={true} onClose={onClose} actions={[disabledAction]} />,
     );
 
     fireEvent.press(getByText('비활성화'));
@@ -192,11 +168,7 @@ describe('ActionSheet Component', () => {
     const onClose = jest.fn();
 
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={onClose}
-        actions={mockActions}
-      />
+      <ActionSheet visible={true} onClose={onClose} actions={mockActions} />,
     );
 
     fireEvent.press(getByText('취소'));
@@ -205,12 +177,7 @@ describe('ActionSheet Component', () => {
 
   it('renders title when provided', () => {
     const { getByText } = render(
-      <ActionSheet
-        visible={true}
-        onClose={() => {}}
-        title="액션 선택"
-        actions={mockActions}
-      />
+      <ActionSheet visible={true} onClose={() => {}} title="액션 선택" actions={mockActions} />,
     );
 
     expect(getByText('액션 선택')).toBeTruthy();

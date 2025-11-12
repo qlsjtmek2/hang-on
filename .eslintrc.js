@@ -32,21 +32,14 @@ module.exports = {
 
     // 코드 스타일 (Prettier와 충돌 방지)
     'comma-dangle': ['error', 'always-multiline'],
-    'semi': ['error', 'always'],
-    'quotes': ['error', 'single', { avoidEscape: true }],
+    semi: ['error', 'always'],
+    quotes: ['error', 'single', { avoidEscape: true }],
 
     // Import 관련
     'import/order': [
       'error',
       {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-        ],
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
         'newlines-between': 'always',
         alphabetize: {
           order: 'asc',
@@ -58,12 +51,24 @@ module.exports = {
   overrides: [
     {
       // 테스트 파일에 대한 별도 규칙
-      files: ['**/__tests__/**/*', '**/*.{test,spec}.{ts,tsx,js,jsx}'],
+      files: ['**/__tests__/**/*', '**/*.{test,spec}.{ts,tsx,js,jsx}', 'jest.setup.js'],
       env: {
         jest: true,
+        'jest/globals': true,
+      },
+      globals: {
+        jest: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
       },
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
+        'no-undef': 'off',
       },
     },
   ],
@@ -74,8 +79,6 @@ module.exports = {
         project: './tsconfig.json',
       },
     },
-    'import/ignore': [
-      'react-native',
-    ],
+    'import/ignore': ['react-native'],
   },
 };

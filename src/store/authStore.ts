@@ -1,6 +1,12 @@
-import { create } from 'zustand';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase, signIn as supabaseSignIn, signUp as supabaseSignUp, signOut as supabaseSignOut } from '@/services/supabase';
+import { create } from 'zustand';
+
+import {
+  supabase,
+  signIn as supabaseSignIn,
+  signUp as supabaseSignUp,
+  signOut as supabaseSignOut,
+} from '@/services/supabase';
 import { handleSupabaseError, logError } from '@/utils/errorHandler';
 
 interface AuthStore {
@@ -21,7 +27,7 @@ interface AuthStore {
   setUser: (user: User | null) => void;
 }
 
-export const useAuthStore = create<AuthStore>((set, get) => ({
+export const useAuthStore = create<AuthStore>((set, _get) => ({
   // 초기 상태
   user: null,
   session: null,
@@ -35,7 +41,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoading: true, error: null });
 
       // 현재 세션 가져오기
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
       if (session) {
         set({
@@ -46,18 +54,18 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         });
 
         // 세션 변경 리스너 설정
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (_event, session) => {
-            set({
-              user: session?.user || null,
-              session,
-              isAuthenticated: !!session,
-            });
-          }
-        );
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, authSession) => {
+          set({
+            user: authSession?.user || null,
+            session: authSession,
+            isAuthenticated: !!authSession,
+          });
+        });
 
         // 클린업 함수 저장 (나중에 필요시 사용)
-        (global as any).authSubscription = subscription;
+        (globalThis as typeof globalThis & { authSubscription?: typeof subscription }).authSubscription = subscription;
       } else {
         set({
           user: null,
@@ -67,7 +75,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         });
       }
     } catch (error) {
-      const errorMessage = handleSupabaseError(error);
+      const errorMessage = handleSupabaseError(error as never);
       logError(errorMessage, 'AuthStore.initialize');
       set({
         error: errorMessage.message,
@@ -109,7 +117,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoading: false });
       return false;
     } catch (error) {
-      const errorMessage = handleSupabaseError(error);
+      const errorMessage = handleSupabaseError(error as never);
       logError(errorMessage, 'AuthStore.signUp');
       set({
         error: errorMessage.message,
@@ -139,7 +147,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoading: false });
       return false;
     } catch (error) {
-      const errorMessage = handleSupabaseError(error);
+      const errorMessage = handleSupabaseError(error as never);
       logError(errorMessage, 'AuthStore.signIn');
 
       // 사용자 친화적 에러 메시지
@@ -170,7 +178,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         isLoading: false,
       });
     } catch (error) {
-      const errorMessage = handleSupabaseError(error);
+      const errorMessage = handleSupabaseError(error as never);
       logError(errorMessage, 'AuthStore.signOut');
       set({
         error: errorMessage.message,

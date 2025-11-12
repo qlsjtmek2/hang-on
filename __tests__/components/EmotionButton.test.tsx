@@ -1,12 +1,11 @@
-import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+import React from 'react';
+
 import { EmotionButton, EmotionSelector } from '@/components/EmotionButton';
 
 describe('EmotionButton Component', () => {
   it('renders with correct emoji for each emotion level', () => {
-    const { getByText, rerender } = render(
-      <EmotionButton emotionLevel={1} />
-    );
+    const { getByText, rerender } = render(<EmotionButton emotionLevel={1} />);
     expect(getByText('⛈️')).toBeTruthy();
     expect(getByText('폭풍')).toBeTruthy();
 
@@ -29,9 +28,7 @@ describe('EmotionButton Component', () => {
 
   it('calls onPress with emotion level when pressed', () => {
     const onPress = jest.fn();
-    const { getByText } = render(
-      <EmotionButton emotionLevel={3} onPress={onPress} />
-    );
+    const { getByText } = render(<EmotionButton emotionLevel={3} onPress={onPress} />);
 
     fireEvent.press(getByText('☁️'));
     expect(onPress).toHaveBeenCalledWith(3);
@@ -39,18 +36,14 @@ describe('EmotionButton Component', () => {
 
   it('does not call onPress when disabled', () => {
     const onPress = jest.fn();
-    const { getByText } = render(
-      <EmotionButton emotionLevel={2} onPress={onPress} disabled />
-    );
+    const { getByText } = render(<EmotionButton emotionLevel={2} onPress={onPress} disabled />);
 
     fireEvent.press(getByText('🌧️'));
     expect(onPress).not.toHaveBeenCalled();
   });
 
   it('applies different sizes correctly', () => {
-    const { getByRole, rerender } = render(
-      <EmotionButton emotionLevel={1} size="small" />
-    );
+    const { getByRole, rerender } = render(<EmotionButton emotionLevel={1} size="small" />);
     let button = getByRole('button');
     expect(button).toBeTruthy();
 
@@ -64,9 +57,7 @@ describe('EmotionButton Component', () => {
   });
 
   it('shows selected state correctly', () => {
-    const { getByRole, rerender } = render(
-      <EmotionButton emotionLevel={5} isSelected={false} />
-    );
+    const { getByRole, rerender } = render(<EmotionButton emotionLevel={5} isSelected={false} />);
     let button = getByRole('button');
     expect(button.props.accessibilityState.selected).toBe(false);
 
@@ -77,7 +68,7 @@ describe('EmotionButton Component', () => {
 
   it('has correct accessibility properties', () => {
     const { getByLabelText, getByRole } = render(
-      <EmotionButton emotionLevel={4} isSelected={false} />
+      <EmotionButton emotionLevel={4} isSelected={false} />,
     );
 
     expect(getByLabelText('감정 구름')).toBeTruthy();
@@ -88,9 +79,7 @@ describe('EmotionButton Component', () => {
 
 describe('EmotionSelector Component', () => {
   it('renders all 5 emotion buttons', () => {
-    const { getByText } = render(
-      <EmotionSelector />
-    );
+    const { getByText } = render(<EmotionSelector />);
 
     expect(getByText('⛈️')).toBeTruthy();
     expect(getByText('🌧️')).toBeTruthy();
@@ -101,9 +90,7 @@ describe('EmotionSelector Component', () => {
 
   it('selects emotion when button is pressed', () => {
     const onSelect = jest.fn();
-    const { getByText } = render(
-      <EmotionSelector onSelect={onSelect} />
-    );
+    const { getByText } = render(<EmotionSelector onSelect={onSelect} />);
 
     fireEvent.press(getByText('☁️'));
     expect(onSelect).toHaveBeenCalledWith(3);
@@ -113,9 +100,7 @@ describe('EmotionSelector Component', () => {
   });
 
   it('shows selected emotion correctly', () => {
-    const { getByText, rerender } = render(
-      <EmotionSelector selectedLevel={2} />
-    );
+    const { getByText, rerender } = render(<EmotionSelector selectedLevel={2} />);
 
     // Check that level 2 button is selected
     const rainyButton = getByText('🌧️').parent.parent;
@@ -129,9 +114,7 @@ describe('EmotionSelector Component', () => {
 
   it('disables all buttons when disabled prop is true', () => {
     const onSelect = jest.fn();
-    const { getByText } = render(
-      <EmotionSelector onSelect={onSelect} disabled />
-    );
+    const { getByText } = render(<EmotionSelector onSelect={onSelect} disabled />);
 
     fireEvent.press(getByText('⛈️'));
     fireEvent.press(getByText('🌧️'));
@@ -143,9 +126,7 @@ describe('EmotionSelector Component', () => {
   });
 
   it('applies size prop to all buttons', () => {
-    const { getAllByRole } = render(
-      <EmotionSelector size="large" />
-    );
+    const { getAllByRole } = render(<EmotionSelector size="large" />);
 
     const buttons = getAllByRole('button');
     expect(buttons).toHaveLength(5);
@@ -156,9 +137,7 @@ describe('EmotionSelector Component', () => {
   });
 
   it('handles no selection (null selectedLevel)', () => {
-    const { getAllByRole } = render(
-      <EmotionSelector selectedLevel={null} />
-    );
+    const { getAllByRole } = render(<EmotionSelector selectedLevel={null} />);
 
     const buttons = getAllByRole('button');
     buttons.forEach(button => {

@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useAuthStore } from '@/store/authStore';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
+
 import { HomeScreen } from '@/screens/HomeScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { SignUpScreen } from '@/screens/SignUpScreen';
+import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+
 
 export type RootStackParamList = {
   Login: undefined;
@@ -41,7 +43,12 @@ export const AuthNavigator: React.FC = () => {
             backgroundColor: theme.colors.background,
           },
           headerTintColor: theme.colors.text.primary,
-          headerTitleStyle: theme.typography.h3,
+          headerTitleStyle: {
+            fontFamily: theme.typography.h3.fontFamily,
+            fontSize: theme.typography.h3.fontSize,
+            fontWeight: theme.typography.h3.fontWeight,
+            color: theme.colors.text.primary,
+          },
           contentStyle: {
             backgroundColor: theme.colors.background,
           },
@@ -49,11 +56,7 @@ export const AuthNavigator: React.FC = () => {
       >
         {isAuthenticated ? (
           // 인증된 사용자용 스크린
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ title: 'Hang On' }}
-          />
+          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Hang On' }} />
         ) : (
           // 비인증 사용자용 스크린
           <>

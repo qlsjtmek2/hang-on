@@ -30,14 +30,17 @@ Hang On 디자인 시스템은 일관된 사용자 경험을 제공하기 위한
 ### 핵심 원칙
 
 1. **감정 중심 (Emotion-First)**
+
    - 모든 디자인 요소는 감정 표현을 우선으로 고려
    - 색상, 아이콘, 애니메이션이 감정을 반영
 
 2. **간결함 (Simplicity)**
+
    - 불필요한 요소 제거
    - 직관적인 인터페이스
 
 3. **익명성 (Anonymity)**
+
    - 사용자 식별 정보 최소화
    - 중립적인 디자인
 
@@ -54,12 +57,13 @@ Hang On 디자인 시스템은 일관된 사용자 경험을 제공하기 위한
 브랜드 및 CTA 색상으로 사용합니다.
 
 ```typescript
-primary: '#4A90E2'         // 메인 블루
-primaryLight: '#7AB8FF'    // 밝은 블루 (호버, 비활성화)
-primaryDark: '#2E5C8A'     // 어두운 블루 (눌림)
+primary: '#4A90E2'; // 메인 블루
+primaryLight: '#7AB8FF'; // 밝은 블루 (호버, 비활성화)
+primaryDark: '#2E5C8A'; // 어두운 블루 (눌림)
 ```
 
 **사용 예시**:
+
 - CTA 버튼 배경
 - 선택된 탭 색상
 - 링크 텍스트
@@ -71,13 +75,13 @@ primaryDark: '#2E5C8A'     // 어두운 블루 (눌림)
 
 5단계 감정을 표현하는 핵심 색상입니다.
 
-| 감정 레벨 | 날씨 | 이모지 | 색상 코드 | 색상 이름 | 의미 |
-|-----------|------|--------|-----------|-----------|------|
-| 5 (최상) | 맑음 | ☀️ | `#FFD700` | Gold | 행복, 기쁨 |
-| 4 (상) | 구름 조금 | 🌤️ | `#87CEEB` | Sky Blue | 평온, 만족 |
-| 3 (중) | 흐림 | ☁️ | `#A9A9A9` | Dark Gray | 중립, 무덤덤 |
-| 2 (하) | 비 | 🌧️ | `#708090` | Slate Gray | 슬픔, 우울 |
-| 1 (최하) | 폭풍 | ⛈️ | `#483D8B` | Dark Slate Blue | 고통, 절망 |
+| 감정 레벨 | 날씨      | 이모지 | 색상 코드 | 색상 이름       | 의미         |
+| --------- | --------- | ------ | --------- | --------------- | ------------ |
+| 5 (최상)  | 맑음      | ☀️     | `#FFD700` | Gold            | 행복, 기쁨   |
+| 4 (상)    | 구름 조금 | 🌤️     | `#87CEEB` | Sky Blue        | 평온, 만족   |
+| 3 (중)    | 흐림      | ☁️     | `#A9A9A9` | Dark Gray       | 중립, 무덤덤 |
+| 2 (하)    | 비        | 🌧️     | `#708090` | Slate Gray      | 슬픔, 우울   |
+| 1 (최하)  | 폭풍      | ⛈️     | `#483D8B` | Dark Slate Blue | 고통, 절망   |
 
 ```typescript
 emotion: {
@@ -90,6 +94,7 @@ emotion: {
 ```
 
 **사용 예시**:
+
 - 감정 선택 버튼 배경
 - 기록 카드 상단 강조색
 - 감정 통계 그래프 (Phase 2)
@@ -101,13 +106,14 @@ emotion: {
 시스템 상태를 표현하는 색상입니다.
 
 ```typescript
-success: '#4CAF50'   // 성공 (초록)
-warning: '#FF9800'   // 경고 (주황)
-error: '#F44336'     // 에러 (빨강)
-info: '#2196F3'      // 정보 (파랑)
+success: '#4CAF50'; // 성공 (초록)
+warning: '#FF9800'; // 경고 (주황)
+error: '#F44336'; // 에러 (빨강)
+info: '#2196F3'; // 정보 (파랑)
 ```
 
 **사용 예시**:
+
 - 성공: 저장 완료 메시지
 - 경고: 글자 수 제한 임박
 - 에러: 500자 초과, 네트워크 오류
@@ -120,11 +126,11 @@ info: '#2196F3'      // 정보 (파랑)
 배경, 텍스트, 구분선 등에 사용합니다.
 
 ```typescript
-background: '#FFFFFF'    // 메인 배경
-surface: '#F5F5F5'       // 카드 배경
-surfaceHover: '#EEEEEE'  // 카드 호버
-border: '#E0E0E0'        // 구분선
-overlay: 'rgba(0, 0, 0, 0.5)' // 다이얼로그 뒤 오버레이
+background: '#FFFFFF'; // 메인 배경
+surface: '#F5F5F5'; // 카드 배경
+surfaceHover: '#EEEEEE'; // 카드 호버
+border: '#E0E0E0'; // 구분선
+overlay: 'rgba(0, 0, 0, 0.5)'; // 다이얼로그 뒤 오버레이
 ```
 
 ---
@@ -143,6 +149,7 @@ text: {
 ```
 
 **색상 대비 확인** (WCAG 2.1 AA 준수):
+
 - `text.primary` on `background`: 15.8:1 ✅
 - `text.secondary` on `background`: 4.6:1 ✅
 - `text.inverse` on `primary`: 5.2:1 ✅
@@ -164,6 +171,7 @@ fontFamily: {
 ```
 
 **다국어 지원**:
+
 - 한국어: Noto Sans KR (시스템 기본)
 - 일본어: Noto Sans JP (시스템 기본)
 - 기타: 시스템 기본 폰트
@@ -174,15 +182,15 @@ fontFamily: {
 
 8pt Grid System에 맞춰 폰트 크기를 정의합니다.
 
-| 타입 | 크기 (pt) | 굵기 | Line Height | Letter Spacing | 용도 |
-|------|-----------|------|-------------|----------------|------|
-| h1 | 28 | 700 (Bold) | 36 | -0.5pt | 화면 타이틀 |
-| h2 | 24 | 600 (Semi-Bold) | 32 | -0.3pt | 섹션 제목 |
-| h3 | 20 | 600 (Semi-Bold) | 28 | 0pt | 카드 제목 |
-| body | 16 | 400 (Regular) | 24 | 0pt | 본문 |
-| bodyBold | 16 | 700 (Bold) | 24 | 0pt | 강조 본문 |
-| caption | 14 | 400 (Regular) | 20 | 0pt | 보조 정보 |
-| button | 16 | 600 (Semi-Bold) | 20 | 0pt | 버튼 텍스트 |
+| 타입     | 크기 (pt) | 굵기            | Line Height | Letter Spacing | 용도        |
+| -------- | --------- | --------------- | ----------- | -------------- | ----------- |
+| h1       | 28        | 700 (Bold)      | 36          | -0.5pt         | 화면 타이틀 |
+| h2       | 24        | 600 (Semi-Bold) | 32          | -0.3pt         | 섹션 제목   |
+| h3       | 20        | 600 (Semi-Bold) | 28          | 0pt            | 카드 제목   |
+| body     | 16        | 400 (Regular)   | 24          | 0pt            | 본문        |
+| bodyBold | 16        | 700 (Bold)      | 24          | 0pt            | 강조 본문   |
+| caption  | 14        | 400 (Regular)   | 20          | 0pt            | 보조 정보   |
+| button   | 16        | 600 (Semi-Bold) | 20          | 0pt            | 버튼 텍스트 |
 
 ```typescript
 typography: {
@@ -235,16 +243,16 @@ typography: {
 
 ### 사용 가이드
 
-| 요소 | 타입 | 색상 |
-|------|------|------|
-| 화면 타이틀 | h1 | text.primary |
-| 섹션 제목 | h2 | text.primary |
-| 카드 제목 | h3 | text.primary |
-| 본문 | body | text.primary |
-| 강조 본문 | bodyBold | text.primary |
-| 시간, 글자 수 | caption | text.secondary |
-| 버튼 | button | text.inverse (primary 배경) |
-| 플레이스홀더 | body | text.secondary |
+| 요소          | 타입     | 색상                        |
+| ------------- | -------- | --------------------------- |
+| 화면 타이틀   | h1       | text.primary                |
+| 섹션 제목     | h2       | text.primary                |
+| 카드 제목     | h3       | text.primary                |
+| 본문          | body     | text.primary                |
+| 강조 본문     | bodyBold | text.primary                |
+| 시간, 글자 수 | caption  | text.secondary              |
+| 버튼          | button   | text.inverse (primary 배경) |
+| 플레이스홀더  | body     | text.secondary              |
 
 ---
 
@@ -270,15 +278,15 @@ spacing: {
 
 ### 사용 가이드
 
-| 용도 | 간격 | 값 (pt) |
-|------|------|---------|
-| 컴포넌트 내부 패딩 | sm | 8 |
-| 카드 패딩 | md | 16 |
-| 화면 좌우 패딩 | md | 16 |
-| 컴포넌트 간 간격 | md | 16 |
-| 카드 간 간격 | md | 16 |
-| 섹션 간 간격 | lg | 24 |
-| 섹션 상하 패딩 | xl | 32 |
+| 용도               | 간격 | 값 (pt) |
+| ------------------ | ---- | ------- |
+| 컴포넌트 내부 패딩 | sm   | 8       |
+| 카드 패딩          | md   | 16      |
+| 화면 좌우 패딩     | md   | 16      |
+| 컴포넌트 간 간격   | md   | 16      |
+| 카드 간 간격       | md   | 16      |
+| 섹션 간 간격       | lg   | 24      |
+| 섹션 상하 패딩     | xl   | 32      |
 
 ---
 
@@ -289,6 +297,7 @@ spacing: {
 #### Variants (변형)
 
 **Primary Button**:
+
 ```typescript
 {
   backgroundColor: colors.primary,
@@ -300,6 +309,7 @@ spacing: {
 ```
 
 **Secondary Button**:
+
 ```typescript
 {
   backgroundColor: colors.background,
@@ -313,6 +323,7 @@ spacing: {
 ```
 
 **Text Button**:
+
 ```typescript
 {
   backgroundColor: 'transparent',
@@ -323,6 +334,7 @@ spacing: {
 ```
 
 **Destructive Button** (삭제):
+
 ```typescript
 {
   backgroundColor: colors.error,
@@ -450,24 +462,24 @@ spacing: {
 
 ### Dialog vs Screen vs Bottom Sheet
 
-| 패턴 | 사용 시점 | 예시 |
-|------|-----------|------|
-| **Dialog** | - 간단한 확인/선택<br>- 2-3개 옵션<br>- 중요한 결정 (삭제 등) | "정말 삭제할까요?",<br>"로그아웃 할까요?" |
-| **Bottom Sheet** | - 3개 이상 옵션<br>- 추가 설명 필요<br>- 비파괴적 선택 | 공유 옵션 선택,<br>메시지 프리셋 선택 |
-| **Screen** | - 복잡한 입력<br>- 여러 단계<br>- 많은 정보 | 글쓰기 화면,<br>설정 화면 |
+| 패턴             | 사용 시점                                                     | 예시                                      |
+| ---------------- | ------------------------------------------------------------- | ----------------------------------------- |
+| **Dialog**       | - 간단한 확인/선택<br>- 2-3개 옵션<br>- 중요한 결정 (삭제 등) | "정말 삭제할까요?",<br>"로그아웃 할까요?" |
+| **Bottom Sheet** | - 3개 이상 옵션<br>- 추가 설명 필요<br>- 비파괴적 선택        | 공유 옵션 선택,<br>메시지 프리셋 선택     |
+| **Screen**       | - 복잡한 입력<br>- 여러 단계<br>- 많은 정보                   | 글쓰기 화면,<br>설정 화면                 |
 
 ---
 
 ### 포인트 디자인 사용 기준
 
-| 상황 | 포인트 디자인 | 목적 |
-|------|---------------|------|
-| 첫 사용 | 온보딩 애니메이션 | 사용법 안내 |
-| 성공 액션 | 체크 애니메이션 | 피드백 제공 |
-| 공감 전송 | 하트 펄스 효과 | 감정적 연결 |
-| 로딩 | 스켈레톤 UI | 대기 시간 체감 감소 |
-| 에러 | 에러 일러스트 | 부드러운 에러 경험 |
-| Empty State | 일러스트 + 안내 | 다음 액션 유도 |
+| 상황        | 포인트 디자인     | 목적                |
+| ----------- | ----------------- | ------------------- |
+| 첫 사용     | 온보딩 애니메이션 | 사용법 안내         |
+| 성공 액션   | 체크 애니메이션   | 피드백 제공         |
+| 공감 전송   | 하트 펄스 효과    | 감정적 연결         |
+| 로딩        | 스켈레톤 UI       | 대기 시간 체감 감소 |
+| 에러        | 에러 일러스트     | 부드러운 에러 경험  |
+| Empty State | 일러스트 + 안내   | 다음 액션 유도      |
 
 ---
 
@@ -475,12 +487,12 @@ spacing: {
 
 ### 크기
 
-| 용도 | 크기 (pt) |
-|------|-----------|
-| 시스템 아이콘 (뒤로가기, 설정) | 24x24 |
-| 감정 이모지 | 48x48 (기본), 56x56 (선택됨) |
-| 액션 아이콘 (하트, 메시지) | 20x20 |
-| 탭바 아이콘 | 24x24 |
+| 용도                           | 크기 (pt)                    |
+| ------------------------------ | ---------------------------- |
+| 시스템 아이콘 (뒤로가기, 설정) | 24x24                        |
+| 감정 이모지                    | 48x48 (기본), 56x56 (선택됨) |
+| 액션 아이콘 (하트, 메시지)     | 20x20                        |
+| 탭바 아이콘                    | 24x24                        |
 
 ### 터치 영역
 
@@ -501,12 +513,12 @@ spacing: {
 ### 감정 날씨 아이콘
 
 | 감정 레벨 | 이모지 | Unicode | 대체 텍스트 |
-|-----------|--------|---------|-------------|
-| 5 (최상) | ☀️ | U+2600 | 맑음 |
-| 4 (상) | 🌤️ | U+1F324 | 구름 조금 |
-| 3 (중) | ☁️ | U+2601 | 흐림 |
-| 2 (하) | 🌧️ | U+1F327 | 비 |
-| 1 (최하) | ⛈️ | U+26C8 | 폭풍 |
+| --------- | ------ | ------- | ----------- |
+| 5 (최상)  | ☀️     | U+2600  | 맑음        |
+| 4 (상)    | 🌤️     | U+1F324 | 구름 조금   |
+| 3 (중)    | ☁️     | U+2601  | 흐림        |
+| 2 (하)    | 🌧️     | U+1F327 | 비          |
+| 1 (최하)  | ⛈️     | U+26C8  | 폭풍        |
 
 **스크린 리더 지원**: 각 이모지에 `accessibilityLabel` 추가
 
@@ -518,16 +530,16 @@ spacing: {
 
 ### 시스템 아이콘
 
-| 아이콘 | 용도 | 라이브러리 |
-|--------|------|-----------|
-| ← | 뒤로가기 | Ionicons: `chevron-back` |
-| ⋯ | 더보기 메뉴 | Ionicons: `ellipsis-horizontal` |
-| ⚙️ | 설정 | Ionicons: `settings-outline` |
-| ✏️ | 편집 | Ionicons: `create-outline` |
-| 🗑️ | 삭제 | Ionicons: `trash-outline` |
-| 💙 | 공감 (하트) | Ionicons: `heart` |
-| 💬 | 메시지 | Ionicons: `chatbubble-outline` |
-| 🔔 | 알림 | Ionicons: `notifications-outline` |
+| 아이콘 | 용도        | 라이브러리                        |
+| ------ | ----------- | --------------------------------- |
+| ←      | 뒤로가기    | Ionicons: `chevron-back`          |
+| ⋯      | 더보기 메뉴 | Ionicons: `ellipsis-horizontal`   |
+| ⚙️     | 설정        | Ionicons: `settings-outline`      |
+| ✏️     | 편집        | Ionicons: `create-outline`        |
+| 🗑️     | 삭제        | Ionicons: `trash-outline`         |
+| 💙     | 공감 (하트) | Ionicons: `heart`                 |
+| 💬     | 메시지      | Ionicons: `chatbubble-outline`    |
+| 🔔     | 알림        | Ionicons: `notifications-outline` |
 
 **라이브러리**: [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) (Ionicons)
 
@@ -539,12 +551,12 @@ spacing: {
 
 #### 색상 대비
 
-| 요소 | 전경색 | 배경색 | 대비 비율 | 기준 |
-|------|--------|--------|-----------|------|
-| 주요 텍스트 | #212121 | #FFFFFF | 15.8:1 | ✅ 7:1 이상 (AAA) |
-| 보조 텍스트 | #757575 | #FFFFFF | 4.6:1 | ✅ 4.5:1 이상 (AA) |
-| Primary 버튼 | #FFFFFF | #4A90E2 | 5.2:1 | ✅ 4.5:1 이상 (AA) |
-| 링크 | #4A90E2 | #FFFFFF | 5.2:1 | ✅ 4.5:1 이상 (AA) |
+| 요소         | 전경색  | 배경색  | 대비 비율 | 기준               |
+| ------------ | ------- | ------- | --------- | ------------------ |
+| 주요 텍스트  | #212121 | #FFFFFF | 15.8:1    | ✅ 7:1 이상 (AAA)  |
+| 보조 텍스트  | #757575 | #FFFFFF | 4.6:1     | ✅ 4.5:1 이상 (AA) |
+| Primary 버튼 | #FFFFFF | #4A90E2 | 5.2:1     | ✅ 4.5:1 이상 (AA) |
+| 링크         | #4A90E2 | #FFFFFF | 5.2:1     | ✅ 4.5:1 이상 (AA) |
 
 #### 터치 타겟
 
@@ -686,15 +698,15 @@ Animated.sequence([
 
 ### 애니메이션 사용 가이드
 
-| 상황 | 애니메이션 | 지속 시간 | Easing |
-|------|-----------|-----------|--------|
-| 감정 선택 | Scale (1.0 → 1.2) | 300ms | spring |
-| 공감 전송 | Pulse (1.0 → 1.3 → 1.0) | 300ms | ease-out |
-| 바텀시트 진입 | Slide (아래 → 위) | 300ms | ease-out |
-| 바텀시트 퇴장 | Slide (위 → 아래) | 300ms | ease-in |
-| 다이얼로그 진입 | Fade (0 → 1) + Scale (0.9 → 1.0) | 200ms | ease-out |
-| 스낵바 | Slide (아래 → 위) + Fade | 200ms | ease-out |
-| 로딩 | Skeleton shimmer | 1000ms (loop) | linear |
+| 상황            | 애니메이션                       | 지속 시간     | Easing   |
+| --------------- | -------------------------------- | ------------- | -------- |
+| 감정 선택       | Scale (1.0 → 1.2)                | 300ms         | spring   |
+| 공감 전송       | Pulse (1.0 → 1.3 → 1.0)          | 300ms         | ease-out |
+| 바텀시트 진입   | Slide (아래 → 위)                | 300ms         | ease-out |
+| 바텀시트 퇴장   | Slide (위 → 아래)                | 300ms         | ease-in  |
+| 다이얼로그 진입 | Fade (0 → 1) + Scale (0.9 → 1.0) | 200ms         | ease-out |
+| 스낵바          | Slide (아래 → 위) + Fade         | 200ms         | ease-out |
+| 로딩            | Skeleton shimmer                 | 1000ms (loop) | linear   |
 
 ---
 
@@ -764,27 +776,27 @@ import { spacing } from '@/theme';
 
 ### 전체 컬러 팔레트
 
-| 카테고리 | 이름 | 색상 코드 | RGB |
-|----------|------|-----------|-----|
-| **Primary** | primary | `#4A90E2` | rgb(74, 144, 226) |
-| | primaryLight | `#7AB8FF` | rgb(122, 184, 255) |
-| | primaryDark | `#2E5C8A` | rgb(46, 92, 138) |
-| **Emotion** | sunny | `#FFD700` | rgb(255, 215, 0) |
-| | partlyCloudy | `#87CEEB` | rgb(135, 206, 235) |
-| | cloudy | `#A9A9A9` | rgb(169, 169, 169) |
-| | rainy | `#708090` | rgb(112, 128, 144) |
-| | stormy | `#483D8B` | rgb(72, 61, 139) |
-| **Semantic** | success | `#4CAF50` | rgb(76, 175, 80) |
-| | warning | `#FF9800` | rgb(255, 152, 0) |
-| | error | `#F44336` | rgb(244, 67, 54) |
-| | info | `#2196F3` | rgb(33, 150, 243) |
-| **Neutral** | background | `#FFFFFF` | rgb(255, 255, 255) |
-| | surface | `#F5F5F5` | rgb(245, 245, 245) |
-| | border | `#E0E0E0` | rgb(224, 224, 224) |
-| **Text** | primary | `#212121` | rgb(33, 33, 33) |
-| | secondary | `#757575` | rgb(117, 117, 117) |
-| | disabled | `#BDBDBD` | rgb(189, 189, 189) |
-| | inverse | `#FFFFFF` | rgb(255, 255, 255) |
+| 카테고리     | 이름         | 색상 코드 | RGB                |
+| ------------ | ------------ | --------- | ------------------ |
+| **Primary**  | primary      | `#4A90E2` | rgb(74, 144, 226)  |
+|              | primaryLight | `#7AB8FF` | rgb(122, 184, 255) |
+|              | primaryDark  | `#2E5C8A` | rgb(46, 92, 138)   |
+| **Emotion**  | sunny        | `#FFD700` | rgb(255, 215, 0)   |
+|              | partlyCloudy | `#87CEEB` | rgb(135, 206, 235) |
+|              | cloudy       | `#A9A9A9` | rgb(169, 169, 169) |
+|              | rainy        | `#708090` | rgb(112, 128, 144) |
+|              | stormy       | `#483D8B` | rgb(72, 61, 139)   |
+| **Semantic** | success      | `#4CAF50` | rgb(76, 175, 80)   |
+|              | warning      | `#FF9800` | rgb(255, 152, 0)   |
+|              | error        | `#F44336` | rgb(244, 67, 54)   |
+|              | info         | `#2196F3` | rgb(33, 150, 243)  |
+| **Neutral**  | background   | `#FFFFFF` | rgb(255, 255, 255) |
+|              | surface      | `#F5F5F5` | rgb(245, 245, 245) |
+|              | border       | `#E0E0E0` | rgb(224, 224, 224) |
+| **Text**     | primary      | `#212121` | rgb(33, 33, 33)    |
+|              | secondary    | `#757575` | rgb(117, 117, 117) |
+|              | disabled     | `#BDBDBD` | rgb(189, 189, 189) |
+|              | inverse      | `#FFFFFF` | rgb(255, 255, 255) |
 
 ---
 
