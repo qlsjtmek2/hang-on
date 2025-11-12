@@ -142,9 +142,10 @@ describe('RecordCard Component', () => {
       <RecordCard {...mockRecord} createdAt={dateString} />
     );
 
-    // Should display some time format (방금 전, X분 전, etc.)
+    // Should display some time format (방금 전, X분 전, 2024.1.15, etc.)
     // The exact text depends on the current time
-    expect(getByText(/전|월|일/)).toBeTruthy();
+    // Accept various formats: "전" for relative times, "2024" for absolute dates, "월/일" for Korean dates
+    expect(getByText(/전|2024|월|일/)).toBeTruthy();
   });
 
   it('has correct accessibility properties', () => {

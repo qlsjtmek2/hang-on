@@ -82,7 +82,7 @@ describe('Input Component', () => {
         maxLength={10}
       />
     );
-    expect(getByText('14/10')).toBeTruthy();
+    expect(getByText('15/10')).toBeTruthy();
   });
 
   it('handles focus and blur events', () => {

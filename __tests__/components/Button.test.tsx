@@ -127,6 +127,8 @@ describe('Button Component', () => {
     );
 
     const button = getByRole('button');
-    expect(button.props.style).toContainEqual(customStyle);
+    // Style is merged with default styles in an array
+    const flatStyle = button.props.style.flat ? button.props.style.flat() : button.props.style;
+    expect(flatStyle).toMatchObject(customStyle);
   });
 });
