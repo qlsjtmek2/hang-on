@@ -6,7 +6,6 @@ import { Alert } from 'react-native';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { useAuthStore } from '@/store/authStore';
 
-
 // Mock 설정
 jest.mock('@/store/authStore');
 jest.mock('@react-navigation/native', () => {

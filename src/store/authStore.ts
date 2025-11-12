@@ -65,7 +65,9 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
         });
 
         // 클린업 함수 저장 (나중에 필요시 사용)
-        (globalThis as typeof globalThis & { authSubscription?: typeof subscription }).authSubscription = subscription;
+        (
+          globalThis as typeof globalThis & { authSubscription?: typeof subscription }
+        ).authSubscription = subscription;
       } else {
         set({
           user: null,

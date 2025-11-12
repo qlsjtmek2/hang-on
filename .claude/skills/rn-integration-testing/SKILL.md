@@ -60,7 +60,7 @@ Create separate test database or use Supabase branches:
 
 ### Frontend-Backend Integration
 
-****tests**/integration/auth.integration.test.ts**
+\***\*tests**/integration/auth.integration.test.ts\*\*
 
 ```typescript
 import { supabase } from '@/services/supabase';
@@ -149,7 +149,7 @@ describe('Authentication Integration', () => {
 
 ### API Testing
 
-****tests**/integration/posts.integration.test.ts**
+\***\*tests**/integration/posts.integration.test.ts\*\*
 
 ```typescript
 describe('Posts API Integration', () => {

@@ -9,7 +9,6 @@ import { SignUpScreen } from '@/screens/SignUpScreen';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
 
-
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;

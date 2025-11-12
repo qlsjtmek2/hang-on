@@ -4,7 +4,6 @@ import { Text } from 'react-native';
 
 import { BottomSheet, ActionSheet } from '@/components/BottomSheet';
 
-
 describe('BottomSheet Component', () => {
   it('renders when visible is true', () => {
     const { getByText } = render(
@@ -42,7 +41,6 @@ describe('BottomSheet Component', () => {
         <Text>Content</Text>
       </BottomSheet>,
     );
-
   });
 
   it('calls onClose when close button is pressed', () => {
