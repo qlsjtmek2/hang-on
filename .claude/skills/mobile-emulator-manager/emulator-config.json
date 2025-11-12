@@ -1,0 +1,55 @@
+{
+  "wsl2": {
+    "useWindowsEmulator": true,
+    "powershellPath": "powershell.exe",
+    "comment": "WSL2에서 Windows 에뮬레이터를 사용하기 위한 설정"
+  },
+  "android": {
+    "javaHome": "C:\\Program Files\\Android\\Android Studio\\jbr",
+    "sdkPath": "C:\\Program Files\\Android\\Sdk",
+    "avdPath": "C:\\Users\\{USERNAME}\\.android\\avd",
+    "comment": "Windows 경로를 사용합니다. {USERNAME}을 실제 Windows 사용자명으로 변경하세요"
+  },
+  "devices": {
+    "phone": {
+      "name": "Phone_9_16",
+      "resolution": "1080x1920",
+      "description": "기본 스마트폰 (9:16 비율)",
+      "api": 34
+    }
+  },
+  "defaultDevice": "phone",
+  "autoStart": false,
+  "performance": {
+    "gpu": "auto",
+    "ram": "2048",
+    "vm_heap": "256",
+    "cache_partition_size": "800M",
+    "comment": "성능 최적화 설정"
+  },
+  "networking": {
+    "http_proxy": "",
+    "https_proxy": "",
+    "metro_port": 8081,
+    "adb_port": 5555,
+    "comment": "네트워크 설정. 필요시 프록시 추가"
+  },
+  "development": {
+    "enableHotReload": true,
+    "enableLiveReload": true,
+    "enableDebugger": true,
+    "showDevMenu": true,
+    "comment": "React Native 개발 설정"
+  },
+  "testing": {
+    "screenshotPath": "./screenshots",
+    "testResultsPath": "./test-results",
+    "videoRecording": false,
+    "comment": "테스트 관련 설정"
+  },
+  "commands": {
+    "listAvd": "powershell.exe -Command \"$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Program Files\\Android\\Sdk\\cmdline-tools\\latest\\bin\\avdmanager.bat' list avd\"",
+    "startEmulator": "powershell.exe -Command \"$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Program Files\\Android\\Sdk\\emulator\\emulator.exe' -avd {AVD_NAME}\"",
+    "comment": "WSL2에서 Windows 에뮬레이터를 제어하는 명령어"
+  }
+}

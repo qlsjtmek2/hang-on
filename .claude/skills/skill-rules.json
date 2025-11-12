@@ -446,6 +446,78 @@
           "**/src/theme/**"
         ]
       }
+    },
+    "mobile-emulator-manager": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "emulator",
+          "에뮬레이터",
+          "android emulator",
+          "안드로이드 에뮬레이터",
+          "avd",
+          "mobile device",
+          "모바일 디바이스",
+          "simulator",
+          "시뮬레이터",
+          "device setup",
+          "디바이스 설정",
+          "디바이스",
+          "모바일 테스트",
+          "apk",
+          "앱 설치",
+          "screenshot",
+          "스크린샷",
+          "adb",
+          "metro bundler",
+          "metro",
+          "메트로",
+          "gradle",
+          "그레이들",
+          "installDebug",
+          "wsl2 android",
+          "mirrored mode",
+          "미러드 모드",
+          "nat network",
+          "nat 네트워크",
+          "legacy mode",
+          "레거시 모드",
+          "networking mode",
+          "네트워킹 모드",
+          "빌드",
+          "build",
+          "hot reload",
+          "핫 리로드",
+          "디버깅",
+          "debugging"
+        ],
+        "intentPatterns": [
+          "(run|start|launch|execute).*?(emulator|simulator|avd)",
+          "(실행|시작|켜).*?(에뮬레이터|시뮬레이터)",
+          "(install|설치).*?(app|apk|앱)",
+          "(setup|configure|설정).*?(device|emulator|디바이스|에뮬레이터|wsl2|android)",
+          "(test|테스트).*?(mobile|app|모바일|앱)",
+          "(take|capture|촬영|찍).*?(screenshot|스크린샷)",
+          "(build|빌드).*?(android|app|앱|react native)",
+          "(gradle|그레이들).*(install|fail|실패|error|에러)",
+          "(metro|메트로).*(connect|연결|fail|실패|bundler|번들러)",
+          "(adb).*(device|connect|연결|server|서버)",
+          "(mirrored|미러드|nat|레거시|legacy).*(mode|모드|network|네트워크)",
+          "(wsl2).*(android|에뮬레이터|emulator|네트워킹|networking)",
+          "(debug|디버그|디버깅).*(app|앱|mobile|모바일|emulator|에뮬레이터)"
+        ],
+        "filePaths": [
+          "**/emulator-config.json",
+          "**/.android/avd/**",
+          "**/android/**",
+          "**/scripts/verify-wsl2-setup.sh",
+          "**/scripts/start-dev-session.sh",
+          "**/scripts/setup-windows-firewall.ps1",
+          "**/.wslconfig"
+        ]
+      }
     }
   }
 }
