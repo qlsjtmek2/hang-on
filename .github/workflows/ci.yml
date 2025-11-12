@@ -105,11 +105,8 @@ jobs:
   android-build:
     name: Android Build Test (Optional)
     runs-on: ubuntu-latest
-    # 기본적으로 비활성화 - 커밋 메시지에 [build-android] 포함 시에만 실행
-    if: |
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/main' &&
-      contains(github.event.head_commit.message, '[build-android]')
+    # 기본적으로 비활성화 - 수동으로 if: 조건을 변경하여 활성화 가능
+    if: false
     continue-on-error: true  # 선택적 빌드이므로 실패해도 CI 전체가 실패하지 않음
 
     steps:
