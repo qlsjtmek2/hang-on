@@ -4,9 +4,15 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android --deviceId=emulator-5554",
-    "android:phone": "react-native run-android --deviceId=emulator-5554",
-    "android:legacy": "cd android && /mnt/c/Windows/System32/cmd.exe /C gradlew.bat installDebug",
     "ios": "react-native run-ios",
+    "emulator:phone": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe' -avd Phone_9_16 }\"",
+    "emulator:list": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\cmdline-tools\\latest\\bin\\avdmanager.bat' list avd }\"",
+    "emulator:devices": "adb devices",
+    "emulator:stop": "adb emu kill",
+    "debug:menu": "adb shell input keyevent 82",
+    "debug:reload": "adb shell input keyevent 46 && adb shell input keyevent 46",
+    "debug:logs": "adb logcat | grep ReactNative",
+    "debug:logs-all": "adb logcat",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
@@ -15,13 +21,7 @@
     "start": "react-native start --host 127.0.0.1",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
-    "emulator:phone": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe' -avd Phone_9_16 }\"",
-    "emulator:tablet-7": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe' -avd Tablet_7inch_9_16 }\"",
-    "emulator:tablet-10": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe' -avd Tablet_10inch_9_16 }\"",
-    "emulator:list": "powershell.exe -Command \"& { \\$env:JAVA_HOME='C:\\Program Files\\Android\\Android Studio\\jbr'; & 'C:\\Users\\shinhuigon\\AppData\\Local\\Android\\Sdk\\cmdline-tools\\latest\\bin\\avdmanager.bat' list avd }\"",
-    "emulator:devices": "adb devices",
-    "emulator:stop": "adb emu kill"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.82.1",

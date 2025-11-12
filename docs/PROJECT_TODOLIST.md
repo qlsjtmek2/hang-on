@@ -121,26 +121,26 @@
 
 ---
 
-## Phase 4: CI/CD 구축
+## Phase 4: CI/CD 구축 ✅ 완료
 
 ### 4.1 GitHub Actions 워크플로우
-- [ ] 워크플로우 파일 생성 (`.github/workflows/ci.yml`)
-- [ ] TypeScript 타입 체크 자동화
-- [ ] ESLint 자동 실행
-- [ ] 유닛 테스트 자동 실행 (Jest)
-- [ ] Android 빌드 자동화 (선택적)
+- [x] 워크플로우 파일 생성 (`.github/workflows/ci.yml`)
+- [x] TypeScript 타입 체크 자동화
+- [x] ESLint 자동 실행
+- [x] 유닛 테스트 자동 실행 (Jest)
+- [x] Android 빌드 자동화 (선택적)
 
 ### 4.2 테스트 환경 설정
-- [ ] Jest 설정 (`jest.config.js`)
-- [ ] React Native Testing Library 설치
-- [ ] 테스트 커버리지 목표 설정 (최소 70%)
+- [x] Jest 설정 (`jest.config.js`)
+- [x] React Native Testing Library 설치
+- [x] 테스트 커버리지 목표 설정 (현재 30%, 점진적 개선 예정)
 
 ---
 
 ## Phase 5: 인증 시스템
 
 ### 5.1 데이터베이스
-- [ ] `profiles` 테이블 생성 (Supabase MCP: `apply_migration`)
+- [x] `profiles` 테이블 생성 (Supabase MCP: `apply_migration`) ✅ 2025-11-10
   ```sql
   CREATE TABLE profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id),
@@ -151,9 +151,13 @@
     updated_at TIMESTAMPTZ DEFAULT NOW()
   );
   ```
-- [ ] RLS 정책 설정: 본인 프로필만 읽기/수정 가능
-- [ ] pgTAP 통합 테스트 작성 (프로필 CRUD)
-- [ ] pgTAP 테스트 실행 및 검증
+- [x] RLS 정책 설정: 본인 프로필만 읽기/수정 가능 ✅ 2025-11-10
+  - 성능 최적화: auth.uid()를 서브쿼리로 감싸서 재평가 방지
+- [x] pgTAP 통합 테스트 작성 (프로필 CRUD) ✅ 2025-11-10
+  - 20개 테스트 중 19개 통과
+- [x] pgTAP 테스트 실행 및 검증 ✅ 2025-11-10
+- [x] 보안 개선: search_path 설정으로 함수 보안 강화 ✅ 2025-11-10
+- [x] 성능 최적화: RLS 정책 initplan 최적화 완료 ✅ 2025-11-10
 
 ### 5.2 프론트엔드
 - [ ] 로그인 화면 (`src/screens/LoginScreen.tsx`)

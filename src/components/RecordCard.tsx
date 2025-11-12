@@ -110,13 +110,13 @@ export function RecordCard({
     onPress?.(id);
   };
 
-  const handleEmpathyPress = (e: any) => {
-    e.stopPropagation();
+  const handleEmpathyPress = (e?: any) => {
+    e?.stopPropagation?.();
     onEmpathyPress?.(id);
   };
 
-  const handleMessagePress = (e: any) => {
-    e.stopPropagation();
+  const handleMessagePress = (e?: any) => {
+    e?.stopPropagation?.();
     onMessagePress?.(id);
   };
 
