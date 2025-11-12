@@ -431,6 +431,147 @@ SUPABASE_ANON_KEY=your-anon-key
 - Android 빌드 에러 발생 시 `./gradlew clean` 실행 후 재빌드 권장
 - 특히 native 모듈 버전 변경 후 필수
 
+### Android 에뮬레이터 (WSL2 통합)
+
+#### 설치 정보
+- **Windows Android SDK**: `C:\Users\shinhuigon\AppData\Local\Android\Sdk`
+- **Java Home**: `C:\Program Files\Android\Android Studio\jbr`
+- **사용 가능한 AVD**: Phone_9_16 (1080x1920)
+
+#### 에뮬레이터 명령어
+```bash
+# 에뮬레이터 실행
+npm run emulator:phone     # Phone_9_16 에뮬레이터 실행
+
+# AVD 관리
+npm run emulator:list      # 사용 가능한 AVD 목록 확인
+npm run emulator:devices   # 연결된 디바이스 확인
+npm run emulator:stop      # 에뮬레이터 종료
+
+# 앱 실행 (Mirrored Mode)
+npm run android            # React Native 앱 빌드 및 실행 ✅
+npm run android:legacy     # Legacy Mode (Windows Gradle 직접 실행)
+
+# ADB 명령어 (WSL2에서 Windows ADB 사용)
+adb devices               # 연결된 디바이스 목록
+adb install [APK 경로]    # APK 설치
+adb logcat                # 로그 확인
+```
+
+#### 개발 환경 설정 (WSL2 Mirrored Mode)
+
+**📘 완전한 통합 가이드**: [docs/WSL2_ANDROID_COMPLETE_GUIDE.md](docs/WSL2_ANDROID_COMPLETE_GUIDE.md)
+- 빠른 시작 (5분 설정)
+- 왜 필요한지 상세 설명
+- 단계별 가이드
+- 검증 및 테스트
+- 실전 교훈 및 함정
+- 완전한 FAQ
+
+**상세 개별 가이드**:
+- [Windows 설정](docs/WINDOWS_SETUP_GUIDE.md)
+- [WSL2 설정](docs/WSL2_SETUP_GUIDE.md)
+- [기술 배경](docs/WSL2_ANDROID_SETUP.md)
+
+**빠른 설정**:
+1. **Windows 설정** ([WINDOWS_SETUP_GUIDE.md](docs/WINDOWS_SETUP_GUIDE.md)):
+   - `.wslconfig`에 `networkingMode=mirrored` 추가
+   - 방화벽 규칙 추가: `scripts/setup-windows-firewall.ps1`
+
+2. **WSL2 설정** ([WSL2_SETUP_GUIDE.md](docs/WSL2_SETUP_GUIDE.md)):
+   - `~/.bashrc`에 Windows ADB alias 추가
+   - Legacy Mode 환경 변수 비활성화
+
+3. **검증**:
+   ```bash
+   ./scripts/verify-wsl2-setup.sh
+   ```
+
+**개발 세션 시작**:
+```bash
+# 자동화 스크립트 사용
+./scripts/start-dev-session.sh
+
+# 또는 수동
+npm run emulator:phone    # 1. 에뮬레이터 시작
+npm start                 # 2. Metro 서버
+npm run android           # 3. 앱 빌드 및 실행
+```
+
+#### 트러블슈팅
+
+**에뮬레이터가 실행되지 않을 때**:
+1. Windows에서 Hyper-V/WHPX 활성화 확인
+2. AVD Manager에서 RAM 2GB 이상 설정
+3. Graphics를 Hardware - GLES 2.0으로 설정
+
+**Gradle installDebug 실패 시**:
+```bash
+# Mirrored Mode 확인
+wslinfo --networking-mode  # 출력: mirrored
+
+# 환경 검증
+./scripts/verify-wsl2-setup.sh
+
+# Legacy Mode 환경 변수가 남아있는 경우
+# ~/.bashrc 확인 및 주석 처리
+# export WSL_HOST=$(ip route | grep default | awk '{print $3}')  # 주석 처리
+# export ADB_SERVER_SOCKET=tcp:$WSL_HOST:5037                    # 주석 처리
+
+# Windows ADB alias 추가
+alias adb="/mnt/c/Users/shinhuigon/AppData/Local/Android/Sdk/platform-tools/adb.exe"
+
+# 새 셸 시작 또는 source ~/.bashrc 실행
+
+# Legacy Mode로 폴백
+npm run android:legacy
+```
+
+**중요한 트러블슈팅 교훈**:
+- **문제**: ADB_SERVER_SOCKET 환경 변수가 Legacy Mode(tcp:172.x.x.x:5037)로 설정되어 있으면 Mirrored Mode에서도 실패함
+- **원인**: React Native CLI가 환경 변수를 우선 사용하여 NAT 네트워크로 연결 시도
+- **해결**: ~/.bashrc에서 Legacy Mode 환경 변수를 완전히 제거하고 Windows ADB alias 사용
+- **검증**: `./scripts/verify-wsl2-setup.sh`로 7가지 항목 확인
+- **자동화**: package.json의 android 스크립트가 자동으로 환경 변수 제거 (`bash -c 'unset ADB_SERVER_SOCKET WSL_HOST && ...'`)
+
+#### 상세 문서
+
+**완전한 가이드 및 트러블슈팅**: [docs/WSL2_ANDROID_SETUP.md](docs/WSL2_ANDROID_SETUP.md)
+
+이 문서에서 다루는 내용:
+- Mirrored Mode vs Legacy Mode 비교
+- 단계별 설정 가이드 (Windows + WSL2)
+- Gradle `installDebug` 실패 원인 및 해결
+- 네트워크 격리 문제 심층 분석
+- 완전한 트러블슈팅 가이드
+- 자동화 스크립트 사용법
+
+#### 설정 검증
+
+```bash
+# Mirrored Mode 환경 전체 검증
+./scripts/verify-wsl2-setup.sh
+```
+
+이 스크립트는 다음을 확인합니다:
+- Networking Mode (mirrored 여부)
+- Windows ADB alias 설정
+- ADB 디바이스 연결
+- Metro Bundler 설정
+- Android 환경 변수
+
+#### 관련 파일
+
+**설정 가이드**:
+- [docs/WINDOWS_SETUP_GUIDE.md](docs/WINDOWS_SETUP_GUIDE.md) - Windows wslconfig 및 방화벽 설정
+- [docs/WSL2_SETUP_GUIDE.md](docs/WSL2_SETUP_GUIDE.md) - WSL2 ADB alias 및 Metro 설정
+- [docs/WSL2_ANDROID_SETUP.md](docs/WSL2_ANDROID_SETUP.md) - 완전한 통합 가이드
+
+**스크립트**:
+- `scripts/setup-windows-firewall.ps1` - Windows 방화벽 규칙 자동 생성
+- `scripts/verify-wsl2-setup.sh` - 환경 검증
+- `scripts/start-dev-session.sh` - 개발 세션 자동 시작
+
 ---
 
 ## 추가 리소스
@@ -441,7 +582,7 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-11-10
+**마지막 업데이트**: 2025-11-12 (WSL2 Mirrored Mode 개발 환경 구축 및 검증 완료, Legacy Mode 환경 변수 문제 해결)
 **프로젝트 타입**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **Claude Code 버전**: Compatible with Claude Code skill system
 
@@ -450,7 +591,18 @@ SUPABASE_ANON_KEY=your-anon-key
 - Phase 2: 개발 환경 구축 ✅ 완료
   - ESLint, Prettier, TypeScript 설정 완료
   - 테마 시스템 (colors, typography, spacing) 구현 완료
-  - Android 에뮬레이터 설정 완료
+  - **Android 에뮬레이터 WSL2 통합 (Mirrored Mode)** ✅ 완료 및 검증 완료
+    - Windows .wslconfig Mirrored Networking 설정
+    - Windows 방화벽 규칙 자동화 (`setup-windows-firewall.ps1`)
+    - WSL2 Windows ADB alias 설정
+    - Metro Bundler IPv4 바인딩 (`--host 127.0.0.1`)
+    - 환경 검증 스크립트 (`verify-wsl2-setup.sh`) - `set -e` 제거로 전체 검증 가능
+    - 개발 세션 자동 시작 스크립트 (`start-dev-session.sh`)
+    - 완전한 가이드 문서 3종 (WINDOWS_SETUP_GUIDE, WSL2_SETUP_GUIDE, WSL2_ANDROID_SETUP)
+    - Legacy Mode 폴백 지원 (`npm run android:legacy`)
+    - Legacy Mode 환경 변수 자동 제거 (`package.json` android 스크립트)
+    - mobile-mcp MCP 서버 통합
+    - **실전 테스트**: `npm run android` 성공 (39초 빌드, APK 설치, 앱 실행)
 - Phase 3: 공통 리소스 제작 ✅ 완료
   - 테마 시스템 ✅ 완료
   - 공통 컴포넌트 ✅ 완료
@@ -459,3 +611,9 @@ SUPABASE_ANON_KEY=your-anon-key
   - 유틸리티 함수 ✅ 완료
     - dateFormatter: 날짜 포맷팅 (상대/절대/스마트)
     - errorHandler: Supabase 및 일반 에러 처리
+
+### 다음 단계
+- [x] Mirrored Mode 설정 테스트 및 검증 ✅ 완료
+- [ ] Supabase 백엔드 연동
+- [ ] 인증 플로우 구현
+- [ ] 감정 털어놓기 화면 개발
