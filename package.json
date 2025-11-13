@@ -23,6 +23,7 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "typecheck": "tsc --noEmit",
     "start": "react-native start --host 127.0.0.1",
+    "stop": "pkill -f 'react-native start' || lsof -ti:8081 | xargs kill -9 || echo 'Metro server not running'",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"

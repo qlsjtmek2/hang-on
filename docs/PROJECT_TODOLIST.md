@@ -173,32 +173,34 @@
 
 ### 5.2 프론트엔드
 
-- [ ] 로그인 화면 (`src/screens/LoginScreen.tsx`)
+- [x] 로그인 화면 (`src/screens/LoginScreen.tsx`)
   - 이메일/비밀번호 입력 폼
   - Google 소셜 로그인 버튼
   - 비밀번호 찾기 링크
   - 유닛 테스트
-- [ ] 회원가입 화면 (`src/screens/SignUpScreen.tsx`)
+- [x] 회원가입 화면 (`src/screens/SignUpScreen.tsx`)
   - 이메일/비밀번호 입력 폼
   - 이메일 형식 검증
   - 비밀번호 요구사항 표시 (8자 이상)
   - 유닛 테스트
-- [ ] Auth 상태 관리 (Zustand: `src/store/authStore.ts`)
+- [x] Auth 상태 관리 (Zustand: `src/store/authStore.ts`)
   - 로그인 상태, 사용자 정보
   - 로그인/로그아웃 액션
-- [ ] 네비게이션 가드 (`src/navigation/AuthNavigator.tsx`)
+- [x] 네비게이션 가드 (`src/navigation/AuthNavigator.tsx`)
   - 인증 여부에 따라 화면 라우팅
 
 ### 5.3 통합
 
-- [ ] Supabase Auth 연동 (`src/services/authService.ts`)
+- [x] Supabase Auth 연동 (`src/services/authService.ts`)
   - 이메일/비밀번호 로그인
   - 세션 관리 (7일 유효기간)
   - 자동 로그인
-- [ ] 에러 핸들링
-  - 5회 로그인 실패 시 15분 잠금
+- [x] 에러 핸들링
+  - 15회 로그인 실패 시 10분 잠금
   - 네트워크 오류 처리
-- [ ] 통합 테스트: 회원가입 → 로그인 플로우
+- [x] 통합 테스트: 회원가입 → 로그인 플로우
+- [ ] 이메일 인증
+- [ ] 이메일 커스텀
 
 ---
 
@@ -206,12 +208,12 @@
 
 ### 6.1 감정 데이터 구조
 
-- [ ] 감정 타입 정의 (`src/types/emotion.ts`)
+- [x] 감정 타입 정의 (`src/types/emotion.ts`)
   ```typescript
   type EmotionLevel = 1 | 2 | 3 | 4 | 5;
   type EmotionWeather = 'storm' | 'rain' | 'cloudy' | 'partly_sunny' | 'sunny';
   ```
-- [ ] 감정-날씨 매핑 상수 (`src/constants/emotions.ts`)
+- [x] 감정-날씨 매핑 상수 (`src/constants/emotions.ts`)
 
 ### 6.2 프론트엔드
 
@@ -612,6 +614,8 @@
 - [ ] 푸시 알림 권한 요청 (앱 실행 시)
 - [ ] 알림 수신 핸들러 (포그라운드/백그라운드)
 - [ ] 알림 탭 시 기록 상세 화면으로 이동
+
+- [ ] 구글 로그인 기능 추가가
 
 ---
 
