@@ -20,9 +20,6 @@ export type { DateFormatterOptions } from './dateFormatter';
 export {
   ErrorType,
   handleError,
-  handleSupabaseError,
-  handleAuthError,
-  handleNetworkError,
   logError,
   getErrorToastConfig,
   isRetryableError,

@@ -6,25 +6,6 @@
 import { PostgrestError } from '@supabase/supabase-js';
 
 /**
- * 타입 가드: Error 객체인지 확인
- */
-function isError(error: unknown): error is Error {
-  return error instanceof Error || (typeof error === 'object' && error !== null && 'message' in error);
-}
-
-/**
- * 타입 가드: code 속성이 있는 에러인지 확인
- */
-function hasErrorCode(error: unknown): error is { code: string; message: string; details?: unknown } {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'code' in error &&
-    'message' in error
-  );
-}
-
-/**
  * 에러 타입 열거형
  */
 export enum ErrorType {
@@ -50,264 +31,180 @@ export interface StandardError {
 }
 
 /**
- * 사용자 친화적인 에러 메시지 매핑
+ * 에러 패턴 매핑 정의
  */
-const USER_FRIENDLY_MESSAGES: Record<string, string> = {
-  // 네트워크 에러
-  NETWORK_ERROR: '네트워크 연결에 문제가 있습니다. 인터넷 연결을 확인해주세요.',
-  TIMEOUT: '요청 시간이 초과되었습니다. 다시 시도해주세요.',
+interface ErrorPattern {
+  pattern: RegExp;
+  type: ErrorType;
+  message: string;
+}
 
-  // 인증 에러
-  INVALID_CREDENTIALS: '이메일 또는 비밀번호가 올바르지 않습니다.',
-  EMAIL_NOT_CONFIRMED: '이메일 인증이 필요합니다. 인증 메일을 확인해주세요.',
-  USER_ALREADY_EXISTS: '이미 가입된 이메일입니다.',
-  INVALID_TOKEN: '인증 토큰이 만료되었거나 유효하지 않습니다.',
-  SESSION_EXPIRED: '세션이 만료되었습니다. 다시 로그인해주세요.',
+/**
+ * 메시지 패턴 기반 에러 매핑
+ * 새로운 에러 추가 시 이 배열에 패턴만 추가하면 됨
+ */
+const ERROR_PATTERNS: ErrorPattern[] = [
+  // Auth 에러
+  { pattern: /email not confirmed/i, type: ErrorType.AUTH, message: '이메일 인증이 필요합니다. 인증 메일을 확인해주세요.' },
+  { pattern: /invalid login credentials/i, type: ErrorType.AUTH, message: '이메일 또는 비밀번호가 올바르지 않습니다.' },
+  { pattern: /user already registered/i, type: ErrorType.CONFLICT, message: '이미 가입된 이메일입니다.' },
+  { pattern: /((jwt|token).*(expired|invalid)|(expired|invalid).*(jwt|token))/i, type: ErrorType.AUTH, message: '인증 토큰이 만료되었거나 유효하지 않습니다.' },
+  { pattern: /session.*expired/i, type: ErrorType.AUTH, message: '세션이 만료되었습니다. 다시 로그인해주세요.' },
 
-  // 권한 에러
-  INSUFFICIENT_PERMISSIONS: '이 작업을 수행할 권한이 없습니다.',
-  UNAUTHORIZED: '로그인이 필요한 서비스입니다.',
+  // Network 에러
+  { pattern: /(network|fetch)/i, type: ErrorType.NETWORK, message: '네트워크 연결에 문제가 있습니다. 인터넷 연결을 확인해주세요.' },
+  { pattern: /timeout/i, type: ErrorType.NETWORK, message: '요청 시간이 초과되었습니다. 다시 시도해주세요.' },
+];
 
-  // 유효성 검사 에러
-  VALIDATION_ERROR: '입력한 정보가 올바르지 않습니다.',
-  REQUIRED_FIELD: '필수 항목을 입력해주세요.',
-  INVALID_FORMAT: '올바른 형식으로 입력해주세요.',
+/**
+ * Supabase 에러 코드 매핑
+ */
+const SUPABASE_ERROR_MAP: Record<string, { type: ErrorType; getMessage?: (details?: string) => string }> = {
+  // Constraint violations
+  '23505': {
+    type: ErrorType.CONFLICT,
+    getMessage: (details) => details?.includes('email')
+      ? '이미 가입된 이메일입니다.'
+      : '이미 존재하는 데이터입니다.'
+  },
+  '23503': { type: ErrorType.VALIDATION, getMessage: () => '올바른 형식으로 입력해주세요.' },
+  '23502': { type: ErrorType.VALIDATION, getMessage: () => '필수 항목을 입력해주세요.' },
+  '23514': { type: ErrorType.VALIDATION, getMessage: () => '입력한 정보가 올바르지 않습니다.' },
+  '22P02': { type: ErrorType.VALIDATION, getMessage: () => '올바른 형식으로 입력해주세요.' },
 
-  // 데이터 에러
-  NOT_FOUND: '요청한 정보를 찾을 수 없습니다.',
-  ALREADY_EXISTS: '이미 존재하는 데이터입니다.',
-  CONFLICT: '데이터 충돌이 발생했습니다. 다시 시도해주세요.',
+  // Auth errors
+  'PGRST301': { type: ErrorType.AUTH, getMessage: () => '세션이 만료되었습니다. 다시 로그인해주세요.' },
+  'PGRST302': { type: ErrorType.AUTH, getMessage: () => '인증 토큰이 유효하지 않습니다.' },
 
-  // 서버 에러
-  SERVER_ERROR: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',
-  SERVICE_UNAVAILABLE: '서비스를 일시적으로 사용할 수 없습니다.',
+  // Permission errors
+  '42501': { type: ErrorType.PERMISSION, getMessage: () => '이 작업을 수행할 권한이 없습니다.' },
 
-  // 기본 에러
-  UNKNOWN_ERROR: '알 수 없는 오류가 발생했습니다. 다시 시도해주세요.',
+  // Not found errors
+  '42P01': { type: ErrorType.NOT_FOUND, getMessage: () => '요청한 정보를 찾을 수 없습니다.' },
+  '42703': { type: ErrorType.NOT_FOUND, getMessage: () => '요청한 정보를 찾을 수 없습니다.' },
 };
 
 /**
- * Supabase 에러 코드를 ErrorType으로 매핑
+ * 기본 에러 메시지
  */
-const SUPABASE_ERROR_MAP: Record<string, ErrorType> = {
-  // Auth 관련
-  '23505': ErrorType.CONFLICT, // unique violation
-  '23503': ErrorType.VALIDATION, // foreign key violation
-  '23502': ErrorType.VALIDATION, // not null violation
-  '23514': ErrorType.VALIDATION, // check constraint violation
-  '22P02': ErrorType.VALIDATION, // invalid text representation
-  PGRST301: ErrorType.AUTH, // JWT expired
-  PGRST302: ErrorType.AUTH, // Invalid JWT
-  '42501': ErrorType.PERMISSION, // insufficient privileges
-  '42P01': ErrorType.NOT_FOUND, // table does not exist
-  '42703': ErrorType.NOT_FOUND, // column does not exist
+const DEFAULT_MESSAGES = {
+  [ErrorType.NETWORK]: '네트워크 연결에 문제가 있습니다.',
+  [ErrorType.AUTH]: '로그인이 필요한 서비스입니다.',
+  [ErrorType.VALIDATION]: '입력한 정보가 올바르지 않습니다.',
+  [ErrorType.PERMISSION]: '이 작업을 수행할 권한이 없습니다.',
+  [ErrorType.NOT_FOUND]: '요청한 정보를 찾을 수 없습니다.',
+  [ErrorType.CONFLICT]: '데이터 충돌이 발생했습니다.',
+  [ErrorType.SERVER]: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',
+  [ErrorType.UNKNOWN]: '알 수 없는 오류가 발생했습니다. 다시 시도해주세요.',
 };
+
+/**
+ * 타입 가드: Error 객체인지 확인
+ */
+function isError(error: unknown): error is Error {
+  return error instanceof Error || (typeof error === 'object' && error !== null && 'message' in error);
+}
+
+/**
+ * 타입 가드: Supabase PostgrestError인지 확인
+ */
+function isPostgrestError(error: unknown): error is PostgrestError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    'message' in error &&
+    'details' in error
+  );
+}
 
 /**
  * Supabase 에러 처리
  */
-export function handleSupabaseError(error: PostgrestError | null): StandardError {
-  if (!error) {
+function handleSupabaseError(error: PostgrestError): StandardError {
+  const mapping = SUPABASE_ERROR_MAP[error.code];
+
+  if (mapping) {
     return {
-      type: ErrorType.UNKNOWN,
-      message: USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
+      type: mapping.type,
+      message: mapping.getMessage?.(error.details || undefined) || DEFAULT_MESSAGES[mapping.type],
+      code: error.code,
+      details: typeof error.details === 'string' ? { message: error.details } : undefined,
+      originalError: error,
     };
   }
 
-  // 에러 코드로 타입 결정
-  const errorType = SUPABASE_ERROR_MAP[error.code] || ErrorType.SERVER;
-
-  // 사용자 친화적 메시지 결정
-  let userMessage = USER_FRIENDLY_MESSAGES.SERVER_ERROR;
-
-  switch (errorType) {
-    case ErrorType.CONFLICT:
-      if (error.details?.includes('email')) {
-        userMessage = USER_FRIENDLY_MESSAGES.USER_ALREADY_EXISTS;
-      } else {
-        userMessage = USER_FRIENDLY_MESSAGES.ALREADY_EXISTS;
-      }
-      break;
-
-    case ErrorType.AUTH:
-      if (error.message?.includes('expired')) {
-        userMessage = USER_FRIENDLY_MESSAGES.SESSION_EXPIRED;
-      } else if (error.message?.includes('invalid')) {
-        userMessage = USER_FRIENDLY_MESSAGES.INVALID_TOKEN;
-      } else {
-        userMessage = USER_FRIENDLY_MESSAGES.UNAUTHORIZED;
-      }
-      break;
-
-    case ErrorType.VALIDATION:
-      if (error.details?.includes('not-null')) {
-        userMessage = USER_FRIENDLY_MESSAGES.REQUIRED_FIELD;
-      } else {
-        userMessage = USER_FRIENDLY_MESSAGES.VALIDATION_ERROR;
-      }
-      break;
-
-    case ErrorType.PERMISSION:
-      userMessage = USER_FRIENDLY_MESSAGES.INSUFFICIENT_PERMISSIONS;
-      break;
-
-    case ErrorType.NOT_FOUND:
-      userMessage = USER_FRIENDLY_MESSAGES.NOT_FOUND;
-      break;
-
-    default:
-      userMessage = USER_FRIENDLY_MESSAGES.SERVER_ERROR;
-  }
-
+  // 매핑되지 않은 Supabase 에러는 서버 에러로 처리
   return {
-    type: errorType,
-    message: userMessage,
+    type: ErrorType.SERVER,
+    message: DEFAULT_MESSAGES[ErrorType.SERVER],
     code: error.code,
-    details: typeof error.details === 'string' ? { message: error.details } : undefined,
     originalError: error,
   };
 }
 
 /**
- * Auth 에러 처리
+ * 에러 메시지에서 패턴 매칭으로 타입과 메시지 찾기
  */
-export function handleAuthError(error: unknown): StandardError {
-  if (!isError(error)) {
-    return {
-      type: ErrorType.AUTH,
-      message: USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
-      originalError: error,
-    };
+function matchErrorPattern(message: string): Pick<StandardError, 'type' | 'message'> | null {
+  const lowerMessage = message.toLowerCase();
+
+  for (const pattern of ERROR_PATTERNS) {
+    if (pattern.pattern.test(lowerMessage)) {
+      return { type: pattern.type, message: pattern.message };
+    }
   }
 
-  const message = error.message?.toLowerCase() || '';
-
-  if (message.includes('email not confirmed')) {
-    return {
-      type: ErrorType.AUTH,
-      message: USER_FRIENDLY_MESSAGES.EMAIL_NOT_CONFIRMED,
-      originalError: error,
-    };
-  }
-
-  if (message.includes('invalid login credentials')) {
-    return {
-      type: ErrorType.AUTH,
-      message: USER_FRIENDLY_MESSAGES.INVALID_CREDENTIALS,
-      originalError: error,
-    };
-  }
-
-  if (message.includes('user already registered')) {
-    return {
-      type: ErrorType.CONFLICT,
-      message: USER_FRIENDLY_MESSAGES.USER_ALREADY_EXISTS,
-      originalError: error,
-    };
-  }
-
-  if (message.includes('jwt') || message.includes('token')) {
-    return {
-      type: ErrorType.AUTH,
-      message: USER_FRIENDLY_MESSAGES.INVALID_TOKEN,
-      originalError: error,
-    };
-  }
-
-  return {
-    type: ErrorType.AUTH,
-    message: USER_FRIENDLY_MESSAGES.UNAUTHORIZED,
-    originalError: error,
-  };
+  return null;
 }
 
 /**
- * 네트워크 에러 처리
- */
-export function handleNetworkError(error: unknown): StandardError {
-  if (!isError(error)) {
-    return {
-      type: ErrorType.NETWORK,
-      message: USER_FRIENDLY_MESSAGES.NETWORK_ERROR,
-      originalError: error,
-    };
-  }
-
-  const message = error.message?.toLowerCase() || '';
-
-  if (message.includes('network') || message.includes('fetch')) {
-    return {
-      type: ErrorType.NETWORK,
-      message: USER_FRIENDLY_MESSAGES.NETWORK_ERROR,
-      originalError: error,
-    };
-  }
-
-  if (message.includes('timeout')) {
-    return {
-      type: ErrorType.NETWORK,
-      message: USER_FRIENDLY_MESSAGES.TIMEOUT,
-      originalError: error,
-    };
-  }
-
-  return {
-    type: ErrorType.NETWORK,
-    message: USER_FRIENDLY_MESSAGES.NETWORK_ERROR,
-    originalError: error,
-  };
-}
-
-/**
- * 일반 에러 처리
+ * 일반 에러 처리 (메인 진입점)
+ *
+ * @example
+ * try {
+ *   await login(email, password);
+ * } catch (error) {
+ *   const standardError = handleError(error);
+ *   Alert.alert('오류', standardError.message);
+ * }
  */
 export function handleError(error: unknown): StandardError {
-  // null 또는 undefined 체크
+  // null 또는 undefined
   if (!error) {
     return {
       type: ErrorType.UNKNOWN,
-      message: USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
+      message: DEFAULT_MESSAGES[ErrorType.UNKNOWN],
     };
   }
 
-  // Supabase PostgrestError 체크
-  if (hasErrorCode(error)) {
-    return handleSupabaseError(error as PostgrestError);
+  // Supabase PostgrestError
+  if (isPostgrestError(error)) {
+    return handleSupabaseError(error);
   }
 
-  // Error 타입이 아닌 경우 기본 처리
+  // Error 객체가 아닌 경우
   if (!isError(error)) {
     return {
       type: ErrorType.UNKNOWN,
-      message: USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
+      message: DEFAULT_MESSAGES[ErrorType.UNKNOWN],
       originalError: error,
     };
   }
 
-  const message = error.message?.toLowerCase() || '';
-
-  // Auth 관련 에러 체크
-  if (
-    message.includes('auth') ||
-    message.includes('login') ||
-    message.includes('jwt')
-  ) {
-    return handleAuthError(error);
+  // 메시지 패턴 매칭
+  const matched = matchErrorPattern(error.message || '');
+  if (matched) {
+    return {
+      ...matched,
+      originalError: error,
+    };
   }
 
-  // 네트워크 에러 체크
-  if (
-    message.includes('network') ||
-    message.includes('fetch') ||
-    message.includes('timeout')
-  ) {
-    return handleNetworkError(error);
-  }
-
-  // 기본 에러 처리
+  // 패턴에 매칭되지 않는 일반 에러
   return {
     type: ErrorType.UNKNOWN,
-    message: error.message || USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
+    message: error.message || DEFAULT_MESSAGES[ErrorType.UNKNOWN],
     originalError: error,
   };
 }
@@ -321,26 +218,25 @@ function isExpectedAuthError(error: StandardError): boolean {
     return false;
   }
 
-  // 예상 가능한 Auth 에러 메시지 패턴
   const expectedPatterns = [
-    'invalid login credentials',
-    'invalid_credentials',
     '이메일 또는 비밀번호가 올바르지 않습니다',
-    'email not confirmed',
-    'user already registered',
+    '이메일 인증이 필요합니다',
     '이미 가입된 이메일입니다',
   ];
 
-  const originalMessage = error.originalError && isError(error.originalError) ? error.originalError.message : '';
-  const messageOrCode =
-    `${error.message} ${error.code || ''} ${originalMessage}`.toLowerCase();
-
-  return expectedPatterns.some(pattern => messageOrCode.includes(pattern.toLowerCase()));
+  return expectedPatterns.some(pattern => error.message.includes(pattern));
 }
 
 /**
  * 에러 로깅 (개발 환경)
- * @param silent - true이면 콘솔에 출력하지 않음 (예상 가능한 Auth 에러는 자동으로 silent 처리)
+ *
+ * @param error - 표준화된 에러
+ * @param context - 에러 발생 컨텍스트 (예: 'Login', 'SignUp')
+ * @param silent - true이면 콘솔에 출력하지 않음
+ *
+ * @example
+ * const error = handleError(e);
+ * logError(error, 'Login');
  */
 export function logError(error: StandardError, context?: string, silent?: boolean): void {
   if (!__DEV__) {
@@ -370,8 +266,54 @@ export function logError(error: StandardError, context?: string, silent?: boolea
 }
 
 /**
+ * 재시도 가능한 에러인지 확인
+ *
+ * @example
+ * if (isRetryableError(error)) {
+ *   // 재시도 로직
+ * }
+ */
+export function isRetryableError(error: StandardError): boolean {
+  return [ErrorType.NETWORK, ErrorType.SERVER].includes(error.type);
+}
+
+/**
+ * 로그인이 필요한 에러인지 확인
+ *
+ * @example
+ * if (isAuthRequired(error)) {
+ *   navigation.navigate('Login');
+ * }
+ */
+export function isAuthRequired(error: StandardError): boolean {
+  return error.type === ErrorType.AUTH || error.type === ErrorType.PERMISSION;
+}
+
+/**
+ * 에러 타입별 제목 반환
+ */
+function getErrorTitle(type: ErrorType): string {
+  const titles: Record<ErrorType, string> = {
+    [ErrorType.NETWORK]: '네트워크 오류',
+    [ErrorType.AUTH]: '인증 오류',
+    [ErrorType.VALIDATION]: '입력 오류',
+    [ErrorType.PERMISSION]: '권한 오류',
+    [ErrorType.NOT_FOUND]: '찾을 수 없음',
+    [ErrorType.CONFLICT]: '중복 오류',
+    [ErrorType.SERVER]: '서버 오류',
+    [ErrorType.UNKNOWN]: '오류',
+  };
+
+  return titles[type];
+}
+
+/**
  * 에러 토스트 메시지 표시를 위한 헬퍼
  * (실제 토스트 라이브러리와 연동 시 사용)
+ *
+ * @example
+ * const toastConfig = getErrorToastConfig(error);
+ * Toast.show(toastConfig);
  */
 export function getErrorToastConfig(error: StandardError) {
   return {
@@ -383,50 +325,12 @@ export function getErrorToastConfig(error: StandardError) {
 }
 
 /**
- * 에러 타입별 제목 반환
+ * 편의를 위한 기본 export
  */
-function getErrorTitle(type: ErrorType): string {
-  switch (type) {
-    case ErrorType.NETWORK:
-      return '네트워크 오류';
-    case ErrorType.AUTH:
-      return '인증 오류';
-    case ErrorType.VALIDATION:
-      return '입력 오류';
-    case ErrorType.PERMISSION:
-      return '권한 오류';
-    case ErrorType.NOT_FOUND:
-      return '찾을 수 없음';
-    case ErrorType.CONFLICT:
-      return '중복 오류';
-    case ErrorType.SERVER:
-      return '서버 오류';
-    default:
-      return '오류';
-  }
-}
-
-/**
- * 재시도 가능한 에러인지 확인
- */
-export function isRetryableError(error: StandardError): boolean {
-  return [ErrorType.NETWORK, ErrorType.SERVER].includes(error.type);
-}
-
-/**
- * 로그인이 필요한 에러인지 확인
- */
-export function isAuthRequired(error: StandardError): boolean {
-  return error.type === ErrorType.AUTH || error.type === ErrorType.PERMISSION;
-}
-
-// Export default handler for convenience
 export default {
   handle: handleError,
-  handleSupabase: handleSupabaseError,
-  handleAuth: handleAuthError,
-  handleNetwork: handleNetworkError,
   log: logError,
   isRetryable: isRetryableError,
   isAuthRequired,
+  getToastConfig: getErrorToastConfig,
 };
