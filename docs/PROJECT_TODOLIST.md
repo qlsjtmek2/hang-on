@@ -193,7 +193,6 @@
 
 - [ ] Supabase Auth 연동 (`src/services/authService.ts`)
   - 이메일/비밀번호 로그인
-  - Google OAuth
   - 세션 관리 (7일 유효기간)
   - 자동 로그인
 - [ ] 에러 핸들링

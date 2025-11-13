@@ -38,3 +38,19 @@ jest.mock('@/services/supabase', () => ({
   getCurrentUser: jest.fn(),
   resetPassword: jest.fn(),
 }));
+
+// Mock authService
+jest.mock('@/services/authService', () => ({
+  signUp: jest.fn(),
+  signIn: jest.fn(),
+  signOut: jest.fn(),
+  getSession: jest.fn(() => Promise.resolve(null)),
+  getCurrentUser: jest.fn(() => Promise.resolve(null)),
+  refreshSession: jest.fn(() => Promise.resolve(null)),
+  sendPasswordResetEmail: jest.fn(),
+  updatePassword: jest.fn(),
+  signInWithGoogle: jest.fn(),
+  onAuthStateChange: jest.fn((callback) => {
+    return () => {}; // unsubscribe function
+  }),
+}));

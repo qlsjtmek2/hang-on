@@ -13,11 +13,21 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Supabase 클라이언트 생성
+// 주의: 세션 유효기간은 Supabase Dashboard > Authentication > Settings에서 설정
+// - JWT Expiry: 7일 (604800초) 권장
+// - Refresh Token Lifetime: 30일 권장
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
   auth: {
+    // 자동으로 토큰 갱신 (만료 전에 refresh token 사용)
     autoRefreshToken: true,
+    // 세션을 로컬 스토리지에 저장 (앱 재시작 후에도 유지)
     persistSession: true,
+    // URL에서 세션 감지 안 함 (React Native에서는 불필요)
     detectSessionInUrl: false,
+    // TODO: AsyncStorage 설정 필요
+    // storage: AsyncStorage as any,
+    // AsyncStorage 설치: npm install @react-native-async-storage/async-storage
+    // 네이티브 재빌드: npm run android (또는 npm run ios)
   },
 });
 
