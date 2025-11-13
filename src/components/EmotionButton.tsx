@@ -9,9 +9,11 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import { EmotionLevel, EMOTION_DATA } from '@/constants/emotions';
 import { theme } from '@/theme';
 
-export type EmotionLevel = 1 | 2 | 3 | 4 | 5;
+// Re-export EmotionLevel for convenience
+export type { EmotionLevel };
 
 export interface EmotionButtonProps {
   emotionLevel: EmotionLevel;
@@ -21,35 +23,6 @@ export interface EmotionButtonProps {
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }
-
-// 감정 날씨 데이터 매핑
-const emotionData: Record<EmotionLevel, { emoji: string; label: string; color: string }> = {
-  1: {
-    emoji: '⛈️',
-    label: '폭풍',
-    color: theme.colors.emotion.stormy,
-  },
-  2: {
-    emoji: '🌧️',
-    label: '비',
-    color: theme.colors.emotion.rainy,
-  },
-  3: {
-    emoji: '☁️',
-    label: '흐림',
-    color: theme.colors.emotion.cloudy,
-  },
-  4: {
-    emoji: '⛅',
-    label: '구름',
-    color: theme.colors.emotion.partly,
-  },
-  5: {
-    emoji: '☀️',
-    label: '맑음',
-    color: theme.colors.emotion.sunny,
-  },
-};
 
 export function EmotionButton({
   emotionLevel,
@@ -64,7 +37,7 @@ export function EmotionButton({
   const rotateAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(isSelected ? 1 : 0.7)).current;
 
-  const emotionInfo = emotionData[emotionLevel];
+  const emotionInfo = EMOTION_DATA[emotionLevel];
 
   // 선택 상태 변경 시 애니메이션
   useEffect(() => {

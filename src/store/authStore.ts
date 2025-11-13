@@ -57,10 +57,16 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
         const {
           data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, authSession) => {
+          console.log('[AuthStore.onAuthStateChange] 이벤트:', _event, '세션:', !!authSession);
+
+          // 현재 error 상태 유지 (로그인 에러 메시지를 덮어쓰지 않음)
+          const currentState = _get();
+
           set({
             user: authSession?.user || null,
             session: authSession,
             isAuthenticated: !!authSession,
+            error: currentState.error, // 현재 error 유지
           });
         });
 
@@ -132,9 +138,11 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
   // 로그인
   signIn: async (email: string, password: string) => {
     try {
+      console.log('[AuthStore.signIn] 시작', { email });
       set({ isLoading: true, error: null });
 
       const data = await supabaseSignIn(email, password);
+      console.log('[AuthStore.signIn] Supabase 응답', { hasUser: !!data.user, hasSession: !!data.session });
 
       if (data.user && data.session) {
         set({
@@ -142,20 +150,32 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
           session: data.session,
           isAuthenticated: true,
           isLoading: false,
+          error: null, // ✅ 명시적으로 error도 설정
         });
+        console.log('[AuthStore.signIn] 성공');
         return true;
       }
 
-      set({ isLoading: false });
+      console.log('[AuthStore.signIn] user 또는 session이 없음');
+      set({ isLoading: false, error: null }); // ✅ error 명시
       return false;
     } catch (error) {
+      console.log('[AuthStore.signIn] 에러 발생', error);
       const errorMessage = handleError(error);
+      console.log('[AuthStore.signIn] 처리된 에러 메시지', errorMessage.message);
       logError(errorMessage, 'AuthStore.signIn');
 
+      // ✅ 현재 상태 가져와서 모든 필드 유지
+      const currentState = _get();
+
       set({
-        error: errorMessage.message,
+        user: currentState.user, // 유지
+        session: currentState.session, // 유지
+        isAuthenticated: currentState.isAuthenticated, // 유지
+        error: errorMessage.message, // ✅ 에러 설정
         isLoading: false,
       });
+      console.log('[AuthStore.signIn] 에러 상태 설정 완료');
       return false;
     }
   },
@@ -185,6 +205,7 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
 
   // 에러 초기화
   clearError: () => {
+    console.log('[AuthStore.clearError] 호출됨', new Error().stack);
     set({ error: null });
   },
 

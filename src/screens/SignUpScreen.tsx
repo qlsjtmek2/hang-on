@@ -18,6 +18,11 @@ import { Input } from '@/components/Input';
 import { RootStackParamList } from '@/navigation/AuthNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
+import {
+  validateEmail as validateEmailUtil,
+  validatePassword as validatePasswordUtil,
+  validateConfirmPassword as validateConfirmPasswordUtil,
+} from '@/utils/validation';
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 
@@ -32,49 +37,28 @@ export const SignUpScreen: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-  // 화면 진입 시 에러 초기화
+  // 화면 진입 시 에러 초기화 (마운트 시 한 번만 실행)
   useEffect(() => {
     clearError();
-  }, [clearError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const validateEmail = (text: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!text) {
-      setEmailError('이메일을 입력해주세요');
-      return false;
-    }
-    if (!emailRegex.test(text)) {
-      setEmailError('올바른 이메일 형식이 아닙니다');
-      return false;
-    }
-    setEmailError('');
-    return true;
+    const result = validateEmailUtil(text);
+    setEmailError(result.errorMessage || '');
+    return result.isValid;
   };
 
   const validatePassword = (text: string) => {
-    if (!text) {
-      setPasswordError('비밀번호를 입력해주세요');
-      return false;
-    }
-    if (text.length < 8) {
-      setPasswordError('최소 8자 이상 입력해주세요');
-      return false;
-    }
-    setPasswordError('');
-    return true;
+    const result = validatePasswordUtil(text);
+    setPasswordError(result.errorMessage || '');
+    return result.isValid;
   };
 
   const validateConfirmPassword = (text: string) => {
-    if (!text) {
-      setConfirmPasswordError('비밀번호 확인을 입력해주세요');
-      return false;
-    }
-    if (text !== password) {
-      setConfirmPasswordError('비밀번호가 일치하지 않습니다');
-      return false;
-    }
-    setConfirmPasswordError('');
-    return true;
+    const result = validateConfirmPasswordUtil(password, text);
+    setConfirmPasswordError(result.errorMessage || '');
+    return result.isValid;
   };
 
   const handleSignUp = async () => {

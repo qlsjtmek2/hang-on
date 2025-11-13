@@ -7,11 +7,11 @@ import {
   StyleProp,
   ViewStyle,
   Platform,
+  GestureResponderEvent,
 } from 'react-native';
 
+import { EmotionLevel, EMOTION_DATA } from '@/constants/emotions';
 import { theme } from '@/theme';
-
-import type { EmotionLevel } from './EmotionButton';
 
 export interface RecordCardProps {
   id: string;
@@ -27,35 +27,6 @@ export interface RecordCardProps {
   style?: StyleProp<ViewStyle>;
   formatTime?: (date: Date | string) => string;
 }
-
-// 감정 데이터 (EmotionButton과 동일)
-const emotionData: Record<EmotionLevel, { emoji: string; label: string; color: string }> = {
-  1: {
-    emoji: '⛈️',
-    label: '폭풍',
-    color: theme.colors.emotion.stormy,
-  },
-  2: {
-    emoji: '🌧️',
-    label: '비',
-    color: theme.colors.emotion.rainy,
-  },
-  3: {
-    emoji: '☁️',
-    label: '흐림',
-    color: theme.colors.emotion.cloudy,
-  },
-  4: {
-    emoji: '⛅',
-    label: '구름',
-    color: theme.colors.emotion.partly,
-  },
-  5: {
-    emoji: '☀️',
-    label: '맑음',
-    color: theme.colors.emotion.sunny,
-  },
-};
 
 // 기본 시간 포맷터 (나중에 dateFormatter 유틸리티로 대체)
 const defaultFormatTime = (date: Date | string): string => {
@@ -106,19 +77,19 @@ export function RecordCard({
   style,
   formatTime = defaultFormatTime,
 }: RecordCardProps) {
-  const emotionInfo = emotionData[emotionLevel];
+  const emotionInfo = EMOTION_DATA[emotionLevel];
 
   const handlePress = () => {
     onPress?.(id);
   };
 
-  const handleEmpathyPress = (e?: any) => {
-    e?.stopPropagation?.();
+  const handleEmpathyPress = (e?: GestureResponderEvent) => {
+    e?.stopPropagation();
     onEmpathyPress?.(id);
   };
 
-  const handleMessagePress = (e?: any) => {
-    e?.stopPropagation?.();
+  const handleMessagePress = (e?: GestureResponderEvent) => {
+    e?.stopPropagation();
     onMessagePress?.(id);
   };
 

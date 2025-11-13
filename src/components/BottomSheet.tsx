@@ -14,6 +14,7 @@ import {
   KeyboardAvoidingView,
   StyleProp,
   ViewStyle,
+  LayoutChangeEvent,
 } from 'react-native';
 
 import { theme } from '@/theme';
@@ -131,7 +132,7 @@ export function BottomSheet({
     }
   };
 
-  const handleLayout = (event: any) => {
+  const handleLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
     setContainerHeight(height);
   };

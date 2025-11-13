@@ -18,6 +18,10 @@ import { Input } from '@/components/Input';
 import { RootStackParamList } from '@/navigation/AuthNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
+import {
+  validateEmail as validateEmailUtil,
+  validatePassword as validatePasswordUtil,
+} from '@/utils/validation';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -30,49 +34,44 @@ export const LoginScreen: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  // 화면 진입 시 에러 초기화
+  // 디버깅: authError 변경 감지
+  useEffect(() => {
+    console.log('[LoginScreen] authError 변경됨:', authError);
+  }, [authError]);
+
+  // 화면 진입 시 에러 초기화 (마운트 시 한 번만 실행)
   useEffect(() => {
     clearError();
-  }, [clearError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const validateEmail = (text: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!text) {
-      setEmailError('이메일을 입력해주세요');
-      return false;
-    }
-    if (!emailRegex.test(text)) {
-      setEmailError('올바른 이메일 형식이 아닙니다');
-      return false;
-    }
-    setEmailError('');
-    return true;
+    const result = validateEmailUtil(text);
+    setEmailError(result.errorMessage || '');
+    return result.isValid;
   };
 
   const validatePassword = (text: string) => {
-    if (!text) {
-      setPasswordError('비밀번호를 입력해주세요');
-      return false;
-    }
-    if (text.length < 8) {
-      setPasswordError('비밀번호는 8자 이상이어야 합니다');
-      return false;
-    }
-    setPasswordError('');
-    return true;
+    const result = validatePasswordUtil(text);
+    setPasswordError(result.errorMessage || '');
+    return result.isValid;
   };
 
   const handleLogin = async () => {
+    console.log('[LoginScreen.handleLogin] 로그인 시작');
     clearError();
 
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
 
     if (!isEmailValid || !isPasswordValid) {
+      console.log('[LoginScreen.handleLogin] 유효성 검사 실패');
       return;
     }
 
+    console.log('[LoginScreen.handleLogin] signIn 호출');
     await signIn(email.toLowerCase().trim(), password);
+    console.log('[LoginScreen.handleLogin] signIn 완료');
   };
 
   const handleEmailChange = (text: string) => {

@@ -6,6 +6,25 @@
 import { PostgrestError } from '@supabase/supabase-js';
 
 /**
+ * 타입 가드: Error 객체인지 확인
+ */
+function isError(error: unknown): error is Error {
+  return error instanceof Error || (typeof error === 'object' && error !== null && 'message' in error);
+}
+
+/**
+ * 타입 가드: code 속성이 있는 에러인지 확인
+ */
+function hasErrorCode(error: unknown): error is { code: string; message: string; details?: unknown } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    'message' in error
+  );
+}
+
+/**
  * 에러 타입 열거형
  */
 export enum ErrorType {
@@ -26,8 +45,8 @@ export interface StandardError {
   type: ErrorType;
   message: string;
   code?: string;
-  details?: any;
-  originalError?: any;
+  details?: Record<string, unknown>;
+  originalError?: unknown;
 }
 
 /**
@@ -144,7 +163,7 @@ export function handleSupabaseError(error: PostgrestError | null): StandardError
     type: errorType,
     message: userMessage,
     code: error.code,
-    details: error.details,
+    details: typeof error.details === 'string' ? { message: error.details } : undefined,
     originalError: error,
   };
 }
@@ -152,8 +171,16 @@ export function handleSupabaseError(error: PostgrestError | null): StandardError
 /**
  * Auth 에러 처리
  */
-export function handleAuthError(error: any): StandardError {
-  const message = error?.message?.toLowerCase() || '';
+export function handleAuthError(error: unknown): StandardError {
+  if (!isError(error)) {
+    return {
+      type: ErrorType.AUTH,
+      message: USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
+      originalError: error,
+    };
+  }
+
+  const message = error.message?.toLowerCase() || '';
 
   if (message.includes('email not confirmed')) {
     return {
@@ -197,8 +224,16 @@ export function handleAuthError(error: any): StandardError {
 /**
  * 네트워크 에러 처리
  */
-export function handleNetworkError(error: any): StandardError {
-  const message = error?.message?.toLowerCase() || '';
+export function handleNetworkError(error: unknown): StandardError {
+  if (!isError(error)) {
+    return {
+      type: ErrorType.NETWORK,
+      message: USER_FRIENDLY_MESSAGES.NETWORK_ERROR,
+      originalError: error,
+    };
+  }
+
+  const message = error.message?.toLowerCase() || '';
 
   if (message.includes('network') || message.includes('fetch')) {
     return {
@@ -226,7 +261,7 @@ export function handleNetworkError(error: any): StandardError {
 /**
  * 일반 에러 처리
  */
-export function handleError(error: any): StandardError {
+export function handleError(error: unknown): StandardError {
   // null 또는 undefined 체크
   if (!error) {
     return {
@@ -236,24 +271,35 @@ export function handleError(error: any): StandardError {
   }
 
   // Supabase PostgrestError 체크
-  if (error.code && error.message && error.details !== undefined) {
+  if (hasErrorCode(error)) {
     return handleSupabaseError(error as PostgrestError);
   }
 
+  // Error 타입이 아닌 경우 기본 처리
+  if (!isError(error)) {
+    return {
+      type: ErrorType.UNKNOWN,
+      message: USER_FRIENDLY_MESSAGES.UNKNOWN_ERROR,
+      originalError: error,
+    };
+  }
+
+  const message = error.message?.toLowerCase() || '';
+
   // Auth 관련 에러 체크
   if (
-    error.message?.includes('auth') ||
-    error.message?.includes('login') ||
-    error.message?.includes('jwt')
+    message.includes('auth') ||
+    message.includes('login') ||
+    message.includes('jwt')
   ) {
     return handleAuthError(error);
   }
 
   // 네트워크 에러 체크
   if (
-    error.message?.includes('network') ||
-    error.message?.includes('fetch') ||
-    error.message?.includes('timeout')
+    message.includes('network') ||
+    message.includes('fetch') ||
+    message.includes('timeout')
   ) {
     return handleNetworkError(error);
   }
@@ -285,8 +331,9 @@ function isExpectedAuthError(error: StandardError): boolean {
     '이미 가입된 이메일입니다',
   ];
 
+  const originalMessage = error.originalError && isError(error.originalError) ? error.originalError.message : '';
   const messageOrCode =
-    `${error.message} ${error.code} ${error.originalError?.message || ''}`.toLowerCase();
+    `${error.message} ${error.code || ''} ${originalMessage}`.toLowerCase();
 
   return expectedPatterns.some(pattern => messageOrCode.includes(pattern.toLowerCase()));
 }

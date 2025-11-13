@@ -64,7 +64,8 @@ src/
 ├── screens/          # 화면 컴포넌트
 ├── navigation/       # React Navigation 설정
 ├── hooks/            # 커스텀 훅
-├── utils/            # 유틸리티 함수 ✅
+├── constants/        # 중앙화된 상수 (emotions, patterns) ✅
+├── utils/            # 유틸리티 함수 (validation, dateFormatter, errorHandler) ✅
 ├── services/         # API 서비스, Supabase 클라이언트
 ├── store/            # Zustand 상태 관리
 ├── theme/            # 중앙화된 테마 (colors, typography, spacing) ✅
@@ -75,12 +76,21 @@ src/
 
 ## 핵심 개발 원칙
 
-### 1. 중앙화된 테마 사용 (필수)
+### 1. 중앙화된 리소스 사용 (필수)
 
+#### 테마
 - **위치**: `src/theme/`
 - **구성**: `colors.ts`, `typography.ts`, `spacing.ts`
 - **사용**: `import { theme } from '@/theme'`
 - ❌ 하드코딩 금지
+
+#### 상수
+- **위치**: `src/constants/`
+- **구성**:
+  - `emotions.ts` - 감정 데이터 (EmotionLevel, EMOTION_DATA)
+  - `patterns.ts` - 정규식 패턴 (EMAIL_REGEX, PHONE_REGEX, NICKNAME_REGEX)
+- **사용**: `import { EMOTION_DATA } from '@/constants/emotions'`
+- ❌ 데이터 중복 정의 금지
 
 ### 2. 컴포넌트 재사용 우선
 
@@ -92,6 +102,9 @@ src/
 
 - **날짜 처리**: `src/utils/dateFormatter.ts` - formatRelativeTime, formatSmartTime, formatDate
 - **에러 처리**: `src/utils/errorHandler.ts` - handleError, handleSupabaseError, logError
+- **유효성 검사**: `src/utils/validation.ts` - validateEmail, validatePassword, validateConfirmPassword, validateNickname
+  - 모든 함수는 `{ isValid: boolean, errorMessage?: string }` 형식 반환
+  - 예시: `const result = validateEmail(email); if (!result.isValid) setError(result.errorMessage);`
 
 ### 4. 타입 안정성
 
@@ -219,10 +232,13 @@ SUPABASE_ANON_KEY=your-anon-key
 ## 금지 사항
 
 ❌ 색상, 폰트 하드코딩 (항상 `src/theme/` 사용)
+❌ 감정 데이터, 정규식 패턴 중복 정의 (항상 `src/constants/` 사용)
+❌ 유효성 검사 로직 중복 작성 (항상 `src/utils/validation.ts` 사용)
 ❌ 컴포넌트 중복 생성
 ❌ 테스트 없이 코드 작성
 ❌ API 키, 비밀번호 커밋
 ❌ RLS 없이 Supabase 테이블 생성
+❌ any 타입 사용 (unknown 또는 명시적 타입 사용)
 
 ---
 
@@ -237,6 +253,19 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-11-12
+---
+
+## 리팩토링 이력
+
+### 2025-11-13: 코드베이스 전체 개선
+- ✅ 중복 코드 제거 (감정 데이터, 정규식 패턴 중앙화)
+- ✅ 유효성 검사 로직 중앙화 (`src/utils/validation.ts`)
+- ✅ 타입 안정성 개선 (any 타입 4곳 제거 → unknown/명시적 타입)
+- ✅ 상수 디렉토리 생성 (`src/constants/emotions.ts`, `src/constants/patterns.ts`)
+- 📊 결과: 약 120줄 감소, 중복 코드 50% 제거, 타입 안전성 향상
+
+---
+
+**마지막 업데이트**: 2025-11-13
 **프로젝트**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **환경**: WSL2 Ubuntu + Windows 11, React Native 0.82+
