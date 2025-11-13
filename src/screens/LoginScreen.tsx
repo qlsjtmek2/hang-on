@@ -133,22 +133,18 @@ export const LoginScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.md }}
+              containerStyle={{ marginTop: theme.spacing.sm }}
             />
 
             {/* 서버 에러 메시지 */}
-            {error && (
-              <View style={styles.errorContainer}>
-                <Text style={styles.errorText}>{error}</Text>
-              </View>
-            )}
+            {error && <Text style={styles.errorText}>{error}</Text>}
 
             <Button
               title={isLoading ? '로그인 중...' : '로그인'}
               onPress={handleLogin}
               variant="primary"
               disabled={isLoading}
-              style={{ marginTop: theme.spacing.xl }}
+              style={{ marginTop: theme.spacing.md }}
             />
 
             {isLoading && (
@@ -182,6 +178,11 @@ export const LoginScreen: React.FC = () => {
               onPress={handleGoogleLogin}
               variant="secondary"
               disabled={isLoading}
+              leftIcon={
+                <View style={styles.googleIcon}>
+                  <Text style={styles.googleIconText}>G</Text>
+                </View>
+              }
             />
           </View>
 
@@ -230,18 +231,11 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: theme.spacing.xl,
   },
-  errorContainer: {
-    backgroundColor: theme.colors.semantic.error + '15', // 15% opacity
-    borderRadius: theme.spacing.sm,
-    padding: theme.spacing.md,
-    marginTop: theme.spacing.md,
-    borderLeftWidth: 3,
-    borderLeftColor: theme.colors.semantic.error,
-  },
   errorText: {
     ...theme.typography.caption,
     color: theme.colors.semantic.error,
-    lineHeight: 18,
+    marginTop: theme.spacing.sm,
+    textAlign: 'center',
   },
   loader: {
     marginTop: theme.spacing.md,
@@ -263,6 +257,22 @@ const styles = StyleSheet.create({
   },
   socialSection: {
     marginBottom: theme.spacing.xl,
+  },
+  googleIcon: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: theme.colors.neutral.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: theme.colors.neutral.gray300,
+  },
+  googleIconText: {
+    ...theme.typography.button,
+    fontSize: 12,
+    fontWeight: '700',
+    color: theme.colors.primary.main,
   },
   footer: {
     flexDirection: 'row',

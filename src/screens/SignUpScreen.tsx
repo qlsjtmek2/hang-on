@@ -167,7 +167,7 @@ export const SignUpScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.md }}
+              containerStyle={{ marginTop: theme.spacing.sm }}
             />
 
             <Input
@@ -180,7 +180,7 @@ export const SignUpScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.md }}
+              containerStyle={{ marginTop: theme.spacing.sm }}
             />
 
             {/* 비밀번호 요구사항 */}
@@ -193,25 +193,14 @@ export const SignUpScreen: React.FC = () => {
 
             {/* 서버 에러 또는 안내 메시지 */}
             {error && (
-              <View
+              <Text
                 style={[
-                  styles.messageContainer,
-                  error.includes('이메일을 확인해주세요')
-                    ? styles.infoContainer
-                    : styles.errorContainer,
+                  styles.messageText,
+                  error.includes('이메일을 확인해주세요') ? styles.infoText : styles.errorText,
                 ]}
               >
-                <Text
-                  style={[
-                    styles.messageText,
-                    error.includes('이메일을 확인해주세요')
-                      ? styles.infoText
-                      : styles.errorText,
-                  ]}
-                >
-                  {error}
-                </Text>
-              </View>
+                {error}
+              </Text>
             )}
 
             <Button
@@ -219,7 +208,7 @@ export const SignUpScreen: React.FC = () => {
               onPress={handleSignUp}
               variant="primary"
               disabled={isLoading}
-              style={{ marginTop: theme.spacing.xl }}
+              style={{ marginTop: theme.spacing.md }}
             />
 
             {isLoading && (
@@ -245,6 +234,11 @@ export const SignUpScreen: React.FC = () => {
               onPress={handleGoogleSignUp}
               variant="secondary"
               disabled={isLoading}
+              leftIcon={
+                <View style={styles.googleIcon}>
+                  <Text style={styles.googleIconText}>G</Text>
+                </View>
+              }
             />
           </View>
 
@@ -304,23 +298,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     borderRadius: 8,
   },
-  messageContainer: {
-    borderRadius: theme.spacing.sm,
-    padding: theme.spacing.md,
-    marginTop: theme.spacing.md,
-    borderLeftWidth: 3,
-  },
-  errorContainer: {
-    backgroundColor: theme.colors.semantic.error + '15', // 15% opacity
-    borderLeftColor: theme.colors.semantic.error,
-  },
-  infoContainer: {
-    backgroundColor: theme.colors.primary.main + '15', // 15% opacity
-    borderLeftColor: theme.colors.primary.main,
-  },
   messageText: {
     ...theme.typography.caption,
-    lineHeight: 18,
+    marginTop: theme.spacing.sm,
+    textAlign: 'center',
   },
   errorText: {
     color: theme.colors.semantic.error,
@@ -362,6 +343,22 @@ const styles = StyleSheet.create({
   },
   socialSection: {
     marginBottom: theme.spacing.xl,
+  },
+  googleIcon: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: theme.colors.neutral.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: theme.colors.neutral.gray300,
+  },
+  googleIconText: {
+    ...theme.typography.button,
+    fontSize: 12,
+    fontWeight: '700',
+    color: theme.colors.primary.main,
   },
   footer: {
     flexDirection: 'row',

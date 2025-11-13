@@ -7,6 +7,7 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
+  View,
 } from 'react-native';
 
 import { theme } from '@/theme';
@@ -19,6 +20,8 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   accessibilityLabel?: string;
@@ -33,6 +36,8 @@ export function Button({
   disabled = false,
   loading = false,
   fullWidth = false,
+  leftIcon,
+  rightIcon,
   style,
   textStyle,
   accessibilityLabel,
@@ -83,7 +88,11 @@ export function Button({
       {loading ? (
         <ActivityIndicator color={getActivityIndicatorColor()} size="small" />
       ) : (
-        <Text style={titleStyle}>{title}</Text>
+        <View style={styles.contentContainer}>
+          {leftIcon && <View style={styles.leftIconContainer}>{leftIcon}</View>}
+          <Text style={titleStyle}>{title}</Text>
+          {rightIcon && <View style={styles.rightIconContainer}>{rightIcon}</View>}
+        </View>
       )}
     </TouchableOpacity>
   );
@@ -95,6 +104,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leftIconContainer: {
+    marginRight: theme.spacing.xs,
+  },
+  rightIconContainer: {
+    marginLeft: theme.spacing.xs,
   },
 
   // Variants
