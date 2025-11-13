@@ -7,7 +7,7 @@ import {
   signUp as supabaseSignUp,
   signOut as supabaseSignOut,
 } from '@/services/supabase';
-import { handleSupabaseError, logError } from '@/utils/errorHandler';
+import { handleError, logError } from '@/utils/errorHandler';
 
 interface AuthStore {
   // 상태
@@ -77,7 +77,7 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
         });
       }
     } catch (error) {
-      const errorMessage = handleSupabaseError(error as never);
+      const errorMessage = handleError(error);
       logError(errorMessage, 'AuthStore.initialize');
       set({
         error: errorMessage.message,
@@ -119,7 +119,7 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
       set({ isLoading: false });
       return false;
     } catch (error) {
-      const errorMessage = handleSupabaseError(error as never);
+      const errorMessage = handleError(error);
       logError(errorMessage, 'AuthStore.signUp');
       set({
         error: errorMessage.message,
@@ -149,17 +149,11 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
       set({ isLoading: false });
       return false;
     } catch (error) {
-      const errorMessage = handleSupabaseError(error as never);
+      const errorMessage = handleError(error);
       logError(errorMessage, 'AuthStore.signIn');
 
-      // 사용자 친화적 에러 메시지
-      let userMessage = errorMessage.message;
-      if (userMessage.includes('Invalid login credentials')) {
-        userMessage = '이메일 또는 비밀번호가 올바르지 않습니다.';
-      }
-
       set({
-        error: userMessage,
+        error: errorMessage.message,
         isLoading: false,
       });
       return false;
@@ -180,7 +174,7 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
         isLoading: false,
       });
     } catch (error) {
-      const errorMessage = handleSupabaseError(error as never);
+      const errorMessage = handleError(error);
       logError(errorMessage, 'AuthStore.signOut');
       set({
         error: errorMessage.message,
