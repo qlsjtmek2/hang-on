@@ -29,12 +29,10 @@ export const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [serverError, setServerError] = useState('');
 
   // 화면 진입 시 에러 초기화
   useEffect(() => {
     clearError();
-    setServerError('');
   }, [clearError]);
 
   const validateEmail = (text: string) => {
@@ -65,7 +63,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    setServerError('');
+    clearError();
 
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
@@ -74,11 +72,7 @@ export const LoginScreen: React.FC = () => {
       return;
     }
 
-    const success = await signIn(email.toLowerCase().trim(), password);
-
-    if (!success && authError) {
-      setServerError(authError);
-    }
+    await signIn(email.toLowerCase().trim(), password);
   };
 
   const handleEmailChange = (text: string) => {
@@ -148,7 +142,7 @@ export const LoginScreen: React.FC = () => {
             />
 
             {/* 서버 에러 메시지 */}
-            {serverError && <Text style={styles.errorText}>{serverError}</Text>}
+            {authError && <Text style={styles.errorText}>{authError}</Text>}
 
             <Button
               title={isLoading ? '로그인 중...' : '로그인'}

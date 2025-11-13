@@ -31,12 +31,10 @@ export const SignUpScreen: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [serverError, setServerError] = useState('');
 
   // 화면 진입 시 에러 초기화
   useEffect(() => {
     clearError();
-    setServerError('');
   }, [clearError]);
 
   const validateEmail = (text: string) => {
@@ -80,7 +78,7 @@ export const SignUpScreen: React.FC = () => {
   };
 
   const handleSignUp = async () => {
-    setServerError('');
+    clearError();
 
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
@@ -93,16 +91,11 @@ export const SignUpScreen: React.FC = () => {
     const success = await signUp(email.toLowerCase().trim(), password);
 
     if (success) {
-      // 이메일 확인이 필요한 경우, authError에 메시지가 설정됨
-      if (authError) {
-        setServerError(authError);
-        // 잠시 후 로그인 화면으로 이동
-        setTimeout(() => {
-          navigation.navigate('Login');
-        }, 3000);
-      }
-    } else if (authError) {
-      setServerError(authError);
+      // 회원가입 성공 (이메일 확인 필요 또는 즉시 로그인)
+      // 3초 후 로그인 화면으로 이동
+      setTimeout(() => {
+        navigation.navigate('Login');
+      }, 3000);
     }
   };
 
@@ -193,16 +186,16 @@ export const SignUpScreen: React.FC = () => {
             />
 
             {/* 서버 에러 또는 안내 메시지 */}
-            {serverError && (
+            {authError && (
               <Text
                 style={[
                   styles.messageText,
-                  serverError.includes('이메일을 확인해주세요')
+                  authError.includes('이메일을 확인해주세요')
                     ? styles.infoText
                     : styles.errorText,
                 ]}
               >
-                {serverError}
+                {authError}
               </Text>
             )}
 
