@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   message: {
     marginTop: theme.spacing.lg,
-    fontSize: theme.typography.body1.fontSize,
+    fontSize: theme.typography.body.fontSize,
     color: theme.colors.text.secondary,
     textAlign: 'center',
   },
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subMessage: {
-    fontSize: theme.typography.body2.fontSize,
+    fontSize: theme.typography.caption.fontSize,
     color: theme.colors.text.secondary,
     textAlign: 'center',
     marginTop: theme.spacing.sm,
