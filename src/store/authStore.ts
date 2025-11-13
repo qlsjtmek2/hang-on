@@ -20,8 +20,8 @@ interface LoginAttempt {
 const loginAttempts: Map<string, LoginAttempt> = new Map();
 
 // 로그인 실패 제한 설정
-const MAX_LOGIN_ATTEMPTS = 5;
-const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15분
+const MAX_LOGIN_ATTEMPTS = 15;
+const LOCKOUT_DURATION_MS = 10 * 60 * 1000; // 10분
 
 interface AuthStore {
   // 상태
@@ -222,19 +222,18 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
           user: currentState.user,
           session: currentState.session,
           isAuthenticated: currentState.isAuthenticated,
-          error: `로그인 시도 횟수를 초과했습니다. 15분 후에 다시 시도해주세요.`,
+          error: `로그인 시도 횟수를 초과했습니다. 10분 후에 다시 시도해주세요.`,
           isLoading: false,
         });
       } else {
         loginAttempts.set(email, attempt);
-        const remainingAttempts = MAX_LOGIN_ATTEMPTS - attempt.count;
 
         const currentState = _get();
         set({
           user: currentState.user,
           session: currentState.session,
           isAuthenticated: currentState.isAuthenticated,
-          error: `${errorMessage.message} (남은 시도 횟수: ${remainingAttempts}회)`,
+          error: errorMessage.message,
           isLoading: false,
         });
       }
