@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,7 +23,7 @@ type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 
 export const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
-  const { signUp, isLoading, error, clearError } = useAuthStore();
+  const { signUp, isLoading, error: authError, clearError } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +31,13 @@ export const SignUpScreen: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [serverError, setServerError] = useState('');
+
+  // 화면 진입 시 에러 초기화
+  useEffect(() => {
+    clearError();
+    setServerError('');
+  }, [clearError]);
 
   const validateEmail = (text: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -51,7 +59,7 @@ export const SignUpScreen: React.FC = () => {
       return false;
     }
     if (text.length < 8) {
-      setPasswordError('비밀번호는 8자 이상이어야 합니다');
+      setPasswordError('최소 8자 이상 입력해주세요');
       return false;
     }
     setPasswordError('');
@@ -72,7 +80,7 @@ export const SignUpScreen: React.FC = () => {
   };
 
   const handleSignUp = async () => {
-    clearError();
+    setServerError('');
 
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
@@ -85,16 +93,17 @@ export const SignUpScreen: React.FC = () => {
     const success = await signUp(email.toLowerCase().trim(), password);
 
     if (success) {
-      // 이메일 확인이 필요한 경우, error state에 메시지가 설정됨
-      // 성공 시에도 error가 있으면 그것은 안내 메시지
-      if (error) {
+      // 이메일 확인이 필요한 경우, authError에 메시지가 설정됨
+      if (authError) {
+        setServerError(authError);
         // 잠시 후 로그인 화면으로 이동
         setTimeout(() => {
           navigation.navigate('Login');
         }, 3000);
       }
+    } else if (authError) {
+      setServerError(authError);
     }
-    // 에러는 authStore의 error state로 자동으로 관리됨
   };
 
   const handleEmailChange = (text: string) => {
@@ -167,7 +176,7 @@ export const SignUpScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.sm }}
+              containerStyle={{ marginTop: theme.spacing.xs }}
             />
 
             <Input
@@ -180,26 +189,20 @@ export const SignUpScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.sm }}
+              containerStyle={{ marginTop: theme.spacing.xs }}
             />
 
-            {/* 비밀번호 요구사항 */}
-            <View style={styles.requirementsContainer}>
-              <Text style={styles.requirementTitle}>비밀번호 요구사항:</Text>
-              <Text style={[styles.requirement, password.length >= 8 && styles.requirementMet]}>
-                • 최소 8자 이상
-              </Text>
-            </View>
-
             {/* 서버 에러 또는 안내 메시지 */}
-            {error && (
+            {serverError && (
               <Text
                 style={[
                   styles.messageText,
-                  error.includes('이메일을 확인해주세요') ? styles.infoText : styles.errorText,
+                  serverError.includes('이메일을 확인해주세요')
+                    ? styles.infoText
+                    : styles.errorText,
                 ]}
               >
-                {error}
+                {serverError}
               </Text>
             )}
 
@@ -208,7 +211,7 @@ export const SignUpScreen: React.FC = () => {
               onPress={handleSignUp}
               variant="primary"
               disabled={isLoading}
-              style={{ marginTop: theme.spacing.md }}
+              style={{ marginTop: theme.spacing.sm }}
             />
 
             {isLoading && (
@@ -292,12 +295,6 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: theme.spacing.xl,
   },
-  requirementsContainer: {
-    marginTop: theme.spacing.md,
-    padding: theme.spacing.md,
-    backgroundColor: theme.colors.surface,
-    borderRadius: 8,
-  },
   messageText: {
     ...theme.typography.caption,
     marginTop: theme.spacing.sm,
@@ -308,20 +305,6 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: theme.colors.primary.main,
-  },
-  requirementTitle: {
-    ...theme.typography.caption,
-    color: theme.colors.text.secondary,
-    marginBottom: theme.spacing.xs,
-    fontWeight: '600',
-  },
-  requirement: {
-    ...theme.typography.caption,
-    color: theme.colors.text.secondary,
-    marginTop: theme.spacing.xs,
-  },
-  requirementMet: {
-    color: theme.colors.semantic.success,
   },
   loader: {
     marginTop: theme.spacing.md,

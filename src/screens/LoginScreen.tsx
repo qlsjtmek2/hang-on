@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,12 +23,19 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, '
 
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
-  const { signIn, isLoading, error, clearError } = useAuthStore();
+  const { signIn, isLoading, error: authError, clearError } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [serverError, setServerError] = useState('');
+
+  // 화면 진입 시 에러 초기화
+  useEffect(() => {
+    clearError();
+    setServerError('');
+  }, [clearError]);
 
   const validateEmail = (text: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +65,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    clearError();
+    setServerError('');
 
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
@@ -66,8 +74,11 @@ export const LoginScreen: React.FC = () => {
       return;
     }
 
-    await signIn(email.toLowerCase().trim(), password);
-    // 에러는 authStore의 error state로 자동으로 관리됨
+    const success = await signIn(email.toLowerCase().trim(), password);
+
+    if (!success && authError) {
+      setServerError(authError);
+    }
   };
 
   const handleEmailChange = (text: string) => {
@@ -133,18 +144,18 @@ export const LoginScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="password"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.sm }}
+              containerStyle={{ marginTop: theme.spacing.xs }}
             />
 
             {/* 서버 에러 메시지 */}
-            {error && <Text style={styles.errorText}>{error}</Text>}
+            {serverError && <Text style={styles.errorText}>{serverError}</Text>}
 
             <Button
               title={isLoading ? '로그인 중...' : '로그인'}
               onPress={handleLogin}
               variant="primary"
               disabled={isLoading}
-              style={{ marginTop: theme.spacing.md }}
+              style={{ marginTop: theme.spacing.sm }}
             />
 
             {isLoading && (
@@ -160,7 +171,7 @@ export const LoginScreen: React.FC = () => {
               onPress={handleForgotPassword}
               variant="ghost"
               disabled={isLoading}
-              style={{ marginTop: theme.spacing.md }}
+              style={{ marginTop: theme.spacing.sm }}
             />
           </View>
 

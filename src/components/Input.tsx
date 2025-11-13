@@ -125,7 +125,7 @@ Input.displayName = 'Input';
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: theme.spacing.md,
+    marginBottom: 0,
   },
 
   label: {
