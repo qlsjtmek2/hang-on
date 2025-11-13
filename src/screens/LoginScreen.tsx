@@ -39,12 +39,6 @@ export const LoginScreen: React.FC = () => {
     console.log('[LoginScreen] authError 변경됨:', authError);
   }, [authError]);
 
-  // 화면 진입 시 에러 초기화 (마운트 시 한 번만 실행)
-  useEffect(() => {
-    clearError();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const validateEmail = (text: string) => {
     const result = validateEmailUtil(text);
     setEmailError(result.errorMessage || '');

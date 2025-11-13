@@ -59,8 +59,13 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
         } = supabase.auth.onAuthStateChange((_event, authSession) => {
           console.log('[AuthStore.onAuthStateChange] 이벤트:', _event, '세션:', !!authSession);
 
-          // 현재 error 상태 유지 (로그인 에러 메시지를 덮어쓰지 않음)
           const currentState = _get();
+
+          // 로그인/회원가입 중에는 상태 변경 무시 (에러 메시지가 덮어써지는 것을 방지)
+          if (currentState.isLoading) {
+            console.log('[AuthStore.onAuthStateChange] isLoading=true, 상태 변경 무시');
+            return;
+          }
 
           set({
             user: authSession?.user || null,

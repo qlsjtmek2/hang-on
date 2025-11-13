@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -36,12 +36,6 @@ export const SignUpScreen: React.FC = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-  // 화면 진입 시 에러 초기화 (마운트 시 한 번만 실행)
-  useEffect(() => {
-    clearError();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const validateEmail = (text: string) => {
     const result = validateEmailUtil(text);
