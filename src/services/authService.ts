@@ -56,6 +56,7 @@ export const signUp = async (params: SignUpParams): Promise<AuthResponse> => {
     password: params.password,
     options: {
       data: params.metadata,
+      emailRedirectTo: 'hangon://auth/confirm',
     },
   });
 

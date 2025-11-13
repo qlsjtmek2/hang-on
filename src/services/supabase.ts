@@ -1,6 +1,7 @@
 import 'react-native-url-polyfill/auto';
 import { createClient } from '@supabase/supabase-js';
 import Config from 'react-native-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Database } from '@/types/database';
 
@@ -24,10 +25,8 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     // URL에서 세션 감지 안 함 (React Native에서는 불필요)
     detectSessionInUrl: false,
-    // TODO: AsyncStorage 설정 필요
-    // storage: AsyncStorage as any,
-    // AsyncStorage 설치: npm install @react-native-async-storage/async-storage
-    // 네이티브 재빌드: npm run android (또는 npm run ios)
+    // AsyncStorage로 세션 영속성 확보
+    storage: AsyncStorage,
   },
 });
 

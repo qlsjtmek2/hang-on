@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
+import { AuthConfirmScreen } from '@/screens/AuthConfirmScreen';
 import { HomeScreen } from '@/screens/HomeScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { SignUpScreen } from '@/screens/SignUpScreen';
@@ -13,9 +14,23 @@ export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   Home: undefined;
+  AuthConfirm: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+// Deep Linking 설정
+const linking = {
+  prefixes: ['hangon://'],
+  config: {
+    screens: {
+      Login: 'login',
+      SignUp: 'signup',
+      Home: 'home',
+      AuthConfirm: 'auth/confirm',
+    },
+  },
+};
 
 export const AuthNavigator: React.FC = () => {
   const { isAuthenticated, isLoading, initialize } = useAuthStore();
@@ -35,7 +50,7 @@ export const AuthNavigator: React.FC = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
@@ -72,6 +87,14 @@ export const AuthNavigator: React.FC = () => {
               component={SignUpScreen}
               options={{
                 title: '회원가입',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AuthConfirm"
+              component={AuthConfirmScreen}
+              options={{
+                title: '이메일 인증',
                 headerShown: false,
               }}
             />
