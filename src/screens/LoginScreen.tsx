@@ -189,7 +189,10 @@ export const LoginScreen: React.FC = () => {
             <Text style={styles.footerText}>아직 계정이 없으신가요?</Text>
             <Button
               title="회원가입"
-              onPress={() => navigation.navigate('SignUp')}
+              onPress={() => {
+                clearError();
+                navigation.navigate('SignUp');
+              }}
               variant="ghost"
               disabled={isLoading}
             />

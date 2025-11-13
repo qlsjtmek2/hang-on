@@ -221,7 +221,10 @@ export const SignUpScreen: React.FC = () => {
             <Text style={styles.footerText}>이미 계정이 있으신가요?</Text>
             <Button
               title="로그인"
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => {
+                clearError();
+                navigation.navigate('Login');
+              }}
               variant="ghost"
               disabled={isLoading}
             />
