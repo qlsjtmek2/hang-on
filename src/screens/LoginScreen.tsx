@@ -8,7 +8,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -67,11 +66,8 @@ export const LoginScreen: React.FC = () => {
       return;
     }
 
-    const success = await signIn(email.toLowerCase().trim(), password);
-
-    if (!success && error) {
-      Alert.alert('로그인 실패', error);
-    }
+    await signIn(email.toLowerCase().trim(), password);
+    // 에러는 authStore의 error state로 자동으로 관리됨
   };
 
   const handleEmailChange = (text: string) => {
@@ -139,6 +135,13 @@ export const LoginScreen: React.FC = () => {
               editable={!isLoading}
               containerStyle={{ marginTop: theme.spacing.md }}
             />
+
+            {/* 서버 에러 메시지 */}
+            {error && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{error}</Text>
+              </View>
+            )}
 
             <Button
               title={isLoading ? '로그인 중...' : '로그인'}
@@ -226,6 +229,19 @@ const styles = StyleSheet.create({
   },
   form: {
     marginBottom: theme.spacing.xl,
+  },
+  errorContainer: {
+    backgroundColor: theme.colors.semantic.error + '15', // 15% opacity
+    borderRadius: theme.spacing.sm,
+    padding: theme.spacing.md,
+    marginTop: theme.spacing.md,
+    borderLeftWidth: 3,
+    borderLeftColor: theme.colors.semantic.error,
+  },
+  errorText: {
+    ...theme.typography.caption,
+    color: theme.colors.semantic.error,
+    lineHeight: 18,
   },
   loader: {
     marginTop: theme.spacing.md,

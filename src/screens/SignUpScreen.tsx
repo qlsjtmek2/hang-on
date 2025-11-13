@@ -8,7 +8,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -86,31 +85,16 @@ export const SignUpScreen: React.FC = () => {
     const success = await signUp(email.toLowerCase().trim(), password);
 
     if (success) {
+      // 이메일 확인이 필요한 경우, error state에 메시지가 설정됨
+      // 성공 시에도 error가 있으면 그것은 안내 메시지
       if (error) {
-        // 이메일 확인이 필요한 경우
-        Alert.alert('회원가입 완료', '이메일을 확인하여 계정을 활성화해주세요.', [
-          {
-            text: '확인',
-            onPress: () => navigation.navigate('Login'),
-          },
-        ]);
-      } else {
-        Alert.alert('회원가입 성공', '회원가입이 완료되었습니다.', [{ text: '확인' }]);
+        // 잠시 후 로그인 화면으로 이동
+        setTimeout(() => {
+          navigation.navigate('Login');
+        }, 3000);
       }
-    } else if (error) {
-      let errorMessage = error;
-
-      // Supabase 에러 메시지 한글화
-      if (error.includes('already registered')) {
-        errorMessage = '이미 등록된 이메일입니다';
-      } else if (error.includes('email')) {
-        errorMessage = '이메일 형식이 올바르지 않습니다';
-      } else if (error.includes('password')) {
-        errorMessage = '비밀번호가 보안 요구사항을 충족하지 않습니다';
-      }
-
-      Alert.alert('회원가입 실패', errorMessage);
     }
+    // 에러는 authStore의 error state로 자동으로 관리됨
   };
 
   const handleEmailChange = (text: string) => {
@@ -207,6 +191,29 @@ export const SignUpScreen: React.FC = () => {
               </Text>
             </View>
 
+            {/* 서버 에러 또는 안내 메시지 */}
+            {error && (
+              <View
+                style={[
+                  styles.messageContainer,
+                  error.includes('이메일을 확인해주세요')
+                    ? styles.infoContainer
+                    : styles.errorContainer,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.messageText,
+                    error.includes('이메일을 확인해주세요')
+                      ? styles.infoText
+                      : styles.errorText,
+                  ]}
+                >
+                  {error}
+                </Text>
+              </View>
+            )}
+
             <Button
               title={isLoading ? '가입 중...' : '회원가입'}
               onPress={handleSignUp}
@@ -296,6 +303,30 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     backgroundColor: theme.colors.surface,
     borderRadius: 8,
+  },
+  messageContainer: {
+    borderRadius: theme.spacing.sm,
+    padding: theme.spacing.md,
+    marginTop: theme.spacing.md,
+    borderLeftWidth: 3,
+  },
+  errorContainer: {
+    backgroundColor: theme.colors.semantic.error + '15', // 15% opacity
+    borderLeftColor: theme.colors.semantic.error,
+  },
+  infoContainer: {
+    backgroundColor: theme.colors.primary.main + '15', // 15% opacity
+    borderLeftColor: theme.colors.primary.main,
+  },
+  messageText: {
+    ...theme.typography.caption,
+    lineHeight: 18,
+  },
+  errorText: {
+    color: theme.colors.semantic.error,
+  },
+  infoText: {
+    color: theme.colors.primary.main,
   },
   requirementTitle: {
     ...theme.typography.caption,

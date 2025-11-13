@@ -267,18 +267,59 @@ export function handleError(error: any): StandardError {
 }
 
 /**
- * 에러 로깅 (개발 환경)
+ * 예상 가능한 Auth 에러인지 확인
+ * 예상 가능한 에러는 사용자의 정상적인 행동(잘못된 비밀번호 입력 등)이므로 콘솔에 에러로 로깅하지 않음
  */
-export function logError(error: StandardError, context?: string): void {
-  if (__DEV__) {
-    console.group(`🚨 Error${context ? ` in ${context}` : ''}`);
-    console.error('Type:', error.type);
-    console.error('Message:', error.message);
-    if (error.code) console.error('Code:', error.code);
-    if (error.details) console.error('Details:', error.details);
-    if (error.originalError) console.error('Original:', error.originalError);
-    console.groupEnd();
+function isExpectedAuthError(error: StandardError): boolean {
+  if (error.type !== ErrorType.AUTH) {
+    return false;
   }
+
+  // 예상 가능한 Auth 에러 메시지 패턴
+  const expectedPatterns = [
+    'invalid login credentials',
+    'invalid_credentials',
+    '이메일 또는 비밀번호가 올바르지 않습니다',
+    'email not confirmed',
+    'user already registered',
+    '이미 가입된 이메일입니다',
+  ];
+
+  const messageOrCode =
+    `${error.message} ${error.code} ${error.originalError?.message || ''}`.toLowerCase();
+
+  return expectedPatterns.some(pattern => messageOrCode.includes(pattern.toLowerCase()));
+}
+
+/**
+ * 에러 로깅 (개발 환경)
+ * @param silent - true이면 콘솔에 출력하지 않음 (예상 가능한 Auth 에러는 자동으로 silent 처리)
+ */
+export function logError(error: StandardError, context?: string, silent?: boolean): void {
+  if (!__DEV__) {
+    return;
+  }
+
+  // 예상 가능한 Auth 에러는 자동으로 silent 처리
+  const shouldBeSilent = silent || isExpectedAuthError(error);
+
+  if (shouldBeSilent) {
+    // Silent 모드: info 레벨로만 간단히 로깅
+    console.log(
+      `ℹ️ ${context || 'Error'}: ${error.message}`,
+      error.type !== ErrorType.AUTH ? `(Type: ${error.type})` : '',
+    );
+    return;
+  }
+
+  // 일반 에러: 상세 로깅
+  console.group(`🚨 Error${context ? ` in ${context}` : ''}`);
+  console.error('Type:', error.type);
+  console.error('Message:', error.message);
+  if (error.code) console.error('Code:', error.code);
+  if (error.details) console.error('Details:', error.details);
+  if (error.originalError) console.error('Original:', error.originalError);
+  console.groupEnd();
 }
 
 /**
