@@ -1,23 +1,8 @@
 import { theme } from '@/theme';
+import type { EmotionLevel, EmotionData } from '@/types/emotion';
 
-/**
- * 감정 수준 타입 정의
- * 1: 폭풍 (매우 나쁨)
- * 2: 비 (나쁨)
- * 3: 흐림 (보통)
- * 4: 구름 (좋음)
- * 5: 맑음 (매우 좋음)
- */
-export type EmotionLevel = 1 | 2 | 3 | 4 | 5;
-
-/**
- * 감정 데이터 인터페이스
- */
-export interface EmotionData {
-  emoji: string;
-  label: string;
-  color: string;
-}
+// Re-export types for convenience
+export type { EmotionLevel, EmotionData };
 
 /**
  * 감정 수준별 날씨 데이터 매핑
@@ -40,7 +25,7 @@ export const EMOTION_DATA: Record<EmotionLevel, EmotionData> = {
     color: theme.colors.emotion.cloudy,
   },
   4: {
-    emoji: '⛅',
+    emoji: '🌤️',
     label: '구름',
     color: theme.colors.emotion.partly,
   },

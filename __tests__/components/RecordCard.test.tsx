@@ -90,7 +90,7 @@ describe('RecordCard Component', () => {
 
   it('displays correct emotion for each level', () => {
     const levels = [1, 2, 3, 4, 5] as const;
-    const expectedEmojis = ['⛈️', '🌧️', '☁️', '⛅', '☀️'];
+    const expectedEmojis = ['⛈️', '🌧️', '☁️', '🌤️', '☀️'];
     const expectedLabels = ['폭풍', '비', '흐림', '구름', '맑음'];
 
     levels.forEach((level, index) => {

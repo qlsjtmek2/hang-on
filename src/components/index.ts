@@ -12,7 +12,8 @@ export type { InputProps } from './Input';
 
 // EmotionButton
 export { EmotionButton, EmotionSelector } from './EmotionButton';
-export type { EmotionLevel, EmotionButtonProps, EmotionSelectorProps } from './EmotionButton';
+export type { EmotionButtonProps, EmotionSelectorProps } from './EmotionButton';
+export type { EmotionLevel } from '@/types/emotion';
 
 // RecordCard
 export { RecordCard } from './RecordCard';

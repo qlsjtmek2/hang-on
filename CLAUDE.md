@@ -69,7 +69,7 @@ src/
 ├── services/         # API 서비스, Supabase 클라이언트
 ├── store/            # Zustand 상태 관리
 ├── theme/            # 중앙화된 테마 (colors, typography, spacing) ✅
-└── types/            # TypeScript 타입 정의
+└── types/            # TypeScript 타입 정의 (emotion.ts) ✅
 ```
 
 ---
@@ -84,13 +84,20 @@ src/
 - **사용**: `import { theme } from '@/theme'`
 - ❌ 하드코딩 금지
 
+#### 타입
+- **위치**: `src/types/`
+- **구성**: `emotion.ts` - 감정 관련 타입 (EmotionLevel, EmotionWeather, EmotionData)
+- **사용**: `import type { EmotionLevel } from '@/types/emotion'`
+- ✅ 타입 중앙화: 모든 감정 관련 타입을 단일 소스에서 관리
+
 #### 상수
 - **위치**: `src/constants/`
 - **구성**:
-  - `emotions.ts` - 감정 데이터 (EmotionLevel, EMOTION_DATA)
+  - `emotions.ts` - 감정 데이터 상수 (EMOTION_DATA), 타입 re-export
   - `patterns.ts` - 정규식 패턴 (EMAIL_REGEX, PHONE_REGEX, NICKNAME_REGEX)
 - **사용**: `import { EMOTION_DATA } from '@/constants/emotions'`
 - ❌ 데이터 중복 정의 금지
+- 💡 타입과 상수를 함께 사용할 때는 `@/constants/emotions`에서 import (타입이 re-export됨)
 
 ### 2. 컴포넌트 재사용 우선
 
@@ -257,7 +264,16 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ## 리팩토링 이력
 
-### 2025-11-13: 코드베이스 전체 개선
+### 2025-11-13 (2차): 감정 데이터 구조 개선
+- ✅ 타입 파일 분리: `src/types/emotion.ts` 생성
+- ✅ `EmotionWeather` 타입 추가 (storm, rain, cloudy, partly_sunny, sunny)
+- ✅ 감정 레벨 ↔ 날씨 매핑 상수 추가 (`EMOTION_LEVEL_TO_WEATHER`, `WEATHER_TO_EMOTION_LEVEL`)
+- ✅ 타입 중복 제거: `EmotionLevel` 단일 소스 관리
+- ✅ 레벨 4 이모지 통일: ⛅ → 🌤️ (문서와 일치)
+- ✅ Re-export 패턴 적용: 타입은 `@/types/emotion`, 편의성을 위해 `@/constants/emotions`에서도 re-export
+- 📊 결과: 타입 안전성 향상, 문서-코드 일치, 다국어 지원 준비 완료
+
+### 2025-11-13 (1차): 코드베이스 전체 개선
 - ✅ 중복 코드 제거 (감정 데이터, 정규식 패턴 중앙화)
 - ✅ 유효성 검사 로직 중앙화 (`src/utils/validation.ts`)
 - ✅ 타입 안정성 개선 (any 타입 4곳 제거 → unknown/명시적 타입)

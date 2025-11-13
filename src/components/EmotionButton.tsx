@@ -12,9 +12,6 @@ import {
 import { EmotionLevel, EMOTION_DATA } from '@/constants/emotions';
 import { theme } from '@/theme';
 
-// Re-export EmotionLevel for convenience
-export type { EmotionLevel };
-
 export interface EmotionButtonProps {
   emotionLevel: EmotionLevel;
   isSelected?: boolean;

@@ -10,6 +10,8 @@
  * 참조: docs/DESIGN_SYSTEM.md
  */
 
+import type { EmotionLevel } from '@/types/emotion';
+
 export const colors = {
   // Primary Colors (주요 색상)
   primary: {
@@ -75,7 +77,7 @@ export const colors = {
  * @example
  * const color = getEmotionColor(5); // '#FFD700' (맑음)
  */
-export const getEmotionColor = (level: 1 | 2 | 3 | 4 | 5): string => {
+export const getEmotionColor = (level: EmotionLevel): string => {
   const emotionColorMap = {
     5: colors.emotion.sunny,
     4: colors.emotion.partly,
@@ -98,7 +100,7 @@ export const getEmotionColor = (level: 1 | 2 | 3 | 4 | 5): string => {
  * const color = getEmotionColorWithOpacity(5, 0.1); // 'rgba(255, 215, 0, 0.1)'
  */
 export const getEmotionColorWithOpacity = (
-  level: 1 | 2 | 3 | 4 | 5,
+  level: EmotionLevel,
   opacity: number = 0.1,
 ): string => {
   const hexToRgb = (hex: string) => {
@@ -120,4 +122,3 @@ export const getEmotionColorWithOpacity = (
 
 // Type export for TypeScript
 export type Colors = typeof colors;
-export type EmotionLevel = 1 | 2 | 3 | 4 | 5;
