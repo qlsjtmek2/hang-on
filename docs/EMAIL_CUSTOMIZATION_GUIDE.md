@@ -32,16 +32,16 @@ Supabase Auth 이메일을 커스터마이징하는 방법을 안내합니다.
 
 스크롤하여 **SMTP Settings** 섹션에서:
 
-| 항목 | 값 |
-|------|-----|
-| Enable Custom SMTP | ✅ 활성화 |
-| Sender email | `no-reply@hangon.app` (또는 도메인) |
-| Sender name | `Hang On` |
-| Host | `smtp.resend.com` |
-| Port number | `465` |
-| Minimum interval | `60` (선택) |
-| Username | `resend` |
-| Password | `re_xxxxxxxxx` (API Key) |
+| 항목               | 값                                  |
+| ------------------ | ----------------------------------- |
+| Enable Custom SMTP | ✅ 활성화                           |
+| Sender email       | `no-reply@hangon.app` (또는 도메인) |
+| Sender name        | `Hang On`                           |
+| Host               | `smtp.resend.com`                   |
+| Port number        | `465`                               |
+| Minimum interval   | `60` (선택)                         |
+| Username           | `resend`                            |
+| Password           | `re_xxxxxxxxx` (API Key)            |
 
 **Save** 클릭
 
@@ -49,9 +49,9 @@ Supabase Auth 이메일을 커스터마이징하는 방법을 안내합니다.
 
 **위치**: [Authentication > URL Configuration](https://supabase.com/dashboard/project/gaahzvbalabwklkqiykc/auth/url-configuration)
 
-| 항목 | 값 |
-|------|-----|
-| Site URL | `hangon://` |
+| 항목          | 값                                                   |
+| ------------- | ---------------------------------------------------- |
+| Site URL      | `hangon://`                                          |
 | Redirect URLs | `hangon://auth/confirm`<br>`hangon://reset-password` |
 
 ### 2.3 이메일 템플릿 설정
@@ -93,15 +93,15 @@ Supabase Auth 이메일을 커스터마이징하는 방법을 안내합니다.
 
 ## 4. 사용 가능한 템플릿 변수
 
-| 변수 | 설명 |
-|------|------|
-| `{{ .ConfirmationURL }}` | 인증 링크 URL |
-| `{{ .Token }}` | 6자리 OTP 코드 |
-| `{{ .TokenHash }}` | 토큰 해시 값 |
-| `{{ .SiteURL }}` | Site URL (hangon://) |
-| `{{ .RedirectTo }}` | 리다이렉트 URL |
-| `{{ .Email }}` | 사용자 이메일 |
-| `{{ .NewEmail }}` | 새 이메일 (이메일 변경 시) |
+| 변수                     | 설명                       |
+| ------------------------ | -------------------------- |
+| `{{ .ConfirmationURL }}` | 인증 링크 URL              |
+| `{{ .Token }}`           | 6자리 OTP 코드             |
+| `{{ .TokenHash }}`       | 토큰 해시 값               |
+| `{{ .SiteURL }}`         | Site URL (hangon://)       |
+| `{{ .RedirectTo }}`      | 리다이렉트 URL             |
+| `{{ .Email }}`           | 사용자 이메일              |
+| `{{ .NewEmail }}`        | 새 이메일 (이메일 변경 시) |
 
 ---
 

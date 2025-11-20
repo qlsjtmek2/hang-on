@@ -3,6 +3,7 @@
 Frequent bug patterns, their symptoms, root causes, and solutions.
 
 ## Table of Contents
+
 - [React Native Patterns](#react-native-patterns)
 - [State Management Patterns](#state-management-patterns)
 - [API/Network Patterns](#apinetwork-patterns)
@@ -17,27 +18,31 @@ Frequent bug patterns, their symptoms, root causes, and solutions.
 ### Pattern 1: Undefined Props Crash
 
 **Symptoms:**
+
 ```
 TypeError: Cannot read property 'X' of undefined
 TypeError: undefined is not an object
 ```
 
 **Common Root Causes:**
+
 - Parent component not providing required prop
 - Async data not loaded before render
 - Navigation params not passed correctly
 - Optional chaining missing
 
 **Investigation:**
+
 ```typescript
 // Add defensive logging
 console.log('[Component] Props received:', JSON.stringify(props, null, 2));
 
 // Check component usage
-<MyComponent data={undefined} /> // ← Found it!
+<MyComponent data={undefined} />; // ← Found it!
 ```
 
 **Solutions:**
+
 ```typescript
 // 1. Optional chaining
 const value = props.user?.name ?? 'Guest';
@@ -50,7 +55,7 @@ const { user = { name: 'Guest' } } = props;
 
 // 4. PropTypes validation (development)
 Component.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 ```
 
@@ -59,6 +64,7 @@ Component.propTypes = {
 ### Pattern 2: Infinite Re-render Loop
 
 **Symptoms:**
+
 ```
 Warning: Maximum update depth exceeded
 App freezes/becomes unresponsive
@@ -66,12 +72,14 @@ Rapid console log output
 ```
 
 **Common Root Causes:**
+
 - setState called during render
 - useEffect missing dependencies
 - Object/array created during render used as dependency
 - Event handler creating new function every render
 
 **Investigation:**
+
 ```typescript
 // Add render counter
 let renderCount = 0;
@@ -79,6 +87,7 @@ console.log(`[Component] Render #${++renderCount}`);
 ```
 
 **Solutions:**
+
 ```typescript
 // PROBLEM 1: setState during render
 const BadComponent = () => {
@@ -128,17 +137,20 @@ const GoodComponent = () => {
 ### Pattern 3: White Screen of Death
 
 **Symptoms:**
+
 - App shows blank white screen
 - No error message visible
 - Works in development, fails in production
 
 **Common Root Causes:**
+
 - Unhandled exception in render
 - Missing error boundary
 - Required asset not loaded
 - Navigation state corruption
 
 **Investigation:**
+
 ```typescript
 // 1. Check console for errors
 console.error('Error:', error);
@@ -157,11 +169,12 @@ class ErrorBoundary extends React.Component {
 ```
 
 **Solutions:**
+
 ```typescript
 // 1. Add error boundaries
 <ErrorBoundary>
   <App />
-</ErrorBoundary>
+</ErrorBoundary>;
 
 // 2. Add fallback UI
 class ErrorBoundary extends React.Component {
@@ -197,16 +210,19 @@ const SafeComponent = () => {
 ### Pattern 4: Stale State in Callbacks
 
 **Symptoms:**
+
 - Callback uses old state value
 - setState doesn't reflect latest changes
 - Race conditions in async operations
 
 **Common Root Causes:**
+
 - Closure capturing old state
 - useEffect deps array missing state
 - Callback not recreated when state changes
 
 **Investigation:**
+
 ```typescript
 const [count, setCount] = useState(0);
 
@@ -218,6 +234,7 @@ const handleClick = () => {
 ```
 
 **Solutions:**
+
 ```typescript
 // PROBLEM: Stale closure
 const BadComponent = () => {
@@ -271,17 +288,20 @@ const GoodComponent = () => {
 ### Pattern 5: State Not Updating UI
 
 **Symptoms:**
+
 - State changes but UI doesn't re-render
 - Need to manually refresh to see changes
 - Works sometimes, not others
 
 **Common Root Causes:**
+
 - State mutation instead of replacement
 - Same object reference (React can't detect change)
 - Missing key prop in lists
 - Memoization preventing re-render
 
 **Investigation:**
+
 ```typescript
 // Check if state is actually changing
 console.log('State before:', state);
@@ -291,6 +311,7 @@ console.log('Same reference?', state === newState); // Should be false!
 ```
 
 **Solutions:**
+
 ```typescript
 // PROBLEM: Mutation
 const bad = () => {
@@ -351,16 +372,19 @@ const good = () => {
 ### Pattern 6: Race Conditions in API Calls
 
 **Symptoms:**
+
 - Wrong data displayed
 - Stale data shown after new request
 - Inconsistent UI state
 
 **Common Root Causes:**
+
 - Multiple requests fired, last to complete wins
 - No request cancellation
 - Missing loading state management
 
 **Investigation:**
+
 ```typescript
 // Add request tracking
 let requestId = 0;
@@ -376,12 +400,13 @@ const makeRequest = async () => {
 ```
 
 **Solutions:**
+
 ```typescript
 // FIX 1: Cancel previous requests (AbortController)
 const SearchComponent = () => {
   const abortControllerRef = useRef();
 
-  const search = async (query) => {
+  const search = async query => {
     // Cancel previous request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -392,7 +417,7 @@ const SearchComponent = () => {
 
     try {
       const response = await fetch(url, {
-        signal: abortControllerRef.current.signal
+        signal: abortControllerRef.current.signal,
       });
       // Use response
     } catch (error) {
@@ -408,7 +433,7 @@ const SearchComponent = () => {
   const [results, setResults] = useState([]);
   const latestRequestRef = useRef(0);
 
-  const search = async (query) => {
+  const search = async query => {
     const requestId = ++latestRequestRef.current;
 
     const response = await fetch(`/search?q=${query}`);
@@ -424,7 +449,7 @@ const SearchComponent = () => {
 // FIX 3: Use React Query (handles automatically)
 const { data, isLoading } = useQuery({
   queryKey: ['search', query],
-  queryFn: () => fetchSearch(query)
+  queryFn: () => fetchSearch(query),
 });
 ```
 
@@ -433,16 +458,19 @@ const { data, isLoading } = useQuery({
 ### Pattern 7: Network Error Not Handled
 
 **Symptoms:**
+
 - App crashes on network failure
 - Timeout errors crash app
 - No feedback when offline
 
 **Common Root Causes:**
+
 - Missing try-catch around async calls
 - No error state in UI
 - Assuming network always works
 
 **Solutions:**
+
 ```typescript
 // BAD: No error handling
 const fetchData = async () => {
@@ -502,15 +530,17 @@ const fetchData = async (retries = 3) => {
 ### Pattern 8: N+1 Query Problem
 
 **Symptoms:**
+
 - Page loads slowly
 - Many database queries for one operation
 - Database connection pool exhausted
 
 **Investigation:**
+
 ```typescript
 // Enable query logging
 const supabase = createClient(url, key, {
-  db: { log_queries: true }
+  db: { log_queries: true },
 });
 
 // Count queries
@@ -521,6 +551,7 @@ supabase.on('query', () => {
 ```
 
 **Solutions:**
+
 ```typescript
 // PROBLEM: N+1 queries
 const getUsers = async () => {
@@ -565,17 +596,20 @@ const getUsers = async () => {
 ### Pattern 9: Memory Leaks
 
 **Symptoms:**
+
 - App becomes slower over time
 - Increasing memory usage
 - Eventually crashes with out-of-memory error
 
 **Common Root Causes:**
+
 - Event listeners not removed
 - Timers not cleared
 - Subscriptions not unsubscribed
 - Large objects held in closures
 
 **Investigation:**
+
 ```typescript
 // Use React DevTools Profiler
 // Check "Highlight updates when components render"
@@ -595,6 +629,7 @@ useEffect(() => {
 ```
 
 **Solutions:**
+
 ```typescript
 // PROBLEM: Event listener not removed
 useEffect(() => {
@@ -630,18 +665,12 @@ useEffect(() => {
 
 // PROBLEM: Subscription not unsubscribed
 useEffect(() => {
-  const channel = supabase
-    .channel('updates')
-    .on('INSERT', handleInsert)
-    .subscribe(); // ❌ Leak!
+  const channel = supabase.channel('updates').on('INSERT', handleInsert).subscribe(); // ❌ Leak!
 }, []);
 
 // FIX: Unsubscribe
 useEffect(() => {
-  const channel = supabase
-    .channel('updates')
-    .on('INSERT', handleInsert)
-    .subscribe();
+  const channel = supabase.channel('updates').on('INSERT', handleInsert).subscribe();
 
   return () => {
     channel.unsubscribe(); // ✅ Cleaned up
@@ -656,16 +685,19 @@ useEffect(() => {
 ### Pattern 10: Type Errors in Production
 
 **Symptoms:**
+
 - TypeScript compiles but app crashes at runtime
 - "Cannot read property of undefined" despite types
 - Type coercion issues
 
 **Common Root Causes:**
+
 - Using `any` or `as` type assertions
 - External API data not validated
 - Type guards missing
 
 **Solutions:**
+
 ```typescript
 // PROBLEM: Trusting external data
 const fetchUser = async (id: string): Promise<User> => {
@@ -679,7 +711,7 @@ import { z } from 'zod';
 const UserSchema = z.object({
   id: z.string(),
   name: z.string(),
-  email: z.string().email()
+  email: z.string().email(),
 });
 
 const fetchUser = async (id: string): Promise<User> => {
@@ -694,11 +726,7 @@ const value = data as User; // ❌ Bypasses type checking
 // FIX: Type guard
 const isUser = (data: unknown): data is User => {
   return (
-    typeof data === 'object' &&
-    data !== null &&
-    'id' in data &&
-    'name' in data &&
-    'email' in data
+    typeof data === 'object' && data !== null && 'id' in data && 'name' in data && 'email' in data
   );
 };
 

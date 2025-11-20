@@ -79,18 +79,21 @@ src/
 ### 1. 중앙화된 리소스 사용 (필수)
 
 #### 테마
+
 - **위치**: `src/theme/`
 - **구성**: `colors.ts`, `typography.ts`, `spacing.ts`
 - **사용**: `import { theme } from '@/theme'`
 - ❌ 하드코딩 금지
 
 #### 타입
+
 - **위치**: `src/types/`
 - **구성**: `emotion.ts` - 감정 관련 타입 (EmotionLevel, EmotionWeather, EmotionData)
 - **사용**: `import type { EmotionLevel } from '@/types/emotion'`
 - ✅ 타입 중앙화: 모든 감정 관련 타입을 단일 소스에서 관리
 
 #### 상수
+
 - **위치**: `src/constants/`
 - **구성**:
   - `emotions.ts` - 감정 데이터 상수 (EMOTION_DATA), 타입 re-export
@@ -188,6 +191,7 @@ SUPABASE_ANON_KEY=your-anon-key
 **개별 실행**: `npm run emulator:phone` → `npm start` → `npm run android`
 
 `npm run dev` 명령어는 다음을 자동으로 수행합니다:
+
 1. Android 에뮬레이터 시작 및 부팅 대기
 2. Metro 서버 시작 및 준비 대기
 3. 앱 빌드 및 설치
@@ -214,6 +218,7 @@ SUPABASE_ANON_KEY=your-anon-key
 - 참고: Cold Boot는 스냅샷 없이 처음부터 부팅 (느리지만 안정적)
 
 **중요 - Legacy NAT 환경 변수**:
+
 - `ADB_SERVER_SOCKET`, `WSL_HOST` 환경 변수는 Mirrored Mode와 충돌
 - `.bashrc`에 자동 unset 추가됨 (새 터미널 세션에서 자동 제거)
 - `npm run dev`, `npm run android` 명령어는 실행 시 자동으로 환경 변수 제거
@@ -265,6 +270,7 @@ SUPABASE_ANON_KEY=your-anon-key
 ## 리팩토링 이력
 
 ### 2025-11-13 (2차): 감정 데이터 구조 개선
+
 - ✅ 타입 파일 분리: `src/types/emotion.ts` 생성
 - ✅ `EmotionWeather` 타입 추가 (storm, rain, cloudy, partly_sunny, sunny)
 - ✅ 감정 레벨 ↔ 날씨 매핑 상수 추가 (`EMOTION_LEVEL_TO_WEATHER`, `WEATHER_TO_EMOTION_LEVEL`)
@@ -274,6 +280,7 @@ SUPABASE_ANON_KEY=your-anon-key
 - 📊 결과: 타입 안전성 향상, 문서-코드 일치, 다국어 지원 준비 완료
 
 ### 2025-11-13 (1차): 코드베이스 전체 개선
+
 - ✅ 중복 코드 제거 (감정 데이터, 정규식 패턴 중앙화)
 - ✅ 유효성 검사 로직 중앙화 (`src/utils/validation.ts`)
 - ✅ 타입 안정성 개선 (any 타입 4곳 제거 → unknown/명시적 타입)

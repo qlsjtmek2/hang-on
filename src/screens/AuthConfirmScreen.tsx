@@ -21,7 +21,6 @@ export const AuthConfirmScreen: React.FC = () => {
       try {
         // Deep link URL에서 token과 type 파라미터 추출
         // URL 형식: hangon://auth/confirm?token=...&type=signup
-        const url = await supabase.auth.getSession();
 
         // URL 파라미터에서 token과 type 추출
         // React Navigation은 자동으로 URL 파라미터를 처리하지만,
@@ -112,25 +111,25 @@ const styles = StyleSheet.create({
   },
   successIcon: {
     fontSize: 64,
-    color: theme.colors.success,
+    color: theme.colors.semantic.success,
     marginBottom: theme.spacing.lg,
   },
   successMessage: {
     fontSize: theme.typography.h2.fontSize,
     fontWeight: theme.typography.h2.fontWeight,
-    color: theme.colors.success,
+    color: theme.colors.semantic.success,
     marginBottom: theme.spacing.md,
     textAlign: 'center',
   },
   errorIcon: {
     fontSize: 64,
-    color: theme.colors.error,
+    color: theme.colors.semantic.error,
     marginBottom: theme.spacing.lg,
   },
   errorMessage: {
     fontSize: theme.typography.h2.fontSize,
     fontWeight: theme.typography.h2.fontWeight,
-    color: theme.colors.error,
+    color: theme.colors.semantic.error,
     marginBottom: theme.spacing.md,
     textAlign: 'center',
   },

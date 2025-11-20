@@ -168,9 +168,7 @@ export const SignUpScreen: React.FC = () => {
               <Text
                 style={[
                   styles.messageText,
-                  authError.includes('이메일을 확인해주세요')
-                    ? styles.infoText
-                    : styles.errorText,
+                  authError.includes('이메일을 확인해주세요') ? styles.infoText : styles.errorText,
                 ]}
               >
                 {authError}

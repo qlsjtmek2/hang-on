@@ -35,9 +35,7 @@ function MainScreen() {
     return (
       <View style={styles.header}>
         <Text style={styles.title}>천원 쓰레기통</Text>
-        <Text style={styles.subtitle}>
-          작은 기부로 큰 변화를 만드세요
-        </Text>
+        <Text style={styles.subtitle}>작은 기부로 큰 변화를 만드세요</Text>
       </View>
     );
   };
@@ -110,10 +108,7 @@ export function DonateButton() {
   const { processDonation, status } = useDonationPayment();
 
   return (
-    <TouchableOpacity
-      onPress={processDonation}
-      disabled={status !== 'idle'}
-    >
+    <TouchableOpacity onPress={processDonation} disabled={status !== 'idle'}>
       <Text>여기에 천원 버리기</Text>
     </TouchableOpacity>
   );
@@ -134,6 +129,7 @@ export function LeaderboardSection() {
 ```
 
 **Benefits:**
+
 - Screen component: 500 lines → 30 lines
 - Each component has single responsibility
 - Easier to test in isolation
@@ -163,18 +159,14 @@ function LeaderboardList({ entries }) {
   const [selected, setSelected] = useState(null);
 
   return entries.map(entry => (
-    <LeaderboardItem
-      key={entry.id}
-      entry={entry}
-      onPress={() => setSelected(entry.id)}
-    />
+    <LeaderboardItem key={entry.id} entry={entry} onPress={() => setSelected(entry.id)} />
   ));
 }
 
 // ✅ AFTER: Optimized with React.memo and useCallback
 const LeaderboardItem = React.memo(function LeaderboardItem({
   entry,
-  onPress
+  onPress,
 }: LeaderboardItemProps) {
   console.log('LeaderboardItem rendered'); // Only logs when entry changes
   return (
@@ -192,11 +184,7 @@ function LeaderboardList({ entries }: { entries: LeaderboardEntry[] }) {
   }, []);
 
   return entries.map(entry => (
-    <LeaderboardItem
-      key={entry.id}
-      entry={entry}
-      onPress={() => handlePress(entry.id)}
-    />
+    <LeaderboardItem key={entry.id} entry={entry} onPress={() => handlePress(entry.id)} />
   ));
 }
 ```
@@ -367,6 +355,7 @@ function DonateButton() {
 ```
 
 **Benefits:**
+
 - Component: 80 lines → 10 lines
 - Business logic testable independently
 - Reusable across components
@@ -408,12 +397,7 @@ function LeaderboardSection() {
   if (loading) return <Spinner />;
   if (error) return <ErrorView error={error} />;
 
-  return (
-    <FlatList
-      data={data}
-      renderItem={({ item }) => <LeaderboardItem entry={item} />}
-    />
-  );
+  return <FlatList data={data} renderItem={({ item }) => <LeaderboardItem entry={item} />} />;
 }
 
 // ✅ AFTER: Extracted data hook with React Query
@@ -435,12 +419,7 @@ function LeaderboardSection() {
   if (isLoading) return <Spinner />;
   if (error) return <ErrorView error={error} />;
 
-  return (
-    <FlatList
-      data={data}
-      renderItem={({ item }) => <LeaderboardItem entry={item} />}
-    />
-  );
+  return <FlatList data={data} renderItem={({ item }) => <LeaderboardItem entry={item} />} />;
 }
 ```
 
@@ -550,6 +529,7 @@ function PaymentView({ state }: { state: PaymentState }) {
 ```
 
 **Benefits:**
+
 - Impossible states are unrepresentable
 - TypeScript enforces correct property access
 - Better autocomplete support
@@ -586,10 +566,7 @@ interface LeaderboardEntry {
   lastDonationAt: string;
 }
 
-type LeaderboardItemProps = Pick<
-  LeaderboardEntry,
-  'rank' | 'nickname' | 'totalDonated'
-> & {
+type LeaderboardItemProps = Pick<LeaderboardEntry, 'rank' | 'nickname' | 'totalDonated'> & {
   onPress: () => void;
 };
 
@@ -750,6 +727,7 @@ function SuccessDisplay({ data }: { data?: PaymentResult }) {
 ```
 
 **Benefits:**
+
 - Nesting: 6 levels → 1 level
 - Each component has single responsibility
 - Easier to test and modify
@@ -807,11 +785,7 @@ export const donationService = {
   },
 
   async createDonation(donation: CreateDonationInput): Promise<Donation> {
-    const { data, error } = await supabase
-      .from('donations')
-      .insert(donation)
-      .select()
-      .single();
+    const { data, error } = await supabase.from('donations').insert(donation).select().single();
 
     if (error) {
       throw new DonationError('Failed to create donation', error);
@@ -854,6 +828,7 @@ function DonationList() {
 ```
 
 **Benefits:**
+
 - Single source of truth for API calls
 - Easy to mock for testing
 - Centralized error handling
@@ -924,6 +899,7 @@ export const paymentService = {
 ```
 
 **Benefits:**
+
 - React Native automatically picks correct file
 - No runtime platform checks
 - TypeScript enforces same interface
@@ -957,9 +933,9 @@ function LeaderboardList({ entries }: { entries: LeaderboardEntry[] }) {
 
 // ✅ AFTER: Optimized list
 const LeaderboardItem = React.memo(function LeaderboardItem({
-  entry
+  entry,
 }: {
-  entry: LeaderboardEntry
+  entry: LeaderboardEntry;
 }) {
   return (
     <View style={styles.item}>
@@ -974,7 +950,7 @@ function LeaderboardList({ entries }: { entries: LeaderboardEntry[] }) {
 
   const renderItem = useCallback(
     ({ item }: { item: LeaderboardEntry }) => <LeaderboardItem entry={item} />,
-    []
+    [],
   );
 
   return (
@@ -997,6 +973,7 @@ function LeaderboardList({ entries }: { entries: LeaderboardEntry[] }) {
 ```
 
 **Optimization techniques:**
+
 - `React.memo` prevents unnecessary re-renders
 - `useCallback` for renderItem and keyExtractor
 - `getItemLayout` enables jump-to-item
@@ -1031,12 +1008,8 @@ function AppNavigator() {
 import React, { Suspense, lazy } from 'react';
 import { MainScreen } from './screens/MainScreen'; // Keep main screen eager
 
-const DonationCompleteScreen = lazy(() =>
-  import('./screens/DonationCompleteScreen')
-);
-const LeaderboardScreen = lazy(() =>
-  import('./screens/LeaderboardScreen')
-);
+const DonationCompleteScreen = lazy(() => import('./screens/DonationCompleteScreen'));
+const LeaderboardScreen = lazy(() => import('./screens/LeaderboardScreen'));
 
 function AppNavigator() {
   return (
@@ -1066,6 +1039,7 @@ function AppNavigator() {
 ## Summary: Refactoring Checklist
 
 ### Component Level
+
 - [ ] Component under 250 lines
 - [ ] Single responsibility
 - [ ] No business logic (extracted to hooks)
@@ -1073,24 +1047,28 @@ function AppNavigator() {
 - [ ] Memoized when appropriate
 
 ### Hook Level
+
 - [ ] Custom hooks for business logic
 - [ ] Data fetching separated
 - [ ] Clear naming (use prefix)
 - [ ] Proper dependencies in useEffect/useCallback
 
 ### Type Safety
+
 - [ ] No `any` types
 - [ ] Discriminated unions for state
 - [ ] Utility types for props
 - [ ] API responses typed
 
 ### Performance
+
 - [ ] FlatList optimized (getItemLayout, memo, callbacks)
 - [ ] Expensive computations memoized (useMemo)
 - [ ] Event handlers stable (useCallback)
 - [ ] Lazy loading for large components
 
 ### Architecture
+
 - [ ] Service layer for API calls
 - [ ] Platform-specific files when needed
 - [ ] Feature-based organization

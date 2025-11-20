@@ -18,6 +18,7 @@
 **Description:** Adding features or fixes while refactoring
 
 **Example:**
+
 ```typescript
 // ❌ WRONG: Mixing refactoring with new features
 // PR Title: "Refactor payment logic"
@@ -56,12 +57,14 @@ function processPayment(order: Order) {
 ```
 
 **Why It's Bad:**
+
 - Mixes concerns (refactoring + feature)
 - Makes code review harder
 - Increases risk of bugs
 - Difficult to rollback if needed
 
 **How to Avoid:**
+
 - Create separate PRs for refactoring and features
 - Use TODO comments if you notice feature opportunities
 - Finish refactoring first, then add features
@@ -73,6 +76,7 @@ function processPayment(order: Order) {
 **Description:** Attempting to refactor entire codebase at once
 
 **Example:**
+
 ```
 ❌ WRONG:
 Commit: "Refactor entire application to use hooks"
@@ -90,6 +94,7 @@ Week 2:
 ```
 
 **Why It's Bad:**
+
 - Impossible to review properly
 - High risk of introducing bugs
 - Difficult to identify what broke
@@ -97,6 +102,7 @@ Week 2:
 - Takes too long (weeks/months)
 
 **How to Avoid:**
+
 - Break into small, independent chunks
 - Refactor one feature/module at a time
 - Set weekly or bi-weekly milestones
@@ -111,6 +117,7 @@ Week 2:
 **Description:** Refactoring without test coverage
 
 **Example:**
+
 ```typescript
 // ❌ WRONG: No tests before refactoring
 // Original code (no tests)
@@ -127,10 +134,7 @@ function calculatePrice(items: Item[], discount?: number) {
 
 // Refactored (still no tests!)
 function calculatePrice(items: Item[], discount: number = 0) {
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   return subtotal * (1 - discount);
 }
 
@@ -162,12 +166,14 @@ describe('calculatePrice', () => {
 ```
 
 **Why It's Bad:**
+
 - No way to verify behavior unchanged
 - Hidden bugs introduced
 - False confidence
 - Difficult to maintain
 
 **How to Avoid:**
+
 - Always write tests before refactoring
 - Aim for 80%+ coverage before major refactoring
 - Run tests after every small change
@@ -180,6 +186,7 @@ describe('calculatePrice', () => {
 **Description:** Modifying tests when they fail after refactoring
 
 **Example:**
+
 ```typescript
 // Original test
 test('processes payment and returns receipt', async () => {
@@ -217,12 +224,14 @@ async function processPayment(order: Order) {
 ```
 
 **Why It's Bad:**
+
 - Defeats purpose of refactoring (maintain behavior)
 - Changes external API unexpectedly
 - May break dependent code
 - Loses trust in test suite
 
 **How to Avoid:**
+
 - Failing tests mean behavior changed
 - Fix code, not tests
 - If behavior change is intentional, document it
@@ -237,6 +246,7 @@ async function processPayment(order: Order) {
 **Description:** Creating abstractions before they're needed
 
 **Example:**
+
 ```typescript
 // ❌ WRONG: Over-engineered for 2 use cases
 interface PaymentStrategy {
@@ -246,15 +256,27 @@ interface PaymentStrategy {
 }
 
 class CreditCardPayment implements PaymentStrategy {
-  validate() { /* ... */ }
-  execute() { /* ... */ }
-  rollback() { /* ... */ }
+  validate() {
+    /* ... */
+  }
+  execute() {
+    /* ... */
+  }
+  rollback() {
+    /* ... */
+  }
 }
 
 class PayPalPayment implements PaymentStrategy {
-  validate() { /* ... */ }
-  execute() { /* ... */ }
-  rollback() { /* ... */ }
+  validate() {
+    /* ... */
+  }
+  execute() {
+    /* ... */
+  }
+  rollback() {
+    /* ... */
+  }
 }
 
 class PaymentProcessor {
@@ -288,12 +310,14 @@ async function processPayPal(payment: PayPalPayment) {
 ```
 
 **Why It's Bad:**
+
 - Adds unnecessary complexity
 - Harder to understand and maintain
 - More code to test
 - May not fit future needs anyway
 
 **Rule of Three:**
+
 - First time: Write it
 - Second time: Duplicate it (intentionally)
 - Third time: Abstract it
@@ -305,6 +329,7 @@ async function processPayPal(payment: PayPalPayment) {
 **Description:** Breaking code into too many tiny pieces
 
 **Example:**
+
 ```typescript
 // ❌ WRONG: Over-extracted (8 functions for simple task)
 function getFullName(user: User) {
@@ -340,23 +365,23 @@ function isNotEmpty(str: string) {
 
 // ✅ CORRECT: Appropriately extracted
 function getFullName(user: User): string {
-  const parts = [
-    user.firstName,
-    user.middleName,
-    user.lastName,
-  ].filter(part => part && part.length > 0);
+  const parts = [user.firstName, user.middleName, user.lastName].filter(
+    part => part && part.length > 0,
+  );
 
   return parts.join(' ');
 }
 ```
 
 **Why It's Bad:**
+
 - Harder to follow logic
 - More mental overhead
 - Excessive indirection
 - No real benefit
 
 **How to Avoid:**
+
 - Extract when function exceeds 50 lines
 - Extract when logic is reused
 - Extract when abstraction adds clarity
@@ -371,6 +396,7 @@ function getFullName(user: User): string {
 **Description:** Refactoring without team awareness
 
 **Example:**
+
 ```
 ❌ WRONG:
 Developer A: *Spends 2 weeks refactoring auth system*
@@ -386,12 +412,14 @@ Result: Smooth merge, no conflicts
 ```
 
 **Why It's Bad:**
+
 - Merge conflicts
 - Duplicate work
 - Team frustration
 - Wasted effort
 
 **How to Avoid:**
+
 - Announce major refactorings in standup
 - Create tracking issue/card
 - Coordinate with teammates
@@ -404,6 +432,7 @@ Result: Smooth merge, no conflicts
 **Description:** Refactoring without explaining why
 
 **Example:**
+
 ```
 ❌ WRONG:
 Commit: "refactor: change payment flow"
@@ -435,12 +464,14 @@ Payment validation was embedded in UI components, making it hard to test edge ca
 ```
 
 **Why It's Bad:**
+
 - Lost context over time
 - Can't understand decisions
 - May undo refactoring unknowingly
 - Harder for new team members
 
 **How to Avoid:**
+
 - Write clear commit messages
 - Explain "why" in PR description
 - Link to related issues/discussions
@@ -455,6 +486,7 @@ Payment validation was embedded in UI components, making it hard to test edge ca
 **Description:** Changing names without improving clarity
 
 **Example:**
+
 ```typescript
 // ❌ WRONG: Meaningless rename
 // Before
@@ -481,15 +513,15 @@ function fetchUserById(userId: string): Promise<User> {
 
 **Guidelines for Renaming:**
 
-| Before | After | Improvement? |
-|--------|-------|-------------|
-| `data` → `info` | ❌ No | Both vague |
-| `data` → `userData` | ⚠️ Slight | Still vague |
-| `data` → `authenticatedUser` | ✅ Yes | Specific |
-| `x` → `y` | ❌ No | Both meaningless |
-| `x` → `itemCount` | ✅ Yes | Descriptive |
-| `func` → `method` | ❌ No | No improvement |
-| `func` → `calculateDiscount` | ✅ Yes | Describes purpose |
+| Before                       | After     | Improvement?      |
+| ---------------------------- | --------- | ----------------- |
+| `data` → `info`              | ❌ No     | Both vague        |
+| `data` → `userData`          | ⚠️ Slight | Still vague       |
+| `data` → `authenticatedUser` | ✅ Yes    | Specific          |
+| `x` → `y`                    | ❌ No     | Both meaningless  |
+| `x` → `itemCount`            | ✅ Yes    | Descriptive       |
+| `func` → `method`            | ❌ No     | No improvement    |
+| `func` → `calculateDiscount` | ✅ Yes    | Describes purpose |
 
 ---
 
@@ -498,6 +530,7 @@ function fetchUserById(userId: string): Promise<User> {
 **Description:** Refactoring that degrades performance
 
 **Example:**
+
 ```typescript
 // ❌ WRONG: Refactored to be slower
 // Before (fast)
@@ -530,6 +563,7 @@ function filterUsers(users: User[], status: string) {
 ```
 
 **How to Avoid:**
+
 - Measure performance before refactoring
 - Run benchmarks after refactoring
 - Use profiling tools
@@ -545,6 +579,7 @@ function filterUsers(users: User[], status: string) {
 **Description:** Refactoring during critical deadlines
 
 **Example:**
+
 ```
 ❌ WRONG:
 "Product launch is next week. Let's refactor the entire checkout flow now."
@@ -566,12 +601,14 @@ Result:
 ```
 
 **When NOT to Refactor:**
+
 - Week before major release
 - During critical bug fixes
 - When team is overloaded
 - During organizational changes
 
 **When TO Refactor:**
+
 - After major release
 - During "slack time"
 - Before adding complex features
@@ -584,6 +621,7 @@ Result:
 **Description:** Refactoring instead of delivering features
 
 **Example:**
+
 ```
 Month 1: "Let's refactor the data layer"
 Month 2: "Now let's refactor the API layer"
@@ -598,10 +636,12 @@ Result:
 ```
 
 **80/20 Rule:**
+
 - 80% time: Features & bug fixes
 - 20% time: Refactoring & tech debt
 
 **How to Avoid:**
+
 - Set time limits for refactoring
 - Link refactoring to business value
 - Balance refactoring with feature work

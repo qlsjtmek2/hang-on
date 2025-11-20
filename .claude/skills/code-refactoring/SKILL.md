@@ -12,6 +12,7 @@ Systematic guidance for improving code structure without changing external behav
 ## When to Use This Skill
 
 **Trigger scenarios:**
+
 - Improving code structure or readability
 - Reducing technical debt or code smells
 - Preparing codebase for new features (preparatory refactoring)
@@ -28,11 +29,13 @@ Systematic guidance for improving code structure without changing external behav
 ## Core Principles
 
 **Golden Rule:** Refactor without changing external behavior
+
 - External tests should pass before and after
 - User-visible functionality remains identical
 - Internal structure improves for better maintainability
 
 **Key Statistics (2025):**
+
 - Developers spend **42%** of time dealing with technical debt
 - Regular refactoring yields **15% performance improvement**
 - Proper refactoring reduces bug risk and accelerates feature development
@@ -42,9 +45,11 @@ Systematic guidance for improving code structure without changing external behav
 ## When to Refactor (Priority Order)
 
 ### 1. **Before Adding New Features** ⭐⭐⭐ (Highest Priority)
+
 Preparatory refactoring creates stable foundation for new development.
 
 **Example:**
+
 ```typescript
 // Before adding payment feature, refactor messy service layer
 // Old: All logic in component (200 lines)
@@ -52,7 +57,9 @@ Preparatory refactoring creates stable foundation for new development.
 ```
 
 ### 2. **When Code Smells Detected** ⭐⭐⭐
+
 Common code smells requiring immediate attention:
+
 - **Duplicated code** - Same logic repeated in multiple places
 - **Long functions** - Methods exceeding 50 lines
 - **Long parameter lists** - More than 5 parameters
@@ -61,12 +68,15 @@ Common code smells requiring immediate attention:
 - **Dead code** - Unused functions or variables
 
 ### 3. **After Feature Completion** ⭐⭐
+
 Clean up implementation details, optimize performance.
 
 ### 4. **During Technology Migration** ⭐⭐
+
 Framework upgrades, library changes, architecture evolution.
 
 ### 5. **For Team Onboarding** ⭐
+
 Improve readability for new team members.
 
 ---
@@ -74,6 +84,7 @@ Improve readability for new team members.
 ## Core Best Practices (Top 7)
 
 ### 1. **Test First, Refactor Second**
+
 Always have test coverage before refactoring. If tests don't exist, write them first.
 
 ```typescript
@@ -87,6 +98,7 @@ test('should format donation amount', () => {
 ```
 
 ### 2. **Small Steps with Frequent Commits** 🔥 Most Important
+
 ```
 ✅ CORRECT: 10-50 lines per commit
 ❌ WRONG: 500 lines in one commit
@@ -96,6 +108,7 @@ Small change → Test → Commit → Repeat
 ```
 
 ### 3. **Separate Refactoring from Feature Work**
+
 ```
 ❌ WRONG: Refactoring + New Feature + Bug Fix (same PR)
 ✅ CORRECT: Each in separate PR
@@ -107,21 +120,26 @@ Example commits:
 ```
 
 ### 4. **Collaborate with QA Team**
+
 - Automated tests (Jest, React Testing Library)
 - Code review process
 - Regression testing
 
 ### 5. **Use Automation Tools**
+
 - **IDE features**: VS Code refactoring commands (F2 rename, Extract function)
 - **Linters**: ESLint, TypeScript compiler
 - **Static analysis**: SonarQube, CodeClimate
 - **AI tools**: GitHub Copilot, Refact.ai
 
 ### 6. **Eliminate Code Duplication First**
+
 Duplicated code multiplies maintenance cost. Use DRY (Don't Repeat Yourself) principle.
 
 ### 7. **Version Control Every Step**
+
 Each refactoring step should be a separate commit with clear message:
+
 ```bash
 git commit -m "refactor: Extract formatDonation utility function"
 git commit -m "refactor: Rename user to authenticatedUser for clarity"
@@ -141,11 +159,13 @@ graph LR
 ```
 
 **Steps:**
+
 1. **Red** - Write test that fails (feature doesn't exist yet)
 2. **Green** - Write minimum code to make test pass
 3. **Refactor** - Improve code structure while keeping tests green
 
 **Example:**
+
 ```typescript
 // 1. Red - Test fails
 test('should calculate total donations', () => {
@@ -200,38 +220,39 @@ Phase 4: Validate & Integrate
 
 ### Basic Techniques (Most Used)
 
-| Technique | When to Use | Example |
-|-----------|-------------|---------|
-| **Extract Function** | Function exceeds 50 lines | Split long function into smaller, named functions |
-| **Inline Function** | Function is trivial (1-2 lines, used once) | Remove unnecessary abstraction |
-| **Extract Variable** | Complex expression needs clarity | `const isValidDonation = amount >= 1000 && amount <= 1000000` |
-| **Rename** | Name doesn't reflect purpose | `data` → `authenticatedUser` |
+| Technique            | When to Use                                | Example                                                       |
+| -------------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| **Extract Function** | Function exceeds 50 lines                  | Split long function into smaller, named functions             |
+| **Inline Function**  | Function is trivial (1-2 lines, used once) | Remove unnecessary abstraction                                |
+| **Extract Variable** | Complex expression needs clarity           | `const isValidDonation = amount >= 1000 && amount <= 1000000` |
+| **Rename**           | Name doesn't reflect purpose               | `data` → `authenticatedUser`                                  |
 
 ### Encapsulation Techniques
 
-| Technique | When to Use |
-|-----------|-------------|
-| **Encapsulate Variable** | Global variable needs control |
+| Technique                  | When to Use                                    |
+| -------------------------- | ---------------------------------------------- |
+| **Encapsulate Variable**   | Global variable needs control                  |
 | **Encapsulate Collection** | Direct array/object access should be prevented |
-| **Hide Delegate** | Dependency chain is too long |
+| **Hide Delegate**          | Dependency chain is too long                   |
 
 ### Data Structure Improvements
 
-| Technique | When to Use |
-|-----------|-------------|
-| **Replace Primitive with Object** | Primitive type gains behavior |
-| **Replace Array with Object** | Array indices lack meaning |
-| **Change Value to Reference** | Same object used in multiple places |
+| Technique                         | When to Use                         |
+| --------------------------------- | ----------------------------------- |
+| **Replace Primitive with Object** | Primitive type gains behavior       |
+| **Replace Array with Object**     | Array indices lack meaning          |
+| **Change Value to Reference**     | Same object used in multiple places |
 
 ### Conditional Simplification
 
-| Technique | When to Use |
-|-----------|-------------|
-| **Decompose Conditional** | Complex if/else needs clarity |
-| **Replace Conditional with Polymorphism** | Type-based behavior switching |
-| **Introduce Guard Clauses** | Early returns for special cases |
+| Technique                                 | When to Use                     |
+| ----------------------------------------- | ------------------------------- |
+| **Decompose Conditional**                 | Complex if/else needs clarity   |
+| **Replace Conditional with Polymorphism** | Type-based behavior switching   |
+| **Introduce Guard Clauses**               | Early returns for special cases |
 
 **Example - Guard Clauses:**
+
 ```typescript
 // ❌ Before: Nested conditionals
 function processPayment(amount: number, user: User) {
@@ -256,11 +277,11 @@ function processPayment(amount: number, user: User) {
 
 ### Hierarchy Management
 
-| Technique | When to Use |
-|-----------|-------------|
-| **Pull Up Method** | Duplicate methods in multiple subclasses |
-| **Push Down Method** | Method only used by some subclasses |
-| **Extract Superclass** | Common functionality across classes |
+| Technique              | When to Use                              |
+| ---------------------- | ---------------------------------------- |
+| **Pull Up Method**     | Duplicate methods in multiple subclasses |
+| **Push Down Method**   | Method only used by some subclasses      |
+| **Extract Superclass** | Common functionality across classes      |
 
 ---
 
@@ -334,9 +355,7 @@ interface LeaderboardEntry {
   total_donated: number;
 }
 
-function fetchLeaderboard(
-  params: LeaderboardParams
-): Promise<LeaderboardEntry[]> {
+function fetchLeaderboard(params: LeaderboardParams): Promise<LeaderboardEntry[]> {
   return api.get('/leaderboard', params);
 }
 ```
@@ -367,14 +386,14 @@ export const leaderboardService = {
 
     if (error) throw error;
     return data;
-  }
+  },
 };
 
 // Component uses service
 function MainScreen() {
   const { data } = useQuery({
     queryKey: ['topRankers'],
-    queryFn: () => leaderboardService.getTopRankers(10)
+    queryFn: () => leaderboardService.getTopRankers(10),
   });
 }
 ```
@@ -384,30 +403,35 @@ function MainScreen() {
 ## Anti-Patterns to Avoid
 
 ### 1. **Changing Too Much at Once**
+
 ```
 ❌ WRONG: 500-line refactoring + new feature + bug fix
 ✅ CORRECT: Separate PRs for each concern
 ```
 
 ### 2. **Refactoring Without Tests**
+
 ```
 ❌ WRONG: "It works, so it's fine"
 ✅ CORRECT: Automated tests verify behavior
 ```
 
 ### 3. **Over-Abstraction**
+
 ```
 ❌ WRONG: Abstract class + interface for 2 uses
 ✅ CORRECT: Wait for 3rd use (Rule of Three)
 ```
 
 ### 4. **Meaningless Renaming**
+
 ```
 ❌ WRONG: data → info (no improvement)
 ✅ CORRECT: user → authenticatedUser (clearer purpose)
 ```
 
 ### 5. **Adding Features During Refactoring**
+
 ```
 ❌ WRONG: "While I'm here, let me add..."
 ✅ CORRECT: Finish refactoring first, then add features
@@ -419,13 +443,13 @@ function MainScreen() {
 
 ### Quantitative Goals
 
-| Metric | Target |
-|--------|--------|
+| Metric                    | Target           |
+| ------------------------- | ---------------- |
 | **Cyclomatic Complexity** | ≤10 per function |
-| **Function Length** | ≤50 lines |
-| **File Size** | ≤250 lines |
-| **Test Coverage** | ≥80% |
-| **Code Duplication** | ≤5% |
+| **Function Length**       | ≤50 lines        |
+| **File Size**             | ≤250 lines       |
+| **Test Coverage**         | ≥80%             |
+| **Code Duplication**      | ≤5%              |
 
 ### Qualitative Indicators
 
@@ -439,12 +463,14 @@ function MainScreen() {
 ## Tools & Automation
 
 ### VS Code Extensions
+
 - **ESLint** - Code quality checks
 - **Prettier** - Auto-formatting
 - **SonarLint** - Real-time analysis
 - **GitHub Copilot** - AI refactoring suggestions
 
 ### CLI Tools
+
 ```bash
 # Complexity analysis
 npm install -g complexity-report
@@ -460,6 +486,7 @@ depcheck
 ```
 
 ### React Native Specific
+
 ```bash
 # Bundle size analysis
 npx react-native-bundle-visualizer
@@ -473,18 +500,21 @@ npx react-native profile-hermes
 ## Checklist
 
 ### Before Refactoring
+
 - [ ] Define clear refactoring goal
 - [ ] Existing tests pass (or write tests first)
 - [ ] Create feature branch
 - [ ] Commit current state
 
 ### During Refactoring
+
 - [ ] Apply one technique at a time
 - [ ] Test after each change
 - [ ] Commit in small units (10-50 lines)
 - [ ] Use descriptive commit messages
 
 ### After Refactoring
+
 - [ ] Full test suite passes
 - [ ] Build succeeds (`npm run type-check`)
 - [ ] Code review requested

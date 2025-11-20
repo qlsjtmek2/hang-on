@@ -50,7 +50,7 @@ jest.mock('@/services/authService', () => ({
   sendPasswordResetEmail: jest.fn(),
   updatePassword: jest.fn(),
   signInWithGoogle: jest.fn(),
-  onAuthStateChange: jest.fn((callback) => {
+  onAuthStateChange: jest.fn(_callback => {
     return () => {}; // unsubscribe function
   }),
 }));

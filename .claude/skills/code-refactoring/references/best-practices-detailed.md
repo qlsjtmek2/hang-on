@@ -19,6 +19,7 @@
 **Golden Rule:** Never refactor without test coverage
 
 **Process:**
+
 1. Write tests for existing behavior (if they don't exist)
 2. Ensure all tests pass
 3. Refactor one small thing
@@ -103,12 +104,12 @@ class DiscountCalculator {
 
 ### Test Coverage Goals
 
-| Code Type | Minimum Coverage | Recommended |
-|-----------|------------------|-------------|
-| Business logic | 80% | 90%+ |
-| UI components | 60% | 75% |
-| Utilities | 90% | 95% |
-| Integration | 50% | 70% |
+| Code Type      | Minimum Coverage | Recommended |
+| -------------- | ---------------- | ----------- |
+| Business logic | 80%              | 90%+        |
+| UI components  | 60%              | 75%         |
+| Utilities      | 90%              | 95%         |
+| Integration    | 50%              | 70%         |
 
 ---
 
@@ -117,6 +118,7 @@ class DiscountCalculator {
 ### Principle: Small Steps, Frequent Commits
 
 **Why small steps:**
+
 - Easier to identify what broke
 - Faster rollback if needed
 - Better code review experience
@@ -176,6 +178,7 @@ Commit 5: "refactor: Simplify MainScreen with extracted components" (30 lines)
 ### Principle: Refactoring is Team Activity
 
 **Best practices:**
+
 - Communicate refactoring plans early
 - Get buy-in from team before large refactorings
 - Pair program on complex refactorings
@@ -184,6 +187,7 @@ Commit 5: "refactor: Simplify MainScreen with extracted components" (30 lines)
 ### Code Review Checklist
 
 **For Author:**
+
 - [ ] PR description explains why refactoring was needed
 - [ ] Each commit is focused and understandable
 - [ ] Tests pass and coverage maintained or improved
@@ -191,6 +195,7 @@ Commit 5: "refactor: Simplify MainScreen with extracted components" (30 lines)
 - [ ] Documentation updated if needed
 
 **For Reviewer:**
+
 - [ ] External behavior unchanged
 - [ ] Code is more maintainable after refactoring
 - [ ] No over-engineering or premature optimization
@@ -203,24 +208,29 @@ Commit 5: "refactor: Simplify MainScreen with extracted components" (30 lines)
 ## Refactor: Extract Payment Logic from DonateButton
 
 ### Motivation
+
 DonateButton component has grown to 150 lines with complex payment logic mixed with UI concerns. This makes testing difficult and violates single responsibility principle.
 
 ### Changes
+
 1. Created `useDonationPayment` hook for payment logic
 2. Extracted error handling to `PaymentErrorDialog` component
 3. Simplified DonateButton to 30 lines (UI only)
 
 ### Before/After
+
 - DonateButton: 150 lines → 30 lines (-80%)
 - New hook: `useDonationPayment` (testable independently)
 - Test coverage: 45% → 85%
 
 ### Testing
+
 - All existing tests pass
 - Added 12 new unit tests for payment hook
 - Manual testing on Android device
 
 ### Breaking Changes
+
 None. External API unchanged.
 ```
 
@@ -231,6 +241,7 @@ None. External API unchanged.
 ### Principle: Leverage Tools to Reduce Manual Work
 
 **Categories:**
+
 1. **IDE Refactoring Features**
 2. **Static Analysis Tools**
 3. **Code Formatters**
@@ -238,18 +249,20 @@ None. External API unchanged.
 
 ### IDE Refactoring Features (VS Code)
 
-| Action | Shortcut (Mac/Win) | Use When |
-|--------|-------------------|----------|
-| Rename Symbol | F2 | Renaming variables, functions, classes |
-| Extract Function | Cmd+. / Ctrl+. | Long functions need splitting |
-| Extract Variable | Cmd+. / Ctrl+. | Complex expressions need naming |
-| Move to File | Cmd+. / Ctrl+. | Function belongs in different file |
-| Convert to Arrow Function | Cmd+. / Ctrl+. | Modernizing function syntax |
+| Action                    | Shortcut (Mac/Win) | Use When                               |
+| ------------------------- | ------------------ | -------------------------------------- |
+| Rename Symbol             | F2                 | Renaming variables, functions, classes |
+| Extract Function          | Cmd+. / Ctrl+.     | Long functions need splitting          |
+| Extract Variable          | Cmd+. / Ctrl+.     | Complex expressions need naming        |
+| Move to File              | Cmd+. / Ctrl+.     | Function belongs in different file     |
+| Convert to Arrow Function | Cmd+. / Ctrl+.     | Modernizing function syntax            |
 
 **Example Usage:**
+
 ```typescript
 // 1. Select complex expression
-const result = user.orders.filter(o => o.status === 'completed')
+const result = user.orders
+  .filter(o => o.status === 'completed')
   .reduce((sum, o) => sum + o.total, 0);
 
 // 2. Press Cmd+. → "Extract to constant"
@@ -263,15 +276,16 @@ const result = completedOrderTotal;
 ### Static Analysis Configuration
 
 **ESLint Configuration for Refactoring:**
+
 ```javascript
 // .eslintrc.js
 module.exports = {
   rules: {
     // Catch code smells
-    'complexity': ['warn', 10],  // Max cyclomatic complexity
-    'max-lines-per-function': ['warn', 50],  // Max function length
-    'max-params': ['warn', 5],  // Max parameters
-    'max-depth': ['warn', 3],  // Max nesting depth
+    complexity: ['warn', 10], // Max cyclomatic complexity
+    'max-lines-per-function': ['warn', 50], // Max function length
+    'max-params': ['warn', 5], // Max parameters
+    'max-depth': ['warn', 3], // Max nesting depth
     'no-duplicate-code': 'warn',
 
     // TypeScript specific
@@ -285,6 +299,7 @@ module.exports = {
 ### Automated Refactoring Tools
 
 **SonarQube Setup:**
+
 ```bash
 # Install
 npm install -g sonarqube-scanner
@@ -308,6 +323,7 @@ sonar-scanner
 ### AI-Assisted Refactoring
 
 **GitHub Copilot Usage:**
+
 ```typescript
 // Comment describing desired refactoring
 // TODO: Refactor this function using Extract Method pattern
@@ -336,6 +352,7 @@ function calculateTotal(order: Order) {
 ### Principle: Document Why, Not What
 
 **Good documentation:**
+
 ```typescript
 /**
  * Calculates discount rate based on customer tier and order value.
@@ -347,15 +364,13 @@ function calculateTotal(order: Order) {
  * @param orderValue - Total order value in cents
  * @returns Discount rate as decimal (0.0 to 1.0)
  */
-function calculateDiscountRate(
-  customerType: CustomerType,
-  orderValue: number
-): number {
+function calculateDiscountRate(customerType: CustomerType, orderValue: number): number {
   // Implementation
 }
 ```
 
 **Bad documentation:**
+
 ```typescript
 // ❌ Describes what code does (obvious from code itself)
 /**
@@ -369,14 +384,18 @@ function calculateDiscountRate(customerType, orderValue) {
 ### Refactoring ADR (Architecture Decision Record)
 
 **Template:**
+
 ```markdown
 # ADR-007: Extract Payment Logic to Service Layer
 
 ## Status
+
 Accepted
 
 ## Context
+
 Payment logic was scattered across 5 components:
+
 - DonateButton (150 lines)
 - PaymentConfirm (80 lines)
 - PaymentSuccess (60 lines)
@@ -384,13 +403,16 @@ Payment logic was scattered across 5 components:
 - OrderSummary (40 lines)
 
 This caused:
+
 - Duplicate code (30% duplication)
 - Inconsistent error handling
 - Difficult testing
 - Hard to add new payment methods
 
 ## Decision
+
 Extract all payment logic to centralized service layer:
+
 - `src/services/paymentService.ts` - API calls
 - `src/hooks/usePayment.ts` - React integration
 - `src/components/payment/*` - UI only
@@ -398,6 +420,7 @@ Extract all payment logic to centralized service layer:
 ## Consequences
 
 **Positive:**
+
 - Reduced component code by 60%
 - Eliminated duplication
 - Centralized error handling
@@ -405,11 +428,13 @@ Extract all payment logic to centralized service layer:
 - Clear separation of concerns
 
 **Negative:**
+
 - Initial refactoring took 2 days
 - Required updating 15 test files
 - Team needed to learn new structure
 
 **Neutral:**
+
 - Total lines of code remained similar (just reorganized)
 ```
 
@@ -461,8 +486,8 @@ npm run build
 // Measure component render time
 import { PerformanceObserver } from 'react-native-performance';
 
-const observer = new PerformanceObserver((list) => {
-  list.getEntries().forEach((entry) => {
+const observer = new PerformanceObserver(list => {
+  list.getEntries().forEach(entry => {
     console.log(`${entry.name}: ${entry.duration}ms`);
   });
 });
@@ -481,6 +506,7 @@ observer.observe({ entryTypes: ['measure'] });
 ### Case Study 1: E-Commerce Checkout Flow
 
 **Problem:**
+
 - 800-line CheckoutScreen component
 - 15-second load time
 - 40% test coverage
@@ -489,16 +515,19 @@ observer.observe({ entryTypes: ['measure'] });
 **Refactoring Steps:**
 
 1. **Week 1: Add Tests**
+
    - Wrote integration tests for entire flow
    - Increased coverage: 40% → 75%
    - No code changes yet
 
 2. **Week 2: Extract Components**
+
    - Created `components/checkout/` directory
    - Extracted 12 smaller components
    - Reduced CheckoutScreen: 800 → 80 lines
 
 3. **Week 3: Extract Business Logic**
+
    - Created `useCheckout` hook
    - Moved validation logic to utilities
    - Components now UI-only
@@ -509,6 +538,7 @@ observer.observe({ entryTypes: ['measure'] });
    - Optimized re-renders
 
 **Results:**
+
 - Load time: 15s → 3s (-80%)
 - Test coverage: 40% → 85%
 - Developer velocity: +40%
@@ -520,6 +550,7 @@ observer.observe({ entryTypes: ['measure'] });
 ### Case Study 2: Legacy React Native App Modernization
 
 **Problem:**
+
 - Class components (200 files)
 - Redux for everything (overkill)
 - 400+ lines per component average
@@ -529,22 +560,26 @@ observer.observe({ entryTypes: ['measure'] });
 **6-Month Refactoring Plan:**
 
 **Phase 1 (Month 1-2): Foundation**
+
 - Add TypeScript (strict: false initially)
 - Set up ESLint with refactoring rules
 - Write tests for critical paths (coverage 25% → 50%)
 
 **Phase 2 (Month 3-4): Gradual Migration**
+
 - Convert 5 components per week to functional + hooks
 - Replace Redux with React Query for server state
 - Keep Redux only for true global state
 
 **Phase 3 (Month 5-6): Cleanup**
+
 - Enable TypeScript strict mode
 - Remove dead code (20% of codebase!)
 - Extract reusable hooks and components
 - Achieve 75% test coverage
 
 **Results:**
+
 - Development speed: +50%
 - Bug rate: -40%
 - Bundle size: -30%
@@ -552,6 +587,7 @@ observer.observe({ entryTypes: ['measure'] });
 - Code maintainability score: D → B
 
 **Lessons Learned:**
+
 - Incremental migration beats big rewrite
 - Tests are essential safety net
 - Team training crucial for success
@@ -562,6 +598,7 @@ observer.observe({ entryTypes: ['measure'] });
 ### Case Study 3: Microservices Data Layer Consolidation
 
 **Problem:**
+
 - 12 microservices
 - Each with own data access patterns
 - Duplicate code: 60%
@@ -571,6 +608,7 @@ observer.observe({ entryTypes: ['measure'] });
 **Refactoring Strategy:**
 
 1. **Create Shared Data Layer**
+
    ```
    shared-data-layer/
    ├── repositories/
@@ -583,6 +621,7 @@ observer.observe({ entryTypes: ['measure'] });
    ```
 
 2. **Gradual Service Migration**
+
    - Week 1: Migrate UserService
    - Week 2: Migrate OrderService
    - Week 3: Migrate ProductService
@@ -595,6 +634,7 @@ observer.observe({ entryTypes: ['measure'] });
    - Unified logging
 
 **Results:**
+
 - Code duplication: 60% → 5%
 - New feature implementation time: -50%
 - Data consistency bugs: -80%
@@ -630,6 +670,7 @@ observer.observe({ entryTypes: ['measure'] });
 ### ROI Calculation
 
 **Time Investment:**
+
 - Week 1: Add tests + plan (slowdown)
 - Week 2-3: Execute refactoring (slowdown)
 - Week 4+: Faster development (speedup)
@@ -637,6 +678,7 @@ observer.observe({ entryTypes: ['measure'] });
 **Break-even point:** Typically 4-8 weeks
 
 **Long-term benefits:**
+
 - 30-50% faster feature development
 - 40-60% fewer bugs
 - 20-40% better team morale

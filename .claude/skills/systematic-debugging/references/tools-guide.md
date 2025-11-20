@@ -3,6 +3,7 @@
 Complete reference for debugging tools across different platforms and scenarios.
 
 ## Table of Contents
+
 - [Built-in Claude Tools](#built-in-claude-tools)
 - [IDE Debuggers](#ide-debuggers)
 - [React Native Tools](#react-native-tools)
@@ -17,36 +18,40 @@ Complete reference for debugging tools across different platforms and scenarios.
 ## Built-in Claude Tools
 
 ### Grep - Code Search
+
 **Best for:** Finding patterns, errors, function calls across codebase
 
 ```typescript
 // Find all API calls
-Grep: "fetch\(|axios\."
+Grep: 'fetch(|axios.';
 
 // Find error handling
-Grep: "try\s*\{|catch\s*\("
+Grep: 'trys*{|catchs*(';
 
 // Find TODO comments
-Grep: "TODO:|FIXME:"
+Grep: 'TODO:|FIXME:';
 ```
 
 **Tips:**
+
 - Use `-C 3` for 3 lines of context
 - Use `glob` parameter to filter file types
 - Case insensitive: `-i` flag
 
 ### Read - File Inspection
+
 **Best for:** Reading specific files identified during investigation
 
 ```typescript
 // Read error location from stack trace
-Read: "src/features/donation/hooks/useDonationPayment.ts"
+Read: 'src/features/donation/hooks/useDonationPayment.ts';
 
 // Read test file
-Read: "src/features/donation/__tests__/useDonationPayment.test.ts"
+Read: 'src/features/donation/__tests__/useDonationPayment.test.ts';
 ```
 
 ### Bash - Command Execution
+
 **Best for:** Running tests, checking git history, system commands
 
 ```bash
@@ -70,6 +75,7 @@ du -sh ./* | sort -rh | head -10
 ### VSCode / Cursor Debugger
 
 **Setup (launch.json):**
+
 ```json
 {
   "version": "0.2.0",
@@ -85,6 +91,7 @@ du -sh ./* | sort -rh | head -10
 ```
 
 **Key Features:**
+
 - **Breakpoints:** Click line number to add
 - **Conditional breakpoints:** Right-click breakpoint → Edit condition
 - **Logpoints:** Log without modifying code
@@ -95,6 +102,7 @@ du -sh ./* | sort -rh | head -10
 - **Call stack:** See execution path
 
 **Best Practices:**
+
 ```typescript
 // 1. Use conditional breakpoints for loops
 for (let i = 0; i < 1000; i++) {
@@ -115,17 +123,20 @@ for (let i = 0; i < 1000; i++) {
 ### React Native Debugger
 
 **Install:**
+
 ```bash
 brew install react-native-debugger  # macOS
 ```
 
 **Features:**
+
 - Redux DevTools integration
 - React DevTools
 - Network inspector
 - AsyncStorage inspector
 
 **Usage:**
+
 ```
 1. Start React Native Debugger
 2. In app: CMD+D (iOS) or CMD+M (Android)
@@ -135,11 +146,13 @@ brew install react-native-debugger  # macOS
 ### Flipper
 
 **Install:**
+
 ```bash
 brew install flipper  # macOS
 ```
 
 **Features:**
+
 - Layout inspector
 - Network inspector
 - Database browser
@@ -148,6 +161,7 @@ brew install flipper  # macOS
 - Performance monitor
 
 **Plugins:**
+
 - React DevTools
 - Redux Debugger
 - Network
@@ -156,6 +170,7 @@ brew install flipper  # macOS
 - Crash Reporter
 
 **Best for:**
+
 - Visual layout debugging
 - Network request inspection
 - Database queries
@@ -168,6 +183,7 @@ brew install flipper  # macOS
 ### Chrome DevTools
 
 **Console API:**
+
 ```javascript
 // Grouping
 console.group('User Actions');
@@ -178,7 +194,7 @@ console.groupEnd();
 // Tables
 console.table([
   { name: 'John', age: 30 },
-  { name: 'Jane', age: 25 }
+  { name: 'Jane', age: 25 },
 ]);
 
 // Timing
@@ -194,6 +210,7 @@ console.trace('Show call stack');
 ```
 
 **Debugger Statement:**
+
 ```typescript
 function processData(data) {
   debugger; // Execution pauses here when DevTools open
@@ -202,6 +219,7 @@ function processData(data) {
 ```
 
 **Network Tab:**
+
 - Filter by type (XHR, JS, CSS, etc.)
 - Throttle network speed
 - Block requests
@@ -209,6 +227,7 @@ function processData(data) {
 - Replay XHR requests
 
 **Performance Tab:**
+
 - Record performance
 - Identify bottlenecks
 - Analyze flame charts
@@ -221,16 +240,18 @@ function processData(data) {
 ### React Query DevTools
 
 **Setup:**
+
 ```typescript
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 <QueryClientProvider client={queryClient}>
   <App />
   <ReactQueryDevtools initialIsOpen={false} />
-</QueryClientProvider>
+</QueryClientProvider>;
 ```
 
 **Features:**
+
 - View all queries
 - See cached data
 - Refetch manually
@@ -238,14 +259,15 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 - Check stale time
 
 **Debug Queries:**
+
 ```typescript
 const { data, error, isLoading, dataUpdatedAt } = useQuery({
   queryKey: ['user', userId],
   queryFn: fetchUser,
   meta: {
     // Add metadata for debugging
-    description: 'Fetch user profile'
-  }
+    description: 'Fetch user profile',
+  },
 });
 
 // Log query details
@@ -255,6 +277,7 @@ console.log('Query updated at:', new Date(dataUpdatedAt));
 ### Network Logging
 
 **Axios Interceptors:**
+
 ```typescript
 import axios from 'axios';
 
@@ -265,14 +288,14 @@ axios.interceptors.request.use(
       method: config.method,
       url: config.url,
       data: config.data,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
     return config;
   },
   error => {
     console.error('[Request Error]', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -281,7 +304,7 @@ axios.interceptors.response.use(
     console.log('[Response]', {
       status: response.status,
       data: response.data,
-      duration: response.config.metadata.endTime - response.config.metadata.startTime
+      duration: response.config.metadata.endTime - response.config.metadata.startTime,
     });
     return response;
   },
@@ -289,10 +312,10 @@ axios.interceptors.response.use(
     console.error('[Response Error]', {
       status: error.response?.status,
       message: error.message,
-      url: error.config?.url
+      url: error.config?.url,
     });
     return Promise.reject(error);
-  }
+  },
 );
 ```
 
@@ -303,12 +326,13 @@ axios.interceptors.response.use(
 ### React DevTools Profiler
 
 **Enable Profiling:**
+
 ```typescript
 import { Profiler } from 'react';
 
 <Profiler id="MyComponent" onRender={onRenderCallback}>
   <MyComponent />
-</Profiler>
+</Profiler>;
 
 function onRenderCallback(
   id, // "MyComponent"
@@ -317,13 +341,14 @@ function onRenderCallback(
   baseDuration, // Estimated time without memoization
   startTime,
   commitTime,
-  interactions // Set of interactions
+  interactions, // Set of interactions
 ) {
   console.log(`${id} took ${actualDuration}ms to render`);
 }
 ```
 
 **Find Performance Issues:**
+
 1. Open React DevTools
 2. Go to Profiler tab
 3. Click Record
@@ -332,6 +357,7 @@ function onRenderCallback(
 6. Analyze flame chart
 
 **Look for:**
+
 - Components rendering too often
 - Long render times
 - Unnecessary re-renders
@@ -340,17 +366,20 @@ function onRenderCallback(
 ### React Native Performance Monitor
 
 **Enable:**
+
 ```
 CMD+D → Show Performance Monitor
 ```
 
 **Metrics:**
+
 - RAM usage
 - JavaScript heap size
 - Views count
 - FPS (should be 60)
 
 **Investigate Low FPS:**
+
 ```typescript
 // 1. Check console for warnings
 console.warn('Slow render');
@@ -372,17 +401,19 @@ console.warn('Slow render');
 ### Sentry Integration
 
 **Setup:**
+
 ```typescript
 import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
   dsn: 'YOUR_DSN',
   environment: __DEV__ ? 'development' : 'production',
-  tracesSampleRate: 1.0
+  tracesSampleRate: 1.0,
 });
 ```
 
 **Manual Error Capture:**
+
 ```typescript
 try {
   await riskyOperation();
@@ -390,37 +421,40 @@ try {
   Sentry.captureException(error, {
     tags: {
       section: 'donation',
-      user_id: userId
+      user_id: userId,
     },
     extra: {
       donation_amount: 1000,
-      payment_method: 'iap'
-    }
+      payment_method: 'iap',
+    },
   });
 }
 ```
 
 **Breadcrumbs:**
+
 ```typescript
 Sentry.addBreadcrumb({
   category: 'navigation',
   message: 'Navigated to MainScreen',
-  level: 'info'
+  level: 'info',
 });
 ```
 
 **User Context:**
+
 ```typescript
 Sentry.setUser({
   id: user.id,
   username: user.nickname,
-  email: user.email
+  email: user.email,
 });
 ```
 
 ### Error Boundaries
 
 **Implementation:**
+
 ```typescript
 import * as Sentry from '@sentry/react-native';
 
@@ -436,9 +470,9 @@ class ErrorBoundary extends React.Component {
     Sentry.captureException(error, {
       contexts: {
         react: {
-          componentStack: errorInfo.componentStack
-        }
-      }
+          componentStack: errorInfo.componentStack,
+        },
+      },
     });
 
     // Log locally
@@ -450,10 +484,7 @@ class ErrorBoundary extends React.Component {
       return (
         <View>
           <Text>Something went wrong</Text>
-          <Button
-            title="Try again"
-            onPress={() => this.setState({ hasError: false })}
-          />
+          <Button title="Try again" onPress={() => this.setState({ hasError: false })} />
         </View>
       );
     }
@@ -470,22 +501,26 @@ class ErrorBoundary extends React.Component {
 ### Android Studio Logcat
 
 **Filter by App:**
+
 ```
 package:com.yourapp
 ```
 
 **Filter by Level:**
+
 ```
 level:error
 ```
 
 **Custom Tags:**
+
 ```kotlin
 Log.d("MyTag", "Debug message")
 Log.e("MyTag", "Error message")
 ```
 
 **View Logs:**
+
 ```bash
 adb logcat -s ReactNativeJS:V
 ```
@@ -493,11 +528,13 @@ adb logcat -s ReactNativeJS:V
 ### Xcode Console
 
 **View Device Logs:**
+
 ```
 Window → Devices and Simulators → Select device → Open Console
 ```
 
 **Filter Logs:**
+
 ```
 process:YourApp
 ```
@@ -505,12 +542,14 @@ process:YourApp
 ### React Native Logs
 
 **Metro Bundler:**
+
 ```bash
 # Shows all console.log from React Native
 # Look for warnings, errors, stack traces
 ```
 
 **Enable Detailed Logs:**
+
 ```typescript
 if (__DEV__) {
   LogBox.ignoreLogs(['Warning: ...']); // Ignore specific warnings
@@ -525,36 +564,42 @@ if (__DEV__) {
 ### Debugging Workflow with Tools
 
 **Step 1: Identify Symptoms**
+
 ```
 Tools: Error logs, Metro bundler, Sentry dashboard
 Look for: Error messages, stack traces, frequency
 ```
 
 **Step 2: Reproduce**
+
 ```
 Tools: Manual testing, automated tests
 Goal: 100% reproducible steps
 ```
 
 **Step 3: Understand System**
+
 ```
 Tools: Grep, Read, git log
 Examine: Related files, recent changes, data flow
 ```
 
 **Step 4: Form Hypothesis**
+
 ```
 Tools: Binary search (breakpoints), code review
 Technique: Divide and conquer
 ```
 
 **Step 5: Test Hypothesis**
+
 ```
 Tools: Debugger, console.log, unit tests
 Validate: Hypothesis true/false?
 ```
 
 **Step 6: Fix and Verify**
+
 ```
 Tools: IDE, tests, monitoring
 Verify: Bug gone, no regressions
@@ -564,24 +609,25 @@ Verify: Bug gone, no regressions
 
 ## Tool Selection Matrix
 
-| **Scenario** | **Best Tool** | **Alternative** |
-|--------------|---------------|-----------------|
-| React component not rendering | React DevTools | console.log |
-| API call failing | Network inspector | Axios interceptors |
-| Performance issue | React Profiler | Performance Monitor |
-| State not updating | Redux DevTools / Zustand | console.log |
-| Memory leak | React DevTools Profiler | Performance Monitor |
-| Production error | Sentry | Error logs |
-| Database query slow | Supabase logs | console.time |
-| Layout issue | Flipper Layout Inspector | React DevTools |
-| AsyncStorage issue | Flipper | Manual log |
-| Navigation bug | React Navigation DevTools | console.log |
+| **Scenario**                  | **Best Tool**             | **Alternative**     |
+| ----------------------------- | ------------------------- | ------------------- |
+| React component not rendering | React DevTools            | console.log         |
+| API call failing              | Network inspector         | Axios interceptors  |
+| Performance issue             | React Profiler            | Performance Monitor |
+| State not updating            | Redux DevTools / Zustand  | console.log         |
+| Memory leak                   | React DevTools Profiler   | Performance Monitor |
+| Production error              | Sentry                    | Error logs          |
+| Database query slow           | Supabase logs             | console.time        |
+| Layout issue                  | Flipper Layout Inspector  | React DevTools      |
+| AsyncStorage issue            | Flipper                   | Manual log          |
+| Navigation bug                | React Navigation DevTools | console.log         |
 
 ---
 
 ## Pro Tips
 
 ### 1. Combine Tools
+
 ```typescript
 // Use multiple tools together
 const { data } = useQuery({
@@ -595,11 +641,12 @@ const { data } = useQuery({
 
     console.timeEnd('fetchUser');
     return result;
-  }
+  },
 });
 ```
 
 ### 2. Conditional Debugging
+
 ```typescript
 const DEBUG = __DEV__ && true; // Toggle easily
 
@@ -610,6 +657,7 @@ if (DEBUG) {
 ```
 
 ### 3. Smart Logging
+
 ```typescript
 const logger = {
   debug: (...args) => __DEV__ && console.log('[DEBUG]', ...args),
@@ -620,11 +668,12 @@ const logger = {
     if (!__DEV__) {
       Sentry.captureException(new Error(args.join(' ')));
     }
-  }
+  },
 };
 ```
 
 ### 4. Performance Monitoring
+
 ```typescript
 const measure = (name, fn) => {
   return async (...args) => {

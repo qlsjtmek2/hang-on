@@ -12,6 +12,7 @@ Apply scientific debugging methodology to systematically find and fix the root c
 ## When to Use This Skill
 
 **Use proactively when:**
+
 - ✅ Encountering crashes, errors, or exceptions
 - ✅ Code produces unexpected results
 - ✅ Tests are failing
@@ -23,6 +24,7 @@ Apply scientific debugging methodology to systematically find and fix the root c
 - ✅ **Any time you need the TRUE root cause, not quick patches**
 
 **Trigger phrases:**
+
 - "Why is this crashing?" / "Debug this error"
 - "Find the root cause" / "This isn't working"
 - "버그 찾아줘" / "에러 원인 찾기" / "디버깅 도와줘"
@@ -32,20 +34,24 @@ Apply scientific debugging methodology to systematically find and fix the root c
 ## Core Principles
 
 ### 1. Understanding First, Fixing Second
+
 > "If you don't understand the bug behavior, you have no hope of knowing if you've fixed it."
 
 Resist the urge to immediately start coding. Take time to understand what's broken and why.
 
 ### 2. Hypothesis-Driven Approach
+
 Apply the scientific method:
 **Observe** → **Hypothesize** → **Test** → **Conclude**
 
 ### 3. Root Cause, Not Symptoms
+
 > "The proper way to debug is to deeply analyze the bug up until the real cause is identified"
 
 Avoid temporary patches that create technical debt. Find and fix the underlying cause.
 
 ### 4. Reproducibility is Critical
+
 If you can't reproduce a bug consistently, you can't verify your fix works.
 
 ---
@@ -57,6 +63,7 @@ If you can't reproduce a bug consistently, you can't verify your fix works.
 **Goal:** Clearly understand what is actually broken.
 
 **Actions:**
+
 1. Read error messages carefully (exact wording matters)
 2. Examine stack traces for error location
 3. Review logs and console output
@@ -64,12 +71,14 @@ If you can't reproduce a bug consistently, you can't verify your fix works.
 5. Identify triggering conditions
 
 **Checklist:**
+
 - [ ] Error message recorded exactly
 - [ ] Stack trace captured
 - [ ] Conditions documented (OS, version, inputs)
 - [ ] Expected vs actual behavior clear
 
 **Example:**
+
 ```
 Symptom: App crashes when clicking "donate" button
 Error: TypeError: Cannot read property 'amount' of undefined
@@ -84,6 +93,7 @@ Condition: 100% reproducible on MainScreen
 **Goal:** Create consistent, minimal reproduction case.
 
 **Actions:**
+
 1. Identify minimum steps to reproduce
 2. Test multiple times to verify consistency
 3. Document exact reproduction steps
@@ -91,6 +101,7 @@ Condition: 100% reproducible on MainScreen
 5. Measure frequency (always? 50%? rare?)
 
 **Checklist:**
+
 - [ ] Reproduction steps documented
 - [ ] Reproduction rate measured
 - [ ] Minimal example created
@@ -105,6 +116,7 @@ Condition: 100% reproducible on MainScreen
 **Goal:** Build mental model of relevant code and architecture.
 
 **Actions:**
+
 1. Read related source code
 2. Review recent changes (`git log`)
 3. Check deployment history
@@ -112,12 +124,14 @@ Condition: 100% reproducible on MainScreen
 5. Understand data flow
 
 **Questions to answer:**
+
 - How does data flow through the system?
 - Which components are involved?
 - What changed recently?
 - Are there dependencies?
 
 **Tools:**
+
 - `Grep` to search codebase
 - `Read` to examine files
 - `Bash` with git commands
@@ -131,6 +145,7 @@ Condition: 100% reproducible on MainScreen
 #### Technique A: Binary Search Debugging
 
 Divide and conquer approach:
+
 1. Start with suspected range (e.g., 1000 lines)
 2. Divide in half (test line 500)
 3. Bug still occurs? → Lines 501-1000
@@ -141,6 +156,7 @@ Divide and conquer approach:
 #### Technique B: Cause Elimination
 
 Scientific deductive reasoning:
+
 1. List all possible causes
 2. Test each hypothesis
 3. Eliminate causes that don't fit
@@ -149,6 +165,7 @@ Scientific deductive reasoning:
 #### Technique C: Backtracking
 
 For smaller codebases:
+
 1. Start where incorrect result appears
 2. Mentally execute code in reverse
 3. Check values at each step backwards
@@ -163,17 +180,21 @@ For smaller codebases:
 **Goal:** Validate your theory about the bug's location/cause.
 
 **Testing methods:**
+
 1. **Add logging:**
+
    ```typescript
    console.log('[Component.method] Starting', { input, timestamp });
    ```
 
 2. **Use breakpoints:**
+
    - Set breakpoint before suspected line
    - Check variable values
    - Step through execution
 
 3. **Write unit tests:**
+
    ```typescript
    test('should handle network error', async () => {
      // Mock, call, assert
@@ -186,6 +207,7 @@ For smaller codebases:
    ```
 
 **Checklist:**
+
 - [ ] Hypothesis clearly stated
 - [ ] Test method chosen
 - [ ] Test executed
@@ -199,12 +221,14 @@ For smaller codebases:
 **Goal:** Implement solution and confirm bug is resolved.
 
 **Fix Implementation:**
+
 1. Address root cause (not symptoms!)
 2. Write clean, maintainable code
 3. Add error handling
 4. Document why bug occurred
 
 **Verification:**
+
 1. Test original reproduction case
 2. Test edge cases
 3. Check for regressions
@@ -212,6 +236,7 @@ For smaller codebases:
 5. Verify fix in similar code
 
 **Checklist:**
+
 - [ ] Fix addresses root cause
 - [ ] Original bug no longer reproduces
 - [ ] No new bugs introduced
@@ -229,6 +254,7 @@ For smaller codebases:
 **Purpose:** Drill down to root cause by repeatedly asking "Why?"
 
 **Process:**
+
 1. Start with the problem
 2. Ask "Why did this happen?"
 3. Ask "Why?" about that answer
@@ -236,6 +262,7 @@ For smaller codebases:
 5. Final "why" is usually the root cause
 
 **Quick Example:**
+
 ```
 Problem: App crashes
 Why 1: 'amount' is undefined
@@ -256,12 +283,14 @@ ROOT CAUSE: Missing error handling
 **Purpose:** Find bugs by explaining code out loud.
 
 **How it works:**
+
 1. Get a rubber duck (or any object)
 2. Explain your code line-by-line to the duck
 3. Describe what each line should do
 4. You'll often spot the bug while explaining!
 
 **Why it works:**
+
 - **Metacognition:** Thinking about your own thinking
 - **Different brain pathways:** Speaking ≠ typing
 - **Forces methodical inspection**
@@ -272,26 +301,29 @@ ROOT CAUSE: Missing error handling
 ### Strategic Logging
 
 **Bad logging:**
+
 ```typescript
-console.log('here');     // Where?
-console.log(data);       // When? What data?
+console.log('here'); // Where?
+console.log(data); // When? What data?
 ```
 
 **Good logging:**
+
 ```typescript
 console.log('[UserService.createUser] Starting', {
   email: user.email,
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toISOString(),
 });
 
 console.log('[UserService.createUser] ERROR', {
   error: error.message,
   userId: newUser.id,
-  retryCount: 3
+  retryCount: 3,
 });
 ```
 
 **Best practices:**
+
 - Include context: `[Component.method]`
 - Add timestamps
 - Log inputs and outputs
@@ -330,17 +362,20 @@ Does fix solve the problem?
 ## Integration with Development Workflow
 
 ### Before Starting
+
 - [ ] Set time limit (30min, 1hr, etc.)
 - [ ] Document current behavior
 - [ ] Create reproduction test case
 
 ### During Debugging
+
 - [ ] Follow 6-step process
 - [ ] Document findings as you go
 - [ ] Take breaks if stuck (fresh perspective helps)
 - [ ] Use rubber duck or ask colleague
 
 ### After Resolution
+
 - [ ] Document root cause
 - [ ] Check for similar bugs in codebase
 - [ ] Add tests to prevent regression
@@ -348,6 +383,7 @@ Does fix solve the problem?
 - [ ] Share learnings with team
 
 ### Post-Mortem Checklist
+
 - [ ] What was the bug?
 - [ ] What was the root cause?
 - [ ] Why did the bug occur?
@@ -361,6 +397,7 @@ Does fix solve the problem?
 ### Common Scenarios
 
 **React Native Crash:**
+
 1. Check error message + stack trace
 2. Reproduce with specific steps
 3. Read crash point code
@@ -369,6 +406,7 @@ Does fix solve the problem?
 6. Verify with original steps
 
 **API Call Failure:**
+
 1. Check network tab for request/response
 2. Reproduce with same inputs
 3. Check API endpoint code
@@ -377,6 +415,7 @@ Does fix solve the problem?
 6. Fix and add better error messages
 
 **Performance Issue:**
+
 1. Measure render time
 2. Reproduce with profiler
 3. Identify expensive operations
@@ -389,11 +428,13 @@ Does fix solve the problem?
 ## Tools
 
 **Built-in Claude Tools:**
+
 - `Grep` - Search codebase
 - `Read` - Read files
 - `Bash` - Run commands (git log, npm test)
 
 **External Tools:**
+
 - IDE Debugger (VSCode, Cursor)
 - React Native DevTools
 - Chrome DevTools
@@ -407,6 +448,7 @@ Does fix solve the problem?
 ## Best Practices
 
 ### DO:
+
 ✅ Reproduce bug before fixing
 ✅ Form hypothesis before changing code
 ✅ Test one change at a time
@@ -417,6 +459,7 @@ Does fix solve the problem?
 ✅ Take breaks if stuck >30min
 
 ### DON'T:
+
 ❌ Change code without understanding
 ❌ Apply temporary patches to symptoms
 ❌ Test multiple changes simultaneously
@@ -430,6 +473,7 @@ Does fix solve the problem?
 ## When to Escalate
 
 **Ask for help when:**
+
 - Stuck for >2 hours without progress
 - Bug is in unfamiliar system/library
 - Intermittent bug can't be reproduced
@@ -437,6 +481,7 @@ Does fix solve the problem?
 - Time-sensitive production issue
 
 **Before asking:**
+
 1. Document what you've tried
 2. Create minimal reproduction case
 3. Show your hypothesis and test results

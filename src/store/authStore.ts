@@ -222,7 +222,7 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
           user: currentState.user,
           session: currentState.session,
           isAuthenticated: currentState.isAuthenticated,
-          error: `로그인 시도 횟수를 초과했습니다. 10분 후에 다시 시도해주세요.`,
+          error: '로그인 시도 횟수를 초과했습니다. 10분 후에 다시 시도해주세요.',
           isLoading: false,
         });
       } else {

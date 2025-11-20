@@ -99,10 +99,7 @@ export const getEmotionColor = (level: EmotionLevel): string => {
  * @example
  * const color = getEmotionColorWithOpacity(5, 0.1); // 'rgba(255, 215, 0, 0.1)'
  */
-export const getEmotionColorWithOpacity = (
-  level: EmotionLevel,
-  opacity: number = 0.1,
-): string => {
+export const getEmotionColorWithOpacity = (level: EmotionLevel, opacity: number = 0.1): string => {
   const hexToRgb = (hex: string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result

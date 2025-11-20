@@ -46,7 +46,7 @@ describe('인증 플로우 통합 테스트', () => {
     // loginAttempts Map을 직접 초기화할 수 없으므로
     // resetLoginAttempts를 사용하여 테스트에서 사용할 이메일들을 초기화
     const testEmails = ['test@example.com', 'newuser@example.com'];
-    testEmails.forEach((email) => {
+    testEmails.forEach(email => {
       useAuthStore.getState().resetLoginAttempts(email);
     });
 

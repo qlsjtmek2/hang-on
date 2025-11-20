@@ -151,7 +151,7 @@ export const refreshSession = async (): Promise<Session | null> => {
  * @returns 에러 정보 (성공 시 null)
  */
 export const sendPasswordResetEmail = async (
-  email: string
+  email: string,
 ): Promise<{ error: AuthError | null }> => {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: 'hangon://reset-password',
@@ -166,7 +166,7 @@ export const sendPasswordResetEmail = async (
  * @returns 사용자 정보 및 에러
  */
 export const updatePassword = async (
-  newPassword: string
+  newPassword: string,
 ): Promise<{ user: User | null; error: AuthError | null }> => {
   const { data, error } = await supabase.auth.updateUser({
     password: newPassword,
@@ -196,7 +196,7 @@ export const updatePassword = async (
 export const signInWithGoogle = async (): Promise<AuthResponse> => {
   throw new Error(
     'Google OAuth는 아직 구현되지 않았습니다. ' +
-      'Google Cloud Console 설정 및 패키지 설치가 필요합니다.'
+      'Google Cloud Console 설정 및 패키지 설치가 필요합니다.',
   );
 };
 
@@ -217,10 +217,7 @@ export const signInWithGoogle = async (): Promise<AuthResponse> => {
  * unsubscribe();
  */
 export const onAuthStateChange = (
-  callback: (
-    event: string,
-    session: Session | null
-  ) => void | Promise<void>
+  callback: (event: string, session: Session | null) => void | Promise<void>,
 ) => {
   const {
     data: { subscription },

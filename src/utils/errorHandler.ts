@@ -45,27 +45,57 @@ interface ErrorPattern {
  */
 const ERROR_PATTERNS: ErrorPattern[] = [
   // Auth 에러
-  { pattern: /email not confirmed/i, type: ErrorType.AUTH, message: '이메일 인증이 필요합니다. 인증 메일을 확인해주세요.' },
-  { pattern: /invalid login credentials/i, type: ErrorType.AUTH, message: '이메일 또는 비밀번호가 올바르지 않습니다.' },
-  { pattern: /user already registered/i, type: ErrorType.CONFLICT, message: '이미 가입된 이메일입니다.' },
-  { pattern: /((jwt|token).*(expired|invalid)|(expired|invalid).*(jwt|token))/i, type: ErrorType.AUTH, message: '인증 토큰이 만료되었거나 유효하지 않습니다.' },
-  { pattern: /session.*expired/i, type: ErrorType.AUTH, message: '세션이 만료되었습니다. 다시 로그인해주세요.' },
+  {
+    pattern: /email not confirmed/i,
+    type: ErrorType.AUTH,
+    message: '이메일 인증이 필요합니다. 인증 메일을 확인해주세요.',
+  },
+  {
+    pattern: /invalid login credentials/i,
+    type: ErrorType.AUTH,
+    message: '이메일 또는 비밀번호가 올바르지 않습니다.',
+  },
+  {
+    pattern: /user already registered/i,
+    type: ErrorType.CONFLICT,
+    message: '이미 가입된 이메일입니다.',
+  },
+  {
+    pattern: /((jwt|token).*(expired|invalid)|(expired|invalid).*(jwt|token))/i,
+    type: ErrorType.AUTH,
+    message: '인증 토큰이 만료되었거나 유효하지 않습니다.',
+  },
+  {
+    pattern: /session.*expired/i,
+    type: ErrorType.AUTH,
+    message: '세션이 만료되었습니다. 다시 로그인해주세요.',
+  },
 
   // Network 에러
-  { pattern: /(network|fetch)/i, type: ErrorType.NETWORK, message: '네트워크 연결에 문제가 있습니다. 인터넷 연결을 확인해주세요.' },
-  { pattern: /timeout/i, type: ErrorType.NETWORK, message: '요청 시간이 초과되었습니다. 다시 시도해주세요.' },
+  {
+    pattern: /(network|fetch)/i,
+    type: ErrorType.NETWORK,
+    message: '네트워크 연결에 문제가 있습니다. 인터넷 연결을 확인해주세요.',
+  },
+  {
+    pattern: /timeout/i,
+    type: ErrorType.NETWORK,
+    message: '요청 시간이 초과되었습니다. 다시 시도해주세요.',
+  },
 ];
 
 /**
  * Supabase 에러 코드 매핑
  */
-const SUPABASE_ERROR_MAP: Record<string, { type: ErrorType; getMessage?: (details?: string) => string }> = {
+const SUPABASE_ERROR_MAP: Record<
+  string,
+  { type: ErrorType; getMessage?: (details?: string) => string }
+> = {
   // Constraint violations
   '23505': {
     type: ErrorType.CONFLICT,
-    getMessage: (details) => details?.includes('email')
-      ? '이미 가입된 이메일입니다.'
-      : '이미 존재하는 데이터입니다.'
+    getMessage: details =>
+      details?.includes('email') ? '이미 가입된 이메일입니다.' : '이미 존재하는 데이터입니다.',
   },
   '23503': { type: ErrorType.VALIDATION, getMessage: () => '올바른 형식으로 입력해주세요.' },
   '23502': { type: ErrorType.VALIDATION, getMessage: () => '필수 항목을 입력해주세요.' },
@@ -73,8 +103,11 @@ const SUPABASE_ERROR_MAP: Record<string, { type: ErrorType; getMessage?: (detail
   '22P02': { type: ErrorType.VALIDATION, getMessage: () => '올바른 형식으로 입력해주세요.' },
 
   // Auth errors
-  'PGRST301': { type: ErrorType.AUTH, getMessage: () => '세션이 만료되었습니다. 다시 로그인해주세요.' },
-  'PGRST302': { type: ErrorType.AUTH, getMessage: () => '인증 토큰이 유효하지 않습니다.' },
+  PGRST301: {
+    type: ErrorType.AUTH,
+    getMessage: () => '세션이 만료되었습니다. 다시 로그인해주세요.',
+  },
+  PGRST302: { type: ErrorType.AUTH, getMessage: () => '인증 토큰이 유효하지 않습니다.' },
 
   // Permission errors
   '42501': { type: ErrorType.PERMISSION, getMessage: () => '이 작업을 수행할 권한이 없습니다.' },
@@ -102,7 +135,9 @@ const DEFAULT_MESSAGES = {
  * 타입 가드: Error 객체인지 확인
  */
 function isError(error: unknown): error is Error {
-  return error instanceof Error || (typeof error === 'object' && error !== null && 'message' in error);
+  return (
+    error instanceof Error || (typeof error === 'object' && error !== null && 'message' in error)
+  );
 }
 
 /**

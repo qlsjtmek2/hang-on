@@ -20,7 +20,8 @@ export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * STRONG_PASSWORD_REGEX.test('Pass123!') // true
  * STRONG_PASSWORD_REGEX.test('weak') // false
  */
-export const STRONG_PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+export const STRONG_PASSWORD_REGEX =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
 /**
  * 전화번호 형식 검증 정규식 (한국 형식)
