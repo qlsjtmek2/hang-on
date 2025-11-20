@@ -64,8 +64,13 @@ export const LoginScreen: React.FC = () => {
     }
 
     console.log('[LoginScreen.handleLogin] signIn 호출');
-    await signIn(email.toLowerCase().trim(), password);
+    const success = await signIn(email.toLowerCase().trim(), password);
     console.log('[LoginScreen.handleLogin] signIn 완료');
+
+    // 로그인 실패 시 비밀번호만 초기화 (이메일은 유지)
+    if (!success) {
+      setPassword('');
+    }
   };
 
   const handleEmailChange = (text: string) => {
