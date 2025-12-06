@@ -11,6 +11,7 @@ import {
   ViewToken,
   Easing,
   Platform,
+  LayoutChangeEvent,
 } from 'react-native';
 
 import { HeartButton } from '@/components/HeartButton';
@@ -20,8 +21,8 @@ import { useFeedStore, FeedItem, MessagePreset } from '@/store/feedStore';
 import { theme } from '@/theme';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-const TAB_BAR_HEIGHT = 80;
-const CARD_HEIGHT = SCREEN_HEIGHT - TAB_BAR_HEIGHT;
+// 초기 카드 높이 (onLayout에서 실제 높이로 업데이트됨)
+const INITIAL_CARD_HEIGHT = SCREEN_HEIGHT * 0.75;
 
 /**
  * 누군가와 함께 화면 (피드)
@@ -44,8 +45,17 @@ export const FeedScreen: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [messageSheetVisible, setMessageSheetVisible] = useState(false);
   const [selectedFeedId, setSelectedFeedId] = useState<string | null>(null);
+  const [cardHeight, setCardHeight] = useState(INITIAL_CARD_HEIGHT);
 
   const remainingCount = getRemainingCount();
+
+  // 실제 컨테이너 높이를 측정하여 카드 높이 설정
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { height } = event.nativeEvent.layout;
+    if (height > 0 && height !== cardHeight) {
+      setCardHeight(height);
+    }
+  };
   const limitReached = hasReachedLimit();
 
   const viewabilityConfig = useRef({
@@ -96,6 +106,7 @@ export const FeedScreen: React.FC = () => {
       isActive={index === activeIndex}
       onEmpathyPress={handleEmpathyPress}
       onMessagePress={handleMessagePress}
+      cardHeight={cardHeight}
     />
   );
 
@@ -134,21 +145,21 @@ export const FeedScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={handleLayout}>
       <FlatList
         data={feedItems}
         renderItem={renderCard}
         keyExtractor={item => item.id}
         pagingEnabled
-        snapToInterval={CARD_HEIGHT}
+        snapToInterval={cardHeight}
         snapToAlignment="start"
         decelerationRate="fast"
         showsVerticalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={(_, index) => ({
-          length: CARD_HEIGHT,
-          offset: CARD_HEIGHT * index,
+          length: cardHeight,
+          offset: cardHeight * index,
           index,
         })}
       />
@@ -158,15 +169,6 @@ export const FeedScreen: React.FC = () => {
         <View style={styles.counterBadge}>
           <Text style={styles.counterText}>
             오늘 남은 이야기: {remainingCount}/{dailyLimit}
-          </Text>
-        </View>
-      </View>
-
-      {/* 페이지 인디케이터 */}
-      <View style={styles.pageIndicatorContainer}>
-        <View style={styles.pageIndicator}>
-          <Text style={styles.pageText}>
-            {activeIndex + 1} / {feedItems.length}
           </Text>
         </View>
       </View>
@@ -191,6 +193,7 @@ interface FeedCardProps {
   isActive: boolean;
   onEmpathyPress: (id: string, hasEmpathized: boolean) => void;
   onMessagePress: (id: string) => void;
+  cardHeight: number;
 }
 
 const FeedCard: React.FC<FeedCardProps> = ({
@@ -198,6 +201,7 @@ const FeedCard: React.FC<FeedCardProps> = ({
   isActive,
   onEmpathyPress,
   onMessagePress,
+  cardHeight,
 }) => {
   const emotionInfo = EMOTION_DATA[record.emotionLevel];
   const EmotionIcon = emotionInfo.icon;
@@ -240,7 +244,7 @@ const FeedCard: React.FC<FeedCardProps> = ({
   };
 
   return (
-    <View style={[styles.cardContainer, { height: CARD_HEIGHT }]}>
+    <View style={[styles.cardContainer, { height: cardHeight }]}>
       {/* 배경 */}
       <View
         style={[styles.cardBackground, { backgroundColor: `${emotionInfo.color}10` }]}
@@ -424,7 +428,7 @@ const styles = StyleSheet.create({
   // Bottom Interaction Bar
   bottomBar: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 16,
     left: theme.spacing.md,
     right: theme.spacing.md,
     height: 60,
@@ -492,25 +496,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: theme.colors.semantic.success,
     fontWeight: '500',
-  },
-
-  // Indicator
-  pageIndicatorContainer: {
-    position: 'absolute',
-    bottom: 100,
-    width: '100%',
-    alignItems: 'center',
-  },
-  pageIndicator: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.5)',
-  },
-  pageText: {
-    ...theme.typography.caption,
-    fontSize: 12,
-    color: theme.colors.text.secondary,
-    fontWeight: '600',
   },
 });
