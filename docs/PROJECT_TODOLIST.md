@@ -89,23 +89,23 @@
 ## Phase 5: Mock 인증 시스템
 
 ### 5.1 Mock Auth Store
-- [ ] `src/store/mockAuthStore.ts` 생성
+- [x] `src/store/mockAuthStore.ts` 생성
   - 테스트 계정: `test@example.com` / `password123`
   - 상태: `isAuthenticated`, `user`, `isLoading`
   - 액션: `mockSignIn()`, `mockSignUp()`, `mockSignOut()`
-- [ ] AsyncStorage로 세션 유지 (선택)
+- [x] AsyncStorage로 세션 유지 (선택)
 
 ### 5.2 기존 화면 Mock 연동
-- [ ] LoginScreen → Mock 로그인 연동
+- [x] LoginScreen → Mock 로그인 연동
   - 테스트 계정으로 로그인 시 성공
   - 다른 계정은 에러 표시
-- [ ] SignUpScreen → Mock 회원가입
+- [x] SignUpScreen → Mock 회원가입
   - 바로 성공 처리 → 로그인 화면 이동
-- [ ] AuthConfirmScreen → 스킵 또는 제거
+- [x] AuthConfirmScreen → 스킵 또는 제거
 
 ### 5.3 네비게이션 수정
-- [ ] Supabase 인증 리스너 제거
-- [ ] Mock 인증 상태 기반으로 화면 전환
+- [x] Supabase 인증 리스너 제거
+- [x] Mock 인증 상태 기반으로 화면 전환
 
 ---
 

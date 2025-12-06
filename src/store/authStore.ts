@@ -84,9 +84,14 @@ export const useAuthStore = create<AuthStore>((set, _get) => ({
     // 새 사용자 등록
     registeredUsers.set(email, { email, password });
 
+    // 자동 로그인
+    const mockUser = createMockUser(email);
     set({
-      error: '회원가입이 완료되었습니다. 로그인해주세요.',
+      user: mockUser,
+      session: { user: mockUser },
+      isAuthenticated: true,
       isLoading: false,
+      error: null,
     });
 
     return true;

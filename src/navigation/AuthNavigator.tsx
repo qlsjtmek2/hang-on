@@ -47,7 +47,6 @@ export const AuthNavigator: React.FC = () => {
   return (
     <NavigationContainer linking={linking} fallback={LoadingFallback}>
       <Stack.Navigator
-        initialRouteName={isAuthenticated ? 'Home' : 'Login'}
         screenOptions={{
           headerStyle: {
             backgroundColor: theme.colors.background,
@@ -64,23 +63,28 @@ export const AuthNavigator: React.FC = () => {
           },
         }}
       >
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            title: '로그인',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{
-            title: '회원가입',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Hang On' }} />
+        {isAuthenticated ? (
+          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Hang On' }} />
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{
+                title: '로그인',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUpScreen}
+              options={{
+                title: '회원가입',
+                headerShown: false,
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

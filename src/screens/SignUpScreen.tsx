@@ -66,15 +66,8 @@ export const SignUpScreen: React.FC = () => {
       return;
     }
 
-    const success = await signUp(email.toLowerCase().trim(), password);
-
-    if (success) {
-      // 회원가입 성공 (이메일 확인 필요 또는 즉시 로그인)
-      // 3초 후 로그인 화면으로 이동
-      setTimeout(() => {
-        navigation.navigate('Login');
-      }, 3000);
-    }
+    await signUp(email.toLowerCase().trim(), password);
+    // 회원가입 성공 시 자동 로그인 → Home 화면으로 자동 전환
   };
 
   const handleEmailChange = (text: string) => {
