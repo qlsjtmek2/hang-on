@@ -276,12 +276,39 @@ SUPABASE_ANON_KEY=your-anon-key
   - ✅ 6.3 글쓰기 화면 (WriteScreen)
   - ✅ 6.4 공유 설정 바텀시트 (ShareSettingsBottomSheet)
   - ✅ 6.5 Mock 기록 Store (recordStore)
-
----
+- ✅ Phase 7: 내 기록 목록 + 피드
+  - ✅ 7.1 내 기록 목록 화면 - Pull-to-refresh
+  - ✅ 7.2 피드 화면 - 일일 20개 제한, 카운터 헤더
+  - ✅ 7.3 Mock 피드 데이터 (feedStore.ts)
+  - ✅ 7.4 공감 버튼 컴포넌트 (HeartButton.tsx)
+  - ✅ 7.5 메시지 프리셋 바텀시트 (MessagePresetBottomSheet.tsx)
 
 ---
 
 ## 리팩토링 이력
+
+### 2025-12-06: Phase 7 내 기록 목록 + 피드 구현
+
+- ✅ `src/store/feedStore.ts` 생성: Mock 피드 Store (Zustand)
+  - FeedItem 인터페이스: 다른 사람의 기록 (hasEmpathized, hasSentMessage 추가)
+  - 일일 조회 20개 제한, 자동 날짜 변경 감지
+  - 액션: viewFeedItem, addEmpathy, removeEmpathy, sendMessage
+  - 샘플 데이터 20개 포함
+- ✅ `src/components/HeartButton.tsx` 생성: 공감 버튼 컴포넌트
+  - 펄스 애니메이션
+  - 공감 상태에 따른 스타일 변경
+  - 3가지 크기 지원 (small, medium, large)
+- ✅ `src/components/MessagePresetBottomSheet.tsx` 생성: 메시지 프리셋 바텀시트
+  - 4가지 프리셋 메시지 (힘내세요, 저도 그래요, 괜찮을 거예요, 함께해요)
+  - 익명 전송 안내
+  - 이미 보낸 경우 비활성화 상태 표시
+- ✅ `src/screens/MyRecordsScreen.tsx` 업데이트: Pull-to-refresh 추가
+- ✅ `src/screens/FeedScreen.tsx` 업데이트: 일일 제한 + 카운터 헤더
+  - 헤더에 "오늘 남은 이야기: X/20" 표시
+  - 20개 제한 도달 시 별도 화면 표시
+  - HeartButton, MessagePresetBottomSheet 통합
+- ✅ 유닛 테스트: feedStore, HeartButton, MessagePresetBottomSheet
+- 📊 결과: 피드 전체 플로우 완성 (조회 → 공감 → 메시지 전송)
 
 ### 2025-12-06: Phase 6.2~6.5 털어놓기 플로우 구현
 
@@ -335,6 +362,6 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-12-06 (Phase 6 완료)
+**마지막 업데이트**: 2025-12-06 (Phase 7 완료)
 **프로젝트**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **환경**: WSL2 Ubuntu + Windows 11, React Native 0.82+

@@ -1,6 +1,6 @@
 import { FileEdit } from 'lucide-react-native';
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RecordCard } from '@/components/RecordCard';
@@ -17,6 +17,15 @@ import { theme } from '@/theme';
 export const MyRecordsScreen: React.FC = () => {
   const { getMyRecords } = useRecordStore();
   const records = getMyRecords();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // Mock: 새로고침 애니메이션만 표시 (실제 데이터는 Supabase 연동 시 구현)
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
 
   const handleRecordPress = (id: string) => {
     // TODO: 상세 화면 이동
@@ -71,6 +80,14 @@ export const MyRecordsScreen: React.FC = () => {
           keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={[theme.colors.primary.main]}
+              tintColor={theme.colors.primary.main}
+            />
+          }
         />
       )}
     </SafeAreaView>
