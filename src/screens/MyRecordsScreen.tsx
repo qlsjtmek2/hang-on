@@ -1,11 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FileEdit } from 'lucide-react-native';
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RecordCard } from '@/components/RecordCard';
+import type { RootStackParamList } from '@/navigation/RootNavigator';
 import { useRecordStore, Record } from '@/store/recordStore';
 import { theme } from '@/theme';
+
+type MyRecordsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * 내 기록 화면
@@ -15,6 +20,7 @@ import { theme } from '@/theme';
  * - 기록 카드 탭 시 상세 화면 이동 (추후 구현)
  */
 export const MyRecordsScreen: React.FC = () => {
+  const navigation = useNavigation<MyRecordsScreenNavigationProp>();
   const { getMyRecords } = useRecordStore();
   const records = getMyRecords();
   const [refreshing, setRefreshing] = useState(false);
@@ -28,8 +34,7 @@ export const MyRecordsScreen: React.FC = () => {
   }, []);
 
   const handleRecordPress = (id: string) => {
-    // TODO: 상세 화면 이동
-    console.log('Record pressed:', id);
+    navigation.navigate('Record', { recordId: id });
   };
 
   const handleEmpathyPress = (id: string) => {

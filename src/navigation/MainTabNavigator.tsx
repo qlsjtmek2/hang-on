@@ -6,13 +6,14 @@ import { BookOpen, Heart, Settings } from 'lucide-react-native';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { RootStackParamList } from './RootNavigator';
 
 import { FloatingActionButton } from '@/components/FloatingActionButton';
 import { FeedScreen } from '@/screens/FeedScreen';
 import { MyRecordsScreen } from '@/screens/MyRecordsScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
 import { theme } from '@/theme';
+
+import type { RootStackParamList } from './RootNavigator';
 
 export type MainTabParamList = {
   MyRecords: undefined;

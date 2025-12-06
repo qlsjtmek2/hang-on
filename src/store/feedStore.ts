@@ -28,14 +28,14 @@ export type MessagePreset =
 export interface MessagePresetData {
   type: MessagePreset;
   label: string;
-  emoji: string;
+  iconName: 'flame' | 'heart' | 'sun' | 'users';
 }
 
 export const MESSAGE_PRESETS: MessagePresetData[] = [
-  { type: 'cheer_up', label: '힘내세요', emoji: '💪' },
-  { type: 'me_too', label: '저도 그래요', emoji: '🫂' },
-  { type: 'will_be_ok', label: '괜찮을 거예요', emoji: '🌈' },
-  { type: 'together', label: '함께해요', emoji: '✨' },
+  { type: 'cheer_up', label: '힘내세요', iconName: 'flame' },
+  { type: 'me_too', label: '저도 그래요', iconName: 'heart' },
+  { type: 'will_be_ok', label: '괜찮을 거예요', iconName: 'sun' },
+  { type: 'together', label: '함께해요', iconName: 'users' },
 ];
 
 // 일일 피드 조회 제한
@@ -265,6 +265,105 @@ const createSampleFeedItems = (): FeedItem[] => {
       heartsCount: 38,
       messagesCount: 16,
       createdAt: new Date(now.getTime() - 38 * 60 * 60 * 1000), // 38시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 3,
+      content:
+        '출근길 지하철에서 할머니께 자리를 양보했어요. 환하게 웃어주셔서 저도 기분이 좋아졌어요.',
+      heartsCount: 28,
+      messagesCount: 8,
+      createdAt: new Date(now.getTime() - 40 * 60 * 60 * 1000), // 40시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 1,
+      content:
+        '오늘도 야근이에요. 언제까지 이렇게 살아야 하는 걸까요. 지쳐가는 게 느껴져요.',
+      heartsCount: 52,
+      messagesCount: 22,
+      createdAt: new Date(now.getTime() - 42 * 60 * 60 * 1000), // 42시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 5,
+      content:
+        '오랫동안 가고 싶었던 전시회에 다녀왔어요. 영감을 많이 받았고, 마음이 충전된 느낌이에요!',
+      heartsCount: 33,
+      messagesCount: 9,
+      createdAt: new Date(now.getTime() - 44 * 60 * 60 * 1000), // 44시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 2,
+      content:
+        '면접에서 떨어졌어요. 준비 많이 했는데... 다음에는 꼭 합격하고 싶어요.',
+      heartsCount: 48,
+      messagesCount: 19,
+      createdAt: new Date(now.getTime() - 46 * 60 * 60 * 1000), // 46시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 4,
+      content:
+        '오늘 처음으로 요리를 해봤어요. 맛은 그저 그랬지만, 뿌듯한 마음이 더 커요.',
+      heartsCount: 19,
+      messagesCount: 6,
+      createdAt: new Date(now.getTime() - 48 * 60 * 60 * 1000), // 48시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 1,
+      content:
+        '가족과 크게 다퉜어요. 화해하고 싶은데 먼저 말 걸기가 어려워요. 마음이 무거워요.',
+      heartsCount: 61,
+      messagesCount: 28,
+      createdAt: new Date(now.getTime() - 50 * 60 * 60 * 1000), // 50시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 3,
+      content:
+        '비 오는 날 카페에서 책 읽는 시간. 바쁜 일상에서 잠시 쉬어가는 느낌이 좋아요.',
+      heartsCount: 14,
+      messagesCount: 4,
+      createdAt: new Date(now.getTime() - 52 * 60 * 60 * 1000), // 52시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 5,
+      content:
+        '반려견이 아파서 걱정했는데, 건강하다는 검사 결과가 나왔어요. 정말 다행이에요!',
+      heartsCount: 67,
+      messagesCount: 24,
+      createdAt: new Date(now.getTime() - 54 * 60 * 60 * 1000), // 54시간 전
+      hasEmpathized: false,
+      hasSentMessage: false,
+    },
+    {
+      id: generateId(),
+      emotionLevel: 2,
+      content:
+        'SNS를 보면 다들 행복해 보여요. 나만 불행한 것 같은 기분... 비교하지 말아야 하는데.',
+      heartsCount: 44,
+      messagesCount: 17,
+      createdAt: new Date(now.getTime() - 56 * 60 * 60 * 1000), // 56시간 전
       hasEmpathized: false,
       hasSentMessage: false,
     },

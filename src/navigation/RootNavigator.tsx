@@ -10,6 +10,7 @@ import { theme } from '@/theme';
 
 import { CreateStackNavigator } from './CreateStackNavigator';
 import { MainTabNavigator } from './MainTabNavigator';
+import { RecordStackNavigator } from './RecordStackNavigator';
 
 // 인증 스택 타입
 export type AuthStackParamList = {
@@ -17,11 +18,12 @@ export type AuthStackParamList = {
   SignUp: undefined;
 };
 
-// 루트 스택 타입 (인증 + 메인 + 기록 생성)
+// 루트 스택 타입 (인증 + 메인 + 기록 생성 + 기록 상세)
 export type RootStackParamList = {
   Auth: undefined;
   Main: undefined;
   Create: undefined;
+  Record: { recordId: string };
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -98,6 +100,13 @@ export const RootNavigator: React.FC = () => {
               options={{
                 presentation: 'modal',
                 animation: 'slide_from_bottom',
+              }}
+            />
+            <RootStack.Screen
+              name="Record"
+              component={RecordStackNavigator}
+              options={{
+                animation: 'slide_from_right',
               }}
             />
           </>

@@ -282,10 +282,44 @@ SUPABASE_ANON_KEY=your-anon-key
   - ✅ 7.3 Mock 피드 데이터 (feedStore.ts)
   - ✅ 7.4 공감 버튼 컴포넌트 (HeartButton.tsx)
   - ✅ 7.5 메시지 프리셋 바텀시트 (MessagePresetBottomSheet.tsx)
+- ✅ Phase 8: 추가 화면 (상세, 수정, 설정)
+  - ✅ 8.1 기록 상세 화면 (RecordDetailScreen)
+  - ✅ 8.2 기록 수정 화면 (EditRecordScreen)
+  - ✅ 8.3 설정 화면 완성 (SettingsScreen)
+  - ✅ 8.4 확인 다이얼로그 (ConfirmDialog)
+  - ✅ 8.5 신고 바텀시트 (ReportBottomSheet)
 
 ---
 
 ## 리팩토링 이력
+
+### 2025-12-06: Phase 8 추가 화면 (상세, 수정, 설정) 구현
+
+- ✅ `src/components/ConfirmDialog.tsx` 생성: 확인 다이얼로그 컴포넌트
+  - 삭제/로그아웃/계정삭제 확인용 모달
+  - default/danger variant 지원
+  - 애니메이션 및 로딩 상태 지원
+- ✅ `src/components/ReportBottomSheet.tsx` 생성: 신고 바텀시트 컴포넌트
+  - 5가지 신고 사유 (욕설/혐오, 스팸, 자해/자살 암시, 개인정보 노출, 기타)
+  - 기타 선택 시 직접 입력 기능
+  - 제출 완료 후 확인 화면
+- ✅ `src/screens/RecordDetailScreen.tsx` 생성: 기록 상세 화면
+  - 전체 내용 표시, 감정 아이콘 + 작성 시간
+  - 받은 공감/메시지 목록 (Mock 데이터)
+  - 더보기 메뉴: 수정 / 삭제 / 공유 설정 변경
+- ✅ `src/screens/EditRecordScreen.tsx` 생성: 기록 수정 화면
+  - WriteScreen과 유사한 UI
+  - 기존 내용 불러오기 + 변경사항 감지
+  - 취소 시 변경사항 확인 다이얼로그
+- ✅ `src/screens/SettingsScreen.tsx` 완성: 설정 화면
+  - 언어 선택 바텀시트 (UI만)
+  - 푸시 알림 토글 (UI만)
+  - 로그아웃/계정 삭제 + ConfirmDialog 연결
+  - 개인정보 처리방침/이용약관/문의 링크
+- ✅ `src/navigation/RecordStackNavigator.tsx` 생성: 기록 상세/수정 스택
+- ✅ `RootNavigator.tsx` 수정: Record 스택 추가
+- ✅ `MyRecordsScreen.tsx` 수정: 기록 탭 → 상세 화면 이동 연결
+- 📊 결과: 기록 CRUD 전체 플로우 완성 (목록 → 상세 → 수정/삭제)
 
 ### 2025-12-06: Phase 7 내 기록 목록 + 피드 구현
 
@@ -362,6 +396,6 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-12-06 (Phase 7 완료)
+**마지막 업데이트**: 2025-12-06 (Phase 8 완료)
 **프로젝트**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **환경**: WSL2 Ubuntu + Windows 11, React Native 0.82+

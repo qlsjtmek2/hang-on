@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Moon } from 'lucide-react-native';
+import { Heart, MessageCircle, Moon, MoreHorizontal } from 'lucide-react-native';
 import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
@@ -16,6 +16,7 @@ import {
 
 import { HeartButton } from '@/components/HeartButton';
 import { MessagePresetBottomSheet } from '@/components/MessagePresetBottomSheet';
+import { ReportBottomSheet, ReportReason } from '@/components/ReportBottomSheet';
 import { EMOTION_DATA } from '@/constants/emotions';
 import { useFeedStore, FeedItem, MessagePreset } from '@/store/feedStore';
 import { theme } from '@/theme';
@@ -29,6 +30,7 @@ const INITIAL_CARD_HEIGHT = SCREEN_HEIGHT * 0.75;
  * - Wide View: 사이드바 제거, 텍스트 영역 최대화
  * - 일일 20개 제한
  * - 헤더에 남은 이야기 수 표시
+ * - 더보기 버튼으로 신고 기능 접근
  */
 export const FeedScreen: React.FC = () => {
   const {
@@ -44,6 +46,7 @@ export const FeedScreen: React.FC = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [messageSheetVisible, setMessageSheetVisible] = useState(false);
+  const [reportSheetVisible, setReportSheetVisible] = useState(false);
   const [selectedFeedId, setSelectedFeedId] = useState<string | null>(null);
   const [cardHeight, setCardHeight] = useState(INITIAL_CARD_HEIGHT);
 
@@ -90,10 +93,20 @@ export const FeedScreen: React.FC = () => {
     setMessageSheetVisible(true);
   };
 
+  const handleMorePress = (id: string) => {
+    setSelectedFeedId(id);
+    setReportSheetVisible(true);
+  };
+
   const handleMessageSelect = (preset: MessagePreset) => {
     if (selectedFeedId) {
       sendMessage(selectedFeedId, preset);
     }
+  };
+
+  const handleReportSubmit = (reason: ReportReason, detail?: string) => {
+    // Mock: 신고 처리 로그
+    console.log('Report submitted:', { feedId: selectedFeedId, reason, detail });
   };
 
   const selectedFeedItem = selectedFeedId
@@ -106,6 +119,7 @@ export const FeedScreen: React.FC = () => {
       isActive={index === activeIndex}
       onEmpathyPress={handleEmpathyPress}
       onMessagePress={handleMessagePress}
+      onMorePress={handleMorePress}
       cardHeight={cardHeight}
     />
   );
@@ -180,6 +194,14 @@ export const FeedScreen: React.FC = () => {
         onSelect={handleMessageSelect}
         hasSentMessage={selectedFeedItem?.hasSentMessage ?? false}
       />
+
+      {/* 신고 바텀시트 */}
+      <ReportBottomSheet
+        visible={reportSheetVisible}
+        onClose={() => setReportSheetVisible(false)}
+        onSubmit={handleReportSubmit}
+        recordId={selectedFeedId ?? ''}
+      />
     </View>
   );
 };
@@ -193,6 +215,7 @@ interface FeedCardProps {
   isActive: boolean;
   onEmpathyPress: (id: string, hasEmpathized: boolean) => void;
   onMessagePress: (id: string) => void;
+  onMorePress: (id: string) => void;
   cardHeight: number;
 }
 
@@ -201,6 +224,7 @@ const FeedCard: React.FC<FeedCardProps> = ({
   isActive,
   onEmpathyPress,
   onMessagePress,
+  onMorePress,
   cardHeight,
 }) => {
   const emotionInfo = EMOTION_DATA[record.emotionLevel];
@@ -249,6 +273,17 @@ const FeedCard: React.FC<FeedCardProps> = ({
       <View
         style={[styles.cardBackground, { backgroundColor: `${emotionInfo.color}10` }]}
       />
+
+      {/* 더보기 버튼 (우측 상단) */}
+      <TouchableOpacity
+        style={styles.moreButton}
+        onPress={() => onMorePress(record.id)}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        accessibilityLabel="더보기"
+        accessibilityHint="신고하기 옵션을 엽니다"
+      >
+        <MoreHorizontal size={24} color={theme.colors.text.secondary} strokeWidth={2} />
+      </TouchableOpacity>
 
       {/* 메인 콘텐츠 영역 */}
       <View style={styles.contentWrapper}>
@@ -380,6 +415,25 @@ const styles = StyleSheet.create({
   },
   cardBackground: {
     ...StyleSheet.absoluteFillObject,
+  },
+
+  // More Button (top-right)
+  moreButton: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 60 : 40,
+    right: theme.spacing.md,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    zIndex: 10,
   },
 
   // Content Area

@@ -221,12 +221,12 @@
 
 ---
 
-## Phase 8: 추가 화면 (상세, 수정, 설정)
+## Phase 8: 추가 화면 (상세, 수정, 설정) ✅ 완료
 
 **우선순위: P1 (확장)**
 
 ### 8.1 기록 상세 화면
-- [ ] `src/screens/RecordDetailScreen.tsx` 생성
+- [x] `src/screens/RecordDetailScreen.tsx` 생성
   - 전체 내용 표시
   - 감정 아이콘 + 작성 시간
   - 받은 공감/메시지 목록 (Mock 데이터)
@@ -234,14 +234,14 @@
   - 유닛 테스트
 
 ### 8.2 기록 수정 화면
-- [ ] `src/screens/EditRecordScreen.tsx` 생성
+- [x] `src/screens/EditRecordScreen.tsx` 생성
   - 기존 내용 불러오기
   - WriteScreen과 유사한 UI
   - 저장 시 recordStore 업데이트
   - 유닛 테스트
 
 ### 8.3 설정 화면
-- [ ] `src/screens/SettingsScreen.tsx` 생성
+- [x] `src/screens/SettingsScreen.tsx` 완성
   - 언어 선택 드롭다운 (UI만, 실제 변경 X)
   - 푸시 알림 토글 (UI만)
   - 로그아웃 버튼 → 로그인 화면
@@ -252,7 +252,7 @@
   - 유닛 테스트
 
 ### 8.4 확인 다이얼로그
-- [ ] `src/components/ConfirmDialog.tsx` 생성
+- [x] `src/components/ConfirmDialog.tsx` 생성
   - 제목, 메시지, 확인/취소 버튼
   - 삭제 확인: "이 기록을 삭제할까요?"
   - 로그아웃 확인: "정말 로그아웃할까요?"
@@ -260,7 +260,7 @@
   - 유닛 테스트
 
 ### 8.5 신고 바텀시트
-- [ ] `src/components/ReportBottomSheet.tsx` 생성
+- [x] `src/components/ReportBottomSheet.tsx` 생성
   - 5가지 신고 사유:
     1. 욕설/혐오 표현
     2. 스팸/광고
@@ -293,6 +293,12 @@
 ### 9.4 다크모드 (선택)
 - [ ] 다크모드 테마 정의
 - [ ] 시스템 설정 연동
+
+---
+
+## Phase 10. HCI 개선
+
+
 
 ---
 

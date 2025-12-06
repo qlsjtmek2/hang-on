@@ -1,3 +1,4 @@
+import { X } from 'lucide-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
@@ -16,7 +17,6 @@ import {
   ViewStyle,
   LayoutChangeEvent,
 } from 'react-native';
-import { X } from 'lucide-react-native';
 
 import { theme } from '@/theme';
 

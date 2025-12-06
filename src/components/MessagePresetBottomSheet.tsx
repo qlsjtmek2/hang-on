@@ -1,4 +1,12 @@
-import { Check, MessageCircle } from 'lucide-react-native';
+import {
+  Check,
+  Flame,
+  Heart,
+  MessageCircle,
+  Sun,
+  Users,
+  LucideIcon,
+} from 'lucide-react-native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
@@ -6,6 +14,14 @@ import { MESSAGE_PRESETS, MessagePreset } from '@/store/feedStore';
 import { theme } from '@/theme';
 
 import { BottomSheet } from './BottomSheet';
+
+// 아이콘 이름 → Lucide 컴포넌트 매핑
+const ICON_MAP: Record<string, LucideIcon> = {
+  flame: Flame,
+  heart: Heart,
+  sun: Sun,
+  users: Users,
+};
 
 export interface MessagePresetBottomSheetProps {
   /**
@@ -34,10 +50,10 @@ export interface MessagePresetBottomSheetProps {
  * MessagePresetBottomSheet - 메시지 프리셋 선택 바텀시트
  *
  * 4가지 프리셋 메시지 중 하나를 선택하여 전송합니다.
- * - 힘내세요 💪
- * - 저도 그래요 🫂
- * - 괜찮을 거예요 🌈
- * - 함께해요 ✨
+ * - 힘내세요 (Flame)
+ * - 저도 그래요 (Heart)
+ * - 괜찮을 거예요 (Sun)
+ * - 함께해요 (Users)
  */
 export function MessagePresetBottomSheet({
   visible,
@@ -82,6 +98,7 @@ export function MessagePresetBottomSheet({
           {MESSAGE_PRESETS.map(preset => {
             const isSelected = selectedPreset === preset.type;
             const isDisabled = hasSentMessage && !isSelected;
+            const IconComponent = ICON_MAP[preset.iconName];
 
             return (
               <TouchableOpacity
@@ -95,10 +112,21 @@ export function MessagePresetBottomSheet({
                 disabled={hasSentMessage}
                 activeOpacity={0.7}
                 accessibilityRole="button"
-                accessibilityLabel={`${preset.label} ${preset.emoji}`}
+                accessibilityLabel={preset.label}
                 accessibilityState={{ selected: isSelected, disabled: isDisabled }}
               >
-                <Text style={styles.presetEmoji}>{preset.emoji}</Text>
+                <View style={styles.presetIconContainer}>
+                  <IconComponent
+                    size={20}
+                    color={
+                      isSelected
+                        ? theme.colors.primary.main
+                        : isDisabled
+                          ? theme.colors.neutral.gray400
+                          : theme.colors.neutral.gray700
+                    }
+                  />
+                </View>
                 <Text
                   style={[
                     styles.presetLabel,
@@ -189,8 +217,13 @@ const styles = StyleSheet.create({
   presetButtonDisabled: {
     opacity: 0.4,
   },
-  presetEmoji: {
-    fontSize: 24,
+  presetIconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: theme.colors.neutral.gray200,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: theme.spacing.sm,
   },
   presetLabel: {
