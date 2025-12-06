@@ -102,6 +102,14 @@ src/
 - ❌ 데이터 중복 정의 금지
 - 💡 타입과 상수를 함께 사용할 때는 `@/constants/emotions`에서 import (타입이 re-export됨)
 
+#### 아이콘
+
+- **라이브러리**: `lucide-react-native`
+- **사용**: `import { Home, Settings, Plus } from 'lucide-react-native'`
+- ❌ 다른 아이콘 라이브러리 사용 금지 (react-native-vector-icons 등)
+- ❌ 이모지 문자(😀, ⚙️ 등) 직접 사용 금지
+- 💡 일관된 아이콘 스타일 유지를 위해 Lucide로 통일
+
 ### 2. 컴포넌트 재사용 우선
 
 - **사용 가능한 컴포넌트**: Button, Input, EmotionButton, RecordCard, BottomSheet
@@ -244,6 +252,7 @@ SUPABASE_ANON_KEY=your-anon-key
 ## 금지 사항
 
 ❌ 색상, 폰트 하드코딩 (항상 `src/theme/` 사용)
+❌ Lucide 이외의 아이콘/이모지 사용 (항상 `lucide-react-native` 사용)
 ❌ 감정 데이터, 정규식 패턴 중복 정의 (항상 `src/constants/` 사용)
 ❌ 유효성 검사 로직 중복 작성 (항상 `src/utils/validation.ts` 사용)
 ❌ 컴포넌트 중복 생성
@@ -260,14 +269,26 @@ SUPABASE_ANON_KEY=your-anon-key
 - ✅ Phase 2: 개발 환경 구축 (ESLint, Prettier, TypeScript, 테마, WSL2 Android Mirrored Mode)
 - ✅ Phase 3: 공통 리소스 제작 (테마, 컴포넌트, 유틸리티)
 - 🔄 Phase 4: Supabase 백엔드 연동
-- 🔄 Phase 5: 인증 플로우 구현
-- 🔄 Phase 6: 감정 털어놓기 화면 개발
+- ✅ Phase 5: 인증 플로우 구현
+- 🔄 Phase 6: 메인 네비게이션 + 털어놓기
+  - ✅ 6.1 탭 네비게이션 구축 (MainTabNavigator, FloatingActionButton)
+  - ⏳ 6.2 감정 선택 화면
+  - ⏳ 6.3 글쓰기 화면
 
 ---
 
 ---
 
 ## 리팩토링 이력
+
+### 2025-12-06: Phase 6.1 탭 네비게이션 구축
+
+- ✅ `RootNavigator.tsx` 생성: 인증 상태에 따른 Auth/Main 스택 분기
+- ✅ `MainTabNavigator.tsx` 생성: 하단 탭 네비게이션 (내 기록, 누군가와 함께, 설정)
+- ✅ `FloatingActionButton.tsx` 생성: 털어놓기 플로팅 버튼 (우하단, 애니메이션 포함)
+- ✅ 탭 화면 스텁 생성: `MyRecordsScreen`, `FeedScreen`, `SettingsScreen`
+- ✅ 미사용 파일 정리: `AuthNavigator.tsx`, `HomeScreen.tsx` 삭제
+- 📊 결과: 탭 네비게이션 완성, 인증 플로우와 메인 화면 분리
 
 ### 2025-11-13 (2차): 감정 데이터 구조 개선
 
@@ -289,6 +310,6 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-11-13
+**마지막 업데이트**: 2025-12-06
 **프로젝트**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **환경**: WSL2 Ubuntu + Windows 11, React Native 0.82+
