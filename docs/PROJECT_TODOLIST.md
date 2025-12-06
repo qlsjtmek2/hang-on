@@ -114,19 +114,19 @@
 **우선순위: P0 (MVP 필수)**
 
 ### 6.1 탭 네비게이션 구축
-- [ ] `src/navigation/MainTabNavigator.tsx` 생성
+- [x] `src/navigation/MainTabNavigator.tsx` 생성
   - 하단 탭: 내 기록 / 누군가와 함께 / 설정
   - 아이콘 설정 (react-native-vector-icons 또는 이모지)
-- [ ] `src/navigation/RootNavigator.tsx` 수정
+- [x] `src/navigation/RootNavigator.tsx` 수정
   - 인증 여부에 따라 Auth Stack / Main Tab 전환
-- [ ] 플로팅 액션 버튼 (털어놓기)
+- [x] 플로팅 액션 버튼 (털어놓기)
   - 메인 화면 우하단에 배치
   - 탭 시 감정 선택 화면으로 이동
-- [ ] 아이콘 Lucide로 변경
+- [x] 아이콘 Lucide로 변경
 
 
 ### 6.2 감정 선택 화면
-- [ ] `src/screens/EmotionSelectScreen.tsx` 생성
+- [x] `src/screens/EmotionSelectScreen.tsx` 생성
   - EmotionSelector 컴포넌트 활용
   - 5단계 날씨 아이콘 원형/가로 배치
   - 선택 시 확대 + 색상 강조 애니메이션
@@ -134,7 +134,7 @@
   - 유닛 테스트
 
 ### 6.3 글쓰기 화면
-- [ ] `src/screens/WriteScreen.tsx` 생성
+- [x] `src/screens/WriteScreen.tsx` 생성
   - 상단: 선택한 감정 표시 (읽기 전용, 수정 불가)
   - 텍스트 입력 (Input 컴포넌트 활용)
     - 플레이스홀더: "지금 느끼는 기분을 자유롭게 표현해보세요"
@@ -145,7 +145,7 @@
   - 유닛 테스트
 
 ### 6.4 공유 설정 바텀시트
-- [ ] `src/components/ShareSettingsBottomSheet.tsx` 생성
+- [x] `src/components/ShareSettingsBottomSheet.tsx` 생성
   - 3가지 옵션:
     1. 혼자 간직하기 (비공개)
     2. 내일 나누기 (예약 공개)
@@ -155,7 +155,7 @@
   - 유닛 테스트
 
 ### 6.5 Mock 기록 Store
-- [ ] `src/store/recordStore.ts` 생성
+- [x] `src/store/recordStore.ts` 생성
   ```typescript
   interface Record {
     id: string;

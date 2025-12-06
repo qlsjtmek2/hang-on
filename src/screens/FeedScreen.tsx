@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2 } from 'lucide-react-native';
+import { Heart, MessageCircle } from 'lucide-react-native';
 import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
@@ -18,16 +18,14 @@ import { useRecordStore, Record } from '@/store/recordStore';
 import { theme } from '@/theme';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-const TAB_BAR_HEIGHT = 66;
-const HEADER_HEIGHT = 0; // 헤더 없이 풀스크린 느낌
-const CARD_HEIGHT = SCREEN_HEIGHT - TAB_BAR_HEIGHT - HEADER_HEIGHT;
+// 상하단 안전 영역 확보
+const TAB_BAR_HEIGHT = 80;
+const CARD_HEIGHT = SCREEN_HEIGHT - TAB_BAR_HEIGHT;
 
 /**
  * 누군가와 함께 화면 (피드)
- *
- * 몰입형 '레터 뷰(Letter View)' UI
- * - 글래스모피즘 & 젠틀 모션 애니메이션
- * - '소비'가 아닌 '교감'에 초점
+ * - Wide View: 사이드바 제거, 텍스트 영역 최대화
+ * - Comment Preview: 하단에 댓글 미리보기/입력 유도 바 배치
  */
 export const FeedScreen: React.FC = () => {
   const { getPublicRecords } = useRecordStore();
@@ -55,20 +53,16 @@ export const FeedScreen: React.FC = () => {
     console.log('Message pressed:', id);
   };
 
-  const handleSharePress = (id: string) => {
-    console.log('Share pressed:', id);
-  };
-
   const renderCard = ({ item, index }: { item: Record; index: number }) => (
     <FeedCard
       record={item}
       isActive={index === activeIndex}
       onEmpathyPress={handleEmpathyPress}
       onMessagePress={handleMessagePress}
-      onSharePress={handleSharePress}
     />
   );
 
+  // 데이터 없을 때 화면
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
       <View style={styles.emptyContent}>
@@ -105,7 +99,7 @@ export const FeedScreen: React.FC = () => {
         })}
       />
 
-      {/* 페이지 인디케이터 (상단 중앙) */}
+      {/* 페이지 인디케이터 (상단) */}
       <View style={styles.pageIndicatorContainer}>
         <View style={styles.pageIndicator}>
           <Text style={styles.pageText}>
@@ -126,7 +120,6 @@ interface FeedCardProps {
   isActive: boolean;
   onEmpathyPress: (id: string) => void;
   onMessagePress: (id: string) => void;
-  onSharePress: (id: string) => void;
 }
 
 const FeedCard: React.FC<FeedCardProps> = ({
@@ -134,81 +127,46 @@ const FeedCard: React.FC<FeedCardProps> = ({
   isActive,
   onEmpathyPress,
   onMessagePress,
-  onSharePress,
 }) => {
   const emotionInfo = EMOTION_DATA[record.emotionLevel];
   const EmotionIcon = emotionInfo.icon;
 
   // Animation Refs
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(30)).current;
+  const slideAnim = useRef(new Animated.Value(20)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  const floatAnim = useRef(new Animated.Value(0)).current;
 
-  // 화면에 나타날 때 실행되는 애니메이션
   useEffect(() => {
     if (isActive) {
-      // 1. 진입 애니메이션 (페이드 + 슬라이드 업)
       fadeAnim.setValue(0);
-      slideAnim.setValue(30);
+      slideAnim.setValue(20);
 
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 800,
+          duration: 600,
           useNativeDriver: true,
-          easing: Easing.out(Easing.cubic),
+          easing: Easing.out(Easing.quad),
         }),
         Animated.timing(slideAnim, {
           toValue: 0,
-          duration: 800,
+          duration: 600,
           useNativeDriver: true,
-          easing: Easing.out(Easing.cubic),
+          easing: Easing.out(Easing.quad),
         }),
       ]).start();
-
-      // 2. 아이콘 둥둥 떠다니는 애니메이션 (무한 반복)
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(floatAnim, {
-            toValue: -10,
-            duration: 2000,
-            useNativeDriver: true,
-            easing: Easing.inOut(Easing.sin),
-          }),
-          Animated.timing(floatAnim, {
-            toValue: 0,
-            duration: 2000,
-            useNativeDriver: true,
-            easing: Easing.inOut(Easing.sin),
-          }),
-        ]),
-      ).start();
-    } else {
-      // 화면에서 사라질 때 초기화
-      fadeAnim.setValue(0);
-      slideAnim.setValue(30);
-      floatAnim.setValue(0);
     }
-  }, [isActive, fadeAnim, slideAnim, floatAnim]);
+  }, [isActive, fadeAnim, slideAnim]);
 
   const handleHeartPress = () => {
-    // 하트 펄스 애니메이션
     Animated.sequence([
       Animated.spring(scaleAnim, {
-        toValue: 1.3,
+        toValue: 1.2,
         useNativeDriver: true,
         speed: 50,
-        bounciness: 10,
       }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        useNativeDriver: true,
-        speed: 50,
-        bounciness: 10,
-      }),
+      Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true, speed: 50 }),
     ]).start();
-
     onEmpathyPress(record.id);
   };
 
@@ -217,101 +175,92 @@ const FeedCard: React.FC<FeedCardProps> = ({
     const diff = now.getTime() - date.getTime();
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
-
     if (minutes < 1) return '방금 전';
     if (minutes < 60) return `${minutes}분 전`;
     if (hours < 24) return `${hours}시간 전`;
     return `${Math.floor(diff / 86400000)}일 전`;
   };
 
-  // 글자 수에 따른 정렬 스타일 결정
-  const isShortText = record.content.length < 80;
-
   return (
     <View style={[styles.cardContainer, { height: CARD_HEIGHT }]}>
-      {/* 1. 배경 레이어 */}
-      <View style={[styles.cardBackground, { backgroundColor: `${emotionInfo.color}15` }]} />
+      {/* 배경 */}
+      <View
+        style={[styles.cardBackground, { backgroundColor: `${emotionInfo.color}10` }]}
+      />
 
-      {/* 2. 메인 콘텐츠 (애니메이션 적용) */}
-      <Animated.View
-        style={[
-          styles.cardContent,
-          {
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
-          },
-        ]}
-      >
-        {/* 감정 아이콘 (둥둥 떠다님) */}
-        <Animated.View style={{ transform: [{ translateY: floatAnim }] }}>
-          <View style={[styles.emotionBadge, { backgroundColor: emotionInfo.color }]}>
-            <EmotionIcon size={36} color="#FFFFFF" strokeWidth={2} />
+      {/* 메인 콘텐츠 영역 */}
+      <View style={styles.contentWrapper}>
+        <Animated.View
+          style={[
+            styles.mainContent,
+            { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
+          ]}
+        >
+          {/* 상단: 날짜 및 감정 아이콘 */}
+          <View style={styles.headerRow}>
+            <View style={[styles.emotionBadge, { backgroundColor: emotionInfo.color }]}>
+              <EmotionIcon size={24} color="#FFFFFF" strokeWidth={2} />
+            </View>
+            <Text style={styles.timeText}>{getRelativeTime(record.createdAt)}</Text>
+          </View>
+
+          {/* 중단: 텍스트 (최대 너비 사용) */}
+          <View style={styles.textContainer}>
+            <Text style={styles.contentText}>{record.content}</Text>
           </View>
         </Animated.View>
+      </View>
 
-        <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
-          {emotionInfo.label}
-        </Text>
-
-        {/* 텍스트 컨테이너 (글래스모피즘 느낌) */}
-        <View style={styles.glassContainer}>
-          <Text
-            style={[styles.contentText, isShortText ? styles.textCenter : styles.textLeft]}
-          >
-            {record.content}
-          </Text>
-        </View>
-
-        <Text style={styles.timeText}>{getRelativeTime(record.createdAt)}</Text>
-      </Animated.View>
-
-      {/* 3. 우측 액션 버튼 */}
-      <View style={styles.actionBar}>
-        {/* 공감 */}
+      {/* 하단: 인터랙션 바 (고정) */}
+      <View style={styles.bottomBar}>
+        {/* 공감 버튼 */}
         <TouchableOpacity
-          style={styles.actionButton}
+          style={styles.heartButton}
           onPress={handleHeartPress}
-          activeOpacity={0.8}
+          activeOpacity={0.7}
         >
-          <View style={styles.iconBackdrop}>
-            <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-              <Heart
-                size={28}
-                color={
-                  record.heartsCount > 0
-                    ? theme.colors.semantic.error
-                    : theme.colors.neutral.gray600
-                }
-                fill={record.heartsCount > 0 ? theme.colors.semantic.error : 'transparent'}
-                strokeWidth={record.heartsCount > 0 ? 0 : 2}
-              />
-            </Animated.View>
-          </View>
-          <Text style={styles.actionCount}>{record.heartsCount || '공감'}</Text>
+          <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+            <Heart
+              size={28}
+              color={
+                record.heartsCount > 0
+                  ? theme.colors.semantic.error
+                  : theme.colors.neutral.gray400
+              }
+              fill={record.heartsCount > 0 ? theme.colors.semantic.error : 'transparent'}
+              strokeWidth={record.heartsCount > 0 ? 0 : 2}
+            />
+          </Animated.View>
+          <Text
+            style={[
+              styles.heartCount,
+              record.heartsCount > 0 && { color: theme.colors.semantic.error },
+            ]}
+          >
+            {record.heartsCount > 0 ? record.heartsCount : ''}
+          </Text>
         </TouchableOpacity>
 
-        {/* 댓글 */}
+        {/* 댓글 미리보기/입력 바 */}
         <TouchableOpacity
-          style={styles.actionButton}
+          style={styles.commentBar}
           onPress={() => onMessagePress(record.id)}
-          activeOpacity={0.8}
+          activeOpacity={0.9}
         >
-          <View style={styles.iconBackdrop}>
-            <MessageCircle size={26} color={theme.colors.neutral.gray600} strokeWidth={2} />
-          </View>
-          <Text style={styles.actionCount}>{record.messagesCount || '댓글'}</Text>
-        </TouchableOpacity>
-
-        {/* 공유 */}
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => onSharePress(record.id)}
-          activeOpacity={0.8}
-        >
-          <View style={styles.iconBackdrop}>
-            <Share2 size={24} color={theme.colors.neutral.gray600} strokeWidth={2} />
-          </View>
-          <Text style={styles.actionCount}>공유</Text>
+          {record.messagesCount > 0 ? (
+            // 댓글이 있을 때: 베스트 댓글 미리보기 느낌
+            <View style={styles.commentPreview}>
+              <View style={styles.commentIconBadge}>
+                <MessageCircle size={14} color="#FFF" fill="#FFF" />
+              </View>
+              <Text style={styles.commentPreviewText} numberOfLines={1}>
+                {record.messagesCount}개의 답장이 도착했어요
+              </Text>
+            </View>
+          ) : (
+            // 댓글이 없을 때: 입력 유도
+            <Text style={styles.placeholderText}>따뜻한 위로를 남겨주세요...</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -323,22 +272,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.background,
   },
-
   // Empty State
   emptyContainer: {
     flex: 1,
-    backgroundColor: theme.colors.background,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emptyContent: {
-    alignItems: 'center',
-    padding: theme.spacing.xl,
-  },
+  emptyContent: { alignItems: 'center', padding: theme.spacing.xl },
   emptyTitle: {
     ...theme.typography.body,
     fontSize: 18,
-    fontWeight: '600',
     color: theme.colors.text.secondary,
     marginTop: theme.spacing.lg,
     marginBottom: theme.spacing.md,
@@ -350,130 +293,146 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  // Card Structure
+  // Card Layout
   cardContainer: {
     width: SCREEN_WIDTH,
     position: 'relative',
     overflow: 'hidden',
+    justifyContent: 'space-between', // 상단 컨텐츠와 하단 바 분리
   },
   cardBackground: {
     ...StyleSheet.absoluteFillObject,
   },
-  cardContent: {
+
+  // Content Area
+  contentWrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: theme.spacing.xl,
-    paddingRight: 80, // 액션 버튼 공간 확보
+    paddingBottom: 80, // 하단 바 공간 확보
   },
-
-  // Elements
-  emotionBadge: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: theme.spacing.md,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  emotionLabel: {
-    ...theme.typography.h3,
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: theme.spacing.xl,
-    letterSpacing: 0.5,
-  },
-
-  // Text Container (Glassmorphism look)
-  glassContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    borderRadius: 24,
-    paddingVertical: theme.spacing.xl,
-    paddingHorizontal: theme.spacing.lg,
+  mainContent: {
     width: '100%',
-    minHeight: 200,
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.9)',
   },
-  contentText: {
-    ...theme.typography.body,
-    fontSize: 17,
-    color: theme.colors.text.primary,
-    lineHeight: 28,
-  },
-  textCenter: {
-    textAlign: 'center',
-  },
-  textLeft: {
-    textAlign: 'left',
-  },
-  timeText: {
-    ...theme.typography.caption,
-    color: theme.colors.text.secondary,
-    marginTop: theme.spacing.lg,
-  },
-
-  // Action Bar
-  actionBar: {
-    position: 'absolute',
-    right: 16,
-    bottom: 80,
+  headerRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 10,
+    marginBottom: theme.spacing.lg,
   },
-  actionButton: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  iconBackdrop: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255,255,255,0.9)',
+  emotionBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 4,
+    marginRight: theme.spacing.sm,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
   },
-  actionCount: {
+  timeText: {
     ...theme.typography.caption,
     color: theme.colors.text.secondary,
-    fontWeight: '600',
-    fontSize: 12,
+  },
+  textContainer: {
+    width: '100%',
+  },
+  contentText: {
+    ...theme.typography.h3, // 글자 크기 키움
+    fontSize: 22,
+    lineHeight: 34,
+    color: theme.colors.text.primary,
+    fontWeight: '500',
+    letterSpacing: -0.5,
   },
 
-  // Page Indicator
+  // Bottom Interaction Bar
+  bottomBar: {
+    position: 'absolute',
+    bottom: 20, // 탭바 위로 띄움
+    left: theme.spacing.md,
+    right: theme.spacing.md,
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  heartButton: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: theme.spacing.sm,
+    backgroundColor: '#FFF',
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  heartCount: {
+    position: 'absolute',
+    bottom: 8,
+    fontSize: 10,
+    fontWeight: '700',
+    color: theme.colors.text.secondary,
+  },
+  commentBar: {
+    flex: 1,
+    height: 56,
+    backgroundColor: '#FFF',
+    borderRadius: 28,
+    justifyContent: 'center',
+    paddingHorizontal: theme.spacing.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  placeholderText: {
+    ...theme.typography.body,
+    color: theme.colors.text.secondary,
+    fontSize: 15,
+  },
+  commentPreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  commentIconBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: theme.colors.primary.main,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  commentPreviewText: {
+    ...theme.typography.body,
+    fontSize: 15,
+    color: theme.colors.text.primary,
+    fontWeight: '500',
+    flex: 1,
+  },
+
+  // Indicator
   pageIndicatorContainer: {
     position: 'absolute',
     top: Platform.OS === 'ios' ? 60 : 40,
-    left: 0,
-    right: 0,
+    width: '100%',
     alignItems: 'center',
-    zIndex: 100,
   },
   pageIndicator: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.5)',
   },
   pageText: {
     ...theme.typography.caption,
+    fontSize: 12,
     color: theme.colors.text.secondary,
     fontWeight: '600',
   },
