@@ -270,16 +270,41 @@ SUPABASE_ANON_KEY=your-anon-key
 - ✅ Phase 3: 공통 리소스 제작 (테마, 컴포넌트, 유틸리티)
 - 🔄 Phase 4: Supabase 백엔드 연동
 - ✅ Phase 5: 인증 플로우 구현
-- 🔄 Phase 6: 메인 네비게이션 + 털어놓기
+- ✅ Phase 6: 메인 네비게이션 + 털어놓기
   - ✅ 6.1 탭 네비게이션 구축 (MainTabNavigator, FloatingActionButton)
-  - ⏳ 6.2 감정 선택 화면
-  - ⏳ 6.3 글쓰기 화면
+  - ✅ 6.2 감정 선택 화면 (EmotionSelectScreen)
+  - ✅ 6.3 글쓰기 화면 (WriteScreen)
+  - ✅ 6.4 공유 설정 바텀시트 (ShareSettingsBottomSheet)
+  - ✅ 6.5 Mock 기록 Store (recordStore)
 
 ---
 
 ---
 
 ## 리팩토링 이력
+
+### 2025-12-06: Phase 6.2~6.5 털어놓기 플로우 구현
+
+- ✅ `src/store/recordStore.ts` 생성: Mock 기록 Store (Zustand)
+  - Record 인터페이스: id, emotionLevel, content, visibility, heartsCount, messagesCount, createdAt
+  - 액션: addRecord, updateRecord, deleteRecord, getMyRecords, getPublicRecords
+  - 샘플 데이터 7개 포함
+- ✅ `src/screens/EmotionSelectScreen.tsx` 생성: 감정 선택 화면
+  - EmotionSelector 컴포넌트 활용 (5단계 날씨 아이콘)
+  - 선택 시 확대 + 색상 강조 애니메이션
+  - 감정별 설명 텍스트 표시
+- ✅ `src/screens/WriteScreen.tsx` 생성: 글쓰기 화면
+  - 상단 선택된 감정 표시 (읽기 전용)
+  - 텍스트 입력 (최대 500자, 실시간 카운터)
+  - 500자 초과 시 빨간색 경고
+- ✅ `src/components/ShareSettingsBottomSheet.tsx` 생성: 공유 설정 바텀시트
+  - 3가지 옵션: 혼자 간직하기, 내일 나누기, 지금 나누기
+  - BottomSheet 컴포넌트 활용
+- ✅ `src/navigation/CreateStackNavigator.tsx` 생성: 털어놓기 스택
+  - EmotionSelect → Write 플로우
+  - 모달 프레젠테이션으로 표시
+- ✅ `RootNavigator.tsx`, `MainTabNavigator.tsx` 수정: 네비게이션 연결
+- 📊 결과: 털어놓기 전체 플로우 완성 (FAB → 감정 선택 → 글쓰기 → 공유 설정 → 저장)
 
 ### 2025-12-06: Phase 6.1 탭 네비게이션 구축
 
@@ -310,6 +335,6 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-12-06
+**마지막 업데이트**: 2025-12-06 (Phase 6 완료)
 **프로젝트**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **환경**: WSL2 Ubuntu + Windows 11, React Native 0.82+
