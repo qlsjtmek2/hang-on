@@ -8,6 +8,7 @@ import { SignUpScreen } from '@/screens/SignUpScreen';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
 
+import { CreateStackNavigator } from './CreateStackNavigator';
 import { MainTabNavigator } from './MainTabNavigator';
 
 // 인증 스택 타입
@@ -16,10 +17,11 @@ export type AuthStackParamList = {
   SignUp: undefined;
 };
 
-// 루트 스택 타입 (인증 + 메인)
+// 루트 스택 타입 (인증 + 메인 + 기록 생성)
 export type RootStackParamList = {
   Auth: undefined;
   Main: undefined;
+  Create: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -88,7 +90,17 @@ export const RootNavigator: React.FC = () => {
     <NavigationContainer linking={linking} fallback={LoadingFallback}>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
-          <RootStack.Screen name="Main" component={MainTabNavigator} />
+          <>
+            <RootStack.Screen name="Main" component={MainTabNavigator} />
+            <RootStack.Screen
+              name="Create"
+              component={CreateStackNavigator}
+              options={{
+                presentation: 'modal',
+                animation: 'slide_from_bottom',
+              }}
+            />
+          </>
         ) : (
           <RootStack.Screen name="Auth" component={AuthStackNavigator} />
         )}

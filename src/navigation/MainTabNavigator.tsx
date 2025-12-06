@@ -1,8 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BookOpen, Heart, Settings } from 'lucide-react-native';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+
+import type { RootStackParamList } from './RootNavigator';
 
 import { FloatingActionButton } from '@/components/FloatingActionButton';
 import { FeedScreen } from '@/screens/FeedScreen';
@@ -36,6 +40,8 @@ const MyRecordsTabIcon = createTabIcon(BookOpen);
 const FeedTabIcon = createTabIcon(Heart);
 const SettingsTabIcon = createTabIcon(Settings);
 
+type MainTabNavigatorNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 /**
  * 메인 탭 네비게이터
  *
@@ -47,8 +53,10 @@ const SettingsTabIcon = createTabIcon(Settings);
  * 플로팅 액션 버튼: 우하단에 위치, 털어놓기 기능 트리거
  */
 export const MainTabNavigator: React.FC = () => {
+  const navigation = useNavigation<MainTabNavigatorNavigationProp>();
+
   const handleCreateRecord = () => {
-    // TODO: 감정 선택 화면으로 이동 (Phase 6.2에서 구현)
+    navigation.navigate('Create');
   };
 
   return (
