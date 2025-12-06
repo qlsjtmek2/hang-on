@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
-import { AuthConfirmScreen } from '@/screens/AuthConfirmScreen';
 import { HomeScreen } from '@/screens/HomeScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { SignUpScreen } from '@/screens/SignUpScreen';
@@ -14,7 +13,6 @@ export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   Home: undefined;
-  AuthConfirm: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -27,31 +25,29 @@ const linking = {
       Login: 'login',
       SignUp: 'signup',
       Home: 'home',
-      AuthConfirm: 'auth/confirm',
     },
   },
 };
 
 export const AuthNavigator: React.FC = () => {
-  const { isAuthenticated, isLoading, initialize } = useAuthStore();
+  const { isAuthenticated, initialize } = useAuthStore();
 
   useEffect(() => {
     // 앱 시작 시 세션 초기화
     initialize();
   }, [initialize]);
 
-  if (isLoading) {
-    // 로딩 중일 때 표시
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={theme.colors.primary.main} />
-      </View>
-    );
-  }
+  // fallback: Deep Link 처리 중 로딩 UI 표시
+  const LoadingFallback = (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color={theme.colors.primary.main} />
+    </View>
+  );
 
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer linking={linking} fallback={LoadingFallback}>
       <Stack.Navigator
+        initialRouteName={isAuthenticated ? 'Home' : 'Login'}
         screenOptions={{
           headerStyle: {
             backgroundColor: theme.colors.background,
@@ -68,38 +64,23 @@ export const AuthNavigator: React.FC = () => {
           },
         }}
       >
-        {isAuthenticated ? (
-          // 인증된 사용자용 스크린
-          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Hang On' }} />
-        ) : (
-          // 비인증 사용자용 스크린
-          <>
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{
-                title: '로그인',
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="SignUp"
-              component={SignUpScreen}
-              options={{
-                title: '회원가입',
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="AuthConfirm"
-              component={AuthConfirmScreen}
-              options={{
-                title: '이메일 인증',
-                headerShown: false,
-              }}
-            />
-          </>
-        )}
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            title: '로그인',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{
+            title: '회원가입',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Hang On' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
