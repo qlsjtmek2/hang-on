@@ -10,6 +10,7 @@ import { StatusBar, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { ToastProvider } from '@/contexts/ToastContext';
 import { RootNavigator } from '@/navigation/RootNavigator';
 
 function App() {
@@ -18,8 +19,10 @@ function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <RootNavigator />
+        <ToastProvider>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <RootNavigator />
+        </ToastProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

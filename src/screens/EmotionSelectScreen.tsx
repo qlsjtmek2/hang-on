@@ -7,9 +7,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { EmotionSelector } from '@/components/EmotionButton';
+import { StepIndicator } from '@/components/StepIndicator';
 import type { CreateStackParamList } from '@/navigation/CreateStackNavigator';
 import { theme } from '@/theme';
 import type { EmotionLevel } from '@/types/emotion';
+
+const STEP_LABELS = ['감정 선택', '글쓰기', '공유 설정'];
 
 type EmotionSelectScreenNavigationProp = NativeStackNavigationProp<
   CreateStackParamList,
@@ -57,6 +60,17 @@ export const EmotionSelectScreen: React.FC = () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>털어놓기</Text>
         <View style={styles.headerSpacer} />
+      </View>
+
+      {/* 단계 표시 */}
+      <View style={styles.stepContainer}>
+        <StepIndicator
+          currentStep={1}
+          totalSteps={3}
+          variant="dot"
+          labels={STEP_LABELS}
+          showLabels
+        />
       </View>
 
       {/* 메인 콘텐츠 */}
@@ -141,6 +155,11 @@ const styles = StyleSheet.create({
   },
   headerSpacer: {
     width: 40, // closeButton과 같은 너비로 중앙 정렬
+  },
+  stepContainer: {
+    paddingVertical: theme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
   },
   content: {
     flex: 1,

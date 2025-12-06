@@ -129,6 +129,8 @@ export const LoginScreen: React.FC = () => {
               autoCapitalize="none"
               autoComplete="email"
               editable={!isLoading}
+              accessibilityLabel="이메일 입력"
+              accessibilityHint="로그인에 사용할 이메일 주소를 입력하세요"
             />
 
             <Input
@@ -142,10 +144,20 @@ export const LoginScreen: React.FC = () => {
               autoComplete="password"
               editable={!isLoading}
               containerStyle={{ marginTop: theme.spacing.xs }}
+              accessibilityLabel="비밀번호 입력"
+              accessibilityHint="로그인에 사용할 비밀번호를 입력하세요"
             />
 
             {/* 서버 에러 메시지 */}
-            {authError && <Text style={styles.errorText}>{authError}</Text>}
+            {authError && (
+              <Text
+                style={styles.errorText}
+                accessibilityRole="alert"
+                accessibilityLiveRegion="assertive"
+              >
+                {authError}
+              </Text>
+            )}
 
             <Button
               title={isLoading ? '로그인 중...' : '로그인'}

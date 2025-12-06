@@ -13,11 +13,11 @@
 import type { EmotionLevel } from '@/types/emotion';
 
 export const colors = {
-  // Primary Colors (주요 색상)
+  // Primary Colors (주요 색상) - WCAG AA 대비 충족
   primary: {
-    main: '#4A90E2', // 메인 블루 (CTA, 강조)
-    light: '#7AB8FF', // 밝은 블루 (호버, 비활성화)
-    dark: '#2E5C8A', // 어두운 블루 (눌림)
+    main: '#3565C0', // 메인 블루 (CTA, 강조) - 대비 5.2:1 ✅
+    light: '#6B8FD4', // 밝은 블루 (호버, 비활성화)
+    dark: '#2A4A8C', // 어두운 블루 (눌림)
   },
 
   // Emotion Weather Colors (감정 날씨 색상)

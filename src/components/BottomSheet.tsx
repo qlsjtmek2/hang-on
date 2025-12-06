@@ -230,6 +230,14 @@ export function ActionSheet({
               onClose();
             }}
             disabled={action.disabled}
+            accessibilityRole="button"
+            accessibilityLabel={action.label}
+            accessibilityHint={
+              action.destructive
+                ? '주의: 이 작업은 되돌릴 수 없습니다'
+                : `탭하여 ${action.label} 작업을 수행합니다`
+            }
+            accessibilityState={{ disabled: action.disabled }}
           >
             <Text
               style={[
@@ -242,7 +250,13 @@ export function ActionSheet({
             </Text>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={[styles.actionButton, styles.cancelButton]} onPress={onClose}>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.cancelButton]}
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel={cancelLabel}
+          accessibilityHint="탭하여 메뉴를 닫습니다"
+        >
           <Text style={styles.cancelText}>{cancelLabel}</Text>
         </TouchableOpacity>
       </View>

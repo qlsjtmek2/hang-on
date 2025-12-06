@@ -1,5 +1,5 @@
 import { Heart, Moon } from 'lucide-react-native';
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import {
 import { FeedCard } from '@/components/FeedCard';
 import { MessagePresetBottomSheet } from '@/components/MessagePresetBottomSheet';
 import { ReportBottomSheet, ReportReason } from '@/components/ReportBottomSheet';
+import { FeedCardSkeleton } from '@/components/SkeletonLoader';
 import { useFeedStore, FeedItem, MessagePreset } from '@/store/feedStore';
 import { theme } from '@/theme';
 
@@ -40,6 +41,7 @@ export const FeedScreen: React.FC = () => {
     dailyLimit,
   } = useFeedStore();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [messageSheetVisible, setMessageSheetVisible] = useState(false);
   const [reportSheetVisible, setReportSheetVisible] = useState(false);
@@ -47,6 +49,14 @@ export const FeedScreen: React.FC = () => {
   const [cardHeight, setCardHeight] = useState(INITIAL_CARD_HEIGHT);
 
   const remainingCount = getRemainingCount();
+
+  // 초기 로딩 시뮬레이션 (실제 데이터는 Supabase 연동 시 구현)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // 실제 컨테이너 높이를 측정하여 카드 높이 설정
   const handleLayout = (event: LayoutChangeEvent) => {
@@ -148,6 +158,15 @@ export const FeedScreen: React.FC = () => {
       </View>
     </View>
   );
+
+  // 로딩 중일 때 스켈레톤 표시
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <FeedCardSkeleton cardHeight={cardHeight} />
+      </View>
+    );
+  }
 
   if (limitReached) {
     return renderLimitReachedState();

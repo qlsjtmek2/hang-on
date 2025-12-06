@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FileEdit } from 'lucide-react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RecordCard } from '@/components/RecordCard';
+import { RecordCardSkeletonList } from '@/components/SkeletonLoader';
 import type { RootStackParamList } from '@/navigation/RootNavigator';
 import { useRecordStore, Record } from '@/store/recordStore';
 import { theme } from '@/theme';
@@ -23,7 +24,16 @@ export const MyRecordsScreen: React.FC = () => {
   const navigation = useNavigation<MyRecordsScreenNavigationProp>();
   const { getMyRecords } = useRecordStore();
   const records = getMyRecords();
+  const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  // 초기 로딩 시뮬레이션 (실제 데이터는 Supabase 연동 시 구현)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -76,6 +86,17 @@ export const MyRecordsScreen: React.FC = () => {
       </Text>
     </View>
   );
+
+  // 로딩 중일 때 스켈레톤 표시
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container} edges={['top']}>
+        <View style={styles.listContent}>
+          <RecordCardSkeletonList count={5} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>

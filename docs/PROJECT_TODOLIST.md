@@ -31,6 +31,7 @@
 | 7     | 목록/피드          | 내 기록 목록 + 피드 + 공감/메시지       | P0       |
 | 8     | 추가 화면          | 기록 상세, 수정, 설정                   | P1       |
 | 9     | 폴리싱             | 애니메이션, 접근성 개선                 | P2       |
+| 10    | HCI 개선           | Toast, 스켈레톤, Draft, 접근성 강화     | P1       |
 
 ---
 
@@ -297,9 +298,74 @@
 
 ---
 
-## Phase 10. HCI 개선
+## Phase 10: HCI 개선
 
+**우선순위: P1 (2주)**
+**목표**: HCI 이론 기반 사용자 경험 개선
 
+### 10.1 Toast/Snackbar 시스템 ✅ 완료
+- [x] `src/components/Toast.tsx` 생성
+  - 성공/에러/경고/정보 4가지 타입
+  - 자동 사라짐 (3초) + 수동 닫기
+  - 하단 고정 위치 (탭바 위)
+  - Reanimated 애니메이션
+- [x] `src/contexts/ToastContext.tsx` 생성
+  - useToast() 훅 제공
+  - showToast(type, message) API
+- [x] `App.tsx` ToastProvider 래핑
+- [x] 유닛 테스트 (8개 통과)
+
+### 10.2 스켈레톤 UI ✅ 완료
+- [x] `src/components/SkeletonLoader.tsx` 생성
+  - RecordCard 스켈레톤
+  - FeedCard 스켈레톤
+  - Reanimated shimmer 애니메이션
+- [x] MyRecordsScreen, FeedScreen에 적용
+  - 초기 로딩 시 스켈레톤 표시
+- [x] 유닛 테스트 (12개 통과)
+
+### 10.3 진행 상황 인디케이터 ✅ 완료
+- [x] `src/components/StepIndicator.tsx` 생성
+  - 털어놓기 플로우: 3단계 표시
+  - 감정 선택 (1/3) → 글쓰기 (2/3) → 공유 설정 (3/3)
+  - dot/bar 2가지 variant 지원
+  - Reanimated 애니메이션
+- [x] EmotionSelectScreen, WriteScreen에 적용
+- [x] 유닛 테스트 (13개 통과)
+
+### 10.4 자동 임시 저장 (Draft) ✅ 완료
+- [x] `src/store/draftStore.ts` 생성
+  - Zustand + AsyncStorage persist
+  - 5초 간격 자동 저장
+- [x] `src/hooks/useDraft.ts` 생성
+  - WriteScreen 연동
+  - 저장 완료 시 draft 삭제
+  - "자동 저장됨" 인디케이터
+- [x] WriteScreen 수정: Draft 연동
+- [x] 유닛 테스트 (12개 통과)
+
+### 10.5 접근성 개선 (WCAG AA) ✅ 완료
+- [x] `src/theme/colors.ts` 수정
+  - Primary #4A90E2 → #3565C0 (대비 3.5:1 → 5.2:1)
+- [x] `src/screens/LoginScreen.tsx` 수정
+  - Input에 accessibilityLabel 추가
+  - 에러 메시지 accessibilityLiveRegion 설정
+- [x] `src/components/BottomSheet.tsx` 수정
+  - ActionSheet 버튼에 accessibilityRole="button" 추가
+  - destructive 액션에 accessibilityHint 추가
+
+### 구현 순서
+
+**Week 1: 피드백 + 접근성** ✅ 완료
+1. ✅ Toast 시스템 (10.1)
+2. ✅ 색상 대비 개선 (10.5)
+3. ✅ LoginScreen 접근성 (10.5)
+4. ✅ ActionSheet 접근성 (10.5)
+
+**Week 2: 사용자 경험 강화** ✅ 완료
+5. ✅ 스켈레톤 UI (10.2)
+6. ✅ 진행 상황 인디케이터 (10.3)
+7. ✅ 자동 임시 저장 (10.4)
 
 ---
 
@@ -332,6 +398,7 @@
 | 7     | ✅ 완료       | 2025-12-06 | 내 기록 목록 + 피드           |
 | 8     | ✅ 완료       | 2025-12-06 | 추가 화면 (상세, 수정, 설정)  |
 | 9     | ✅ 완료       | 2025-12-06 | 폴리싱 및 개선 (Reanimated)   |
+| 10    | 🔄 진행 예정  | -          | HCI 개선 (Toast, 스켈레톤 등) |
 
 ---
 
@@ -346,5 +413,5 @@
 ---
 
 **생성일**: 2025-11-09
-**수정일**: 2025-12-06 (프론트엔드 전용으로 변경)
-**총 Phase 수**: 9개 (백엔드 미포함)
+**수정일**: 2025-12-06 (HCI 개선 Phase 추가)
+**총 Phase 수**: 10개 (백엔드 미포함)

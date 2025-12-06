@@ -1,7 +1,7 @@
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ChevronLeft } from 'lucide-react-native';
-import React, { useState } from 'react';
+import { ChevronLeft, Save } from 'lucide-react-native';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,14 +12,24 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSequence,
+} from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { ShareSettingsBottomSheet } from '@/components/ShareSettingsBottomSheet';
+import { StepIndicator } from '@/components/StepIndicator';
 import { EMOTION_DATA } from '@/constants/emotions';
+import { useDraft } from '@/hooks/useDraft';
 import type { CreateStackParamList } from '@/navigation/CreateStackNavigator';
 import { useRecordStore, RecordVisibility } from '@/store/recordStore';
 import { theme } from '@/theme';
+
+const STEP_LABELS = ['감정 선택', '글쓰기', '공유 설정'];
 
 type WriteScreenNavigationProp = NativeStackNavigationProp<CreateStackParamList, 'Write'>;
 type WriteScreenRouteProp = RouteProp<CreateStackParamList, 'Write'>;
@@ -43,10 +53,35 @@ export const WriteScreen: React.FC = () => {
   const [content, setContent] = useState('');
   const [showShareSheet, setShowShareSheet] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSavedIndicator, setShowSavedIndicator] = useState(false);
 
   const { addRecord } = useRecordStore();
   const emotionInfo = EMOTION_DATA[emotionLevel];
   const IconComponent = emotionInfo.icon;
+
+  // 자동 임시 저장
+  const { savedDraft, clearDraft } = useDraft(emotionLevel, content);
+  const lastSavedRef = useRef<number>(0);
+
+  // 저장 인디케이터 애니메이션
+  const savedOpacity = useSharedValue(0);
+  const savedAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: savedOpacity.value,
+  }));
+
+  // savedDraft 변경 시 인디케이터 표시
+  useEffect(() => {
+    if (savedDraft && savedDraft.lastSavedAt > lastSavedRef.current) {
+      lastSavedRef.current = savedDraft.lastSavedAt;
+      setShowSavedIndicator(true);
+      savedOpacity.value = withSequence(
+        withTiming(1, { duration: 200 }),
+        withTiming(1, { duration: 2000 }),
+        withTiming(0, { duration: 300 })
+      );
+      setTimeout(() => setShowSavedIndicator(false), 2500);
+    }
+  }, [savedDraft, savedOpacity]);
 
   const charCount = content.length;
   const isOverLimit = charCount > MAX_CONTENT_LENGTH;
@@ -72,6 +107,9 @@ export const WriteScreen: React.FC = () => {
         content: content.trim(),
         visibility,
       });
+
+      // 저장 성공 시 임시 저장 삭제
+      clearDraft();
 
       // 성공 시 전체 플로우 종료
       navigation.getParent()?.goBack();
@@ -103,6 +141,17 @@ export const WriteScreen: React.FC = () => {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>털어놓기</Text>
           <View style={styles.headerSpacer} />
+        </View>
+
+        {/* 단계 표시 */}
+        <View style={styles.stepContainer}>
+          <StepIndicator
+            currentStep={2}
+            totalSteps={3}
+            variant="dot"
+            labels={STEP_LABELS}
+            showLabels
+          />
         </View>
 
         <ScrollView
@@ -144,8 +193,14 @@ export const WriteScreen: React.FC = () => {
               accessibilityHint="최대 500자까지 입력할 수 있습니다"
             />
 
-            {/* 글자 수 카운터 */}
+            {/* 글자 수 카운터 + 자동 저장 표시 */}
             <View style={styles.counterContainer}>
+              {showSavedIndicator && (
+                <Animated.View style={[styles.savedIndicator, savedAnimatedStyle]}>
+                  <Save size={12} color={theme.colors.semantic.success} strokeWidth={2} />
+                  <Text style={styles.savedText}>자동 저장됨</Text>
+                </Animated.View>
+              )}
               <Text
                 style={[
                   styles.counterText,
@@ -224,6 +279,11 @@ const styles = StyleSheet.create({
   headerSpacer: {
     width: 40,
   },
+  stepContainer: {
+    paddingVertical: theme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  },
   scrollView: {
     flex: 1,
   },
@@ -268,8 +328,19 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.semantic.error,
   },
   counterContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: theme.spacing.sm,
+  },
+  savedIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  savedText: {
+    ...theme.typography.caption,
+    color: theme.colors.semantic.success,
+    marginLeft: 4,
   },
   counterText: {
     ...theme.typography.caption,

@@ -292,10 +292,50 @@ SUPABASE_ANON_KEY=your-anon-key
   - ✅ 9.1 애니메이션 개선 (Reanimated + GestureHandler 도입)
   - ✅ 9.2 접근성 개선 (accessibilityHint, hitSlop, 색상 대비)
   - ✅ 9.3 성능 최적화 (React.memo, FlatList 옵션, useCallback)
+- ✅ Phase 10: HCI 개선
+  - ✅ 10.1 Toast/Snackbar 시스템 (ToastContext, Toast 컴포넌트)
+  - ✅ 10.2 스켈레톤 UI (SkeletonLoader, RecordCardSkeleton, FeedCardSkeleton)
+  - ✅ 10.3 진행 상황 인디케이터 (StepIndicator - dot/bar variant)
+  - ✅ 10.4 자동 임시 저장 (draftStore, useDraft)
+  - ✅ 10.5 접근성 개선 (WCAG AA 색상 대비, 접근성 레이블)
 
 ---
 
 ## 리팩토링 이력
+
+### 2025-12-06: Phase 10 HCI 개선 구현
+
+**10.1 Toast/Snackbar 시스템**
+- ✅ `src/components/Toast.tsx` 생성: 4가지 타입 (success, error, warning, info)
+- ✅ `src/contexts/ToastContext.tsx` 생성: useToast() 훅 제공
+- ✅ `App.tsx` 수정: ToastProvider 래핑
+
+**10.2 스켈레톤 UI**
+- ✅ `src/components/SkeletonLoader.tsx` 생성
+  - Skeleton: 기본 shimmer 애니메이션
+  - RecordCardSkeleton: 기록 카드 스켈레톤
+  - FeedCardSkeleton: 피드 카드 스켈레톤
+  - RecordCardSkeletonList: 리스트용 여러 개 렌더링
+- ✅ `MyRecordsScreen.tsx`, `FeedScreen.tsx` 수정: 로딩 시 스켈레톤 표시
+
+**10.3 진행 상황 인디케이터**
+- ✅ `src/components/StepIndicator.tsx` 생성
+  - dot variant: 점 형태 (기본)
+  - bar variant: 진행 바 형태
+  - Reanimated 애니메이션
+- ✅ `EmotionSelectScreen.tsx`, `WriteScreen.tsx` 수정: 3단계 표시
+
+**10.4 자동 임시 저장**
+- ✅ `src/store/draftStore.ts` 생성: Zustand + AsyncStorage persist
+- ✅ `src/hooks/useDraft.ts` 생성: 5초 간격 자동 저장
+- ✅ `WriteScreen.tsx` 수정: Draft 연동 + "자동 저장됨" 인디케이터
+
+**10.5 접근성 개선** (Week 1에서 완료)
+- ✅ `colors.ts`: Primary #4A90E2 → #3565C0 (대비 5.2:1)
+- ✅ `LoginScreen.tsx`: accessibilityLabel, accessibilityLiveRegion
+- ✅ `BottomSheet.tsx`: accessibilityRole, accessibilityHint
+
+📊 결과: HCI 5가지 축 기반 UX 개선, 37개 유닛 테스트 통과
 
 ### 2025-12-06: Phase 9 폴리싱 및 개선 구현
 
