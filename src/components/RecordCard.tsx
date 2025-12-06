@@ -1,5 +1,5 @@
 import { Heart, MessageCircle } from 'lucide-react-native';
-import React from 'react';
+import React, { memo } from 'react';
 import {
   View,
   Text,
@@ -64,7 +64,12 @@ const getPreviewText = (text: string, maxLength: number = 100): string => {
   return text.substring(0, maxLength) + '...';
 };
 
-export function RecordCard({
+/**
+ * RecordCard - 기록 카드 컴포넌트
+ *
+ * React.memo로 최적화되어 props가 변경되지 않으면 리렌더링을 방지합니다.
+ */
+export const RecordCard = memo(function RecordCard({
   id,
   emotionLevel,
   content,
@@ -136,6 +141,10 @@ export function RecordCard({
           style={styles.actionButton}
           onPress={handleEmpathyPress}
           activeOpacity={0.7}
+          hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+          accessibilityLabel={`공감 ${empathyCount}개`}
+          accessibilityHint="탭하여 공감 목록을 확인합니다"
+          accessibilityRole="button"
         >
           <Heart size={16} color={theme.colors.neutral.gray600} />
           {empathyCount > 0 && <Text style={styles.actionCount}>{empathyCount}</Text>}
@@ -145,6 +154,10 @@ export function RecordCard({
           style={styles.actionButton}
           onPress={handleMessagePress}
           activeOpacity={0.7}
+          hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+          accessibilityLabel={`메시지 ${messageCount}개`}
+          accessibilityHint="탭하여 메시지 목록을 확인합니다"
+          accessibilityRole="button"
         >
           <MessageCircle size={16} color={theme.colors.neutral.gray600} />
           {messageCount > 0 && <Text style={styles.actionCount}>{messageCount}</Text>}
@@ -152,7 +165,7 @@ export function RecordCard({
       </View>
     </TouchableOpacity>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

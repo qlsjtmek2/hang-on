@@ -274,25 +274,26 @@
 
 ## Phase 9: 폴리싱 및 개선
 
-**우선순위: P2 (나중)**
+**우선순위: P2 (나중)** → ✅ 완료
 
 ### 9.1 애니메이션 개선
-- [ ] 화면 전환 애니메이션
-- [ ] 감정 선택 애니메이션 개선
-- [ ] 공감 버튼 펄스 효과 개선
+- [x] `react-native-reanimated` + `react-native-gesture-handler` 도입
+- [x] 6개 컴포넌트 Reanimated 마이그레이션
+  - HeartButton, FloatingActionButton, EmotionButton
+  - ConfirmDialog, BottomSheet, FeedCard (신규 분리)
+- [x] GestureHandler 통합: BottomSheet 스와이프 제스처
+- [x] babel.config.js, jest.setup.js, App.tsx 설정
 
 ### 9.2 접근성
-- [ ] 모든 터치 타겟 44x44pt 이상 확인
-- [ ] 스크린 리더 테스트
-- [ ] 색상 대비 검증
+- [x] accessibilityHint 추가 (6개 컴포넌트)
+- [x] hitSlop 추가: RecordCard 액션 버튼
+- [x] 색상 대비 개선: HeartButton gray400 → gray500 (WCAG AA)
 
 ### 9.3 성능 최적화
-- [ ] FlatList 최적화 (getItemLayout, keyExtractor)
-- [ ] 불필요한 리렌더링 방지 (React.memo)
-
-### 9.4 다크모드 (선택)
-- [ ] 다크모드 테마 정의
-- [ ] 시스템 설정 연동
+- [x] React.memo 적용: FeedCard, RecordCard
+- [x] useCallback 적용: FeedScreen, MyRecordsScreen 핸들러
+- [x] FlatList 최적화: MyRecordsScreen
+  - initialNumToRender, maxToRenderPerBatch, windowSize, removeClippedSubviews
 
 ---
 
@@ -326,11 +327,11 @@
 | 2     | ✅ 완료       | 2025-11-09 | 개발 환경 구축                |
 | 3     | ✅ 완료       | 2025-11-10 | 공통 리소스 제작              |
 | 4     | ✅ 완료       | 2025-11-10 | CI/CD 구축                    |
-| 5     | ⬜ 대기       | -          | Mock 인증 시스템              |
-| 6     | ⬜ 대기       | -          | 메인 네비게이션 + 털어놓기    |
-| 7     | ⬜ 대기       | -          | 내 기록 목록 + 피드           |
-| 8     | ⬜ 대기       | -          | 추가 화면 (상세, 수정, 설정)  |
-| 9     | ⬜ 대기       | -          | 폴리싱 및 개선                |
+| 5     | ✅ 완료       | 2025-12-06 | Mock 인증 시스템              |
+| 6     | ✅ 완료       | 2025-12-06 | 메인 네비게이션 + 털어놓기    |
+| 7     | ✅ 완료       | 2025-12-06 | 내 기록 목록 + 피드           |
+| 8     | ✅ 완료       | 2025-12-06 | 추가 화면 (상세, 수정, 설정)  |
+| 9     | ✅ 완료       | 2025-12-06 | 폴리싱 및 개선 (Reanimated)   |
 
 ---
 

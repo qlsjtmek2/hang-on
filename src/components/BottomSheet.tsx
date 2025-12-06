@@ -1,15 +1,13 @@
 import { X } from 'lucide-react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   Modal,
-  Animated,
   Dimensions,
   TouchableWithoutFeedback,
-  PanResponder,
   Platform,
   ScrollView,
   KeyboardAvoidingView,
@@ -17,6 +15,14 @@ import {
   ViewStyle,
   LayoutChangeEvent,
 } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+  runOnJS,
+} from 'react-native-reanimated';
 
 import { theme } from '@/theme';
 
@@ -51,78 +57,46 @@ export function BottomSheet({
   contentStyle,
 }: BottomSheetProps) {
   const [containerHeight, setContainerHeight] = useState(0);
-  const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
-  const backdropOpacity = useRef(new Animated.Value(0)).current;
+  const translateY = useSharedValue(SCREEN_HEIGHT);
+  const backdropOpacity = useSharedValue(0);
 
   // Calculate sheet height
   const sheetHeight = height === 'auto' ? containerHeight : height;
 
-  // Pan responder for swipe gestures
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => closeOnSwipeDown,
-      onMoveShouldSetPanResponder: (_, gestureState) => {
-        return closeOnSwipeDown && gestureState.dy > 0;
-      },
-      onPanResponderMove: (_, gestureState) => {
-        if (gestureState.dy > 0) {
-          translateY.setValue(gestureState.dy);
-        }
-      },
-      onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy > 50 || gestureState.vy > 0.5) {
-          closeSheet();
-        } else {
-          Animated.spring(translateY, {
-            toValue: 0,
-            useNativeDriver: true,
-            tension: 50,
-            friction: 8,
-          }).start();
-        }
-      },
-    }),
-  ).current;
+  // Close sheet animation
+  const closeSheet = () => {
+    translateY.value = withTiming(SCREEN_HEIGHT, { duration: 250 });
+    backdropOpacity.value = withTiming(0, { duration: 250 }, () => {
+      runOnJS(onClose)();
+    });
+  };
+
+  // Pan gesture for swipe down
+  const panGesture = Gesture.Pan()
+    .enabled(closeOnSwipeDown)
+    .onUpdate(event => {
+      if (event.translationY > 0) {
+        translateY.value = event.translationY;
+      }
+    })
+    .onEnd(event => {
+      if (event.translationY > 50 || event.velocityY > 500) {
+        runOnJS(closeSheet)();
+      } else {
+        translateY.value = withSpring(0, { damping: 15, stiffness: 150 });
+      }
+    });
 
   // Open sheet animation
   const openSheet = () => {
-    Animated.parallel([
-      Animated.spring(translateY, {
-        toValue: 0,
-        useNativeDriver: true,
-        tension: 50,
-        friction: 8,
-      }),
-      Animated.timing(backdropOpacity, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-
-  // Close sheet animation
-  const closeSheet = () => {
-    Animated.parallel([
-      Animated.timing(translateY, {
-        toValue: SCREEN_HEIGHT,
-        duration: 250,
-        useNativeDriver: true,
-      }),
-      Animated.timing(backdropOpacity, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      onClose();
-    });
+    translateY.value = withSpring(0, { damping: 15, stiffness: 150 });
+    backdropOpacity.value = withTiming(1, { duration: 300 });
   };
 
   // Handle visibility changes
   useEffect(() => {
     if (visible) {
-      translateY.setValue(SCREEN_HEIGHT);
+      translateY.value = SCREEN_HEIGHT;
       openSheet();
     }
   }, [visible]);
@@ -134,9 +108,17 @@ export function BottomSheet({
   };
 
   const handleLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout;
-    setContainerHeight(height);
+    const { height: layoutHeight } = event.nativeEvent.layout;
+    setContainerHeight(layoutHeight);
   };
+
+  const backdropStyle = useAnimatedStyle(() => ({
+    opacity: backdropOpacity.value,
+  }));
+
+  const sheetStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+  }));
 
   return (
     <Modal
@@ -152,60 +134,58 @@ export function BottomSheet({
       >
         {/* Backdrop */}
         <TouchableWithoutFeedback onPress={handleBackdropPress}>
-          <Animated.View
-            style={[
-              styles.backdrop,
-              {
-                opacity: backdropOpacity,
-              },
-            ]}
-          />
+          <Animated.View style={[styles.backdrop, backdropStyle]} />
         </TouchableWithoutFeedback>
 
         {/* Bottom Sheet */}
-        <Animated.View
-          style={[
-            styles.sheetContainer,
-            {
-              transform: [{ translateY }],
-              ...(height !== 'auto' && { height: sheetHeight }),
-            },
-            style,
-          ]}
-          onLayout={height === 'auto' ? handleLayout : undefined}
-          {...panResponder.panHandlers}
-        >
-          {/* Handle */}
-          {showHandle && (
-            <View style={styles.handleContainer}>
-              <View style={styles.handle} />
-            </View>
-          )}
-
-          {/* Header */}
-          {title && (
-            <View style={[styles.header, headerStyle]}>
-              <Text style={styles.title}>{title}</Text>
-              <TouchableOpacity
-                onPress={closeSheet}
-                style={styles.closeButton}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                accessibilityLabel="닫기"
-              >
-                <X size={20} color={theme.colors.neutral.gray600} strokeWidth={2} />
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {/* Content */}
-          <ScrollView
-            style={[styles.content, contentStyle]}
-            showsVerticalScrollIndicator={false}
-            bounces={false}
+        <GestureDetector gesture={panGesture}>
+          <Animated.View
+            style={[
+              styles.sheetContainer,
+              sheetStyle,
+              height !== 'auto' && { height: sheetHeight },
+              style,
+            ]}
+            onLayout={height === 'auto' ? handleLayout : undefined}
           >
-            {children}
-          </ScrollView>
-        </Animated.View>
+            {/* Handle */}
+            {showHandle && (
+              <View
+                style={styles.handleContainer}
+                accessibilityLabel="드래그 핸들"
+                accessibilityHint="아래로 스와이프하여 닫을 수 있습니다"
+              >
+                <View style={styles.handle} />
+              </View>
+            )}
+
+            {/* Header */}
+            {title && (
+              <View style={[styles.header, headerStyle]}>
+                <Text style={styles.title}>{title}</Text>
+                <TouchableOpacity
+                  onPress={closeSheet}
+                  style={styles.closeButton}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  accessibilityLabel="닫기"
+                  accessibilityHint="탭하여 바텀시트를 닫습니다"
+                  accessibilityRole="button"
+                >
+                  <X size={20} color={theme.colors.neutral.gray600} strokeWidth={2} />
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {/* Content */}
+            <ScrollView
+              style={[styles.content, contentStyle]}
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+            >
+              {children}
+            </ScrollView>
+          </Animated.View>
+        </GestureDetector>
       </KeyboardAvoidingView>
     </Modal>
   );
@@ -233,7 +213,13 @@ export function ActionSheet({
   cancelLabel = '취소',
 }: ActionSheetProps) {
   return (
-    <BottomSheet visible={visible} onClose={onClose} title={title} height="auto" showHandle={false}>
+    <BottomSheet
+      visible={visible}
+      onClose={onClose}
+      title={title}
+      height="auto"
+      showHandle={false}
+    >
       <View style={styles.actionContainer}>
         {actions.map((action, index) => (
           <TouchableOpacity

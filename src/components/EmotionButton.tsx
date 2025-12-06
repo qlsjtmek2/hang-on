@@ -1,13 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Animated,
   View,
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+  withSequence,
+  interpolate,
+} from 'react-native-reanimated';
 
 import { EmotionLevel, EMOTION_DATA } from '@/constants/emotions';
 import { theme } from '@/theme';
@@ -29,75 +36,41 @@ export function EmotionButton({
   disabled = false,
   style,
 }: EmotionButtonProps) {
-  // 애니메이션 값
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const rotateAnim = useRef(new Animated.Value(0)).current;
-  const opacityAnim = useRef(new Animated.Value(isSelected ? 1 : 0.7)).current;
+  // Reanimated 애니메이션 값
+  const scale = useSharedValue(1);
+  const rotation = useSharedValue(0);
+  const opacity = useSharedValue(isSelected ? 1 : 0.7);
 
   const emotionInfo = EMOTION_DATA[emotionLevel];
 
   // 선택 상태 변경 시 애니메이션
   useEffect(() => {
     if (isSelected) {
-      // 선택 애니메이션: 스케일 업 + 회전 + 페이드 인
-      Animated.parallel([
-        Animated.spring(scaleAnim, {
-          toValue: 1.2,
-          useNativeDriver: true,
-          tension: 50,
-          friction: 5,
-        }),
-        Animated.timing(rotateAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(opacityAnim, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start();
+      scale.value = withSpring(1.2, { damping: 8, stiffness: 100 });
+      rotation.value = withTiming(1, { duration: 300 });
+      opacity.value = withTiming(1, { duration: 200 });
     } else {
-      // 선택 해제 애니메이션: 원래 크기로 복귀
-      Animated.parallel([
-        Animated.spring(scaleAnim, {
-          toValue: 1,
-          useNativeDriver: true,
-          tension: 50,
-          friction: 5,
-        }),
-        Animated.timing(rotateAnim, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(opacityAnim, {
-          toValue: 0.7,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start();
+      scale.value = withSpring(1, { damping: 8, stiffness: 100 });
+      rotation.value = withTiming(0, { duration: 300 });
+      opacity.value = withTiming(0.7, { duration: 200 });
     }
-  }, [isSelected, scaleAnim, rotateAnim, opacityAnim]);
+  }, [isSelected, scale, rotation, opacity]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { scale: scale.value },
+      { rotate: `${interpolate(rotation.value, [0, 1], [0, 360])}deg` },
+    ],
+    opacity: opacity.value,
+  }));
 
   const handlePress = () => {
     if (!disabled && onPress) {
       // 탭 애니메이션
-      Animated.sequence([
-        Animated.spring(scaleAnim, {
-          toValue: 0.95,
-          useNativeDriver: true,
-          tension: 100,
-          friction: 5,
-        }),
-        Animated.spring(scaleAnim, {
-          toValue: isSelected ? 1.2 : 1,
-          useNativeDriver: true,
-          tension: 50,
-          friction: 5,
-        }),
-      ]).start();
+      scale.value = withSequence(
+        withSpring(0.95, { damping: 15, stiffness: 200 }),
+        withSpring(isSelected ? 1.2 : 1, { damping: 8, stiffness: 100 })
+      );
 
       onPress(emotionLevel);
     }
@@ -122,11 +95,6 @@ export function EmotionButton({
     medium: 12,
     large: 14,
   }[size];
-
-  const rotation = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
 
   return (
     <TouchableOpacity
@@ -153,9 +121,8 @@ export function EmotionButton({
             height: containerSize,
             backgroundColor: isSelected ? emotionInfo.color : 'transparent',
             borderColor: emotionInfo.color,
-            transform: [{ scale: scaleAnim }, { rotate: rotation }],
-            opacity: opacityAnim,
           },
+          animatedStyle,
           disabled && styles.disabled,
         ]}
       >

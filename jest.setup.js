@@ -1,5 +1,8 @@
 import '@testing-library/jest-native/extend-expect';
 
+// Reanimated mock for Jest
+require('react-native-reanimated').setUpTests();
+
 // Silence console warnings in tests
 global.console = {
   ...console,

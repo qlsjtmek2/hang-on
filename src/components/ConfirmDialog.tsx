@@ -1,5 +1,5 @@
 import { AlertTriangle } from 'lucide-react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,9 +7,15 @@ import {
   Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Animated,
   Dimensions,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSpring,
+  runOnJS,
+} from 'react-native-reanimated';
 
 import { theme } from '@/theme';
 
@@ -46,44 +52,32 @@ export function ConfirmDialog({
   variant = 'default',
   loading = false,
 }: ConfirmDialogProps) {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const scaleAnim = useRef(new Animated.Value(0.9)).current;
+  const opacity = useSharedValue(0);
+  const scale = useSharedValue(0.9);
 
   useEffect(() => {
     if (visible) {
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.spring(scaleAnim, {
-          toValue: 1,
-          tension: 100,
-          friction: 8,
-          useNativeDriver: true,
-        }),
-      ]).start();
+      opacity.value = withTiming(1, { duration: 200 });
+      scale.value = withSpring(1, { damping: 15, stiffness: 150 });
     } else {
-      fadeAnim.setValue(0);
-      scaleAnim.setValue(0.9);
+      opacity.value = 0;
+      scale.value = 0.9;
     }
-  }, [visible, fadeAnim, scaleAnim]);
+  }, [visible, opacity, scale]);
+
+  const backdropStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  const dialogStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }],
+  }));
 
   const handleClose = () => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 150,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnim, {
-        toValue: 0.9,
-        duration: 150,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      onClose();
+    opacity.value = withTiming(0, { duration: 150 });
+    scale.value = withTiming(0.9, { duration: 150 }, () => {
+      runOnJS(onClose)();
     });
   };
 
@@ -105,21 +99,13 @@ export function ConfirmDialog({
     >
       <TouchableWithoutFeedback onPress={handleClose}>
         <View style={styles.overlay}>
-          <Animated.View
-            style={[
-              styles.backdrop,
-              { opacity: fadeAnim },
-            ]}
-          />
+          <Animated.View style={[styles.backdrop, backdropStyle]} />
           <TouchableWithoutFeedback>
             <Animated.View
-              style={[
-                styles.dialog,
-                {
-                  opacity: fadeAnim,
-                  transform: [{ scale: scaleAnim }],
-                },
-              ]}
+              style={[styles.dialog, dialogStyle]}
+              accessibilityRole="alert"
+              accessibilityLabel={title}
+              accessibilityHint={message}
             >
               {/* 경고 아이콘 (danger variant) */}
               {isDanger && (
@@ -150,6 +136,7 @@ export function ConfirmDialog({
                   activeOpacity={0.7}
                   disabled={loading}
                   accessibilityLabel={cancelLabel}
+                  accessibilityHint="탭하여 작업을 취소하고 다이얼로그를 닫습니다"
                   accessibilityRole="button"
                 >
                   <Text style={styles.cancelButtonText}>{cancelLabel}</Text>
@@ -166,6 +153,7 @@ export function ConfirmDialog({
                   activeOpacity={0.7}
                   disabled={loading}
                   accessibilityLabel={confirmLabel}
+                  accessibilityHint="탭하여 작업을 확인합니다"
                   accessibilityRole="button"
                 >
                   <Text

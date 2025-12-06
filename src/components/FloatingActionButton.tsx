@@ -1,6 +1,11 @@
 import { PenLine } from 'lucide-react-native';
-import React, { useRef } from 'react';
-import { Text, StyleSheet, ViewStyle, Animated, Pressable } from 'react-native';
+import React from 'react';
+import { Text, StyleSheet, ViewStyle, Pressable } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+} from 'react-native-reanimated';
 
 import { theme } from '@/theme';
 
@@ -33,35 +38,28 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   disabled = false,
   testID,
 }) => {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const scale = useSharedValue(1);
 
   // 기본 아이콘: PenLine (털어놓기)
-  const defaultIcon = <PenLine size={24} color={theme.colors.text.inverse} strokeWidth={2.5} />;
+  const defaultIcon = (
+    <PenLine size={24} color={theme.colors.text.inverse} strokeWidth={2.5} />
+  );
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   const handlePressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.9,
-      useNativeDriver: true,
-    }).start();
+    scale.value = withSpring(0.9, { damping: 15, stiffness: 300 });
   };
 
   const handlePressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      friction: 3,
-      tension: 40,
-      useNativeDriver: true,
-    }).start();
+    scale.value = withSpring(1, { damping: 10, stiffness: 200 });
   };
 
   return (
     <Animated.View
-      style={[
-        styles.container,
-        { transform: [{ scale: scaleAnim }] },
-        disabled && styles.disabled,
-        style,
-      ]}
+      style={[styles.container, animatedStyle, disabled && styles.disabled, style]}
     >
       <Pressable
         onPress={onPress}
@@ -72,6 +70,8 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
         testID={testID}
         accessibilityRole="button"
         accessibilityLabel={label || '털어놓기'}
+        accessibilityHint="감정을 기록하는 화면으로 이동합니다"
+        accessibilityState={{ disabled }}
       >
         {icon || defaultIcon}
         {label && <Text style={styles.label}>{label}</Text>}

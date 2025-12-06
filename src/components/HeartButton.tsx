@@ -1,14 +1,19 @@
 import { Heart } from 'lucide-react-native';
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
-  Animated,
   StyleSheet,
   Text,
   View,
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSequence,
+  withSpring,
+} from 'react-native-reanimated';
 
 import { theme } from '@/theme';
 
@@ -64,34 +69,28 @@ export function HeartButton({
   showCount = true,
   style,
 }: HeartButtonProps) {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const scale = useSharedValue(1);
   const sizeConfig = SIZES[size];
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   const handlePress = () => {
     if (disabled) return;
 
-    // 펄스 애니메이션
-    Animated.sequence([
-      Animated.spring(scaleAnim, {
-        toValue: 1.3,
-        useNativeDriver: true,
-        speed: 50,
-        bounciness: 12,
-      }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        useNativeDriver: true,
-        speed: 50,
-        bounciness: 8,
-      }),
-    ]).start();
+    // 펄스 애니메이션 (Reanimated)
+    scale.value = withSequence(
+      withSpring(1.3, { damping: 8, stiffness: 200 }),
+      withSpring(1, { damping: 10, stiffness: 150 })
+    );
 
     onPress();
   };
 
   const heartColor = hasEmpathized
     ? theme.colors.semantic.error
-    : theme.colors.neutral.gray400;
+    : theme.colors.neutral.gray500;
 
   const countColor = hasEmpathized
     ? theme.colors.semantic.error
@@ -106,6 +105,11 @@ export function HeartButton({
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={hasEmpathized ? '공감 취소하기' : '공감하기'}
+      accessibilityHint={
+        hasEmpathized
+          ? '탭하여 공감을 취소합니다'
+          : '탭하여 공감을 표시합니다'
+      }
       accessibilityState={{ disabled, selected: hasEmpathized }}
     >
       <Animated.View
@@ -115,8 +119,8 @@ export function HeartButton({
             width: sizeConfig.container,
             height: sizeConfig.container,
             borderRadius: sizeConfig.container / 2,
-            transform: [{ scale: scaleAnim }],
           },
+          animatedStyle,
           hasEmpathized && styles.iconContainerActive,
         ]}
       >

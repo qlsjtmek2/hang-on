@@ -33,19 +33,22 @@ export const MyRecordsScreen: React.FC = () => {
     }, 1000);
   }, []);
 
-  const handleRecordPress = (id: string) => {
-    navigation.navigate('Record', { recordId: id });
-  };
+  const handleRecordPress = useCallback(
+    (id: string) => {
+      navigation.navigate('Record', { recordId: id });
+    },
+    [navigation],
+  );
 
-  const handleEmpathyPress = (id: string) => {
+  const handleEmpathyPress = useCallback((id: string) => {
     // TODO: 공감 기능
     console.log('Empathy pressed:', id);
-  };
+  }, []);
 
-  const handleMessagePress = (id: string) => {
+  const handleMessagePress = useCallback((id: string) => {
     // TODO: 메시지 기능
     console.log('Message pressed:', id);
-  };
+  }, []);
 
   const renderRecord = ({ item }: { item: Record }) => (
     <RecordCard
@@ -85,6 +88,11 @@ export const MyRecordsScreen: React.FC = () => {
           keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
+          // 성능 최적화 옵션
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={5}
+          removeClippedSubviews={true}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
