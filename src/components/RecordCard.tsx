@@ -1,3 +1,4 @@
+import { Heart, MessageCircle } from 'lucide-react-native';
 import React from 'react';
 import {
   View,
@@ -78,6 +79,7 @@ export function RecordCard({
   formatTime = defaultFormatTime,
 }: RecordCardProps) {
   const emotionInfo = EMOTION_DATA[emotionLevel];
+  const EmotionIcon = emotionInfo.icon;
 
   const handlePress = () => {
     onPress?.(id);
@@ -107,7 +109,7 @@ export function RecordCard({
       <View style={styles.header}>
         <View style={styles.emotionContainer}>
           <View style={[styles.emotionIcon, { backgroundColor: emotionInfo.color + '20' }]}>
-            <Text style={styles.emotionEmoji}>{emotionInfo.emoji}</Text>
+            <EmotionIcon size={18} color={emotionInfo.color} strokeWidth={2} />
           </View>
           <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
             {emotionInfo.label}
@@ -135,7 +137,7 @@ export function RecordCard({
           onPress={handleEmpathyPress}
           activeOpacity={0.7}
         >
-          <Text style={styles.actionIcon}>💗</Text>
+          <Heart size={16} color={theme.colors.neutral.gray600} />
           {empathyCount > 0 && <Text style={styles.actionCount}>{empathyCount}</Text>}
         </TouchableOpacity>
 
@@ -144,7 +146,7 @@ export function RecordCard({
           onPress={handleMessagePress}
           activeOpacity={0.7}
         >
-          <Text style={styles.actionIcon}>💬</Text>
+          <MessageCircle size={16} color={theme.colors.neutral.gray600} />
           {messageCount > 0 && <Text style={styles.actionCount}>{messageCount}</Text>}
         </TouchableOpacity>
       </View>
@@ -186,9 +188,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  emotionEmoji: {
-    fontSize: 18,
   },
   emotionLabel: {
     ...theme.typography.caption,
@@ -233,9 +232,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
-  },
-  actionIcon: {
-    fontSize: 16,
   },
   actionCount: {
     ...theme.typography.caption,

@@ -22,3 +22,6 @@ export type { RecordCardProps } from './RecordCard';
 // BottomSheet
 export { BottomSheet, ActionSheet } from './BottomSheet';
 export type { BottomSheetProps, ActionSheetProps } from './BottomSheet';
+
+// FloatingActionButton
+export { FloatingActionButton } from './FloatingActionButton';

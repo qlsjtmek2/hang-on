@@ -1,3 +1,5 @@
+import { Cloud, CloudLightning, CloudRain, CloudSun, Sun } from 'lucide-react-native';
+
 import { theme } from '@/theme';
 import type { EmotionLevel, EmotionData } from '@/types/emotion';
 
@@ -10,27 +12,27 @@ export type { EmotionLevel, EmotionData };
  */
 export const EMOTION_DATA: Record<EmotionLevel, EmotionData> = {
   1: {
-    emoji: '⛈️',
+    icon: CloudLightning,
     label: '폭풍',
     color: theme.colors.emotion.stormy,
   },
   2: {
-    emoji: '🌧️',
+    icon: CloudRain,
     label: '비',
     color: theme.colors.emotion.rainy,
   },
   3: {
-    emoji: '☁️',
+    icon: Cloud,
     label: '흐림',
     color: theme.colors.emotion.cloudy,
   },
   4: {
-    emoji: '🌤️',
+    icon: CloudSun,
     label: '구름',
     color: theme.colors.emotion.partly,
   },
   5: {
-    emoji: '☀️',
+    icon: Sun,
     label: '맑음',
     color: theme.colors.emotion.sunny,
   },

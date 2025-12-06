@@ -13,6 +13,12 @@ const TEST_ACCOUNT = {
   password: 'password123',
 };
 
+// 개발용 Google Mock 계정
+const GOOGLE_DEV_ACCOUNT = {
+  email: 'google-dev@example.com',
+  password: 'google-dev-password',
+};
+
 // Mock 사용자 데이터
 const createMockUser = (email: string): MockUser => ({
   id: `mock-user-${Date.now()}`,
@@ -23,6 +29,7 @@ const createMockUser = (email: string): MockUser => ({
 // 등록된 사용자 저장소 (메모리 기반)
 const registeredUsers: Map<string, { email: string; password: string }> = new Map([
   [TEST_ACCOUNT.email, TEST_ACCOUNT],
+  [GOOGLE_DEV_ACCOUNT.email, GOOGLE_DEV_ACCOUNT],
 ]);
 
 interface AuthStore {

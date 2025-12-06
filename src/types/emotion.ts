@@ -3,6 +3,8 @@
  * @module types/emotion
  */
 
+import type { LucideIcon } from 'lucide-react-native';
+
 /**
  * 감정 수준 타입
  * 1: 폭풍 (매우 나쁨)
@@ -29,8 +31,8 @@ export type EmotionWeather =
  * UI에서 감정을 표시할 때 사용하는 데이터 구조
  */
 export interface EmotionData {
-  /** 감정을 나타내는 이모지 */
-  emoji: string;
+  /** 감정을 나타내는 Lucide 아이콘 */
+  icon: LucideIcon;
   /** 감정의 한글 라벨 */
   label: string;
   /** 감정의 테마 색상 (Hex 코드) */

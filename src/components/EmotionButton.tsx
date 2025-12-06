@@ -109,11 +109,13 @@ export function EmotionButton({
     large: 80,
   }[size];
 
-  const emojiSize = {
+  const iconSize = {
     small: 24,
     medium: 32,
     large: 40,
   }[size];
+
+  const IconComponent = emotionInfo.icon;
 
   const labelSize = {
     small: 10,
@@ -157,7 +159,11 @@ export function EmotionButton({
           disabled && styles.disabled,
         ]}
       >
-        <Text style={{ fontSize: emojiSize }}>{emotionInfo.emoji}</Text>
+        <IconComponent
+          size={iconSize}
+          color={isSelected ? theme.colors.neutral.white : emotionInfo.color}
+          strokeWidth={2}
+        />
       </Animated.View>
       <Text
         style={[

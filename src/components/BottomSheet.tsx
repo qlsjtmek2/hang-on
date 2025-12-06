@@ -16,6 +16,7 @@ import {
   ViewStyle,
   LayoutChangeEvent,
 } from 'react-native';
+import { X } from 'lucide-react-native';
 
 import { theme } from '@/theme';
 
@@ -189,8 +190,9 @@ export function BottomSheet({
                 onPress={closeSheet}
                 style={styles.closeButton}
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                accessibilityLabel="닫기"
               >
-                <Text style={styles.closeIcon}>✕</Text>
+                <X size={20} color={theme.colors.neutral.gray600} strokeWidth={2} />
               </TouchableOpacity>
             </View>
           )}
@@ -314,10 +316,6 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     padding: theme.spacing.xs,
-  },
-  closeIcon: {
-    fontSize: 20,
-    color: theme.colors.neutral.gray600,
   },
   content: {
     paddingHorizontal: theme.spacing.lg,

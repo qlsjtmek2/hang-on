@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { RootStackParamList } from '@/navigation/AuthNavigator';
+import { AuthStackParamList } from '@/navigation/RootNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
 import {
@@ -24,7 +24,7 @@ import {
   validateConfirmPassword as validateConfirmPasswordUtil,
 } from '@/utils/validation';
 
-type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
+type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'SignUp'>;
 
 export const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();

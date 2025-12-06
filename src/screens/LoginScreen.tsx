@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { RootStackParamList } from '@/navigation/AuthNavigator';
+import { AuthStackParamList } from '@/navigation/RootNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
 import {
@@ -23,7 +23,7 @@ import {
   validatePassword as validatePasswordUtil,
 } from '@/utils/validation';
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
@@ -91,7 +91,12 @@ export const LoginScreen: React.FC = () => {
     Alert.alert('비밀번호 찾기', '비밀번호 재설정 기능은 준비 중입니다.', [{ text: '확인' }]);
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
+    // 개발 모드: Mock Google 로그인 (즉시 로그인)
+    if (__DEV__) {
+      await signIn('google-dev@example.com', 'google-dev-password');
+      return;
+    }
     Alert.alert('Google 로그인', 'Google 소셜 로그인은 준비 중입니다.', [{ text: '확인' }]);
   };
 
