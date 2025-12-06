@@ -70,6 +70,11 @@ const ERROR_PATTERNS: ErrorPattern[] = [
     type: ErrorType.AUTH,
     message: '세션이 만료되었습니다. 다시 로그인해주세요.',
   },
+  {
+    pattern: /error sending.*email|sending.*email.*error/i,
+    type: ErrorType.SERVER,
+    message: '인증 이메일 발송에 실패했습니다. 잠시 후 다시 시도해주세요.',
+  },
 
   // Network 에러
   {
