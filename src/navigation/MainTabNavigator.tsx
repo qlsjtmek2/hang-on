@@ -30,11 +30,16 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 
 type LucideIcon = typeof BookOpen;
 
-// 탭 아이콘 렌더 함수 생성
+// 탭 아이콘 렌더 함수 생성 (선택 시 Fill, 미선택 시 Line)
 const createTabIcon =
   (Icon: LucideIcon) =>
   ({ focused, color }: { focused: boolean; color: string }) => (
-    <Icon size={24} color={color} strokeWidth={focused ? 2.5 : 2} />
+    <Icon
+      size={24}
+      color={color}
+      strokeWidth={focused ? 2 : 1.5}
+      fill={focused ? color : 'none'}
+    />
   );
 
 const MyRecordsTabIcon = createTabIcon(BookOpen);
@@ -93,7 +98,7 @@ export const MainTabNavigator: React.FC = () => {
             borderTopWidth: 1,
             borderTopColor: theme.colors.border,
             paddingTop: 4,
-            paddingBottom: 16,
+            paddingBottom: 24,
             height: 66,
           },
           tabBarShowLabel: true,
