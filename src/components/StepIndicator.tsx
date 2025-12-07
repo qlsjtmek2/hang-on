@@ -163,12 +163,17 @@ const BarIndicator = memo(({
   showLabels,
   style,
 }: IndicatorInternalProps) => {
-  const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
-  const progressWidth = useSharedValue(progress);
+  // 각 원의 중심 위치 계산 (flex: 1 균등 배분 기준)
+  const getStepPosition = (step: number) => ((2 * step - 1) / (2 * totalSteps)) * 100;
+  const startPosition = getStepPosition(1);
+  const currentPosition = getStepPosition(currentStep);
+  const progressPercent = currentPosition - startPosition;
+
+  const progressWidth = useSharedValue(progressPercent);
 
   useEffect(() => {
-    progressWidth.value = withTiming(progress, { duration: 300 });
-  }, [progress, progressWidth]);
+    progressWidth.value = withTiming(progressPercent, { duration: 300 });
+  }, [progressPercent, progressWidth]);
 
   const animatedProgressStyle = useAnimatedStyle(() => ({
     width: `${progressWidth.value}%`,
@@ -186,48 +191,22 @@ const BarIndicator = memo(({
         now: currentStep,
       }}
     >
-      {/* 단계 라벨 */}
-      {showLabels && labels && (
-        <View style={styles.barLabelsContainer}>
-          {labels.map((label, index) => {
-            const stepNumber = index + 1;
-            const isActive = stepNumber === currentStep;
-            const isCompleted = stepNumber < currentStep;
-
-            return (
-              <Text
-                key={`label-${index}`}
-                style={[
-                  styles.barLabel,
-                  isActive && styles.barLabelActive,
-                  isCompleted && styles.barLabelCompleted,
-                ]}
-              >
-                {label}
-              </Text>
-            );
-          })}
-        </View>
-      )}
-
-      {/* 진행 바 */}
-      <View style={styles.barContainer}>
-        {/* 배경 바 */}
+      {/* 진행 바 (배경 + 진행) */}
+      <View style={styles.barTrack}>
         <View style={styles.barBackground} />
-
-        {/* 진행 바 */}
         <Animated.View style={[styles.barProgress, animatedProgressStyle]} />
+      </View>
 
-        {/* 단계 점들 */}
-        <View style={styles.barDotsContainer}>
-          {Array.from({ length: totalSteps }).map((_, index) => {
-            const stepNumber = index + 1;
-            const isActive = stepNumber === currentStep;
-            const isCompleted = stepNumber < currentStep;
+      {/* 단계별 원 + 라벨 (정렬된 구조) */}
+      <View style={styles.barStepsContainer}>
+        {Array.from({ length: totalSteps }).map((_, index) => {
+          const stepNumber = index + 1;
+          const isActive = stepNumber === currentStep;
+          const isCompleted = stepNumber < currentStep;
 
-            return (
+          return (
+            <View key={`step-${index}`} style={styles.barStepItem}>
               <View
-                key={`bar-dot-${index}`}
                 style={[
                   styles.barDot,
                   isActive && styles.barDotActive,
@@ -238,9 +217,20 @@ const BarIndicator = memo(({
                   <Text style={styles.barDotText}>{stepNumber}</Text>
                 )}
               </View>
-            );
-          })}
-        </View>
+              {showLabels && labels && labels[index] && (
+                <Text
+                  style={[
+                    styles.barLabel,
+                    isActive && styles.barLabelActive,
+                    isCompleted && styles.barLabelCompleted,
+                  ]}
+                >
+                  {labels[index]}
+                </Text>
+              )}
+            </View>
+          );
+        })}
       </View>
     </View>
   );
@@ -283,50 +273,36 @@ const styles = StyleSheet.create({
   },
 
   // Bar Indicator Styles
-  barLabelsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: theme.spacing.sm,
-  },
-  barLabel: {
-    ...theme.typography.caption,
-    color: theme.colors.neutral.gray500,
-    flex: 1,
-    textAlign: 'center',
-  },
-  barLabelActive: {
-    color: theme.colors.primary.main,
-    fontWeight: '600',
-  },
-  barLabelCompleted: {
-    color: theme.colors.primary.light,
-  },
-  barContainer: {
-    width: '100%',
-    height: BAR_DOT_SIZE,
-    justifyContent: 'center',
-    position: 'relative',
+  barTrack: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: BAR_DOT_SIZE / 2 - 2,
+    height: 4,
   },
   barBackground: {
     position: 'absolute',
-    left: BAR_DOT_SIZE / 2,
-    right: BAR_DOT_SIZE / 2,
+    left: '16.67%',
+    right: '16.67%',
     height: 4,
     backgroundColor: theme.colors.neutral.gray200,
     borderRadius: 2,
   },
   barProgress: {
     position: 'absolute',
-    left: BAR_DOT_SIZE / 2,
+    left: '16.67%',
     height: 4,
     backgroundColor: theme.colors.primary.main,
     borderRadius: 2,
   },
-  barDotsContainer: {
+  barStepsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+  },
+  barStepItem: {
+    alignItems: 'center',
+    flex: 1,
   },
   barDot: {
     width: BAR_DOT_SIZE,
@@ -349,6 +325,19 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
     fontWeight: '600',
     fontSize: 10,
+  },
+  barLabel: {
+    ...theme.typography.caption,
+    color: theme.colors.neutral.gray500,
+    marginTop: theme.spacing.xs,
+    textAlign: 'center',
+  },
+  barLabelActive: {
+    color: theme.colors.primary.main,
+    fontWeight: '600',
+  },
+  barLabelCompleted: {
+    color: theme.colors.primary.light,
   },
 });
 

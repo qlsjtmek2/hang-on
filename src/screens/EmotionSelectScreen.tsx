@@ -6,12 +6,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { EmotionButton } from '@/components/EmotionButton';
+import { StepIndicator } from '@/components/StepIndicator';
 import { EMOTION_DATA } from '@/constants/emotions';
 import type { CreateStackParamList } from '@/navigation/CreateStackNavigator';
 import { theme } from '@/theme';
 import type { EmotionLevel } from '@/types/emotion';
 
 const BUTTON_GAP = 24;
+const STEP_LABELS = ['감정 선택', '글쓰기', '공유 설정'];
 
 type EmotionSelectScreenNavigationProp = NativeStackNavigationProp<
   CreateStackParamList,
@@ -64,12 +66,22 @@ export const EmotionSelectScreen: React.FC = () => {
         <View style={styles.headerSpacer} />
       </View>
 
+      {/* 단계 표시 */}
+      <View style={styles.stepContainer}>
+        <StepIndicator
+          currentStep={1}
+          totalSteps={3}
+          variant="bar"
+          labels={STEP_LABELS}
+          showLabels
+        />
+      </View>
+
       {/* 메인 콘텐츠 */}
       <View style={styles.content}>
         {/* 타이틀 */}
         <View style={styles.titleContainer}>
           <Text style={styles.title}>지금 기분이 어때요?</Text>
-          <Text style={styles.subtitle}>오늘의 감정을 날씨로 표현해보세요</Text>
         </View>
 
         {/* 감정 선택 그리드 (2x2 + 1) */}
@@ -121,22 +133,6 @@ export const EmotionSelectScreen: React.FC = () => {
             />
           </View>
         </View>
-
-        {/* 피드백 메시지 영역 (선택 시에만 표시) */}
-        {selectedData && (
-          <View style={styles.feedbackContainer}>
-            <View
-              style={[
-                styles.messageBubble,
-                { borderColor: selectedData.color },
-              ]}
-            >
-              <Text style={styles.messageText}>
-                {getEmotionDescription(selectedEmotion!)}
-              </Text>
-            </View>
-          </View>
-        )}
       </View>
 
       {/* 하단 버튼 */}
@@ -165,20 +161,6 @@ export const EmotionSelectScreen: React.FC = () => {
   );
 };
 
-/**
- * 감정 레벨별 설명 텍스트
- */
-function getEmotionDescription(level: EmotionLevel): string {
-  const descriptions: Record<EmotionLevel, string> = {
-    1: '마음속에 폭풍우가 몰아치고 있군요. 어떤 일이 있었나요?',
-    2: '마음에도 비가 내리는 날이 있죠. 잠시 쉬어가도 괜찮아요.',
-    3: '구름이 낀 것처럼 답답한가요? 이야기를 털어놓아 보세요.',
-    4: '나쁘지 않은 하루였군요. 소소한 즐거움이 있었나요?',
-    5: '햇살처럼 밝은 하루셨군요! 어떤 좋은 일이 있었는지 궁금해요.',
-  };
-  return descriptions[level];
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -201,6 +183,12 @@ const styles = StyleSheet.create({
   headerSpacer: {
     width: 40,
   },
+  stepContainer: {
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xl,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  },
   content: {
     flex: 1,
     paddingHorizontal: theme.spacing.xl,
@@ -215,12 +203,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '800',
     color: theme.colors.text.primary,
-    textAlign: 'center',
-    marginBottom: theme.spacing.sm,
-  },
-  subtitle: {
-    ...theme.typography.body,
-    color: theme.colors.text.secondary,
     textAlign: 'center',
   },
   gridContainer: {
@@ -238,26 +220,6 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     alignItems: 'center',
-  },
-  feedbackContainer: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: theme.spacing.xxl,
-    minHeight: 80,
-  },
-  messageBubble: {
-    backgroundColor: theme.colors.neutral.gray100,
-    padding: theme.spacing.lg,
-    borderRadius: 20,
-    width: '100%',
-    borderWidth: 1,
-  },
-  messageText: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
-    color: theme.colors.text.primary,
-    fontWeight: '500',
   },
   footer: {
     paddingHorizontal: theme.spacing.xl,

@@ -31,6 +31,20 @@ import { theme } from '@/theme';
 
 const STEP_LABELS = ['감정 선택', '글쓰기', '공유 설정'];
 
+/**
+ * 감정 레벨별 설명 텍스트
+ */
+function getEmotionDescription(level: number): string {
+  const descriptions: Record<number, string> = {
+    1: '마음속에 폭풍우가 몰아치고 있군요. 어떤 일이 있었나요?',
+    2: '마음에도 비가 내리는 날이 있죠. 잠시 쉬어가도 괜찮아요.',
+    3: '구름이 낀 것처럼 답답한가요? 이야기를 털어놓아 보세요.',
+    4: '나쁘지 않은 하루였군요. 소소한 즐거움이 있었나요?',
+    5: '햇살처럼 밝은 하루셨군요! 어떤 좋은 일이 있었는지 궁금해요.',
+  };
+  return descriptions[level] || '';
+}
+
 type WriteScreenNavigationProp = NativeStackNavigationProp<CreateStackParamList, 'Write'>;
 type WriteScreenRouteProp = RouteProp<CreateStackParamList, 'Write'>;
 
@@ -148,7 +162,7 @@ export const WriteScreen: React.FC = () => {
           <StepIndicator
             currentStep={2}
             totalSteps={3}
-            variant="dot"
+            variant="bar"
             labels={STEP_LABELS}
             showLabels
           />
@@ -160,46 +174,62 @@ export const WriteScreen: React.FC = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* 선택된 감정 표시 */}
-          <View style={styles.emotionDisplay}>
-            <View style={[styles.emotionIconContainer, { backgroundColor: emotionInfo.color }]}>
-              <IconComponent
-                size={28}
-                color={theme.colors.neutral.white}
-                strokeWidth={2}
-              />
+          {/* 일기장 종이 컨테이너 */}
+          <View
+            style={[
+              styles.writingPaper,
+              isOverLimit && styles.writingPaperError,
+            ]}
+          >
+            {/* 종이 상단: 감정 아이콘 + 라벨 */}
+            <View style={styles.paperHeader}>
+              <View style={[styles.emotionIconContainer, { backgroundColor: emotionInfo.color }]}>
+                <IconComponent
+                  size={24}
+                  color={theme.colors.neutral.white}
+                  strokeWidth={2}
+                />
+              </View>
+              <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
+                {emotionInfo.label}
+              </Text>
             </View>
-            <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
-              {emotionInfo.label}
-            </Text>
-          </View>
 
-          {/* 텍스트 입력 */}
-          <View style={styles.inputContainer}>
+            {/* 상단 구분선 */}
+            <View style={styles.paperDivider} />
+
+            {/* 감정 설명 메시지 */}
+            <Text style={styles.emotionMessage}>
+              {getEmotionDescription(emotionLevel)}
+            </Text>
+
+            {/* 텍스트 입력 */}
             <TextInput
-              style={[
-                styles.textInput,
-                isOverLimit && styles.textInputError,
-              ]}
-              placeholder="지금 느끼는 기분을 자유롭게 표현해보세요"
+              style={styles.textInput}
+              placeholder="오늘 하루, 마음이 어땠나요?"
               placeholderTextColor={theme.colors.neutral.gray400}
               value={content}
               onChangeText={setContent}
               multiline
-              maxLength={MAX_CONTENT_LENGTH + 50} // 초과 입력 허용 (경고 표시)
+              maxLength={MAX_CONTENT_LENGTH + 50}
               textAlignVertical="top"
               editable={!isSubmitting}
               accessibilityLabel="감정 기록 입력"
               accessibilityHint="최대 500자까지 입력할 수 있습니다"
             />
 
-            {/* 글자 수 카운터 + 자동 저장 표시 */}
-            <View style={styles.counterContainer}>
-              {showSavedIndicator && (
+            {/* 하단 구분선 */}
+            <View style={styles.bottomDivider} />
+
+            {/* 종이 하단: 글자 수 카운터 + 자동 저장 표시 */}
+            <View style={styles.paperFooter}>
+              {showSavedIndicator ? (
                 <Animated.View style={[styles.savedIndicator, savedAnimatedStyle]}>
                   <Save size={12} color={theme.colors.semantic.success} strokeWidth={2} />
                   <Text style={styles.savedText}>자동 저장됨</Text>
                 </Animated.View>
+              ) : (
+                <View />
               )}
               <Text
                 style={[
@@ -266,8 +296,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
   },
   backButton: {
     padding: theme.spacing.xs,
@@ -281,6 +309,7 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xl,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border,
   },
@@ -293,45 +322,64 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.md,
   },
-  emotionDisplay: {
+  writingPaper: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: 16,
+    paddingTop: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.md,
+    minHeight: 320,
+    ...theme.shadows.sm,
+  },
+  writingPaperError: {
+    borderWidth: 1,
+    borderColor: theme.colors.semantic.error,
+  },
+  paperHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: theme.spacing.xl,
+    marginBottom: theme.spacing.md,
   },
   emotionIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   emotionLabel: {
-    ...theme.typography.h3,
-    marginLeft: theme.spacing.md,
+    ...theme.typography.bodyBold,
+    marginLeft: theme.spacing.sm,
     fontWeight: '600',
   },
-  inputContainer: {
-    flex: 1,
+  paperDivider: {
+    height: 1,
+    backgroundColor: theme.colors.neutral.gray200,
+    marginBottom: theme.spacing.md,
+  },
+  emotionMessage: {
+    ...theme.typography.body,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.lg,
+    lineHeight: 22,
   },
   textInput: {
     ...theme.typography.body,
     color: theme.colors.text.primary,
-    backgroundColor: theme.colors.neutral.gray100,
-    borderWidth: 1,
-    borderColor: theme.colors.neutral.gray200,
-    borderRadius: 12,
-    padding: theme.spacing.md,
-    minHeight: 200,
-    lineHeight: 24,
+    flex: 1,
+    lineHeight: 26,
+    textAlignVertical: 'top',
   },
-  textInputError: {
-    borderColor: theme.colors.semantic.error,
+  bottomDivider: {
+    height: 1,
+    backgroundColor: theme.colors.neutral.gray200,
+    marginTop: theme.spacing.md,
   },
-  counterContainer: {
+  paperFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: theme.spacing.sm,
+    marginTop: theme.spacing.md,
   },
   savedIndicator: {
     flexDirection: 'row',
