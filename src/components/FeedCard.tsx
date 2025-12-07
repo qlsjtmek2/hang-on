@@ -1,4 +1,4 @@
-import { MessageCircle, MoreHorizontal } from 'lucide-react-native';
+import { Flag, MessageCircle } from 'lucide-react-native';
 import React, { useEffect, memo } from 'react';
 import {
   View,
@@ -58,11 +58,11 @@ export const FeedCard = memo(function FeedCard({
       translateY.value = 20;
 
       opacity.value = withTiming(1, {
-        duration: 600,
+        duration: 225,
         easing: Easing.out(Easing.quad),
       });
       translateY.value = withTiming(0, {
-        duration: 600,
+        duration: 225,
         easing: Easing.out(Easing.quad),
       });
     }
@@ -91,15 +91,15 @@ export const FeedCard = memo(function FeedCard({
         style={[styles.cardBackground, { backgroundColor: `${emotionInfo.color}10` }]}
       />
 
-      {/* 더보기 버튼 (우측 상단) */}
+      {/* 신고 버튼 (우측 상단) */}
       <TouchableOpacity
-        style={styles.moreButton}
+        style={styles.reportButton}
         onPress={() => onMorePress(record.id)}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        accessibilityLabel="더보기"
-        accessibilityHint="신고하기 옵션을 엽니다"
+        accessibilityLabel="신고하기"
+        accessibilityHint="이 게시물을 신고합니다"
       >
-        <MoreHorizontal size={24} color={theme.colors.text.secondary} strokeWidth={2} />
+        <Flag size={20} color={theme.colors.text.secondary} strokeWidth={2} />
       </TouchableOpacity>
 
       {/* 메인 콘텐츠 영역 */}
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 
-  // More Button (top-right)
-  moreButton: {
+  // Report Button (top-right)
+  reportButton: {
     position: 'absolute',
     top: Platform.OS === 'ios' ? 60 : 40,
     right: theme.spacing.md,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: 'rgba(255,255,255,0.9)',
     justifyContent: 'center',
     alignItems: 'center',

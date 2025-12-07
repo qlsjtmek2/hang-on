@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
   },
   contentContainer: {
     flexDirection: 'row',
@@ -130,26 +129,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 
-  // Sizes
+  // Sizes - 통통하고 부드러운 느낌
   container_small: {
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    minHeight: 32,
-  },
-  container_medium: {
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    minHeight: 44,
+    minHeight: 40,
+    borderRadius: 10,
+  },
+  container_medium: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: 12,
+    minHeight: 52,
+    borderRadius: 14,
   },
   container_large: {
-    paddingHorizontal: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.xl,
     paddingVertical: theme.spacing.md,
-    minHeight: 56,
+    minHeight: 60,
+    borderRadius: 16,
   },
 
-  // States
+  // States - 비활성화 시 더 명확한 시각적 구분
   container_disabled: {
-    opacity: 0.5,
+    opacity: 0.6,
+    backgroundColor: theme.colors.neutral.gray300,
   },
   container_fullWidth: {
     width: '100%',

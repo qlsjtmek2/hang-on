@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BookOpen, Heart, Settings } from 'lucide-react-native';
 import React from 'react';
@@ -55,6 +55,19 @@ type MainTabNavigatorNavigationProp = NativeStackNavigationProp<RootStackParamLi
  */
 export const MainTabNavigator: React.FC = () => {
   const navigation = useNavigation<MainTabNavigatorNavigationProp>();
+
+  // 현재 탭 인덱스 추적 (0: MyRecords, 1: Feed, 2: Settings)
+  const currentTabIndex = useNavigationState((state) => {
+    // Main 탭 네비게이터의 상태에서 현재 인덱스 가져오기
+    const mainRoute = state.routes.find((r) => r.name === 'Main');
+    if (mainRoute && mainRoute.state) {
+      return mainRoute.state.index ?? 0;
+    }
+    return 0;
+  });
+
+  // 내 기록 탭(index 0)에서만 FAB 표시
+  const showFab = currentTabIndex === 0;
 
   const handleCreateRecord = () => {
     navigation.navigate('Create');
@@ -121,12 +134,14 @@ export const MainTabNavigator: React.FC = () => {
         />
       </Tab.Navigator>
 
-      {/* 플로팅 액션 버튼 - 탭바 위에 배치 */}
-      <FloatingActionButton
-        onPress={handleCreateRecord}
-        testID="fab-create-record"
-        style={styles.fab}
-      />
+      {/* 플로팅 액션 버튼 - 탭바 위에 배치 (설정 탭에서는 숨김) */}
+      {showFab && (
+        <FloatingActionButton
+          onPress={handleCreateRecord}
+          testID="fab-create-record"
+          style={styles.fab}
+        />
+      )}
     </View>
   );
 };
