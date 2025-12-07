@@ -121,7 +121,7 @@ export function EmotionButton({
         <IconComponent
           size={iconSize}
           color={isSelected ? theme.colors.neutral.white : emotionInfo.color}
-          strokeWidth={2}
+          strokeWidth={2.5}
         />
       </Animated.View>
       <Text

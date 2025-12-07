@@ -50,6 +50,10 @@ export const colors = {
     gray800: '#2d1f42',
     gray900: '#140e1a', // 거의 검정
     black: '#000000',
+    // 아이콘용 순수 gray (보라빛 없음) - Tailwind Gray 기반
+    iconDefault: '#9CA3AF', // 비활성 아이콘 (gray-400)
+    iconMuted: '#6B7280', // 약간 진한 비활성 (gray-500)
+    iconActive: '#374151', // 활성 아이콘 (gray-700)
   },
 
   // Background Colors

@@ -90,11 +90,11 @@ export function HeartButton({
 
   const heartColor = hasEmpathized
     ? theme.colors.semantic.error
-    : theme.colors.neutral.gray500;
+    : theme.colors.neutral.iconDefault;
 
   const countColor = hasEmpathized
     ? theme.colors.semantic.error
-    : theme.colors.neutral.gray600;
+    : theme.colors.neutral.iconMuted;
 
   return (
     <TouchableOpacity

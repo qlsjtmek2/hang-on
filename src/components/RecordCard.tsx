@@ -7,7 +7,6 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
-  Platform,
   GestureResponderEvent,
 } from 'react-native';
 
@@ -92,7 +91,7 @@ export const RecordCard = memo(function RecordCard({
       {/* Header: 아이콘 + 시간 */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <EmotionIcon size={24} color={emotionInfo.color} strokeWidth={2} />
+          <EmotionIcon size={24} color={emotionInfo.color} strokeWidth={2.5} />
           <Text style={styles.timeText}>{formatDateLabel(createdAt)}</Text>
         </View>
         {visibility !== 'private' && (
@@ -119,9 +118,9 @@ export const RecordCard = memo(function RecordCard({
           accessibilityRole="button"
         >
           <Heart
-            size={14}
-            color={empathyCount > 0 ? theme.colors.primary.main : theme.colors.neutral.gray500}
-            fill={empathyCount > 0 ? theme.colors.primary.main : 'transparent'}
+            size={16}
+            color={empathyCount > 0 ? theme.colors.semantic.error : theme.colors.neutral.iconDefault}
+            fill={empathyCount > 0 ? theme.colors.semantic.error : 'transparent'}
           />
           <Text style={[styles.actionCount, empathyCount > 0 && styles.actionCountActive]}>
             {empathyCount}
@@ -137,7 +136,7 @@ export const RecordCard = memo(function RecordCard({
           accessibilityHint="탭하여 메시지 목록을 확인합니다"
           accessibilityRole="button"
         >
-          <MessageCircle size={14} color={theme.colors.neutral.gray500} />
+          <MessageCircle size={16} color={theme.colors.neutral.iconDefault} />
           <Text style={styles.actionCount}>{messageCount}</Text>
         </TouchableOpacity>
       </View>
@@ -147,23 +146,11 @@ export const RecordCard = memo(function RecordCard({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.surface, // card-light
-    borderRadius: 12, // rounded-xl
-    padding: 16, // p-4
-    borderWidth: 1,
-    borderColor: theme.colors.border, // border-light
-    gap: 12, // gap-3 (섹션 간격)
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 1,
-      },
-    }),
+    backgroundColor: theme.colors.surface,
+    borderRadius: 16,
+    padding: 20,
+    gap: 14,
+    ...theme.shadows.sm,
   },
   header: {
     flexDirection: 'row',
@@ -173,13 +160,13 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8, // gap-2
+    gap: 10,
   },
   timeText: {
-    fontSize: 12, // text-xs
-    fontWeight: '500', // font-medium
-    color: theme.colors.text.secondary, // text-muted-light
-    letterSpacing: 0.01, // tracking
+    fontSize: 13,
+    fontWeight: '400',
+    color: theme.colors.neutral.gray400,
+    letterSpacing: 0,
   },
   visibilityText: {
     fontSize: 12,
@@ -187,17 +174,17 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.gray400,
   },
   content: {
-    fontSize: 14, // text-sm
-    fontWeight: '400', // font-normal
-    lineHeight: 23, // leading-relaxed (14 * 1.625)
-    color: theme.colors.text.primary, // text-light
-    letterSpacing: 0.01,
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 24,
+    color: theme.colors.text.primary,
+    letterSpacing: -0.2,
   },
   footer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16, // gap-4
-    paddingTop: 8, // pt-2
+    gap: 20,
+    marginTop: 2,
   },
   actionButton: {
     flexDirection: 'row',
@@ -205,12 +192,12 @@ const styles = StyleSheet.create({
     gap: 6, // gap-1.5
   },
   actionCount: {
-    fontSize: 12, // text-xs
-    fontWeight: '500', // font-medium
-    color: theme.colors.text.secondary, // text-muted
+    fontSize: 13,
+    fontWeight: '500',
+    color: theme.colors.neutral.iconMuted,
   },
   actionCountActive: {
-    color: theme.colors.primary.main,
+    color: theme.colors.semantic.error,
   },
 });
 

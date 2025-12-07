@@ -76,7 +76,7 @@ export function ShareSettingsBottomSheet({
         {/* 감정 요약 */}
         <View style={[styles.emotionSummary, { backgroundColor: `${emotionInfo.color}15` }]}>
           <View style={[styles.emotionIcon, { backgroundColor: emotionInfo.color }]}>
-            <emotionInfo.icon size={20} color={theme.colors.neutral.white} strokeWidth={2} />
+            <emotionInfo.icon size={20} color={theme.colors.neutral.white} strokeWidth={2.5} />
           </View>
           <Text style={[styles.emotionText, { color: emotionInfo.color }]}>
             오늘의 {emotionInfo.label} 기록

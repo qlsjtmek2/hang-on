@@ -29,12 +29,16 @@ export type { Typography, TypographyKey } from './typography';
 export { spacing, getSpacing, getPadding, getDirectionalSpacing } from './spacing';
 export type { Spacing, SpacingKey } from './spacing';
 
+export { shadows } from './shadows';
+export type { Shadows, ShadowKey } from './shadows';
+
 /**
  * 전체 테마 객체
  *
  * 한 번에 모든 테마 요소를 가져올 때 사용
  */
 import { colors } from './colors';
+import { shadows } from './shadows';
 import { spacing } from './spacing';
 import { typography } from './typography';
 
@@ -42,6 +46,7 @@ export const theme = {
   colors,
   typography,
   spacing,
+  shadows,
 } as const;
 
 export type Theme = typeof theme;

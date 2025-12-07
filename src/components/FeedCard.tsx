@@ -108,7 +108,7 @@ export const FeedCard = memo(function FeedCard({
           {/* 상단: 날짜 및 감정 아이콘 */}
           <View style={styles.headerRow}>
             <View style={[styles.emotionBadge, { backgroundColor: emotionInfo.color }]}>
-              <EmotionIcon size={24} color="#FFFFFF" strokeWidth={2} />
+              <EmotionIcon size={24} color="#FFFFFF" strokeWidth={2.5} />
             </View>
             <Text style={styles.timeText}>{getRelativeTime(record.createdAt)}</Text>
           </View>
@@ -190,11 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.9)',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...theme.shadows.md,
     zIndex: 10,
   },
 
@@ -220,10 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: theme.spacing.sm,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    ...theme.shadows.sm,
   },
   timeText: {
     ...theme.typography.caption,
@@ -259,11 +252,7 @@ const styles = StyleSheet.create({
     marginRight: theme.spacing.sm,
     backgroundColor: '#FFF',
     borderRadius: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+    ...theme.shadows.sm,
   },
   commentBar: {
     flex: 1,
@@ -272,11 +261,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     justifyContent: 'center',
     paddingHorizontal: theme.spacing.lg,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+    ...theme.shadows.sm,
   },
   placeholderText: {
     ...theme.typography.body,

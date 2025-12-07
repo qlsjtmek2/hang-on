@@ -68,7 +68,7 @@ src/
 ├── utils/            # 유틸리티 함수 (validation, dateFormatter, errorHandler) ✅
 ├── services/         # API 서비스, Supabase 클라이언트
 ├── store/            # Zustand 상태 관리
-├── theme/            # 중앙화된 테마 (colors, typography, spacing) ✅
+├── theme/            # 중앙화된 테마 (colors, typography, spacing, shadows) ✅
 └── types/            # TypeScript 타입 정의 (emotion.ts) ✅
 ```
 
@@ -81,9 +81,11 @@ src/
 #### 테마
 
 - **위치**: `src/theme/`
-- **구성**: `colors.ts`, `typography.ts`, `spacing.ts`
+- **구성**: `colors.ts`, `typography.ts`, `spacing.ts`, `shadows.ts`
 - **사용**: `import { theme } from '@/theme'`
 - ❌ 하드코딩 금지
+- 💡 Shadow 사용: `...theme.shadows.sm` (sm, md, lg, xl 레벨)
+- 💡 아이콘 색상: `theme.colors.neutral.iconDefault` (비활성), `semantic.error` (활성 하트)
 
 #### 타입
 
@@ -303,6 +305,28 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ## 리팩토링 이력
 
+### 2025-12-07: UI 디자인 개선 ("상용 앱 수준" 폴리싱)
+
+**테마 시스템 확장**
+- ✅ `src/theme/shadows.ts` 생성: 4단계 Shadow 시스템 (sm, md, lg, xl)
+- ✅ `src/theme/colors.ts` 수정: 아이콘용 순수 회색 추가 (iconDefault, iconMuted, iconActive)
+- ✅ `src/theme/index.ts` 수정: shadows export 추가
+
+**RecordCard 리디자인**
+- ✅ 테두리 제거 + 그림자 강화 (깊이감 표현)
+- ✅ borderRadius 12→16, padding 16→20 (여유있는 공간감)
+- ✅ 타이포 위계 강화: timeText 연하게 (gray400), content 크기 증가 (15px)
+- ✅ 아이콘 크기 14→16, 비활성 색상 순수 회색 (#9CA3AF)
+- ✅ 활성 하트 색상: 보라→빨강 (#F44336)
+
+**FeedCard & HeartButton 일관성**
+- ✅ `src/components/HeartButton.tsx`: 비활성 아이콘 색상 iconDefault로 통일
+- ✅ `src/components/FeedCard.tsx`: 모든 shadow를 theme.shadows 시스템으로 통일
+
+📊 결과: 테두리 제거 + 그림자 강화로 깊이감, 아이콘 색상 중립화로 직관적 UX
+
+---
+
 ### 2025-12-06: Phase 10 HCI 개선 구현
 
 **10.1 Toast/Snackbar 시스템**
@@ -467,6 +491,6 @@ SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-**마지막 업데이트**: 2025-12-06 (Phase 9 완료)
+**마지막 업데이트**: 2025-12-07 (UI 디자인 개선)
 **프로젝트**: React Native + Supabase Mobile App (Hang On - 감정 공유 플랫폼)
 **환경**: WSL2 Ubuntu + Windows 11, React Native 0.82+
