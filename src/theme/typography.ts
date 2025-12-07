@@ -13,7 +13,7 @@
 import { Platform, TextStyle } from 'react-native';
 
 /**
- * 폰트 패밀리 (Pretendard)
+ * 폰트 패밀리 (Pretendard - 본문용)
  *
  * Android: 파일명 기준 (확장자 제외)
  * iOS: PostScript 이름 기준
@@ -42,16 +42,45 @@ export const fontFamily = {
 } as const;
 
 /**
+ * 헤더용 폰트 패밀리 (MaruBuri - 세리프)
+ *
+ * 감성적인 헤더 텍스트에 사용
+ * Pretendard와 대비되는 세리프 폰트
+ */
+export const headerFontFamily = {
+  light: Platform.select({
+    ios: 'MaruBuri-Light',
+    android: 'MaruBuri-Light',
+    default: 'MaruBuri-Light',
+  }),
+  regular: Platform.select({
+    ios: 'MaruBuri-Regular',
+    android: 'MaruBuri-Regular',
+    default: 'MaruBuri-Regular',
+  }),
+  semiBold: Platform.select({
+    ios: 'MaruBuri-SemiBold',
+    android: 'MaruBuri-SemiBold',
+    default: 'MaruBuri-SemiBold',
+  }),
+  bold: Platform.select({
+    ios: 'MaruBuri-Bold',
+    android: 'MaruBuri-Bold',
+    default: 'MaruBuri-Bold',
+  }),
+} as const;
+
+/**
  * Typography Scale
  * 8pt Grid System에 맞춰 정의
  */
 export const typography: Record<string, TextStyle> = {
   /**
-   * Heading 1 - 화면 타이틀
+   * Heading 1 - 화면 타이틀 (MaruBuri 세리프)
    * 예: 메인 화면 헤더 "Hang On"
    */
   h1: {
-    fontFamily: fontFamily.bold,
+    fontFamily: headerFontFamily.bold,
     fontSize: 28,
     fontWeight: '700',
     lineHeight: 36,
@@ -59,11 +88,11 @@ export const typography: Record<string, TextStyle> = {
   },
 
   /**
-   * Heading 2 - 섹션 제목
+   * Heading 2 - 섹션 제목 (MaruBuri 세리프)
    * 예: "털어놓기", "누군가와 함께"
    */
   h2: {
-    fontFamily: fontFamily.semiBold,
+    fontFamily: headerFontFamily.semiBold,
     fontSize: 24,
     fontWeight: '600',
     lineHeight: 32,
@@ -71,11 +100,11 @@ export const typography: Record<string, TextStyle> = {
   },
 
   /**
-   * Heading 3 - 카드 제목
+   * Heading 3 - 카드 제목 (MaruBuri 세리프)
    * 예: 바텀시트 제목 "어떻게 나눌까요?"
    */
   h3: {
-    fontFamily: fontFamily.semiBold,
+    fontFamily: headerFontFamily.semiBold,
     fontSize: 20,
     fontWeight: '600',
     lineHeight: 28,
@@ -107,14 +136,26 @@ export const typography: Record<string, TextStyle> = {
   },
 
   /**
+   * Body Small - 작은 본문
+   * 예: 부가 설명, 힌트 텍스트
+   */
+  bodySmall: {
+    fontFamily: fontFamily.regular,
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 20,
+    letterSpacing: 0,
+  },
+
+  /**
    * Caption - 보조 정보
    * 예: 작성 시간, 글자 수, 설명 텍스트
    */
   caption: {
     fontFamily: fontFamily.regular,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '400',
-    lineHeight: 20,
+    lineHeight: 16,
     letterSpacing: 0,
   },
 

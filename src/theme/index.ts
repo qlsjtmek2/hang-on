@@ -23,7 +23,7 @@ export { colors, getEmotionColor, getEmotionColorWithOpacity } from './colors';
 export type { Colors } from './colors';
 export type { EmotionLevel } from '@/types/emotion';
 
-export { typography, fontFamily, getScaledFontSize, withColor } from './typography';
+export { typography, fontFamily, headerFontFamily, getScaledFontSize, withColor } from './typography';
 export type { Typography, TypographyKey } from './typography';
 
 export { spacing, getSpacing, getPadding, getDirectionalSpacing } from './spacing';
