@@ -57,7 +57,7 @@ jest.mock('react-native-reanimated', () => {
     SlideInDown: {},
     SlideOutDown: {},
     // Interpolate
-    interpolate: (value, inputRange, outputRange) => value,
+    interpolate: (value, _inputRange, _outputRange) => value,
     Extrapolation: {
       CLAMP: 'clamp',
       EXTEND: 'extend',
