@@ -7,6 +7,7 @@ import {
   EyeOff,
   Heart,
   MessageCircle,
+  User,
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
@@ -25,7 +26,7 @@ import { EMOTION_DATA } from '@/constants/emotions';
 import type { RecordStackParamList } from '@/navigation/RecordStackNavigator';
 import { useRecordStore } from '@/store/recordStore';
 import { theme } from '@/theme';
-import { formatSmartTime } from '@/utils/dateFormatter';
+import { formatSmartTime, formatDateWithDay, formatTime } from '@/utils/dateFormatter';
 
 type RecordDetailScreenNavigationProp = NativeStackNavigationProp<
   RecordStackParamList,
@@ -44,6 +45,10 @@ const MOCK_MESSAGES: ReceivedMessage[] = [
   { id: '1', content: '힘내세요!', createdAt: new Date(Date.now() - 30 * 60000) },
   { id: '2', content: '저도 그래요', createdAt: new Date(Date.now() - 2 * 3600000) },
   { id: '3', content: '괜찮을 거예요', createdAt: new Date(Date.now() - 5 * 3600000) },
+  { id: '4', content: '함께해요', createdAt: new Date(Date.now() - 8 * 3600000) },
+  { id: '5', content: '응원합니다!', createdAt: new Date(Date.now() - 12 * 3600000) },
+  { id: '6', content: '좋은 하루 되세요', createdAt: new Date(Date.now() - 24 * 3600000) },
+  { id: '7', content: '마음이 따뜻해지네요', createdAt: new Date(Date.now() - 36 * 3600000) },
 ];
 
 /**
@@ -181,16 +186,18 @@ export const RecordDetailScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* 감정 정보 */}
+        {/* 감정 정보 (재설계: 날짜 주인공, 감정 보조) */}
         <View style={styles.emotionSection}>
-          <View style={[styles.emotionIconContainer, { backgroundColor: emotionInfo.color }]}>
-            <EmotionIcon size={32} color={theme.colors.neutral.white} strokeWidth={2} />
-          </View>
-          <View style={styles.emotionInfo}>
-            <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
-              {emotionInfo.label}
-            </Text>
-            <Text style={styles.timeText}>{formatSmartTime(record.createdAt)}</Text>
+          <View>
+            <Text style={styles.dateTitle}>{formatDateWithDay(record.createdAt, false)}</Text>
+            <View style={styles.metaInfoRow}>
+              <EmotionIcon size={16} color={emotionInfo.color} strokeWidth={2} />
+              <Text style={styles.emotionText}>{emotionInfo.label}</Text>
+              <Text style={styles.dot}>•</Text>
+              <Text style={styles.timeText}>
+                {formatTime(record.createdAt.getHours(), record.createdAt.getMinutes())}
+              </Text>
+            </View>
           </View>
           <View style={styles.visibilityBadge}>
             {isPublic ? (
@@ -214,37 +221,35 @@ export const RecordDetailScreen: React.FC = () => {
           <Text style={styles.contentText}>{record.content}</Text>
         </View>
 
-        {/* 통계 */}
+        {/* 통계 (Chip 스타일) */}
         <View style={styles.statsSection}>
           <View style={styles.statItem}>
-            <Heart size={18} color={theme.colors.semantic.error} strokeWidth={2} />
-            <Text style={styles.statText}>공감 {record.heartsCount}개</Text>
+            <Heart size={16} color={theme.colors.semantic.error} strokeWidth={2} style={styles.statIcon} />
+            <Text style={styles.statText}>공감 {record.heartsCount}</Text>
           </View>
-          <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <MessageCircle size={18} color={theme.colors.primary.main} strokeWidth={2} />
-            <Text style={styles.statText}>메시지 {record.messagesCount}개</Text>
+            <MessageCircle size={16} color={theme.colors.primary.main} strokeWidth={2} style={styles.statIcon} />
+            <Text style={styles.statText}>댓글 {record.messagesCount}</Text>
           </View>
         </View>
 
-        {/* 받은 메시지 목록 */}
+        {/* 받은 메시지 목록 (말풍선 스타일) */}
         {record.messagesCount > 0 && (
           <View style={styles.messagesSection}>
             <Text style={styles.sectionTitle}>받은 메시지</Text>
             {MOCK_MESSAGES.slice(0, record.messagesCount).map(message => (
               <View key={message.id} style={styles.messageItem}>
-                <View style={styles.messageIconContainer}>
-                  <MessageCircle
-                    size={14}
-                    color={theme.colors.primary.main}
-                    strokeWidth={2}
-                  />
+                <View style={styles.avatarContainer}>
+                  <User size={18} color={theme.colors.neutral.gray400} strokeWidth={2} />
                 </View>
-                <View style={styles.messageContent}>
+                <View style={styles.messageBubble}>
+                  <View style={styles.messageHeader}>
+                    <Text style={styles.messageAuthor}>익명</Text>
+                    <Text style={styles.messageTime}>
+                      {formatSmartTime(message.createdAt)}
+                    </Text>
+                  </View>
                   <Text style={styles.messageText}>{message.content}</Text>
-                  <Text style={styles.messageTime}>
-                    {formatSmartTime(message.createdAt)}
-                  </Text>
                 </View>
               </View>
             ))}
@@ -310,8 +315,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
   },
   headerButton: {
     padding: theme.spacing.xs,
@@ -324,6 +327,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
   },
   errorContainer: {
@@ -342,46 +347,48 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  // 감정 섹션
+  // 감정 섹션 (재설계: 날짜 주인공, 감정은 보조)
   emotionSection: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: theme.spacing.xl,
+  },
+  dateTitle: {
+    ...theme.typography.h2,
+    color: theme.colors.text.primary,
+    marginBottom: 6,
+  },
+  metaInfoRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: theme.spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
   },
-  emotionIconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
+  emotionText: {
+    ...theme.typography.bodySmall,
+    color: theme.colors.text.secondary,
+    marginLeft: 6,
   },
-  emotionInfo: {
-    flex: 1,
-    marginLeft: theme.spacing.md,
-  },
-  emotionLabel: {
-    ...theme.typography.h3,
-    fontWeight: '600',
-    marginBottom: 4,
+  dot: {
+    marginHorizontal: 6,
+    color: theme.colors.neutral.gray300,
   },
   timeText: {
-    ...theme.typography.caption,
+    ...theme.typography.bodySmall,
     color: theme.colors.text.secondary,
   },
   visibilityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     backgroundColor: theme.colors.neutral.gray100,
-    borderRadius: 16,
+    borderRadius: 20,
   },
   visibilityText: {
     ...theme.typography.caption,
     color: theme.colors.text.secondary,
     marginLeft: 4,
+    fontWeight: '600',
   },
   visibilityTextPublic: {
     color: theme.colors.primary.main,
@@ -389,79 +396,85 @@ const styles = StyleSheet.create({
 
   // 본문 섹션
   contentSection: {
-    padding: theme.spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
+    marginBottom: 40,
   },
   contentText: {
     ...theme.typography.body,
     color: theme.colors.text.primary,
-    lineHeight: 26,
+    lineHeight: 28,
   },
 
-  // 통계 섹션
+  // 통계 섹션 (Chip 스타일)
   statsSection: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: theme.spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
+    marginBottom: 40,
+    gap: 12,
   },
   statItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: theme.spacing.lg,
+    backgroundColor: theme.colors.neutral.gray100,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+  },
+  statIcon: {
+    marginRight: 6,
   },
   statText: {
-    ...theme.typography.body,
+    ...theme.typography.bodySmall,
+    fontWeight: '600',
     color: theme.colors.text.secondary,
-    marginLeft: theme.spacing.sm,
-  },
-  statDivider: {
-    width: 1,
-    height: 20,
-    backgroundColor: theme.colors.border,
   },
 
-  // 메시지 섹션
+  // 메시지 섹션 (말풍선 스타일)
   messagesSection: {
-    padding: theme.spacing.lg,
+    marginTop: 10,
   },
   sectionTitle: {
-    ...theme.typography.body,
+    ...theme.typography.h3,
     color: theme.colors.text.primary,
-    fontWeight: '600',
     marginBottom: theme.spacing.md,
   },
   messageItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
-    backgroundColor: theme.colors.neutral.gray100,
-    borderRadius: 12,
-    marginBottom: theme.spacing.sm,
+    marginBottom: theme.spacing.md,
   },
-  messageIconContainer: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: `${theme.colors.primary.main}15`,
+  avatarContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: theme.colors.neutral.gray200,
+    marginRight: 12,
+    marginTop: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: theme.spacing.sm,
   },
-  messageContent: {
+  messageBubble: {
     flex: 1,
+    backgroundColor: theme.colors.neutral.gray100,
+    padding: 16,
+    borderRadius: 18,
+    borderTopLeftRadius: 4,
   },
-  messageText: {
-    ...theme.typography.body,
+  messageHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  messageAuthor: {
+    ...theme.typography.bodySmall,
+    fontWeight: '700',
     color: theme.colors.text.primary,
-    marginBottom: 2,
   },
   messageTime: {
     ...theme.typography.caption,
     color: theme.colors.text.secondary,
+  },
+  messageText: {
+    ...theme.typography.bodySmall,
+    color: theme.colors.text.primary,
+    lineHeight: 20,
   },
 });
