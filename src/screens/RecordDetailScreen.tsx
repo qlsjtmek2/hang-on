@@ -240,11 +240,12 @@ export const RecordDetailScreen: React.FC = () => {
             {MOCK_MESSAGES.slice(0, record.messagesCount).map(message => (
               <View key={message.id} style={styles.messageItem}>
                 <View style={styles.avatarContainer}>
-                  <User size={18} color={theme.colors.neutral.gray400} strokeWidth={2} />
+                  <User size={16} color={theme.colors.neutral.gray400} strokeWidth={2} />
                 </View>
                 <View style={styles.messageBubble}>
                   <View style={styles.messageHeader}>
                     <Text style={styles.messageAuthor}>익명</Text>
+                    <Text style={styles.messageDot}>•</Text>
                     <Text style={styles.messageTime}>
                       {formatSmartTime(message.createdAt)}
                     </Text>
@@ -427,54 +428,62 @@ const styles = StyleSheet.create({
     color: theme.colors.text.secondary,
   },
 
-  // 메시지 섹션 (말풍선 스타일)
+  // 메시지 섹션 (채팅 스타일)
   messagesSection: {
     marginTop: 10,
   },
   sectionTitle: {
     ...theme.typography.h3,
     color: theme.colors.text.primary,
-    marginBottom: theme.spacing.md,
+    marginBottom: theme.spacing.lg,
   },
   messageItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: theme.spacing.md,
+    marginBottom: 16,
   },
   avatarContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: theme.colors.neutral.gray200,
-    marginRight: 12,
-    marginTop: 16,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: theme.colors.neutral.gray100,
+    marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   messageBubble: {
     flex: 1,
-    backgroundColor: theme.colors.neutral.gray100,
-    padding: 16,
-    borderRadius: 18,
-    borderTopLeftRadius: 4,
+    backgroundColor: theme.colors.surface,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 16,
+    borderTopLeftRadius: 4, // 말꼬리 효과
+    maxWidth: '85%',
+    ...theme.shadows.sm,
   },
   messageHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
+    alignItems: 'center',
+    marginBottom: 6,
   },
   messageAuthor: {
-    ...theme.typography.bodySmall,
-    fontWeight: '700',
-    color: theme.colors.text.primary,
+    ...theme.typography.caption,
+    fontWeight: '600',
+    color: theme.colors.text.secondary,
+  },
+  messageDot: {
+    marginHorizontal: 6,
+    color: theme.colors.neutral.gray300,
+    fontSize: 10,
   },
   messageTime: {
     ...theme.typography.caption,
-    color: theme.colors.text.secondary,
+    color: theme.colors.text.disabled,
+    fontSize: 11,
   },
   messageText: {
-    ...theme.typography.bodySmall,
+    ...theme.typography.body,
     color: theme.colors.text.primary,
-    lineHeight: 20,
+    lineHeight: 22,
   },
 });
