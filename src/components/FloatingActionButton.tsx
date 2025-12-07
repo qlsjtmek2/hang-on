@@ -4,7 +4,7 @@ import { Text, StyleSheet, ViewStyle, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { theme } from '@/theme';
@@ -50,11 +50,11 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   }));
 
   const handlePressIn = () => {
-    scale.value = withSpring(0.9, { damping: 15, stiffness: 300 });
+    scale.value = withTiming(0.95, { duration: 150 });
   };
 
   const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 10, stiffness: 200 });
+    scale.value = withTiming(1, { duration: 150 });
   };
 
   return (

@@ -4,8 +4,10 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
 import { LoginScreen } from '@/screens/LoginScreen';
+import { OnboardingScreen } from '@/screens/OnboardingScreen';
 import { SignUpScreen } from '@/screens/SignUpScreen';
 import { useAuthStore } from '@/store/authStore';
+import { useOnboardingStore } from '@/store/onboardingStore';
 import { theme } from '@/theme';
 
 import { CreateStackNavigator } from './CreateStackNavigator';
@@ -18,8 +20,9 @@ export type AuthStackParamList = {
   SignUp: undefined;
 };
 
-// 루트 스택 타입 (인증 + 메인 + 기록 생성 + 기록 상세)
+// 루트 스택 타입 (온보딩 + 인증 + 메인 + 기록 생성 + 기록 상세)
 export type RootStackParamList = {
+  Onboarding: undefined;
   Auth: undefined;
   Main: undefined;
   Create: undefined;
@@ -65,11 +68,13 @@ const AuthStackNavigator: React.FC = () => (
  * 루트 네비게이터
  *
  * 앱의 최상위 네비게이터
+ * - 온보딩 완료 여부 확인
  * - 인증 상태에 따라 Auth 스택 또는 Main 탭을 표시
  * - Deep Link 처리 포함
  */
 export const RootNavigator: React.FC = () => {
-  const { isAuthenticated, isLoading, initialize } = useAuthStore();
+  const { isAuthenticated, isLoading: isAuthLoading, initialize } = useAuthStore();
+  const { hasCompletedOnboarding, isLoading: isOnboardingLoading } = useOnboardingStore();
 
   useEffect(() => {
     // 앱 시작 시 세션 초기화
@@ -83,15 +88,23 @@ export const RootNavigator: React.FC = () => {
     </View>
   );
 
-  // 세션 체크 중
-  if (isLoading) {
+  // 온보딩 또는 인증 상태 체크 중
+  if (isAuthLoading || isOnboardingLoading) {
     return LoadingFallback;
   }
 
   return (
     <NavigationContainer linking={linking} fallback={LoadingFallback}>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {isAuthenticated ? (
+        {!hasCompletedOnboarding ? (
+          // 온보딩 미완료: 온보딩 화면 표시
+          <RootStack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            options={{ animation: 'fade' }}
+          />
+        ) : isAuthenticated ? (
+          // 온보딩 완료 + 인증됨: 메인 화면
           <>
             <RootStack.Screen name="Main" component={MainTabNavigator} />
             <RootStack.Screen
@@ -111,6 +124,7 @@ export const RootNavigator: React.FC = () => {
             />
           </>
         ) : (
+          // 온보딩 완료 + 비인증: 로그인 화면
           <RootStack.Screen name="Auth" component={AuthStackNavigator} />
         )}
       </RootStack.Navigator>

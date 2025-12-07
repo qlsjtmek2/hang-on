@@ -15,7 +15,6 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -71,8 +70,8 @@ export const Toast: React.FC<ToastProps> = ({
 
   // 입장 애니메이션
   useEffect(() => {
-    translateY.value = withSpring(0, { damping: 15, stiffness: 150 });
-    opacity.value = withTiming(1, { duration: 200 });
+    translateY.value = withTiming(0, { duration: 225 });
+    opacity.value = withTiming(1, { duration: 150 });
 
     // 자동 사라짐
     const timer = setTimeout(() => {
@@ -83,8 +82,8 @@ export const Toast: React.FC<ToastProps> = ({
   }, []);
 
   const handleDismiss = () => {
-    translateY.value = withTiming(100, { duration: 200 });
-    opacity.value = withTiming(0, { duration: 200 }, () => {
+    translateY.value = withTiming(100, { duration: 150 });
+    opacity.value = withTiming(0, { duration: 150 }, () => {
       runOnJS(onDismiss)(id);
     });
   };

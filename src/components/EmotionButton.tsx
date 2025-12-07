@@ -10,10 +10,8 @@ import {
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
   withSequence,
-  interpolate,
 } from 'react-native-reanimated';
 
 import { EmotionLevel, EMOTION_DATA } from '@/constants/emotions';
@@ -38,7 +36,6 @@ export function EmotionButton({
 }: EmotionButtonProps) {
   // Reanimated 애니메이션 값
   const scale = useSharedValue(1);
-  const rotation = useSharedValue(0);
   const opacity = useSharedValue(isSelected ? 1 : 0.7);
 
   const emotionInfo = EMOTION_DATA[emotionLevel];
@@ -46,21 +43,16 @@ export function EmotionButton({
   // 선택 상태 변경 시 애니메이션
   useEffect(() => {
     if (isSelected) {
-      scale.value = withSpring(1.2, { damping: 8, stiffness: 100 });
-      rotation.value = withTiming(1, { duration: 300 });
-      opacity.value = withTiming(1, { duration: 200 });
+      scale.value = withTiming(1.1, { duration: 225 });
+      opacity.value = withTiming(1, { duration: 150 });
     } else {
-      scale.value = withSpring(1, { damping: 8, stiffness: 100 });
-      rotation.value = withTiming(0, { duration: 300 });
-      opacity.value = withTiming(0.7, { duration: 200 });
+      scale.value = withTiming(1, { duration: 225 });
+      opacity.value = withTiming(0.7, { duration: 150 });
     }
-  }, [isSelected, scale, rotation, opacity]);
+  }, [isSelected, scale, opacity]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: scale.value },
-      { rotate: `${interpolate(rotation.value, [0, 1], [0, 360])}deg` },
-    ],
+    transform: [{ scale: scale.value }],
     opacity: opacity.value,
   }));
 
@@ -68,8 +60,8 @@ export function EmotionButton({
     if (!disabled && onPress) {
       // 탭 애니메이션
       scale.value = withSequence(
-        withSpring(0.95, { damping: 15, stiffness: 200 }),
-        withSpring(isSelected ? 1.2 : 1, { damping: 8, stiffness: 100 })
+        withTiming(0.95, { duration: 120 }),
+        withTiming(isSelected ? 1.1 : 1, { duration: 120 })
       );
 
       onPress(emotionLevel);

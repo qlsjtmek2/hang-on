@@ -14,7 +14,7 @@ import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { theme } from '@/theme';
@@ -134,10 +134,7 @@ const AnimatedDot = memo(function AnimatedDot({
   const scale = useSharedValue(isActive ? 1.3 : 1);
 
   useEffect(() => {
-    scale.value = withSpring(isActive ? 1.3 : 1, {
-      damping: 15,
-      stiffness: 200,
-    });
+    scale.value = withTiming(isActive ? 1.2 : 1, { duration: 225 });
   }, [isActive, scale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -170,10 +167,7 @@ const BarIndicator = memo(function BarIndicator({
   const progressWidth = useSharedValue(progress);
 
   useEffect(() => {
-    progressWidth.value = withSpring(progress, {
-      damping: 20,
-      stiffness: 100,
-    });
+    progressWidth.value = withTiming(progress, { duration: 300 });
   }, [progress, progressWidth]);
 
   const animatedProgressStyle = useAnimatedStyle(() => ({

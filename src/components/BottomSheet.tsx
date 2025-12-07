@@ -19,7 +19,6 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
   runOnJS,
 } from 'react-native-reanimated';
@@ -65,8 +64,8 @@ export function BottomSheet({
 
   // Close sheet animation
   const closeSheet = () => {
-    translateY.value = withTiming(SCREEN_HEIGHT, { duration: 250 });
-    backdropOpacity.value = withTiming(0, { duration: 250 }, () => {
+    translateY.value = withTiming(SCREEN_HEIGHT, { duration: 560 });
+    backdropOpacity.value = withTiming(0, { duration: 560 }, () => {
       runOnJS(onClose)();
     });
   };
@@ -83,14 +82,14 @@ export function BottomSheet({
       if (event.translationY > 50 || event.velocityY > 500) {
         runOnJS(closeSheet)();
       } else {
-        translateY.value = withSpring(0, { damping: 15, stiffness: 150 });
+        translateY.value = withTiming(0, { duration: 340 });
       }
     });
 
   // Open sheet animation
   const openSheet = () => {
-    translateY.value = withSpring(0, { damping: 15, stiffness: 150 });
-    backdropOpacity.value = withTiming(1, { duration: 300 });
+    translateY.value = withTiming(0, { duration: 450 });
+    backdropOpacity.value = withTiming(1, { duration: 450 });
   };
 
   // Handle visibility changes

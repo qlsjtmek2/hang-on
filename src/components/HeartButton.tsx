@@ -12,7 +12,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSequence,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { theme } from '@/theme';
@@ -81,8 +81,8 @@ export function HeartButton({
 
     // 펄스 애니메이션 (Reanimated)
     scale.value = withSequence(
-      withSpring(1.3, { damping: 8, stiffness: 200 }),
-      withSpring(1, { damping: 10, stiffness: 150 })
+      withTiming(1.15, { duration: 120 }),
+      withTiming(1, { duration: 120 })
     );
 
     onPress();

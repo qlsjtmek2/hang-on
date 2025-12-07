@@ -13,7 +13,6 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  withSpring,
   runOnJS,
 } from 'react-native-reanimated';
 
@@ -57,8 +56,8 @@ export function ConfirmDialog({
 
   useEffect(() => {
     if (visible) {
-      opacity.value = withTiming(1, { duration: 200 });
-      scale.value = withSpring(1, { damping: 15, stiffness: 150 });
+      opacity.value = withTiming(1, { duration: 150 });
+      scale.value = withTiming(1, { duration: 225 });
     } else {
       opacity.value = 0;
       scale.value = 0.9;
