@@ -1,4 +1,4 @@
-import { Flag, MessageCircle } from 'lucide-react-native';
+import { Check, Flag, Heart, MessageCircle } from 'lucide-react-native';
 import React, { useEffect, memo } from 'react';
 import {
   View,
@@ -15,7 +15,6 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
-import { HeartButton } from '@/components/HeartButton';
 import { EMOTION_DATA } from '@/constants/emotions';
 import { FeedItem } from '@/store/feedStore';
 import { theme } from '@/theme';
@@ -99,7 +98,7 @@ export const FeedCard = memo(({
         accessibilityLabel="신고하기"
         accessibilityHint="이 게시물을 신고합니다"
       >
-        <Flag size={20} color={theme.colors.text.secondary} strokeWidth={2} />
+        <Flag size={18} color={theme.colors.text.secondary} strokeWidth={1.5} />
       </TouchableOpacity>
 
       {/* 메인 콘텐츠 영역 */}
@@ -120,46 +119,70 @@ export const FeedCard = memo(({
         </Animated.View>
       </View>
 
-      {/* 하단: 인터랙션 바 (고정) */}
+      {/* 하단: 인터랙션 바 (틱톡/릴스 스타일) */}
       <View style={styles.bottomBar}>
-        {/* 공감 버튼 (HeartButton 컴포넌트 사용) */}
-        <View style={styles.heartButtonWrapper}>
-          <HeartButton
-            hasEmpathized={record.hasEmpathized}
-            count={record.heartsCount}
-            onPress={() => onEmpathyPress(record.id, record.hasEmpathized)}
-            size="large"
-            showCount={true}
-          />
-        </View>
-
-        {/* 댓글 미리보기/입력 바 */}
+        {/* 좌측: 공감 버튼 */}
         <TouchableOpacity
-          style={styles.commentBar}
-          onPress={() => onMessagePress(record.id)}
-          activeOpacity={0.9}
+          style={styles.heartSection}
+          onPress={() => onEmpathyPress(record.id, record.hasEmpathized)}
+          activeOpacity={0.7}
+          accessibilityLabel={record.hasEmpathized ? '공감 취소하기' : '공감하기'}
+          accessibilityHint={
+            record.hasEmpathized
+              ? '탭하여 공감을 취소합니다'
+              : '탭하여 공감을 표시합니다'
+          }
         >
-          {record.hasSentMessage ? (
-            // 이미 메시지를 보낸 경우
-            <View style={styles.commentSent}>
-              <View style={styles.commentIconBadge}>
-                <MessageCircle size={14} color="#FFF" fill="#FFF" />
-              </View>
-              <Text style={styles.commentSentText}>따뜻한 말을 전했어요</Text>
+          <Heart
+            size={22}
+            color={
+              record.hasEmpathized
+                ? theme.colors.semantic.error
+                : theme.colors.text.primary
+            }
+            fill={record.hasEmpathized ? theme.colors.semantic.error : 'transparent'}
+            strokeWidth={record.hasEmpathized ? 0 : 2}
+          />
+          <Text
+            style={[
+              styles.heartCount,
+              record.hasEmpathized && styles.heartCountActive,
+            ]}
+          >
+            {record.heartsCount}
+          </Text>
+        </TouchableOpacity>
+
+        {/* 구분선 */}
+        <View style={styles.divider} />
+
+        {/* 우측: 댓글 입력 유도 영역 */}
+        <TouchableOpacity
+          style={styles.commentSection}
+          onPress={() => onMessagePress(record.id)}
+          activeOpacity={0.8}
+          accessibilityLabel={
+            record.hasSentMessage
+              ? '따뜻한 말 전달 완료'
+              : `따뜻한 말 건네기, ${record.messagesCount}개의 메시지`
+          }
+          accessibilityHint="탭하여 따뜻한 말을 선택합니다"
+        >
+          <MessageCircle size={20} color={theme.colors.text.secondary} />
+          <Text style={styles.commentPlaceholder}>
+            {record.hasSentMessage ? '전달했어요' : '따뜻한 말을 건네보세요...'}
+          </Text>
+
+          {/* 우측: 댓글 수 뱃지 (미전송 + 댓글 있을 때) */}
+          {record.messagesCount > 0 && !record.hasSentMessage && (
+            <View style={styles.commentBadge}>
+              <Text style={styles.commentBadgeText}>{record.messagesCount}</Text>
             </View>
-          ) : record.messagesCount > 0 ? (
-            // 댓글이 있을 때
-            <View style={styles.commentPreview}>
-              <View style={styles.commentIconBadge}>
-                <MessageCircle size={14} color="#FFF" fill="#FFF" />
-              </View>
-              <Text style={styles.commentPreviewText} numberOfLines={1}>
-                {record.messagesCount}개의 답장이 도착했어요
-              </Text>
-            </View>
-          ) : (
-            // 댓글이 없을 때
-            <Text style={styles.placeholderText}>따뜻한 위로를 남겨주세요...</Text>
+          )}
+
+          {/* 우측: 체크 아이콘 (전송 완료 시) */}
+          {record.hasSentMessage && (
+            <Check size={18} color={theme.colors.semantic.success} />
           )}
         </TouchableOpacity>
       </View>
@@ -187,10 +210,10 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0.85)',
     justifyContent: 'center',
     alignItems: 'center',
-    ...theme.shadows.md,
+    ...theme.shadows.sm,
     zIndex: 10,
   },
 
@@ -234,69 +257,69 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
 
-  // Bottom Interaction Bar
+  // Bottom Interaction Bar (틱톡/릴스 스타일)
   bottomBar: {
     position: 'absolute',
     bottom: 16,
     left: theme.spacing.md,
     right: theme.spacing.md,
-    height: 60,
+    height: 52,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 26,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.neutral.gray200,
   },
-  heartButtonWrapper: {
-    width: 70,
-    height: 60,
-    justifyContent: 'center',
+  heartSection: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginRight: theme.spacing.sm,
-    backgroundColor: '#FFF',
-    borderRadius: 30,
-    ...theme.shadows.sm,
+    paddingVertical: 8,
+    paddingRight: 12,
+    gap: 6,
   },
-  commentBar: {
-    flex: 1,
-    height: 56,
-    backgroundColor: '#FFF',
-    borderRadius: 28,
-    justifyContent: 'center',
-    paddingHorizontal: theme.spacing.lg,
-    ...theme.shadows.sm,
-  },
-  placeholderText: {
+  heartCount: {
     ...theme.typography.body,
-    color: theme.colors.text.secondary,
     fontSize: 15,
+    fontWeight: '600',
+    color: theme.colors.text.primary,
   },
-  commentPreview: {
+  heartCountActive: {
+    color: theme.colors.semantic.error,
+  },
+  divider: {
+    width: 1,
+    height: 24,
+    backgroundColor: theme.colors.neutral.gray200,
+    marginRight: 12,
+  },
+  commentSection: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
   },
-  commentIconBadge: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+  commentPlaceholder: {
+    flex: 1,
+    ...theme.typography.body,
+    fontSize: 14,
+    color: theme.colors.text.secondary,
+  },
+  commentBadge: {
+    minWidth: 22,
+    height: 22,
+    borderRadius: 11,
     backgroundColor: theme.colors.primary.main,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8,
+    paddingHorizontal: 6,
   },
-  commentPreviewText: {
-    ...theme.typography.body,
-    fontSize: 15,
-    color: theme.colors.text.primary,
-    fontWeight: '500',
-    flex: 1,
-  },
-  commentSent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  commentSentText: {
-    ...theme.typography.body,
-    fontSize: 15,
-    color: theme.colors.semantic.success,
-    fontWeight: '500',
+  commentBadgeText: {
+    ...theme.typography.caption,
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFF',
   },
 });
 

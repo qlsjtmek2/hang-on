@@ -28,14 +28,15 @@ export type MessagePreset =
 export interface MessagePresetData {
   type: MessagePreset;
   label: string;
+  description: string;
   iconName: 'flame' | 'heart' | 'sun' | 'users';
 }
 
 export const MESSAGE_PRESETS: MessagePresetData[] = [
-  { type: 'cheer_up', label: '힘내세요', iconName: 'flame' },
-  { type: 'me_too', label: '저도 그래요', iconName: 'heart' },
-  { type: 'will_be_ok', label: '괜찮을 거예요', iconName: 'sun' },
-  { type: 'together', label: '함께해요', iconName: 'users' },
+  { type: 'cheer_up', label: '힘내세요', description: '응원의 마음을 전해요', iconName: 'flame' },
+  { type: 'me_too', label: '저도 그래요', description: '공감의 마음을 전해요', iconName: 'heart' },
+  { type: 'will_be_ok', label: '괜찮을 거예요', description: '위로의 마음을 전해요', iconName: 'sun' },
+  { type: 'together', label: '함께해요', description: '함께하는 마음을 전해요', iconName: 'users' },
 ];
 
 // 일일 피드 조회 제한
