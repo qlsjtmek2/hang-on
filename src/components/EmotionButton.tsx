@@ -1,12 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  View,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,

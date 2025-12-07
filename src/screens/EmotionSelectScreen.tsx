@@ -148,9 +148,7 @@ export const EmotionSelectScreen: React.FC = () => {
           accessibilityRole="button"
           accessibilityLabel="다음"
           accessibilityHint={
-            selectedEmotion
-              ? '글쓰기 화면으로 이동합니다'
-              : '먼저 감정을 선택해주세요'
+            selectedEmotion ? '글쓰기 화면으로 이동합니다' : '먼저 감정을 선택해주세요'
           }
           accessibilityState={{ disabled: !selectedEmotion }}
         >

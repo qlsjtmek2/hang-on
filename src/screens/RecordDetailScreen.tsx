@@ -10,13 +10,7 @@ import {
   User,
 } from 'lucide-react-native';
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActionSheet } from '@/components/BottomSheet';
@@ -216,12 +210,7 @@ export const RecordDetailScreen: React.FC = () => {
             ) : (
               <EyeOff size={14} color={theme.colors.text.secondary} strokeWidth={2} />
             )}
-            <Text
-              style={[
-                styles.visibilityText,
-                isPublic && styles.visibilityTextPublic,
-              ]}
-            >
+            <Text style={[styles.visibilityText, isPublic && styles.visibilityTextPublic]}>
               {getVisibilityLabel()}
             </Text>
           </View>
@@ -235,11 +224,21 @@ export const RecordDetailScreen: React.FC = () => {
         {/* 통계 (Chip 스타일) */}
         <View style={styles.statsSection}>
           <View style={styles.statItem}>
-            <Heart size={16} color={theme.colors.semantic.error} strokeWidth={2} style={styles.statIcon} />
+            <Heart
+              size={16}
+              color={theme.colors.semantic.error}
+              strokeWidth={2}
+              style={styles.statIcon}
+            />
             <Text style={styles.statText}>공감 {record.heartsCount}</Text>
           </View>
           <View style={styles.statItem}>
-            <MessageCircle size={16} color={theme.colors.primary.main} strokeWidth={2} style={styles.statIcon} />
+            <MessageCircle
+              size={16}
+              color={theme.colors.primary.main}
+              strokeWidth={2}
+              style={styles.statIcon}
+            />
             <Text style={styles.statText}>댓글 {record.messagesCount}</Text>
           </View>
         </View>
@@ -257,9 +256,7 @@ export const RecordDetailScreen: React.FC = () => {
                   <View style={styles.messageHeader}>
                     <Text style={styles.messageAuthor}>익명</Text>
                     <Text style={styles.messageDot}>•</Text>
-                    <Text style={styles.messageTime}>
-                      {formatSmartTime(message.createdAt)}
-                    </Text>
+                    <Text style={styles.messageTime}>{formatSmartTime(message.createdAt)}</Text>
                   </View>
                   <Text style={styles.messageText}>{message.content}</Text>
                 </View>

@@ -17,7 +17,7 @@ interface OnboardingStore {
 
 export const useOnboardingStore = create<OnboardingStore>()(
   persist(
-    (set) => ({
+    set => ({
       // 초기 상태
       hasCompletedOnboarding: false,
       isLoading: true,
@@ -40,7 +40,7 @@ export const useOnboardingStore = create<OnboardingStore>()(
     {
       name: ONBOARDING_STORAGE_KEY,
       storage: createJSONStorage(() => AsyncStorage),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => state => {
         // 복원 완료 후 로딩 상태 해제
         state?.setLoading(false);
       },

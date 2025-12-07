@@ -29,33 +29,21 @@ jest.mock('@/components/BottomSheet', () => {
 describe('MessagePresetBottomSheet Component', () => {
   it('renders with title when visible', () => {
     const { getByText } = render(
-      <MessagePresetBottomSheet
-        visible={true}
-        onClose={() => {}}
-        onSelect={() => {}}
-      />,
+      <MessagePresetBottomSheet visible={true} onClose={() => {}} onSelect={() => {}} />,
     );
     expect(getByText('따뜻한 말 건네기')).toBeTruthy();
   });
 
   it('does not render when not visible', () => {
     const { queryByText } = render(
-      <MessagePresetBottomSheet
-        visible={false}
-        onClose={() => {}}
-        onSelect={() => {}}
-      />,
+      <MessagePresetBottomSheet visible={false} onClose={() => {}} onSelect={() => {}} />,
     );
     expect(queryByText('따뜻한 말 건네기')).toBeNull();
   });
 
   it('renders all preset options', () => {
     const { getByText } = render(
-      <MessagePresetBottomSheet
-        visible={true}
-        onClose={() => {}}
-        onSelect={() => {}}
-      />,
+      <MessagePresetBottomSheet visible={true} onClose={() => {}} onSelect={() => {}} />,
     );
 
     MESSAGE_PRESETS.forEach(preset => {
@@ -66,11 +54,7 @@ describe('MessagePresetBottomSheet Component', () => {
   it('calls onSelect when preset is pressed', () => {
     const onSelect = jest.fn();
     const { getByText } = render(
-      <MessagePresetBottomSheet
-        visible={true}
-        onClose={() => {}}
-        onSelect={onSelect}
-      />,
+      <MessagePresetBottomSheet visible={true} onClose={() => {}} onSelect={onSelect} />,
     );
 
     fireEvent.press(getByText('힘내세요'));
@@ -80,11 +64,7 @@ describe('MessagePresetBottomSheet Component', () => {
   it('calls onClose when preset is pressed', () => {
     const onClose = jest.fn();
     const { getByText } = render(
-      <MessagePresetBottomSheet
-        visible={true}
-        onClose={onClose}
-        onSelect={() => {}}
-      />,
+      <MessagePresetBottomSheet visible={true} onClose={onClose} onSelect={() => {}} />,
     );
 
     fireEvent.press(getByText('저도 그래요'));
@@ -148,11 +128,7 @@ describe('MessagePresetBottomSheet Component', () => {
 
   it('renders each preset with correct emoji', () => {
     const { getByText } = render(
-      <MessagePresetBottomSheet
-        visible={true}
-        onClose={() => {}}
-        onSelect={() => {}}
-      />,
+      <MessagePresetBottomSheet visible={true} onClose={() => {}} onSelect={() => {}} />,
     );
 
     MESSAGE_PRESETS.forEach(preset => {
@@ -163,11 +139,7 @@ describe('MessagePresetBottomSheet Component', () => {
   it('calls correct preset type for each button', () => {
     const onSelect = jest.fn();
     const { getByText } = render(
-      <MessagePresetBottomSheet
-        visible={true}
-        onClose={() => {}}
-        onSelect={onSelect}
-      />,
+      <MessagePresetBottomSheet visible={true} onClose={() => {}} onSelect={onSelect} />,
     );
 
     fireEvent.press(getByText('괜찮을 거예요'));

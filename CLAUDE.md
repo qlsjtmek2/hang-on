@@ -308,11 +308,13 @@ SUPABASE_ANON_KEY=your-anon-key
 ### 2025-12-07: UI 디자인 개선 ("상용 앱 수준" 폴리싱)
 
 **테마 시스템 확장**
+
 - ✅ `src/theme/shadows.ts` 생성: 4단계 Shadow 시스템 (sm, md, lg, xl)
 - ✅ `src/theme/colors.ts` 수정: 아이콘용 순수 회색 추가 (iconDefault, iconMuted, iconActive)
 - ✅ `src/theme/index.ts` 수정: shadows export 추가
 
 **RecordCard 리디자인**
+
 - ✅ 테두리 제거 + 그림자 강화 (깊이감 표현)
 - ✅ borderRadius 12→16, padding 16→20 (여유있는 공간감)
 - ✅ 타이포 위계 강화: timeText 연하게 (gray400), content 크기 증가 (15px)
@@ -320,6 +322,7 @@ SUPABASE_ANON_KEY=your-anon-key
 - ✅ 활성 하트 색상: 보라→빨강 (#F44336)
 
 **FeedCard & HeartButton 일관성**
+
 - ✅ `src/components/HeartButton.tsx`: 비활성 아이콘 색상 iconDefault로 통일
 - ✅ `src/components/FeedCard.tsx`: 모든 shadow를 theme.shadows 시스템으로 통일
 
@@ -330,11 +333,13 @@ SUPABASE_ANON_KEY=your-anon-key
 ### 2025-12-06: Phase 10 HCI 개선 구현
 
 **10.1 Toast/Snackbar 시스템**
+
 - ✅ `src/components/Toast.tsx` 생성: 4가지 타입 (success, error, warning, info)
 - ✅ `src/contexts/ToastContext.tsx` 생성: useToast() 훅 제공
 - ✅ `App.tsx` 수정: ToastProvider 래핑
 
 **10.2 스켈레톤 UI**
+
 - ✅ `src/components/SkeletonLoader.tsx` 생성
   - Skeleton: 기본 shimmer 애니메이션
   - RecordCardSkeleton: 기록 카드 스켈레톤
@@ -343,6 +348,7 @@ SUPABASE_ANON_KEY=your-anon-key
 - ✅ `MyRecordsScreen.tsx`, `FeedScreen.tsx` 수정: 로딩 시 스켈레톤 표시
 
 **10.3 진행 상황 인디케이터**
+
 - ✅ `src/components/StepIndicator.tsx` 생성
   - dot variant: 점 형태 (기본)
   - bar variant: 진행 바 형태
@@ -350,11 +356,13 @@ SUPABASE_ANON_KEY=your-anon-key
 - ✅ `EmotionSelectScreen.tsx`, `WriteScreen.tsx` 수정: 3단계 표시
 
 **10.4 자동 임시 저장**
+
 - ✅ `src/store/draftStore.ts` 생성: Zustand + AsyncStorage persist
 - ✅ `src/hooks/useDraft.ts` 생성: 5초 간격 자동 저장
 - ✅ `WriteScreen.tsx` 수정: Draft 연동 + "자동 저장됨" 인디케이터
 
 **10.5 접근성 개선** (Week 1에서 완료)
+
 - ✅ `colors.ts`: Primary #4A90E2 → #3565C0 (대비 5.2:1)
 - ✅ `LoginScreen.tsx`: accessibilityLabel, accessibilityLiveRegion
 - ✅ `BottomSheet.tsx`: accessibilityRole, accessibilityHint
@@ -364,6 +372,7 @@ SUPABASE_ANON_KEY=your-anon-key
 ### 2025-12-06: Phase 9 폴리싱 및 개선 구현
 
 **9.1 애니메이션 라이브러리 마이그레이션**
+
 - ✅ `react-native-reanimated` + `react-native-gesture-handler` 설치
 - ✅ `babel.config.js` 수정: reanimated/plugin 추가
 - ✅ `jest.setup.js` 수정: Reanimated mock 추가
@@ -377,11 +386,13 @@ SUPABASE_ANON_KEY=your-anon-key
   - `FeedCard.tsx` (신규): 분리된 컴포넌트 + fade/slide 애니메이션
 
 **9.2 접근성 개선**
+
 - ✅ `accessibilityHint` 추가: HeartButton, FloatingActionButton, ConfirmDialog, BottomSheet, FeedCard, RecordCard
 - ✅ `hitSlop` 추가: RecordCard 액션 버튼 (top: 12, bottom: 12, left: 8, right: 8)
 - ✅ 색상 대비 개선: HeartButton 비활성 상태 gray400 → gray500 (WCAG AA 충족)
 
 **9.3 성능 최적화**
+
 - ✅ `React.memo` 적용: FeedCard, RecordCard
 - ✅ `useCallback` 적용: FeedScreen (handleEmpathyPress, handleMessagePress, handleMorePress), MyRecordsScreen (핸들러 3개)
 - ✅ `FlatList` 최적화: MyRecordsScreen (initialNumToRender, maxToRenderPerBatch, windowSize, removeClippedSubviews)

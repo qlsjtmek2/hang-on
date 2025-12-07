@@ -80,9 +80,7 @@ export const MyRecordsScreen: React.FC = () => {
         <FileEdit size={64} color={theme.colors.text.secondary} strokeWidth={1.5} />
       </View>
       <Text style={styles.emptyTitle}>아직 기록이 없어요</Text>
-      <Text style={styles.emptyHint}>
-        털어놓기 버튼을 눌러{'\n'}첫 번째 감정을 기록해보세요
-      </Text>
+      <Text style={styles.emptyHint}>털어놓기 버튼을 눌러{'\n'}첫 번째 감정을 기록해보세요</Text>
     </View>
   );
 

@@ -48,101 +48,103 @@ export interface RecordCardProps {
  * │ ❤️ 12    💬 3                   │  ← 반응
  * └─────────────────────────────────┘
  */
-export const RecordCard = memo(({
-  id,
-  emotionLevel,
-  content,
-  createdAt,
-  empathyCount = 0,
-  messageCount = 0,
-  visibility = 'private',
-  onPress,
-  onEmpathyPress,
-  onMessagePress,
-  style,
-}: RecordCardProps) => {
-  const emotionInfo = EMOTION_DATA[emotionLevel];
-  const EmotionIcon = emotionInfo.icon;
+export const RecordCard = memo(
+  ({
+    id,
+    emotionLevel,
+    content,
+    createdAt,
+    empathyCount = 0,
+    messageCount = 0,
+    visibility = 'private',
+    onPress,
+    onEmpathyPress,
+    onMessagePress,
+    style,
+  }: RecordCardProps) => {
+    const emotionInfo = EMOTION_DATA[emotionLevel];
+    const EmotionIcon = emotionInfo.icon;
 
-  const handlePress = () => {
-    onPress?.(id);
-  };
+    const handlePress = () => {
+      onPress?.(id);
+    };
 
-  const handleEmpathyPress = (e?: GestureResponderEvent) => {
-    e?.stopPropagation();
-    onEmpathyPress?.(id);
-  };
+    const handleEmpathyPress = (e?: GestureResponderEvent) => {
+      e?.stopPropagation();
+      onEmpathyPress?.(id);
+    };
 
-  const handleMessagePress = (e?: GestureResponderEvent) => {
-    e?.stopPropagation();
-    onMessagePress?.(id);
-  };
+    const handleMessagePress = (e?: GestureResponderEvent) => {
+      e?.stopPropagation();
+      onMessagePress?.(id);
+    };
 
-  return (
-    <TouchableOpacity
-      style={[styles.container, style]}
-      onPress={handlePress}
-      activeOpacity={0.9}
-      accessible={true}
-      accessibilityRole="button"
-      accessibilityLabel={`${emotionInfo.label} 감정 기록, ${formatDateLabel(createdAt)}`}
-      accessibilityHint="탭하여 상세 내용 보기"
-    >
-      {/* Header: 아이콘 + 시간 */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <EmotionIcon size={24} color={emotionInfo.color} strokeWidth={2.5} />
-          <Text style={styles.timeText}>{formatDateLabel(createdAt)}</Text>
+    return (
+      <TouchableOpacity
+        style={[styles.container, style]}
+        onPress={handlePress}
+        activeOpacity={0.9}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel={`${emotionInfo.label} 감정 기록, ${formatDateLabel(createdAt)}`}
+        accessibilityHint="탭하여 상세 내용 보기"
+      >
+        {/* Header: 아이콘 + 시간 */}
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <EmotionIcon size={24} color={emotionInfo.color} strokeWidth={2.5} />
+            <Text style={styles.timeText}>{formatDateLabel(createdAt)}</Text>
+          </View>
+          {visibility !== 'private' && (
+            <Text style={styles.visibilityText}>{VISIBILITY_LABELS[visibility]}</Text>
+          )}
         </View>
-        {visibility !== 'private' && (
-          <Text style={styles.visibilityText}>
-            {VISIBILITY_LABELS[visibility]}
-          </Text>
-        )}
-      </View>
 
-      {/* Content Preview - 2줄 제한 */}
-      <Text style={styles.content} numberOfLines={2}>
-        {content}
-      </Text>
+        {/* Content Preview - 2줄 제한 */}
+        <Text style={styles.content} numberOfLines={2}>
+          {content}
+        </Text>
 
-      {/* Footer: 공감과 메시지 */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={handleEmpathyPress}
-          activeOpacity={0.7}
-          hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
-          accessibilityLabel={`공감 ${empathyCount}개`}
-          accessibilityHint="탭하여 공감 목록을 확인합니다"
-          accessibilityRole="button"
-        >
-          <Heart
-            size={16}
-            color={empathyCount > 0 ? theme.colors.semantic.error : theme.colors.neutral.iconDefault}
-            fill={empathyCount > 0 ? theme.colors.semantic.error : 'transparent'}
-          />
-          <Text style={[styles.actionCount, empathyCount > 0 && styles.actionCountActive]}>
-            {empathyCount}
-          </Text>
-        </TouchableOpacity>
+        {/* Footer: 공감과 메시지 */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={handleEmpathyPress}
+            activeOpacity={0.7}
+            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+            accessibilityLabel={`공감 ${empathyCount}개`}
+            accessibilityHint="탭하여 공감 목록을 확인합니다"
+            accessibilityRole="button"
+          >
+            <Heart
+              size={16}
+              color={
+                empathyCount > 0 ? theme.colors.semantic.error : theme.colors.neutral.iconDefault
+              }
+              fill={empathyCount > 0 ? theme.colors.semantic.error : 'transparent'}
+            />
+            <Text style={[styles.actionCount, empathyCount > 0 && styles.actionCountActive]}>
+              {empathyCount}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={handleMessagePress}
-          activeOpacity={0.7}
-          hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
-          accessibilityLabel={`메시지 ${messageCount}개`}
-          accessibilityHint="탭하여 메시지 목록을 확인합니다"
-          accessibilityRole="button"
-        >
-          <MessageCircle size={16} color={theme.colors.neutral.iconDefault} />
-          <Text style={styles.actionCount}>{messageCount}</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
-});
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={handleMessagePress}
+            activeOpacity={0.7}
+            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+            accessibilityLabel={`메시지 ${messageCount}개`}
+            accessibilityHint="탭하여 메시지 목록을 확인합니다"
+            accessibilityRole="button"
+          >
+            <MessageCircle size={16} color={theme.colors.neutral.iconDefault} />
+            <Text style={styles.actionCount}>{messageCount}</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {

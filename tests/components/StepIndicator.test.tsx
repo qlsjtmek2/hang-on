@@ -12,16 +12,12 @@ describe('StepIndicator', () => {
 
   describe('Dot Variant (default)', () => {
     it('renders correctly with required props', () => {
-      const { getByLabelText } = render(
-        <StepIndicator currentStep={1} totalSteps={3} />,
-      );
+      const { getByLabelText } = render(<StepIndicator currentStep={1} totalSteps={3} />);
       expect(getByLabelText('3단계 중 1단계')).toBeTruthy();
     });
 
     it('renders correct accessibility value', () => {
-      const { getByLabelText } = render(
-        <StepIndicator currentStep={2} totalSteps={3} />,
-      );
+      const { getByLabelText } = render(<StepIndicator currentStep={2} totalSteps={3} />);
       const indicator = getByLabelText('3단계 중 2단계');
       expect(indicator.props.accessibilityRole).toBe('progressbar');
       expect(indicator.props.accessibilityValue).toEqual({
@@ -33,32 +29,20 @@ describe('StepIndicator', () => {
 
     it('renders with labels when showLabels is true', () => {
       const { getByText } = render(
-        <StepIndicator
-          currentStep={1}
-          totalSteps={3}
-          labels={defaultLabels}
-          showLabels
-        />,
+        <StepIndicator currentStep={1} totalSteps={3} labels={defaultLabels} showLabels />,
       );
       expect(getByText('감정 선택')).toBeTruthy();
     });
 
     it('does not render labels when showLabels is false', () => {
       const { queryByText } = render(
-        <StepIndicator
-          currentStep={1}
-          totalSteps={3}
-          labels={defaultLabels}
-          showLabels={false}
-        />,
+        <StepIndicator currentStep={1} totalSteps={3} labels={defaultLabels} showLabels={false} />,
       );
       expect(queryByText('감정 선택')).toBeNull();
     });
 
     it('updates accessibility label when step changes', () => {
-      const { rerender, getByLabelText } = render(
-        <StepIndicator currentStep={1} totalSteps={3} />,
-      );
+      const { rerender, getByLabelText } = render(<StepIndicator currentStep={1} totalSteps={3} />);
       expect(getByLabelText('3단계 중 1단계')).toBeTruthy();
 
       rerender(<StepIndicator currentStep={2} totalSteps={3} />);
@@ -103,16 +87,12 @@ describe('StepIndicator', () => {
 
   describe('Different total steps', () => {
     it('renders correctly with 2 steps', () => {
-      const { getByLabelText } = render(
-        <StepIndicator currentStep={1} totalSteps={2} />,
-      );
+      const { getByLabelText } = render(<StepIndicator currentStep={1} totalSteps={2} />);
       expect(getByLabelText('2단계 중 1단계')).toBeTruthy();
     });
 
     it('renders correctly with 5 steps', () => {
-      const { getByLabelText } = render(
-        <StepIndicator currentStep={3} totalSteps={5} />,
-      );
+      const { getByLabelText } = render(<StepIndicator currentStep={3} totalSteps={5} />);
       const indicator = getByLabelText('5단계 중 3단계');
       expect(indicator.props.accessibilityValue).toEqual({
         min: 1,
@@ -124,27 +104,19 @@ describe('StepIndicator', () => {
 
   describe('Edge cases', () => {
     it('renders first step correctly', () => {
-      const { getByLabelText } = render(
-        <StepIndicator currentStep={1} totalSteps={3} />,
-      );
+      const { getByLabelText } = render(<StepIndicator currentStep={1} totalSteps={3} />);
       expect(getByLabelText('3단계 중 1단계')).toBeTruthy();
     });
 
     it('renders last step correctly', () => {
-      const { getByLabelText } = render(
-        <StepIndicator currentStep={3} totalSteps={3} />,
-      );
+      const { getByLabelText } = render(<StepIndicator currentStep={3} totalSteps={3} />);
       expect(getByLabelText('3단계 중 3단계')).toBeTruthy();
     });
 
     it('applies custom style', () => {
       const customStyle = { marginTop: 20 };
       const { getByLabelText } = render(
-        <StepIndicator
-          currentStep={1}
-          totalSteps={3}
-          style={customStyle}
-        />,
+        <StepIndicator currentStep={1} totalSteps={3} style={customStyle} />,
       );
       const indicator = getByLabelText('3단계 중 1단계');
       expect(indicator.props.style).toEqual(

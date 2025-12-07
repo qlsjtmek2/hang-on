@@ -66,7 +66,10 @@ export const Input = forwardRef<TextInput, InputProps>(
     const inputContainerStyle = [
       styles.inputContainer,
       variant === 'filled' && styles.inputContainer_filled,
-      isFocused && (variant === 'filled' ? styles.inputContainer_filled_focused : styles.inputContainer_focused),
+      isFocused &&
+        (variant === 'filled'
+          ? styles.inputContainer_filled_focused
+          : styles.inputContainer_focused),
       error && styles.inputContainer_error,
       !editable && styles.inputContainer_disabled,
     ];

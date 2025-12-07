@@ -19,7 +19,9 @@ const safeAreaInsets = {
 };
 
 const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
+  <SafeAreaProvider
+    initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+  >
     <ToastProvider>{children}</ToastProvider>
   </SafeAreaProvider>
 );
@@ -39,7 +41,9 @@ describe('Toast Component', () => {
 
   it('renders success toast correctly', () => {
     const { getByText } = render(
-      <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
+      <SafeAreaProvider
+        initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+      >
         <Toast
           id="test-1"
           type="success"
@@ -54,13 +58,10 @@ describe('Toast Component', () => {
 
   it('renders error toast correctly', () => {
     const { getByText } = render(
-      <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
-        <Toast
-          id="test-2"
-          type="error"
-          message="오류가 발생했습니다"
-          onDismiss={mockOnDismiss}
-        />
+      <SafeAreaProvider
+        initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+      >
+        <Toast id="test-2" type="error" message="오류가 발생했습니다" onDismiss={mockOnDismiss} />
       </SafeAreaProvider>,
     );
 
@@ -69,13 +70,10 @@ describe('Toast Component', () => {
 
   it('renders warning toast correctly', () => {
     const { getByText } = render(
-      <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
-        <Toast
-          id="test-3"
-          type="warning"
-          message="주의가 필요합니다"
-          onDismiss={mockOnDismiss}
-        />
+      <SafeAreaProvider
+        initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+      >
+        <Toast id="test-3" type="warning" message="주의가 필요합니다" onDismiss={mockOnDismiss} />
       </SafeAreaProvider>,
     );
 
@@ -84,13 +82,10 @@ describe('Toast Component', () => {
 
   it('renders info toast correctly', () => {
     const { getByText } = render(
-      <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
-        <Toast
-          id="test-4"
-          type="info"
-          message="정보를 확인하세요"
-          onDismiss={mockOnDismiss}
-        />
+      <SafeAreaProvider
+        initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+      >
+        <Toast id="test-4" type="info" message="정보를 확인하세요" onDismiss={mockOnDismiss} />
       </SafeAreaProvider>,
     );
 
@@ -99,13 +94,10 @@ describe('Toast Component', () => {
 
   it('has close button with accessibility', () => {
     const { getByLabelText } = render(
-      <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
-        <Toast
-          id="test-5"
-          type="success"
-          message="테스트 메시지"
-          onDismiss={mockOnDismiss}
-        />
+      <SafeAreaProvider
+        initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+      >
+        <Toast id="test-5" type="success" message="테스트 메시지" onDismiss={mockOnDismiss} />
       </SafeAreaProvider>,
     );
 
@@ -115,13 +107,10 @@ describe('Toast Component', () => {
 
   it('calls onDismiss when close button is pressed', () => {
     const { getByLabelText } = render(
-      <SafeAreaProvider initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}>
-        <Toast
-          id="test-6"
-          type="success"
-          message="테스트 메시지"
-          onDismiss={mockOnDismiss}
-        />
+      <SafeAreaProvider
+        initialMetrics={{ insets: safeAreaInsets, frame: { x: 0, y: 0, width: 390, height: 844 } }}
+      >
+        <Toast id="test-6" type="success" message="테스트 메시지" onDismiss={mockOnDismiss} />
       </SafeAreaProvider>,
     );
 
@@ -142,14 +131,8 @@ describe('ToastContext', () => {
 
     return (
       <>
-        <TouchableOpacity
-          testID="show-success"
-          onPress={() => showToast('success', '성공!')}
-        />
-        <TouchableOpacity
-          testID="show-error"
-          onPress={() => showToast('error', '에러!')}
-        />
+        <TouchableOpacity testID="show-success" onPress={() => showToast('success', '성공!')} />
+        <TouchableOpacity testID="show-error" onPress={() => showToast('error', '에러!')} />
       </>
     );
   };

@@ -110,19 +110,13 @@ export function ConfirmDialog({
               {isDanger && (
                 <View style={styles.iconContainer}>
                   <View style={styles.iconBackground}>
-                    <AlertTriangle
-                      size={24}
-                      color={theme.colors.semantic.error}
-                      strokeWidth={2}
-                    />
+                    <AlertTriangle size={24} color={theme.colors.semantic.error} strokeWidth={2} />
                   </View>
                 </View>
               )}
 
               {/* 제목 */}
-              <Text style={[styles.title, isDanger && styles.dangerTitle]}>
-                {title}
-              </Text>
+              <Text style={[styles.title, isDanger && styles.dangerTitle]}>{title}</Text>
 
               {/* 메시지 */}
               <Text style={styles.message}>{message}</Text>
@@ -155,12 +149,7 @@ export function ConfirmDialog({
                   accessibilityHint="탭하여 작업을 확인합니다"
                   accessibilityRole="button"
                 >
-                  <Text
-                    style={[
-                      styles.confirmButtonText,
-                      isDanger && styles.dangerButtonText,
-                    ]}
-                  >
+                  <Text style={[styles.confirmButtonText, isDanger && styles.dangerButtonText]}>
                     {loading ? '처리 중...' : confirmLabel}
                   </Text>
                 </TouchableOpacity>

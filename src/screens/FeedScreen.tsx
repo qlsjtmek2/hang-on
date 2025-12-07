@@ -73,20 +73,18 @@ export const FeedScreen: React.FC = () => {
     itemVisiblePercentThreshold: 50,
   }).current;
 
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0 && viewableItems[0].index !== null) {
-        const newIndex = viewableItems[0].index;
-        setActiveIndex(newIndex);
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    if (viewableItems.length > 0 && viewableItems[0].index !== null) {
+      const newIndex = viewableItems[0].index;
+      setActiveIndex(newIndex);
 
-        // 피드 조회 기록
-        const item = feedItems[newIndex];
-        if (item) {
-          viewFeedItem(item.id);
-        }
+      // 피드 조회 기록
+      const item = feedItems[newIndex];
+      if (item) {
+        viewFeedItem(item.id);
       }
-    },
-  ).current;
+    }
+  }).current;
 
   const handleEmpathyPress = useCallback(
     (id: string, hasEmpathized: boolean) => {

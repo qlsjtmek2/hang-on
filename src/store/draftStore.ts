@@ -34,7 +34,7 @@ interface DraftState {
 
 export const useDraftStore = create<DraftState>()(
   persist(
-    (set) => ({
+    set => ({
       draft: null,
       isLoading: false,
 
@@ -64,7 +64,7 @@ export const useDraftStore = create<DraftState>()(
     {
       name: DRAFT_STORAGE_KEY,
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: (state) => ({ draft: state.draft }), // draft만 저장
+      partialize: state => ({ draft: state.draft }), // draft만 저장
     },
   ),
 );

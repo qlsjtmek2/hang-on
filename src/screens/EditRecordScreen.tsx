@@ -22,10 +22,7 @@ import type { RecordStackParamList } from '@/navigation/RecordStackNavigator';
 import { useRecordStore } from '@/store/recordStore';
 import { theme } from '@/theme';
 
-type EditRecordScreenNavigationProp = NativeStackNavigationProp<
-  RecordStackParamList,
-  'EditRecord'
->;
+type EditRecordScreenNavigationProp = NativeStackNavigationProp<RecordStackParamList, 'EditRecord'>;
 type EditRecordScreenRouteProp = RouteProp<RecordStackParamList, 'EditRecord'>;
 
 const MAX_CONTENT_LENGTH = 500;
@@ -135,11 +132,7 @@ export const EditRecordScreen: React.FC = () => {
           {/* 선택된 감정 표시 (읽기 전용) */}
           <View style={styles.emotionDisplay}>
             <View style={[styles.emotionIconContainer, { backgroundColor: emotionInfo.color }]}>
-              <IconComponent
-                size={28}
-                color={theme.colors.neutral.white}
-                strokeWidth={2}
-              />
+              <IconComponent size={28} color={theme.colors.neutral.white} strokeWidth={2} />
             </View>
             <View style={styles.emotionInfo}>
               <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
@@ -152,10 +145,7 @@ export const EditRecordScreen: React.FC = () => {
           {/* 텍스트 입력 */}
           <View style={styles.inputContainer}>
             <TextInput
-              style={[
-                styles.textInput,
-                isOverLimit && styles.textInputError,
-              ]}
+              style={[styles.textInput, isOverLimit && styles.textInputError]}
               placeholder="지금 느끼는 기분을 자유롭게 표현해보세요"
               placeholderTextColor={theme.colors.neutral.gray400}
               value={content}
@@ -170,12 +160,7 @@ export const EditRecordScreen: React.FC = () => {
 
             {/* 글자 수 카운터 */}
             <View style={styles.counterContainer}>
-              <Text
-                style={[
-                  styles.counterText,
-                  isOverLimit && styles.counterTextError,
-                ]}
-              >
+              <Text style={[styles.counterText, isOverLimit && styles.counterTextError]}>
                 {charCount}/{MAX_CONTENT_LENGTH}
               </Text>
             </View>
@@ -203,10 +188,10 @@ export const EditRecordScreen: React.FC = () => {
               isContentEmpty
                 ? '먼저 내용을 입력해주세요'
                 : isOverLimit
-                  ? '글자 수를 줄여주세요'
-                  : !hasChanges
-                    ? '변경된 내용이 없습니다'
-                    : '수정된 내용을 저장합니다'
+                ? '글자 수를 줄여주세요'
+                : !hasChanges
+                ? '변경된 내용이 없습니다'
+                : '수정된 내용을 저장합니다'
             }
           />
         </View>

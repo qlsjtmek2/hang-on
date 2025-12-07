@@ -1,11 +1,4 @@
-import {
-  Cloud,
-  CloudLightning,
-  CloudRain,
-  CloudSun,
-  Heart,
-  Sun,
-} from 'lucide-react-native';
+import { Cloud, CloudLightning, CloudRain, CloudSun, Heart, Sun } from 'lucide-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
@@ -76,7 +69,7 @@ const WeatherTransitionIcon: React.FC = () => {
 
   // JS 스레드에서 state 업데이트하는 함수
   const updateWeather = useCallback(() => {
-    setCurrentWeather((prev) => (prev + 1) % 5);
+    setCurrentWeather(prev => (prev + 1) % 5);
   }, []);
 
   // Float 애니메이션
@@ -137,12 +130,10 @@ const WeatherTransitionIcon: React.FC = () => {
 
   return (
     <View style={styles.weatherContainer}>
-      <Animated.View style={animatedStyle}>
-        {renderWeatherIcon()}
-      </Animated.View>
+      <Animated.View style={animatedStyle}>{renderWeatherIcon()}</Animated.View>
       {/* 날씨 인디케이터 */}
       <View style={styles.weatherIndicator}>
-        {[0, 1, 2, 3, 4].map((index) => (
+        {[0, 1, 2, 3, 4].map(index => (
           <View
             key={index}
             style={[
@@ -175,20 +166,14 @@ const HeartIcon: React.FC = () => {
 
     // 하트 펄스 애니메이션
     heartScale.value = withRepeat(
-      withSequence(
-        withTiming(1.05, { duration: 1200 }),
-        withTiming(1, { duration: 1200 }),
-      ),
+      withSequence(withTiming(1.05, { duration: 1200 }), withTiming(1, { duration: 1200 })),
       -1,
       true,
     );
   }, [floatY, heartScale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: heartScale.value },
-      { translateY: floatY.value },
-    ],
+    transform: [{ scale: heartScale.value }, { translateY: floatY.value }],
   }));
 
   return (
@@ -226,17 +211,13 @@ const AnimatedText: React.FC<{
     transform: [{ translateY: translateY.value }],
   }));
 
-  return (
-    <Animated.Text style={[style, animatedStyle]}>
-      {text}
-    </Animated.Text>
-  );
+  return <Animated.Text style={[style, animatedStyle]}>{text}</Animated.Text>;
 };
 
 export const OnboardingScreen: React.FC = () => {
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const completeOnboarding = useOnboardingStore((state) => state.completeOnboarding);
+  const completeOnboarding = useOnboardingStore(state => state.completeOnboarding);
 
   // 버튼 애니메이션
   const buttonScale = useSharedValue(1);
@@ -259,10 +240,7 @@ export const OnboardingScreen: React.FC = () => {
 
   // 다음/시작하기 버튼 핸들러
   const handleNext = useCallback(() => {
-    buttonScale.value = withSequence(
-      withTiming(0.95, { duration: 100 }),
-      withSpring(1),
-    );
+    buttonScale.value = withSequence(withTiming(0.95, { duration: 100 }), withSpring(1));
 
     if (isLastSlide) {
       completeOnboarding();
@@ -346,7 +324,7 @@ export const OnboardingScreen: React.FC = () => {
         ref={flatListRef}
         data={SLIDES}
         renderItem={renderSlide}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
@@ -367,9 +345,7 @@ export const OnboardingScreen: React.FC = () => {
             accessibilityLabel={isLastSlide ? '시작하기' : '다음'}
             accessibilityRole="button"
           >
-            <Text style={styles.nextButtonText}>
-              {isLastSlide ? '시작하기' : '다음'}
-            </Text>
+            <Text style={styles.nextButtonText}>{isLastSlide ? '시작하기' : '다음'}</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>

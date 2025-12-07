@@ -12,7 +12,7 @@ jest.mock('react-native-reanimated', () => {
   return {
     default: {
       call: () => {},
-      createAnimatedComponent: (component) => component,
+      createAnimatedComponent: component => component,
       View,
     },
     View,
@@ -21,10 +21,10 @@ jest.mock('react-native-reanimated', () => {
     ScrollView: require('react-native').ScrollView,
     FlatList: require('react-native').FlatList,
     // Hooks
-    useSharedValue: (init) => ({ value: init }),
-    useAnimatedStyle: (fn) => fn(),
-    useDerivedValue: (fn) => ({ value: fn() }),
-    useAnimatedProps: (fn) => fn(),
+    useSharedValue: init => ({ value: init }),
+    useAnimatedStyle: fn => fn(),
+    useDerivedValue: fn => ({ value: fn() }),
+    useAnimatedProps: fn => fn(),
     useAnimatedGestureHandler: () => ({}),
     useAnimatedScrollHandler: () => ({}),
     // Animations
@@ -38,17 +38,17 @@ jest.mock('react-native-reanimated', () => {
     },
     withDelay: (delay, animation) => animation,
     withSequence: (...animations) => animations[0],
-    withRepeat: (animation) => animation,
+    withRepeat: animation => animation,
     cancelAnimation: () => {},
-    runOnJS: (fn) => fn,
-    runOnUI: (fn) => fn,
+    runOnJS: fn => fn,
+    runOnUI: fn => fn,
     // Easing
     Easing: {
-      linear: (t) => t,
-      ease: (t) => t,
-      inOut: () => (t) => t,
-      in: () => (t) => t,
-      out: () => (t) => t,
+      linear: t => t,
+      ease: t => t,
+      inOut: () => t => t,
+      in: () => t => t,
+      out: () => t => t,
     },
     // Layout animations
     Layout: {},

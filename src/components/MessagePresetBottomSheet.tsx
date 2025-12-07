@@ -1,12 +1,4 @@
-import {
-  Check,
-  Flame,
-  Heart,
-  MessageCircle,
-  Sun,
-  Users,
-  LucideIcon,
-} from 'lucide-react-native';
+import { Check, Flame, Heart, MessageCircle, Sun, Users, LucideIcon } from 'lucide-react-native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
@@ -65,12 +57,7 @@ export function MessagePresetBottomSheet({
   };
 
   return (
-    <BottomSheet
-      visible={visible}
-      onClose={onClose}
-      title="따뜻한 말 건네기"
-      height="auto"
-    >
+    <BottomSheet visible={visible} onClose={onClose} title="따뜻한 말 건네기" height="auto">
       <View style={styles.container}>
         {/* 이미 보낸 경우 안내 */}
         {hasSentMessage && (
@@ -79,9 +66,7 @@ export function MessagePresetBottomSheet({
               <Check size={24} color={theme.colors.semantic.success} />
             </View>
             <Text style={styles.sentText}>이미 따뜻한 말을 보냈어요</Text>
-            <Text style={styles.sentSubtext}>
-              상대방에게 당신의 마음이 전달되었어요
-            </Text>
+            <Text style={styles.sentSubtext}>상대방에게 당신의 마음이 전달되었어요</Text>
           </View>
         )}
 
@@ -95,10 +80,7 @@ export function MessagePresetBottomSheet({
               return (
                 <TouchableOpacity
                   key={preset.type}
-                  style={[
-                    styles.optionCard,
-                    isSelected && styles.optionCardSelected,
-                  ]}
+                  style={[styles.optionCard, isSelected && styles.optionCardSelected]}
                   onPress={() => handleSelect(preset.type)}
                   activeOpacity={0.7}
                   accessibilityRole="button"
@@ -113,9 +95,7 @@ export function MessagePresetBottomSheet({
                   />
                   <View style={styles.optionContent}>
                     <Text style={styles.optionLabel}>{preset.label}</Text>
-                    <Text style={styles.optionDescription}>
-                      {preset.description}
-                    </Text>
+                    <Text style={styles.optionDescription}>{preset.description}</Text>
                   </View>
                 </TouchableOpacity>
               );
@@ -127,9 +107,7 @@ export function MessagePresetBottomSheet({
         {!hasSentMessage && (
           <View style={styles.infoContainer}>
             <MessageCircle size={14} color={theme.colors.neutral.gray500} />
-            <Text style={styles.infoText}>
-              선택한 메시지가 익명으로 전달됩니다
-            </Text>
+            <Text style={styles.infoText}>선택한 메시지가 익명으로 전달됩니다</Text>
           </View>
         )}
       </View>

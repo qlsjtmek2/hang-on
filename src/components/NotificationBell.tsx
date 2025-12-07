@@ -17,7 +17,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
  */
 export function NotificationBell() {
   const navigation = useNavigation<NavigationProp>();
-  const unreadCount = useNotificationStore((state) => state.unreadCount);
+  const unreadCount = useNotificationStore(state => state.unreadCount);
 
   const handlePress = () => {
     navigation.navigate('Notifications');
@@ -34,9 +34,7 @@ export function NotificationBell() {
       <Bell size={26} color={theme.colors.text.primary} strokeWidth={1.8} />
       {unreadCount > 0 && (
         <View style={styles.badge}>
-          <Text style={styles.badgeText}>
-            {unreadCount > 9 ? '9+' : unreadCount}
-          </Text>
+          <Text style={styles.badgeText}>{unreadCount > 9 ? '9+' : unreadCount}</Text>
         </View>
       )}
     </TouchableOpacity>

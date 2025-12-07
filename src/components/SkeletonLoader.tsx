@@ -44,55 +44,48 @@ interface SkeletonProps {
  *
  * shimmer 애니메이션이 적용된 자리 표시자입니다.
  */
-export const Skeleton = memo(({
-  width = '100%',
-  height = 16,
-  borderRadius = 4,
-  style,
-}: SkeletonProps) => {
-  const shimmerProgress = useSharedValue(0);
+export const Skeleton = memo(
+  ({ width = '100%', height = 16, borderRadius = 4, style }: SkeletonProps) => {
+    const shimmerProgress = useSharedValue(0);
 
-  useEffect(() => {
-    shimmerProgress.value = withRepeat(
-      withTiming(1, {
-        duration: 1500,
-        easing: Easing.linear,
-      }),
-      -1, // 무한 반복
-      false, // 역방향 없음
+    useEffect(() => {
+      shimmerProgress.value = withRepeat(
+        withTiming(1, {
+          duration: 1500,
+          easing: Easing.linear,
+        }),
+        -1, // 무한 반복
+        false, // 역방향 없음
+      );
+    }, [shimmerProgress]);
+
+    const animatedStyle = useAnimatedStyle(() => {
+      const translateX = interpolate(shimmerProgress.value, [0, 1], [-100, 100]);
+
+      return {
+        transform: [{ translateX: `${translateX}%` as unknown as number }],
+      };
+    });
+
+    return (
+      <View
+        style={[
+          styles.skeletonBase,
+          {
+            width: typeof width === 'number' ? width : width,
+            height,
+            borderRadius,
+          },
+          style,
+        ]}
+        accessibilityLabel="로딩 중"
+        accessibilityRole="progressbar"
+      >
+        <Animated.View style={[styles.shimmer, animatedStyle]} />
+      </View>
     );
-  }, [shimmerProgress]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const translateX = interpolate(
-      shimmerProgress.value,
-      [0, 1],
-      [-100, 100],
-    );
-
-    return {
-      transform: [{ translateX: `${translateX}%` as unknown as number }],
-    };
-  });
-
-  return (
-    <View
-      style={[
-        styles.skeletonBase,
-        {
-          width: typeof width === 'number' ? width : width,
-          height,
-          borderRadius,
-        },
-        style,
-      ]}
-      accessibilityLabel="로딩 중"
-      accessibilityRole="progressbar"
-    >
-      <Animated.View style={[styles.shimmer, animatedStyle]} />
-    </View>
-  );
-});
+  },
+);
 
 /**
  * RecordCard 스켈레톤
@@ -102,11 +95,7 @@ export const Skeleton = memo(({
  */
 export const RecordCardSkeleton = memo(() => {
   return (
-    <View
-      style={styles.recordCardContainer}
-      accessible={true}
-      accessibilityLabel="기록 로딩 중"
-    >
+    <View style={styles.recordCardContainer} accessible={true} accessibilityLabel="기록 로딩 중">
       {/* Header: 감정 아이콘과 시간 */}
       <View style={styles.recordCardHeader}>
         <View style={styles.recordCardEmotionContainer}>
@@ -153,9 +142,7 @@ interface RecordCardSkeletonListProps {
  *
  * 여러 개의 RecordCardSkeleton을 렌더링합니다.
  */
-export const RecordCardSkeletonList = memo(({
-  count = 3,
-}: RecordCardSkeletonListProps) => {
+export const RecordCardSkeletonList = memo(({ count = 3 }: RecordCardSkeletonListProps) => {
   return (
     <View>
       {Array.from({ length: count }).map((_, index) => (
@@ -175,9 +162,7 @@ interface FeedCardSkeletonProps {
   cardHeight: number;
 }
 
-export const FeedCardSkeleton = memo(({
-  cardHeight,
-}: FeedCardSkeletonProps) => {
+export const FeedCardSkeleton = memo(({ cardHeight }: FeedCardSkeletonProps) => {
   return (
     <View
       style={[styles.feedCardContainer, { height: cardHeight }]}

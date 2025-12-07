@@ -35,7 +35,12 @@ export interface MessagePresetData {
 export const MESSAGE_PRESETS: MessagePresetData[] = [
   { type: 'cheer_up', label: '힘내세요', description: '응원의 마음을 전해요', iconName: 'flame' },
   { type: 'me_too', label: '저도 그래요', description: '공감의 마음을 전해요', iconName: 'heart' },
-  { type: 'will_be_ok', label: '괜찮을 거예요', description: '위로의 마음을 전해요', iconName: 'sun' },
+  {
+    type: 'will_be_ok',
+    label: '괜찮을 거예요',
+    description: '위로의 마음을 전해요',
+    iconName: 'sun',
+  },
   { type: 'together', label: '함께해요', description: '함께하는 마음을 전해요', iconName: 'users' },
 ];
 
@@ -43,8 +48,7 @@ export const MESSAGE_PRESETS: MessagePresetData[] = [
 const DAILY_FEED_LIMIT = 20;
 
 // 고유 ID 생성
-const generateId = (): string =>
-  `feed-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+const generateId = (): string => `feed-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
 // 다른 사람의 기록 샘플 데이터
 const createSampleFeedItems = (): FeedItem[] => {
@@ -65,8 +69,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 1,
-      content:
-        '모든 게 막막하게 느껴지는 날이에요. 어디서부터 시작해야 할지 모르겠어요.',
+      content: '모든 게 막막하게 느껴지는 날이에요. 어디서부터 시작해야 할지 모르겠어요.',
       heartsCount: 15,
       messagesCount: 7,
       createdAt: new Date(now.getTime() - 1 * 60 * 60 * 1000), // 1시간 전
@@ -76,8 +79,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 3,
-      content:
-        '특별한 일은 없었지만, 그냥 그런 하루. 평범함도 나쁘지 않다고 스스로 위로해봐요.',
+      content: '특별한 일은 없었지만, 그냥 그런 하루. 평범함도 나쁘지 않다고 스스로 위로해봐요.',
       heartsCount: 5,
       messagesCount: 1,
       createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000), // 2시간 전
@@ -98,8 +100,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 2,
-      content:
-        '친구와 다퉜어요. 별일 아닌 것 같은데 마음이 많이 쓰여요. 먼저 연락해야 하나...',
+      content: '친구와 다퉜어요. 별일 아닌 것 같은데 마음이 많이 쓰여요. 먼저 연락해야 하나...',
       heartsCount: 20,
       messagesCount: 9,
       createdAt: new Date(now.getTime() - 5 * 60 * 60 * 1000), // 5시간 전
@@ -185,8 +186,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 3,
-      content:
-        '요즘 매일이 비슷비슷해요. 특별히 나쁜 건 아닌데, 뭔가 허전한 기분. 이게 뭘까요.',
+      content: '요즘 매일이 비슷비슷해요. 특별히 나쁜 건 아닌데, 뭔가 허전한 기분. 이게 뭘까요.',
       heartsCount: 7,
       messagesCount: 3,
       createdAt: new Date(now.getTime() - 24 * 60 * 60 * 1000), // 1일 전
@@ -207,8 +207,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 2,
-      content:
-        '실수를 했어요. 다들 괜찮다고 하는데 혼자 계속 신경 쓰여요. 마음이 편치 않아요.',
+      content: '실수를 했어요. 다들 괜찮다고 하는데 혼자 계속 신경 쓰여요. 마음이 편치 않아요.',
       heartsCount: 25,
       messagesCount: 11,
       createdAt: new Date(now.getTime() - 28 * 60 * 60 * 1000), // 28시간 전
@@ -240,7 +239,8 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 3,
-      content: '그냥 멍하니 창밖을 바라봤어요. 구름이 천천히 흘러가는 걸 보니 마음도 조금 느긋해졌어요.',
+      content:
+        '그냥 멍하니 창밖을 바라봤어요. 구름이 천천히 흘러가는 걸 보니 마음도 조금 느긋해졌어요.',
       heartsCount: 11,
       messagesCount: 4,
       createdAt: new Date(now.getTime() - 34 * 60 * 60 * 1000), // 34시간 전
@@ -261,8 +261,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 2,
-      content:
-        '자존감이 바닥인 날이에요. 남들은 다 잘 하는 것 같은데 나만 제자리인 것 같아요.',
+      content: '자존감이 바닥인 날이에요. 남들은 다 잘 하는 것 같은데 나만 제자리인 것 같아요.',
       heartsCount: 38,
       messagesCount: 16,
       createdAt: new Date(now.getTime() - 38 * 60 * 60 * 1000), // 38시간 전
@@ -283,8 +282,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 1,
-      content:
-        '오늘도 야근이에요. 언제까지 이렇게 살아야 하는 걸까요. 지쳐가는 게 느껴져요.',
+      content: '오늘도 야근이에요. 언제까지 이렇게 살아야 하는 걸까요. 지쳐가는 게 느껴져요.',
       heartsCount: 52,
       messagesCount: 22,
       createdAt: new Date(now.getTime() - 42 * 60 * 60 * 1000), // 42시간 전
@@ -305,8 +303,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 2,
-      content:
-        '면접에서 떨어졌어요. 준비 많이 했는데... 다음에는 꼭 합격하고 싶어요.',
+      content: '면접에서 떨어졌어요. 준비 많이 했는데... 다음에는 꼭 합격하고 싶어요.',
       heartsCount: 48,
       messagesCount: 19,
       createdAt: new Date(now.getTime() - 46 * 60 * 60 * 1000), // 46시간 전
@@ -316,8 +313,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 4,
-      content:
-        '오늘 처음으로 요리를 해봤어요. 맛은 그저 그랬지만, 뿌듯한 마음이 더 커요.',
+      content: '오늘 처음으로 요리를 해봤어요. 맛은 그저 그랬지만, 뿌듯한 마음이 더 커요.',
       heartsCount: 19,
       messagesCount: 6,
       createdAt: new Date(now.getTime() - 48 * 60 * 60 * 1000), // 48시간 전
@@ -327,8 +323,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 1,
-      content:
-        '가족과 크게 다퉜어요. 화해하고 싶은데 먼저 말 걸기가 어려워요. 마음이 무거워요.',
+      content: '가족과 크게 다퉜어요. 화해하고 싶은데 먼저 말 걸기가 어려워요. 마음이 무거워요.',
       heartsCount: 61,
       messagesCount: 28,
       createdAt: new Date(now.getTime() - 50 * 60 * 60 * 1000), // 50시간 전
@@ -338,8 +333,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 3,
-      content:
-        '비 오는 날 카페에서 책 읽는 시간. 바쁜 일상에서 잠시 쉬어가는 느낌이 좋아요.',
+      content: '비 오는 날 카페에서 책 읽는 시간. 바쁜 일상에서 잠시 쉬어가는 느낌이 좋아요.',
       heartsCount: 14,
       messagesCount: 4,
       createdAt: new Date(now.getTime() - 52 * 60 * 60 * 1000), // 52시간 전
@@ -349,8 +343,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 5,
-      content:
-        '반려견이 아파서 걱정했는데, 건강하다는 검사 결과가 나왔어요. 정말 다행이에요!',
+      content: '반려견이 아파서 걱정했는데, 건강하다는 검사 결과가 나왔어요. 정말 다행이에요!',
       heartsCount: 67,
       messagesCount: 24,
       createdAt: new Date(now.getTime() - 54 * 60 * 60 * 1000), // 54시간 전
@@ -360,8 +353,7 @@ const createSampleFeedItems = (): FeedItem[] => {
     {
       id: generateId(),
       emotionLevel: 2,
-      content:
-        'SNS를 보면 다들 행복해 보여요. 나만 불행한 것 같은 기분... 비교하지 말아야 하는데.',
+      content: 'SNS를 보면 다들 행복해 보여요. 나만 불행한 것 같은 기분... 비교하지 말아야 하는데.',
       heartsCount: 44,
       messagesCount: 17,
       createdAt: new Date(now.getTime() - 56 * 60 * 60 * 1000), // 56시간 전
@@ -374,7 +366,9 @@ const createSampleFeedItems = (): FeedItem[] => {
 // 오늘 날짜 키 생성 (YYYY-MM-DD)
 const getTodayKey = (): string => {
   const today = new Date();
-  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(
+    today.getDate(),
+  ).padStart(2, '0')}`;
 };
 
 interface FeedStore {

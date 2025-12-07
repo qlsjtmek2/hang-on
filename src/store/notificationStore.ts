@@ -30,8 +30,7 @@ interface NotificationActions {
 }
 
 // 고유 ID 생성
-const generateId = (): string =>
-  `notif-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+const generateId = (): string => `notif-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
 // 샘플 알림 데이터
 const createSampleNotifications = (): NotificationItem[] => {
@@ -65,47 +64,43 @@ const createSampleNotifications = (): NotificationItem[] => {
   ];
 };
 
-export const useNotificationStore = create<NotificationState & NotificationActions>(
-  (set) => ({
-    notifications: createSampleNotifications(),
-    unreadCount: 2, // 초기 읽지 않은 알림 수
+export const useNotificationStore = create<NotificationState & NotificationActions>(set => ({
+  notifications: createSampleNotifications(),
+  unreadCount: 2, // 초기 읽지 않은 알림 수
 
-    addNotification: (notification) => {
-      const newNotification: NotificationItem = {
-        ...notification,
-        id: generateId(),
-        isRead: false,
+  addNotification: notification => {
+    const newNotification: NotificationItem = {
+      ...notification,
+      id: generateId(),
+      isRead: false,
+    };
+
+    set(state => ({
+      notifications: [newNotification, ...state.notifications],
+      unreadCount: state.unreadCount + 1,
+    }));
+  },
+
+  markAsRead: id => {
+    set(state => {
+      const notification = state.notifications.find(n => n.id === id);
+      if (!notification || notification.isRead) return state;
+
+      return {
+        notifications: state.notifications.map(n => (n.id === id ? { ...n, isRead: true } : n)),
+        unreadCount: Math.max(0, state.unreadCount - 1),
       };
+    });
+  },
 
-      set((state) => ({
-        notifications: [newNotification, ...state.notifications],
-        unreadCount: state.unreadCount + 1,
-      }));
-    },
+  markAllAsRead: () => {
+    set(state => ({
+      notifications: state.notifications.map(n => ({ ...n, isRead: true })),
+      unreadCount: 0,
+    }));
+  },
 
-    markAsRead: (id) => {
-      set((state) => {
-        const notification = state.notifications.find((n) => n.id === id);
-        if (!notification || notification.isRead) return state;
-
-        return {
-          notifications: state.notifications.map((n) =>
-            n.id === id ? { ...n, isRead: true } : n,
-          ),
-          unreadCount: Math.max(0, state.unreadCount - 1),
-        };
-      });
-    },
-
-    markAllAsRead: () => {
-      set((state) => ({
-        notifications: state.notifications.map((n) => ({ ...n, isRead: true })),
-        unreadCount: 0,
-      }));
-    },
-
-    clearAll: () => {
-      set({ notifications: [], unreadCount: 0 });
-    },
-  }),
-);
+  clearAll: () => {
+    set({ notifications: [], unreadCount: 0 });
+  },
+}));

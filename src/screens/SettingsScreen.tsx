@@ -48,7 +48,6 @@ const EXTERNAL_LINKS = {
   support: 'mailto:support@hangon.app',
 };
 
-
 interface SettingItemProps {
   icon: LucideIcon;
   title: string;
@@ -201,9 +200,7 @@ export const SettingsScreen: React.FC = () => {
                   false: theme.colors.neutral.gray300,
                   true: theme.colors.primary.light,
                 }}
-                thumbColor={
-                  pushEnabled ? theme.colors.primary.main : theme.colors.neutral.gray100
-                }
+                thumbColor={pushEnabled ? theme.colors.primary.main : theme.colors.neutral.gray100}
               />
             }
           />
@@ -299,9 +296,7 @@ export const SettingsScreen: React.FC = () => {
                 >
                   {lang.nativeLabel}
                 </Text>
-                {lang.code !== 'ko' && (
-                  <Text style={styles.languageItemSub}>{lang.label}</Text>
-                )}
+                {lang.code !== 'ko' && <Text style={styles.languageItemSub}>{lang.label}</Text>}
               </View>
               {selectedLanguage === lang.code && (
                 <Check size={20} color={theme.colors.primary.main} strokeWidth={2.5} />

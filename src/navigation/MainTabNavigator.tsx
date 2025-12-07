@@ -33,14 +33,15 @@ type LucideIcon = typeof BookOpen;
 // 탭 아이콘 렌더 함수 생성 (선택 시 Fill, 미선택 시 Line)
 const createTabIcon =
   (Icon: LucideIcon) =>
-  ({ focused, color }: { focused: boolean; color: string }) => (
-    <Icon
-      size={24}
-      color={color}
-      strokeWidth={focused ? 2 : 1.5}
-      fill={focused ? color : 'none'}
-    />
-  );
+  ({ focused, color }: { focused: boolean; color: string }) =>
+    (
+      <Icon
+        size={24}
+        color={color}
+        strokeWidth={focused ? 2 : 1.5}
+        fill={focused ? color : 'none'}
+      />
+    );
 
 const MyRecordsTabIcon = createTabIcon(BookOpen);
 const FeedTabIcon = createTabIcon(Heart);
@@ -62,9 +63,9 @@ export const MainTabNavigator: React.FC = () => {
   const navigation = useNavigation<MainTabNavigatorNavigationProp>();
 
   // 현재 탭 인덱스 추적 (0: MyRecords, 1: Feed, 2: Settings)
-  const currentTabIndex = useNavigationState((state) => {
+  const currentTabIndex = useNavigationState(state => {
     // Main 탭 네비게이터의 상태에서 현재 인덱스 가져오기
-    const mainRoute = state.routes.find((r) => r.name === 'Main');
+    const mainRoute = state.routes.find(r => r.name === 'Main');
     if (mainRoute && mainRoute.state) {
       return mainRoute.state.index ?? 0;
     }
@@ -94,9 +95,7 @@ export const MainTabNavigator: React.FC = () => {
             color: theme.colors.text.primary,
           },
           headerTitleAlign: 'center',
-          headerLeft: () => (
-            <Text style={styles.headerLogo}>Hang On</Text>
-          ),
+          headerLeft: () => <Text style={styles.headerLogo}>Hang On</Text>,
           tabBarStyle: {
             backgroundColor: theme.colors.background,
             borderTopWidth: 1,

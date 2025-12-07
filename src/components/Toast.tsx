@@ -54,13 +54,7 @@ const TOAST_CONFIG = {
   },
 };
 
-export const Toast: React.FC<ToastProps> = ({
-  id,
-  type,
-  message,
-  duration = 3000,
-  onDismiss,
-}) => {
+export const Toast: React.FC<ToastProps> = ({ id, type, message, duration = 3000, onDismiss }) => {
   const insets = useSafeAreaInsets();
   const translateY = useSharedValue(100);
   const opacity = useSharedValue(0);
@@ -104,12 +98,7 @@ export const Toast: React.FC<ToastProps> = ({
       accessibilityLiveRegion="polite"
     >
       <View style={styles.content}>
-        <IconComponent
-          size={20}
-          color={config.iconColor}
-          strokeWidth={2}
-          style={styles.icon}
-        />
+        <IconComponent size={20} color={config.iconColor} strokeWidth={2} style={styles.icon} />
         <Text style={styles.message} numberOfLines={2}>
           {message}
         </Text>

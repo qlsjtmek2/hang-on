@@ -44,7 +44,8 @@ const createSampleRecords = (): Record[] => {
     {
       id: generateId(),
       emotionLevel: 5,
-      content: '오늘 정말 좋은 하루였다. 오랜만에 친구들을 만나서 맛있는 음식도 먹고 즐거운 시간을 보냈다.',
+      content:
+        '오늘 정말 좋은 하루였다. 오랜만에 친구들을 만나서 맛있는 음식도 먹고 즐거운 시간을 보냈다.',
       visibility: 'public',
       heartsCount: 12,
       messagesCount: 3,
@@ -116,7 +117,10 @@ interface RecordStore {
 
   // 액션
   addRecord: (input: CreateRecordInput) => Promise<Record>;
-  updateRecord: (id: string, updates: Partial<Omit<Record, 'id' | 'createdAt'>>) => Promise<boolean>;
+  updateRecord: (
+    id: string,
+    updates: Partial<Omit<Record, 'id' | 'createdAt'>>,
+  ) => Promise<boolean>;
   deleteRecord: (id: string) => Promise<boolean>;
   getRecordById: (id: string) => Record | undefined;
   getMyRecords: () => Record[];
@@ -210,9 +214,7 @@ export const useRecordStore = create<RecordStore>((set, get) => ({
 
   // 내 기록 조회 (모든 가시성)
   getMyRecords: () => {
-    return get().records.sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-    );
+    return get().records.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   },
 
   // 공개 기록 조회 (public만)

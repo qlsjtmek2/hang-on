@@ -182,20 +182,11 @@ export const WriteScreen: React.FC = () => {
           showsVerticalScrollIndicator={false}
         >
           {/* 일기장 종이 컨테이너 */}
-          <View
-            style={[
-              styles.writingPaper,
-              isOverLimit && styles.writingPaperError,
-            ]}
-          >
+          <View style={[styles.writingPaper, isOverLimit && styles.writingPaperError]}>
             {/* 종이 상단: 감정 아이콘 + 라벨 */}
             <View style={styles.paperHeader}>
               <View style={[styles.emotionIconContainer, { backgroundColor: emotionInfo.color }]}>
-                <IconComponent
-                  size={24}
-                  color={theme.colors.neutral.white}
-                  strokeWidth={2}
-                />
+                <IconComponent size={24} color={theme.colors.neutral.white} strokeWidth={2} />
               </View>
               <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
                 {emotionInfo.label}
@@ -206,9 +197,7 @@ export const WriteScreen: React.FC = () => {
             <View style={styles.paperDivider} />
 
             {/* 감정 설명 메시지 */}
-            <Text style={styles.emotionMessage}>
-              {getEmotionDescription(emotionLevel)}
-            </Text>
+            <Text style={styles.emotionMessage}>{getEmotionDescription(emotionLevel)}</Text>
 
             {/* 텍스트 입력 */}
             <TextInput
@@ -238,12 +227,7 @@ export const WriteScreen: React.FC = () => {
               ) : (
                 <View />
               )}
-              <Text
-                style={[
-                  styles.counterText,
-                  isOverLimit && styles.counterTextError,
-                ]}
-              >
+              <Text style={[styles.counterText, isOverLimit && styles.counterTextError]}>
                 {charCount}/{MAX_CONTENT_LENGTH}
               </Text>
             </View>
@@ -256,7 +240,6 @@ export const WriteScreen: React.FC = () => {
             )}
           </View>
         </ScrollView>
-
       </KeyboardAvoidingView>
 
       {/* 하단 버튼 - 키보드와 무관하게 고정 */}
@@ -273,8 +256,8 @@ export const WriteScreen: React.FC = () => {
             isContentEmpty
               ? '먼저 내용을 입력해주세요'
               : isOverLimit
-                ? '글자 수를 줄여주세요'
-                : '공유 설정을 선택합니다'
+              ? '글자 수를 줄여주세요'
+              : '공유 설정을 선택합니다'
           }
         />
       </View>

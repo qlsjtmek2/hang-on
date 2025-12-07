@@ -23,24 +23,18 @@ jest.spyOn(Animated, 'spring').mockReturnValue({
 
 describe('HeartButton Component', () => {
   it('renders with empty heart when not empathized', () => {
-    const { getByLabelText } = render(
-      <HeartButton hasEmpathized={false} onPress={() => {}} />,
-    );
+    const { getByLabelText } = render(<HeartButton hasEmpathized={false} onPress={() => {}} />);
     expect(getByLabelText('공감하기')).toBeTruthy();
   });
 
   it('renders with filled heart when empathized', () => {
-    const { getByLabelText } = render(
-      <HeartButton hasEmpathized={true} onPress={() => {}} />,
-    );
+    const { getByLabelText } = render(<HeartButton hasEmpathized={true} onPress={() => {}} />);
     expect(getByLabelText('공감 취소하기')).toBeTruthy();
   });
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
-    const { getByRole } = render(
-      <HeartButton hasEmpathized={false} onPress={onPress} />,
-    );
+    const { getByRole } = render(<HeartButton hasEmpathized={false} onPress={onPress} />);
     fireEvent.press(getByRole('button'));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
@@ -68,25 +62,19 @@ describe('HeartButton Component', () => {
 
   it('does not call onPress when disabled', () => {
     const onPress = jest.fn();
-    const { getByRole } = render(
-      <HeartButton hasEmpathized={false} onPress={onPress} disabled />,
-    );
+    const { getByRole } = render(<HeartButton hasEmpathized={false} onPress={onPress} disabled />);
     fireEvent.press(getByRole('button'));
     expect(onPress).not.toHaveBeenCalled();
   });
 
   it('has correct accessibility state when disabled', () => {
-    const { getByRole } = render(
-      <HeartButton hasEmpathized={false} onPress={() => {}} disabled />,
-    );
+    const { getByRole } = render(<HeartButton hasEmpathized={false} onPress={() => {}} disabled />);
     const button = getByRole('button');
     expect(button.props.accessibilityState.disabled).toBe(true);
   });
 
   it('has correct accessibility state when selected (empathized)', () => {
-    const { getByRole } = render(
-      <HeartButton hasEmpathized={true} onPress={() => {}} />,
-    );
+    const { getByRole } = render(<HeartButton hasEmpathized={true} onPress={() => {}} />);
     const button = getByRole('button');
     expect(button.props.accessibilityState.selected).toBe(true);
   });

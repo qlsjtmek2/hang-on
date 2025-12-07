@@ -1,31 +1,13 @@
-import {
-  AlertOctagon,
-  Megaphone,
-  HeartCrack,
-  UserX,
-  CircleDot,
-  Check,
-} from 'lucide-react-native';
+import { AlertOctagon, Megaphone, HeartCrack, UserX, CircleDot, Check } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
 import { BottomSheet } from '@/components/BottomSheet';
 import { Button } from '@/components/Button';
 import { theme } from '@/theme';
 
-export type ReportReason =
-  | 'hate_speech'
-  | 'spam'
-  | 'self_harm'
-  | 'privacy'
-  | 'other';
+export type ReportReason = 'hate_speech' | 'spam' | 'self_harm' | 'privacy' | 'other';
 
 interface ReportOption {
   id: ReportReason;
@@ -118,26 +100,19 @@ export function ReportBottomSheet({
   };
 
   const canSubmit =
-    selectedReason !== null &&
-    (selectedReason !== 'other' || otherDetail.trim().length > 0);
+    selectedReason !== null && (selectedReason !== 'other' || otherDetail.trim().length > 0);
 
   // 제출 완료 화면
   if (isSubmitted) {
     return (
-      <BottomSheet
-        visible={visible}
-        onClose={handleClose}
-        title="신고 완료"
-        height="auto"
-      >
+      <BottomSheet visible={visible} onClose={handleClose} title="신고 완료" height="auto">
         <View style={styles.successContainer}>
           <View style={styles.successIconContainer}>
             <Check size={32} color={theme.colors.semantic.success} strokeWidth={2.5} />
           </View>
           <Text style={styles.successTitle}>신고가 접수되었습니다</Text>
           <Text style={styles.successMessage}>
-            검토 후 적절한 조치를 취하겠습니다.{'\n'}
-            더 나은 커뮤니티를 위해 노력하겠습니다.
+            검토 후 적절한 조치를 취하겠습니다.{'\n'}더 나은 커뮤니티를 위해 노력하겠습니다.
           </Text>
           <Button
             title="닫기"
@@ -152,16 +127,9 @@ export function ReportBottomSheet({
   }
 
   return (
-    <BottomSheet
-      visible={visible}
-      onClose={handleClose}
-      title="신고하기"
-      height="auto"
-    >
+    <BottomSheet visible={visible} onClose={handleClose} title="신고하기" height="auto">
       <View style={styles.container}>
-        <Text style={styles.subtitle}>
-          이 기록에서 어떤 문제를 발견하셨나요?
-        </Text>
+        <Text style={styles.subtitle}>이 기록에서 어떤 문제를 발견하셨나요?</Text>
 
         {/* 신고 사유 목록 */}
         <View style={styles.optionList}>
@@ -179,29 +147,15 @@ export function ReportBottomSheet({
                 accessibilityRole="radio"
                 accessibilityState={{ selected: isSelected }}
               >
-                <View
-                  style={[
-                    styles.optionIcon,
-                    isSelected && styles.optionIconSelected,
-                  ]}
-                >
+                <View style={[styles.optionIcon, isSelected && styles.optionIconSelected]}>
                   <IconComponent
                     size={20}
-                    color={
-                      isSelected
-                        ? theme.colors.semantic.error
-                        : theme.colors.text.secondary
-                    }
+                    color={isSelected ? theme.colors.semantic.error : theme.colors.text.secondary}
                     strokeWidth={2}
                   />
                 </View>
                 <View style={styles.optionContent}>
-                  <Text
-                    style={[
-                      styles.optionLabel,
-                      isSelected && styles.optionLabelSelected,
-                    ]}
-                  >
+                  <Text style={[styles.optionLabel, isSelected && styles.optionLabelSelected]}>
                     {option.label}
                   </Text>
                   <Text style={styles.optionDescription}>{option.description}</Text>
@@ -244,9 +198,7 @@ export function ReportBottomSheet({
           style={styles.submitButton}
         />
 
-        <Text style={styles.disclaimer}>
-          허위 신고는 서비스 이용에 제한이 있을 수 있습니다.
-        </Text>
+        <Text style={styles.disclaimer}>허위 신고는 서비스 이용에 제한이 있을 수 있습니다.</Text>
       </View>
     </BottomSheet>
   );

@@ -1,18 +1,8 @@
 import { Bell, Heart, MessageCircle } from 'lucide-react-native';
 import React, { useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import {
-  useNotificationStore,
-  NotificationItem,
-} from '@/store/notificationStore';
+import { useNotificationStore, NotificationItem } from '@/store/notificationStore';
 import { theme } from '@/theme';
 
 /**
@@ -54,14 +44,13 @@ export function NotificationsScreen() {
         onPress={() => handleNotificationPress(item)}
         activeOpacity={0.7}
       >
-        <View
-          style={[
-            styles.iconContainer,
-            isEmpathy ? styles.empathyIcon : styles.messageIcon,
-          ]}
-        >
+        <View style={[styles.iconContainer, isEmpathy ? styles.empathyIcon : styles.messageIcon]}>
           {isEmpathy ? (
-            <Heart size={18} color={theme.colors.semantic.error} fill={theme.colors.semantic.error} />
+            <Heart
+              size={18}
+              color={theme.colors.semantic.error}
+              fill={theme.colors.semantic.error}
+            />
           ) : (
             <MessageCircle size={18} color={theme.colors.primary.main} />
           )}
@@ -69,9 +58,7 @@ export function NotificationsScreen() {
 
         <View style={styles.contentContainer}>
           <Text style={styles.notificationText}>
-            {isEmpathy
-              ? '누군가 당신의 기록에 공감했어요'
-              : '누군가 따뜻한 말을 건넸어요'}
+            {isEmpathy ? '누군가 당신의 기록에 공감했어요' : '누군가 따뜻한 말을 건넸어요'}
           </Text>
           <Text style={styles.previewText} numberOfLines={1}>
             "{item.recordPreview}"
@@ -99,10 +86,8 @@ export function NotificationsScreen() {
       <FlatList
         data={notifications}
         renderItem={renderNotification}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={
-          notifications.length === 0 ? styles.emptyList : styles.list
-        }
+        keyExtractor={item => item.id}
+        contentContainerStyle={notifications.length === 0 ? styles.emptyList : styles.list}
         ListEmptyComponent={renderEmpty}
         showsVerticalScrollIndicator={false}
       />

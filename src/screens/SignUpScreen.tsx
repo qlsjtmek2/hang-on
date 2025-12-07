@@ -120,11 +120,7 @@ export const SignUpScreen: React.FC = () => {
           <View style={styles.header}>
             <View style={styles.logoOuterCircle}>
               <View style={styles.logoInnerCircle}>
-                <Hand
-                  size={40}
-                  color={theme.colors.primary.main}
-                  strokeWidth={1.5}
-                />
+                <Hand size={40} color={theme.colors.primary.main} strokeWidth={1.5} />
               </View>
             </View>
             <Text style={styles.title}>회원가입</Text>

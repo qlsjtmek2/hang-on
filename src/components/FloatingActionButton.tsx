@@ -1,11 +1,7 @@
 import { PenLine } from 'lucide-react-native';
 import React from 'react';
 import { Text, StyleSheet, ViewStyle, Pressable } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { theme } from '@/theme';
 
@@ -41,9 +37,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   const scale = useSharedValue(1);
 
   // 기본 아이콘: PenLine (털어놓기)
-  const defaultIcon = (
-    <PenLine size={24} color={theme.colors.text.inverse} strokeWidth={2.5} />
-  );
+  const defaultIcon = <PenLine size={24} color={theme.colors.text.inverse} strokeWidth={2.5} />;
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -58,9 +52,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   };
 
   return (
-    <Animated.View
-      style={[styles.container, animatedStyle, disabled && styles.disabled, style]}
-    >
+    <Animated.View style={[styles.container, animatedStyle, disabled && styles.disabled, style]}>
       <Pressable
         onPress={onPress}
         onPressIn={handlePressIn}

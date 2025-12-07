@@ -1,13 +1,6 @@
 import { Heart } from 'lucide-react-native';
 import React from 'react';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  View,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -88,13 +81,9 @@ export function HeartButton({
     onPress();
   };
 
-  const heartColor = hasEmpathized
-    ? theme.colors.semantic.error
-    : theme.colors.neutral.iconDefault;
+  const heartColor = hasEmpathized ? theme.colors.semantic.error : theme.colors.neutral.iconDefault;
 
-  const countColor = hasEmpathized
-    ? theme.colors.semantic.error
-    : theme.colors.neutral.iconMuted;
+  const countColor = hasEmpathized ? theme.colors.semantic.error : theme.colors.neutral.iconMuted;
 
   return (
     <TouchableOpacity
@@ -105,11 +94,7 @@ export function HeartButton({
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={hasEmpathized ? '공감 취소하기' : '공감하기'}
-      accessibilityHint={
-        hasEmpathized
-          ? '탭하여 공감을 취소합니다'
-          : '탭하여 공감을 표시합니다'
-      }
+      accessibilityHint={hasEmpathized ? '탭하여 공감을 취소합니다' : '탭하여 공감을 표시합니다'}
       accessibilityState={{ disabled, selected: hasEmpathized }}
     >
       <Animated.View
