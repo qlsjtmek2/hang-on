@@ -10,15 +10,35 @@
  * 참조: docs/DESIGN_SYSTEM.md
  */
 
-import { TextStyle } from 'react-native';
+import { Platform, TextStyle } from 'react-native';
 
 /**
- * 폰트 패밀리 (시스템 기본 폰트)
+ * 폰트 패밀리 (Pretendard)
+ *
+ * Android: 파일명 기준 (확장자 제외)
+ * iOS: PostScript 이름 기준
  */
 export const fontFamily = {
-  ios: 'SF Pro Text',
-  android: 'Roboto',
-  fallback: 'sans-serif',
+  regular: Platform.select({
+    ios: 'Pretendard-Regular',
+    android: 'Pretendard-Regular',
+    default: 'Pretendard-Regular',
+  }),
+  medium: Platform.select({
+    ios: 'Pretendard-Medium',
+    android: 'Pretendard-Medium',
+    default: 'Pretendard-Medium',
+  }),
+  semiBold: Platform.select({
+    ios: 'Pretendard-SemiBold',
+    android: 'Pretendard-SemiBold',
+    default: 'Pretendard-SemiBold',
+  }),
+  bold: Platform.select({
+    ios: 'Pretendard-Bold',
+    android: 'Pretendard-Bold',
+    default: 'Pretendard-Bold',
+  }),
 } as const;
 
 /**
@@ -31,6 +51,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: 메인 화면 헤더 "Hang On"
    */
   h1: {
+    fontFamily: fontFamily.bold,
     fontSize: 28,
     fontWeight: '700',
     lineHeight: 36,
@@ -42,6 +63,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: "털어놓기", "누군가와 함께"
    */
   h2: {
+    fontFamily: fontFamily.semiBold,
     fontSize: 24,
     fontWeight: '600',
     lineHeight: 32,
@@ -53,6 +75,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: 바텀시트 제목 "어떻게 나눌까요?"
    */
   h3: {
+    fontFamily: fontFamily.semiBold,
     fontSize: 20,
     fontWeight: '600',
     lineHeight: 28,
@@ -64,6 +87,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: 기록 내용, 일반 텍스트
    */
   body: {
+    fontFamily: fontFamily.regular,
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 24,
@@ -75,6 +99,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: 중요한 정보, 강조 텍스트
    */
   bodyBold: {
+    fontFamily: fontFamily.bold,
     fontSize: 16,
     fontWeight: '700',
     lineHeight: 24,
@@ -86,6 +111,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: 작성 시간, 글자 수, 설명 텍스트
    */
   caption: {
+    fontFamily: fontFamily.regular,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 20,
@@ -97,6 +123,7 @@ export const typography: Record<string, TextStyle> = {
    * 예: "다 썼어요! 💙", "공감하기"
    */
   button: {
+    fontFamily: fontFamily.semiBold,
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 20,
