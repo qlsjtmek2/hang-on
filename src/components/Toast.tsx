@@ -97,7 +97,7 @@ export const Toast: React.FC<ToastProps> = ({
     <Animated.View
       style={[
         styles.container,
-        { backgroundColor: config.backgroundColor, marginBottom: insets.bottom + 130 },
+        { backgroundColor: config.backgroundColor, marginBottom: insets.bottom + 80 },
         animatedStyle,
       ]}
       accessibilityRole="alert"

@@ -1,5 +1,5 @@
 import { Check, Flag, Heart, MessageCircle } from 'lucide-react-native';
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import {
   View,
   Text,
@@ -50,11 +50,12 @@ export const FeedCard = memo(({
   // Reanimated 애니메이션 값
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(20);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (isActive) {
-      opacity.value = 0;
-      translateY.value = 20;
+    if (isActive && !hasAnimated.current) {
+      // 처음 활성화될 때만 애니메이션 실행
+      hasAnimated.current = true;
 
       opacity.value = withTiming(1, {
         duration: 225,
@@ -64,6 +65,10 @@ export const FeedCard = memo(({
         duration: 225,
         easing: Easing.out(Easing.quad),
       });
+    } else if (isActive && hasAnimated.current) {
+      // 이미 본 카드는 즉시 표시
+      opacity.value = 1;
+      translateY.value = 0;
     }
   }, [isActive, opacity, translateY]);
 

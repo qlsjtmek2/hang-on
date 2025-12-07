@@ -185,10 +185,10 @@ export const FeedScreen: React.FC = () => {
         data={feedItems}
         renderItem={renderCard}
         keyExtractor={item => item.id}
-        pagingEnabled
         snapToInterval={cardHeight}
         snapToAlignment="start"
         decelerationRate="fast"
+        disableIntervalMomentum={true}
         showsVerticalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
