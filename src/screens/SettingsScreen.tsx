@@ -48,12 +48,15 @@ const EXTERNAL_LINKS = {
   support: 'mailto:support@hangon.app',
 };
 
+
 interface SettingItemProps {
   icon: LucideIcon;
   title: string;
   onPress: () => void;
   danger?: boolean;
   rightElement?: React.ReactNode;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
 const SettingItem: React.FC<SettingItemProps> = ({
@@ -62,26 +65,39 @@ const SettingItem: React.FC<SettingItemProps> = ({
   onPress,
   danger,
   rightElement,
+  isFirst,
+  isLast,
 }) => (
-  <TouchableOpacity style={styles.settingItem} onPress={onPress} activeOpacity={0.7}>
-    <View style={styles.settingIconContainer}>
+  <TouchableOpacity
+    style={[
+      styles.settingItem,
+      isFirst && styles.settingItemFirst,
+      isLast && styles.settingItemLast,
+    ]}
+    onPress={onPress}
+    activeOpacity={0.7}
+  >
+    <View style={styles.iconContainer}>
       <Icon
         size={20}
         color={danger ? theme.colors.semantic.error : theme.colors.text.secondary}
-        strokeWidth={2}
+        strokeWidth={1.8}
       />
     </View>
-    <Text style={[styles.settingTitle, danger && styles.dangerText]}>{title}</Text>
-    {rightElement || (
-      <ChevronRight size={20} color={theme.colors.text.secondary} strokeWidth={2} />
-    )}
+    <View style={[styles.settingContent, !isLast && styles.settingContentBorder]}>
+      <Text style={[styles.settingTitle, danger && styles.dangerText]}>{title}</Text>
+      {rightElement || (
+        <ChevronRight size={20} color={theme.colors.text.disabled} strokeWidth={2} />
+      )}
+    </View>
   </TouchableOpacity>
 );
 
 /**
  * 설정 화면
  *
- * 계정 및 앱 설정 관리
+ * 계정 및 앱 설정 관리 (iOS 인셋 그룹 스타일)
+ * - 프로필 카드
  * - 푸시 알림 토글
  * - 언어 변경 (UI만)
  * - 로그아웃 / 계정 삭제
@@ -142,24 +158,41 @@ export const SettingsScreen: React.FC = () => {
     return lang?.nativeLabel ?? '한국어';
   };
 
+  // 사용자 이름 추출 (이메일에서)
+  const getUserDisplayName = () => {
+    if (!user?.email) return 'Hang On 유저';
+    const name = user.email.split('@')[0];
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
+
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* 프로필 섹션 */}
-        <View style={styles.profileSection}>
-          <View style={styles.avatar}>
-            <User size={40} color={theme.colors.text.secondary} strokeWidth={1.5} />
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* 프로필 카드 */}
+        <View style={styles.profileCard}>
+          <View style={styles.avatarContainer}>
+            <User size={32} color={theme.colors.text.secondary} strokeWidth={1.5} />
           </View>
-          <Text style={styles.email}>{user?.email}</Text>
+          <View style={styles.profileInfo}>
+            <Text style={styles.profileName}>{getUserDisplayName()}</Text>
+            <Text style={styles.profileEmail}>{user?.email}</Text>
+          </View>
         </View>
 
-        {/* 알림 섹션 */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>알림</Text>
+        {/* 앱 설정 섹션 */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>앱 설정</Text>
+        </View>
+        <View style={styles.groupCard}>
           <SettingItem
             icon={Bell}
             title="푸시 알림"
             onPress={() => setPushEnabled(!pushEnabled)}
+            isFirst
             rightElement={
               <Switch
                 value={pushEnabled}
@@ -174,32 +207,31 @@ export const SettingsScreen: React.FC = () => {
               />
             }
           />
-        </View>
-
-        {/* 일반 섹션 */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>일반</Text>
           <SettingItem
             icon={Globe}
             title="언어"
             onPress={() => setShowLanguageSheet(true)}
+            isLast
             rightElement={
               <View style={styles.languageValue}>
                 <Text style={styles.languageText}>{getCurrentLanguageLabel()}</Text>
-                <ChevronRight size={20} color={theme.colors.text.secondary} strokeWidth={2} />
+                <ChevronRight size={20} color={theme.colors.text.disabled} strokeWidth={2} />
               </View>
             }
           />
+        </View>
+
+        {/* 지원 섹션 */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>지원</Text>
+        </View>
+        <View style={styles.groupCard}>
           <SettingItem
             icon={Mail}
             title="개발자에게 문의"
             onPress={() => handleOpenLink(EXTERNAL_LINKS.support)}
+            isFirst
           />
-        </View>
-
-        {/* 정보 섹션 */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>정보</Text>
           <SettingItem
             icon={FileText}
             title="개인정보 처리방침"
@@ -209,22 +241,28 @@ export const SettingsScreen: React.FC = () => {
             icon={ClipboardList}
             title="이용약관"
             onPress={() => handleOpenLink(EXTERNAL_LINKS.terms)}
+            isLast
           />
         </View>
 
         {/* 계정 섹션 */}
-        <View style={styles.section}>
+        <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>계정</Text>
+        </View>
+        <View style={styles.groupCard}>
           <SettingItem
             icon={LogOut}
             title="로그아웃"
             onPress={() => setShowLogoutDialog(true)}
+            danger
+            isFirst
           />
           <SettingItem
             icon={Trash2}
             title="계정 삭제"
             onPress={() => setShowDeleteDialog(true)}
             danger
+            isLast
           />
         </View>
 
@@ -309,46 +347,100 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  profileSection: {
-    alignItems: 'center',
-    paddingVertical: theme.spacing.xl,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
+  scrollContent: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
+    paddingBottom: 40,
   },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+
+  // 프로필 카드
+  profileCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: theme.colors.surface,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: theme.spacing.xl,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  avatarContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: theme.colors.neutral.gray100,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: theme.spacing.md,
+    marginRight: theme.spacing.md,
   },
-  email: {
-    ...theme.typography.body,
+  profileInfo: {
+    flex: 1,
+  },
+  profileName: {
+    ...theme.typography.h3,
+    color: theme.colors.text.primary,
+    marginBottom: 4,
+  },
+  profileEmail: {
+    ...theme.typography.bodySmall,
     color: theme.colors.text.secondary,
   },
-  section: {
-    paddingTop: theme.spacing.lg,
+
+  // 섹션 헤더
+  sectionHeader: {
+    marginBottom: theme.spacing.sm,
+    marginLeft: theme.spacing.xs,
   },
   sectionTitle: {
-    ...theme.typography.caption,
+    ...theme.typography.bodySmall,
     color: theme.colors.text.secondary,
-    paddingHorizontal: theme.spacing.lg,
-    paddingBottom: theme.spacing.sm,
-    textTransform: 'uppercase',
+    fontWeight: '500',
   },
+
+  // 그룹 카드
+  groupCard: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    marginBottom: theme.spacing.xl,
+    overflow: 'hidden',
+    ...theme.shadows.sm,
+  },
+
+  // 설정 아이템
   settingItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.background,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
+    paddingLeft: theme.spacing.md,
+    backgroundColor: theme.colors.surface,
   },
-  settingIconContainer: {
-    marginRight: theme.spacing.md,
+  settingItemFirst: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  settingItemLast: {
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  iconContainer: {
+    width: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  settingContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    paddingRight: theme.spacing.md,
+    marginLeft: theme.spacing.sm,
+  },
+  settingContentBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: theme.colors.border,
   },
   settingTitle: {
     ...theme.typography.body,
@@ -367,9 +459,11 @@ const styles = StyleSheet.create({
     color: theme.colors.text.secondary,
     marginRight: theme.spacing.xs,
   },
+
+  // 푸터
   footer: {
     alignItems: 'center',
-    paddingVertical: theme.spacing.xl,
+    paddingVertical: theme.spacing.lg,
   },
   version: {
     ...theme.typography.caption,
