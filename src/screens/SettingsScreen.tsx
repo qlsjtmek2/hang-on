@@ -24,6 +24,7 @@ import {
 
 import { BottomSheet } from '@/components/BottomSheet';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { useToast } from '@/contexts/ToastContext';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
 
@@ -89,6 +90,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
  */
 export const SettingsScreen: React.FC = () => {
   const { user, signOut } = useAuthStore();
+  const { showToast } = useToast();
 
   // UI 상태
   const [pushEnabled, setPushEnabled] = useState(true);
@@ -107,6 +109,7 @@ export const SettingsScreen: React.FC = () => {
   const handleLanguageSelect = (code: string) => {
     setSelectedLanguage(code);
     setShowLanguageSheet(false);
+    showToast('success', '언어가 변경되었어요', 2000);
     // Mock: 실제 언어 변경은 구현하지 않음
   };
 
@@ -115,6 +118,7 @@ export const SettingsScreen: React.FC = () => {
     await signOut();
     setIsLoggingOut(false);
     setShowLogoutDialog(false);
+    showToast('success', '로그아웃되었어요', 2000);
   };
 
   const handleDeleteAccount = async () => {
@@ -124,6 +128,7 @@ export const SettingsScreen: React.FC = () => {
     await signOut();
     setIsDeleting(false);
     setShowDeleteDialog(false);
+    showToast('success', '계정이 삭제되었어요');
   };
 
   const handleOpenLink = (url: string) => {

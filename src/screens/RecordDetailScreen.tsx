@@ -23,6 +23,7 @@ import { ActionSheet } from '@/components/BottomSheet';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ReportBottomSheet } from '@/components/ReportBottomSheet';
 import { EMOTION_DATA } from '@/constants/emotions';
+import { useToast } from '@/contexts/ToastContext';
 import type { RecordStackParamList } from '@/navigation/RecordStackNavigator';
 import { useRecordStore } from '@/store/recordStore';
 import { theme } from '@/theme';
@@ -64,6 +65,7 @@ export const RecordDetailScreen: React.FC = () => {
   const navigation = useNavigation<RecordDetailScreenNavigationProp>();
   const route = useRoute<RecordDetailScreenRouteProp>();
   const { recordId } = route.params;
+  const { showToast } = useToast();
 
   const { getRecordById, deleteRecord, updateRecord } = useRecordStore();
   const record = getRecordById(recordId);
@@ -109,14 +111,23 @@ export const RecordDetailScreen: React.FC = () => {
     setShowDeleteDialog(false);
 
     if (success) {
+      showToast('success', '기록이 삭제되었어요');
       navigation.goBack();
+    } else {
+      showToast('error', '삭제에 실패했어요. 다시 시도해주세요', 4000);
     }
   };
 
   const handleToggleVisibility = async () => {
     const newVisibility = isPublic ? 'private' : 'public';
-    await updateRecord(recordId, { visibility: newVisibility });
+    const success = await updateRecord(recordId, { visibility: newVisibility });
     setShowVisibilityDialog(false);
+
+    if (success) {
+      showToast('success', '공개 설정이 변경되었어요');
+    } else {
+      showToast('error', '변경에 실패했어요. 다시 시도해주세요', 4000);
+    }
   };
 
   const handleReport = (reason: string, detail?: string) => {

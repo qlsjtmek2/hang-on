@@ -10,13 +10,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
+import { useToast } from '@/contexts/ToastContext';
 import { AuthStackParamList } from '@/navigation/RootNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
@@ -31,6 +31,7 @@ type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 
 export const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
   const { signUp, isLoading, error: authError, clearError } = useAuthStore();
+  const { showToast } = useToast();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,7 +69,10 @@ export const SignUpScreen: React.FC = () => {
       return;
     }
 
-    await signUp(email.toLowerCase().trim(), password);
+    const success = await signUp(email.toLowerCase().trim(), password);
+    if (success) {
+      showToast('success', '회원가입이 완료되었어요');
+    }
     // 회원가입 성공 시 자동 로그인 → Home 화면으로 자동 전환
   };
 
@@ -98,7 +102,7 @@ export const SignUpScreen: React.FC = () => {
   };
 
   const handleGoogleSignUp = () => {
-    Alert.alert('Google 회원가입', 'Google 소셜 회원가입은 준비 중입니다.', [{ text: '확인' }]);
+    showToast('info', '준비 중인 기능이에요');
   };
 
   return (

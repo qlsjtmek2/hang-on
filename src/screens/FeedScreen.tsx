@@ -15,6 +15,7 @@ import { FeedCard } from '@/components/FeedCard';
 import { MessagePresetBottomSheet } from '@/components/MessagePresetBottomSheet';
 import { ReportBottomSheet, ReportReason } from '@/components/ReportBottomSheet';
 import { FeedCardSkeleton } from '@/components/SkeletonLoader';
+import { useToast } from '@/contexts/ToastContext';
 import { useFeedStore, FeedItem, MessagePreset } from '@/store/feedStore';
 import { theme } from '@/theme';
 
@@ -40,6 +41,7 @@ export const FeedScreen: React.FC = () => {
     sendMessage,
     dailyLimit,
   } = useFeedStore();
+  const { showToast } = useToast();
 
   const [isLoading, setIsLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -110,6 +112,7 @@ export const FeedScreen: React.FC = () => {
   const handleMessageSelect = (preset: MessagePreset) => {
     if (selectedFeedId) {
       sendMessage(selectedFeedId, preset);
+      showToast('success', '따뜻한 메시지를 보냈어요');
     }
   };
 

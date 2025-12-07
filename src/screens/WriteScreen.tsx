@@ -24,6 +24,7 @@ import { Button } from '@/components/Button';
 import { ShareSettingsBottomSheet } from '@/components/ShareSettingsBottomSheet';
 import { StepIndicator } from '@/components/StepIndicator';
 import { EMOTION_DATA } from '@/constants/emotions';
+import { useToast } from '@/contexts/ToastContext';
 import { useDraft } from '@/hooks/useDraft';
 import type { CreateStackParamList } from '@/navigation/CreateStackNavigator';
 import { useRecordStore, RecordVisibility } from '@/store/recordStore';
@@ -63,6 +64,7 @@ export const WriteScreen: React.FC = () => {
   const navigation = useNavigation<WriteScreenNavigationProp>();
   const route = useRoute<WriteScreenRouteProp>();
   const { emotionLevel } = route.params;
+  const { showToast } = useToast();
 
   const [content, setContent] = useState('');
   const [showShareSheet, setShowShareSheet] = useState(false);
@@ -125,8 +127,13 @@ export const WriteScreen: React.FC = () => {
       // 저장 성공 시 임시 저장 삭제
       clearDraft();
 
+      // 성공 Toast 표시
+      showToast('success', '기록이 저장되었어요');
+
       // 성공 시 전체 플로우 종료
       navigation.getParent()?.goBack();
+    } catch {
+      showToast('error', '저장에 실패했어요. 다시 시도해주세요', 4000);
     } finally {
       setIsSubmitting(false);
     }

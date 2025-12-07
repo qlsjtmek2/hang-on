@@ -17,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '@/components/Button';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { EMOTION_DATA } from '@/constants/emotions';
+import { useToast } from '@/contexts/ToastContext';
 import type { RecordStackParamList } from '@/navigation/RecordStackNavigator';
 import { useRecordStore } from '@/store/recordStore';
 import { theme } from '@/theme';
@@ -41,6 +42,7 @@ export const EditRecordScreen: React.FC = () => {
   const navigation = useNavigation<EditRecordScreenNavigationProp>();
   const route = useRoute<EditRecordScreenRouteProp>();
   const { recordId } = route.params;
+  const { showToast } = useToast();
 
   const { getRecordById, updateRecord } = useRecordStore();
   const record = getRecordById(recordId);
@@ -96,7 +98,10 @@ export const EditRecordScreen: React.FC = () => {
     setIsSubmitting(false);
 
     if (success) {
+      showToast('success', '기록이 수정되었어요');
       navigation.goBack();
+    } else {
+      showToast('error', '수정에 실패했어요. 다시 시도해주세요', 4000);
     }
   };
 

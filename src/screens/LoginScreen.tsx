@@ -10,13 +10,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
+import { useToast } from '@/contexts/ToastContext';
 import { AuthStackParamList } from '@/navigation/RootNavigator';
 import { useAuthStore } from '@/store/authStore';
 import { theme } from '@/theme';
@@ -30,6 +30,7 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, '
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const { signIn, isLoading, error: authError, clearError } = useAuthStore();
+  const { showToast } = useToast();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,8 +70,10 @@ export const LoginScreen: React.FC = () => {
     const success = await signIn(email.toLowerCase().trim(), password);
     console.log('[LoginScreen.handleLogin] signIn 완료');
 
-    // 로그인 실패 시 비밀번호만 초기화 (이메일은 유지)
-    if (!success) {
+    if (success) {
+      showToast('success', '로그인되었어요', 2000);
+    } else {
+      // 로그인 실패 시 비밀번호만 초기화 (이메일은 유지)
       setPassword('');
     }
   };
@@ -90,16 +93,19 @@ export const LoginScreen: React.FC = () => {
   };
 
   const handleForgotPassword = () => {
-    Alert.alert('비밀번호 찾기', '비밀번호 재설정 기능은 준비 중입니다.', [{ text: '확인' }]);
+    showToast('info', '준비 중인 기능이에요');
   };
 
   const handleGoogleLogin = async () => {
     // 개발 모드: Mock Google 로그인 (즉시 로그인)
     if (__DEV__) {
-      await signIn('google-dev@example.com', 'google-dev-password');
+      const success = await signIn('google-dev@example.com', 'google-dev-password');
+      if (success) {
+        showToast('success', '로그인되었어요', 2000);
+      }
       return;
     }
-    Alert.alert('Google 로그인', 'Google 소셜 로그인은 준비 중입니다.', [{ text: '확인' }]);
+    showToast('info', '준비 중인 기능이에요');
   };
 
   return (
