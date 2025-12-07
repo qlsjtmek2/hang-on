@@ -250,33 +250,33 @@ export const WriteScreen: React.FC = () => {
           </View>
         </ScrollView>
 
-        {/* 하단 버튼 */}
-        <View style={styles.footer}>
-          <Button
-            title="다 썼어요!"
-            onPress={handleComplete}
-            variant="primary"
-            size="large"
-            disabled={isContentEmpty || isOverLimit || isSubmitting}
-            loading={isSubmitting}
-            fullWidth
-            accessibilityHint={
-              isContentEmpty
-                ? '먼저 내용을 입력해주세요'
-                : isOverLimit
-                  ? '글자 수를 줄여주세요'
-                  : '공유 설정을 선택합니다'
-            }
-          />
-        </View>
       </KeyboardAvoidingView>
+
+      {/* 하단 버튼 - 키보드와 무관하게 고정 */}
+      <View style={styles.footer}>
+        <Button
+          title="다 썼어요!"
+          onPress={handleComplete}
+          variant="primary"
+          size="large"
+          disabled={isContentEmpty || isOverLimit || isSubmitting}
+          loading={isSubmitting}
+          fullWidth
+          accessibilityHint={
+            isContentEmpty
+              ? '먼저 내용을 입력해주세요'
+              : isOverLimit
+                ? '글자 수를 줄여주세요'
+                : '공유 설정을 선택합니다'
+          }
+        />
+      </View>
 
       {/* 공유 설정 바텀시트 */}
       <ShareSettingsBottomSheet
         visible={showShareSheet}
         onClose={handleCloseShareSheet}
         onSelect={handleShare}
-        emotionLevel={emotionLevel}
       />
     </SafeAreaView>
   );
