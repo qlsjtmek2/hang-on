@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
 import { LoginScreen } from '@/screens/LoginScreen';
+import { NotificationsScreen } from '@/screens/NotificationsScreen';
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
 import { SignUpScreen } from '@/screens/SignUpScreen';
 import { useAuthStore } from '@/store/authStore';
@@ -20,13 +21,14 @@ export type AuthStackParamList = {
   SignUp: undefined;
 };
 
-// 루트 스택 타입 (온보딩 + 인증 + 메인 + 기록 생성 + 기록 상세)
+// 루트 스택 타입 (온보딩 + 인증 + 메인 + 기록 생성 + 기록 상세 + 알림)
 export type RootStackParamList = {
   Onboarding: undefined;
   Auth: undefined;
   Main: undefined;
   Create: undefined;
   Record: { recordId: string };
+  Notifications: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -119,6 +121,23 @@ export const RootNavigator: React.FC = () => {
               name="Record"
               component={RecordStackNavigator}
               options={{
+                animation: 'slide_from_right',
+              }}
+            />
+            <RootStack.Screen
+              name="Notifications"
+              component={NotificationsScreen}
+              options={{
+                headerShown: true,
+                title: '알림',
+                headerStyle: {
+                  backgroundColor: theme.colors.background,
+                },
+                headerTitleStyle: {
+                  ...theme.typography.h3,
+                  color: theme.colors.text.primary,
+                },
+                headerShadowVisible: false,
                 animation: 'slide_from_right',
               }}
             />

@@ -4,10 +4,10 @@ import { useNavigation, useNavigationState } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BookOpen, Heart, Settings } from 'lucide-react-native';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-
+import { View, Text, StyleSheet } from 'react-native';
 
 import { FloatingActionButton } from '@/components/FloatingActionButton';
+import { NotificationBell } from '@/components/NotificationBell';
 import { FeedScreen } from '@/screens/FeedScreen';
 import { MyRecordsScreen } from '@/screens/MyRecordsScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
@@ -93,6 +93,10 @@ export const MainTabNavigator: React.FC = () => {
             ...theme.typography.h3,
             color: theme.colors.text.primary,
           },
+          headerTitleAlign: 'center',
+          headerLeft: () => (
+            <Text style={styles.headerLogo}>Hang On</Text>
+          ),
           tabBarStyle: {
             backgroundColor: theme.colors.background,
             borderTopWidth: 1,
@@ -117,6 +121,7 @@ export const MainTabNavigator: React.FC = () => {
             title: '내 기록',
             tabBarLabel: '내 기록',
             tabBarIcon: MyRecordsTabIcon,
+            headerRight: () => <NotificationBell />,
           }}
         />
         <Tab.Screen
@@ -126,6 +131,7 @@ export const MainTabNavigator: React.FC = () => {
             title: '누군가와 함께',
             tabBarLabel: '함께',
             tabBarIcon: FeedTabIcon,
+            headerRight: () => <NotificationBell />,
           }}
         />
         <Tab.Screen
@@ -135,6 +141,7 @@ export const MainTabNavigator: React.FC = () => {
             title: '설정',
             tabBarLabel: '설정',
             tabBarIcon: SettingsTabIcon,
+            headerRight: () => <NotificationBell />,
           }}
         />
       </Tab.Navigator>
@@ -157,5 +164,12 @@ const styles = StyleSheet.create({
   },
   fab: {
     bottom: 82, // 탭바 높이(66) + 여백
+  },
+  headerLogo: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: theme.colors.primary.main,
+    marginLeft: theme.spacing.lg,
+    letterSpacing: -0.5,
   },
 });
