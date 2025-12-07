@@ -218,6 +218,7 @@ export function ActionSheet({
       title={title}
       height="auto"
       showHandle={false}
+      contentStyle={styles.actionSheetContent}
     >
       <View style={styles.actionContainer}>
         {actions.map((action, index) => (
@@ -322,6 +323,10 @@ const styles = StyleSheet.create({
   },
 
   // ActionSheet styles
+  actionSheetContent: {
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+  },
   actionContainer: {
     paddingVertical: theme.spacing.sm,
   },
