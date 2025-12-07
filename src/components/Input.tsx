@@ -19,6 +19,8 @@ export interface InputProps extends Omit<TextInputProps, 'style'> {
   helperText?: string;
   showCounter?: boolean;
   maxLength?: number;
+  /** 입력창 스타일 변형: outlined (테두리) | filled (배경색) */
+  variant?: 'outlined' | 'filled';
   containerStyle?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   labelStyle?: StyleProp<TextStyle>;
@@ -34,6 +36,7 @@ export const Input = forwardRef<TextInput, InputProps>(
       helperText,
       showCounter = false,
       maxLength,
+      variant = 'outlined',
       value = '',
       onChangeText,
       containerStyle,
@@ -62,7 +65,8 @@ export const Input = forwardRef<TextInput, InputProps>(
 
     const inputContainerStyle = [
       styles.inputContainer,
-      isFocused && styles.inputContainer_focused,
+      variant === 'filled' && styles.inputContainer_filled,
+      isFocused && (variant === 'filled' ? styles.inputContainer_filled_focused : styles.inputContainer_focused),
       error && styles.inputContainer_error,
       !editable && styles.inputContainer_disabled,
     ];
@@ -141,18 +145,29 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
     borderColor: theme.colors.neutral.gray300,
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: theme.colors.neutral.white,
-    paddingHorizontal: theme.spacing.sm,
-    minHeight: 48,
+    paddingHorizontal: theme.spacing.md,
+    minHeight: 52,
     justifyContent: 'center',
+  },
+  inputContainer_filled: {
+    borderWidth: 0,
+    backgroundColor: '#F5F5F7',
+    borderRadius: 16,
+    paddingHorizontal: theme.spacing.lg,
+    minHeight: 56,
   },
   inputContainer_focused: {
     borderColor: theme.colors.primary.main,
     borderWidth: 2,
   },
+  inputContainer_filled_focused: {
+    backgroundColor: '#EEEEF0',
+  },
   inputContainer_error: {
     borderColor: theme.colors.semantic.error,
+    borderWidth: 1,
   },
   inputContainer_disabled: {
     backgroundColor: theme.colors.neutral.gray100,

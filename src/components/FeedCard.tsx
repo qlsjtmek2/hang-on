@@ -37,14 +37,14 @@ export interface FeedCardProps {
  * React.memo로 최적화되어 불필요한 리렌더링을 방지합니다.
  * Reanimated를 사용한 부드러운 fade/slide 애니메이션을 제공합니다.
  */
-export const FeedCard = memo(function FeedCard({
+export const FeedCard = memo(({
   record,
   isActive,
   onEmpathyPress,
   onMessagePress,
   onMorePress,
   cardHeight,
-}: FeedCardProps) {
+}: FeedCardProps) => {
   const emotionInfo = EMOTION_DATA[record.emotionLevel];
   const EmotionIcon = emotionInfo.icon;
 

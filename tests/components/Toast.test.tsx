@@ -2,9 +2,9 @@
  * Toast Component Tests
  */
 
+import { render, fireEvent, act } from '@testing-library/react-native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { render, fireEvent, act } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Toast } from '@/components/Toast';
@@ -46,7 +46,7 @@ describe('Toast Component', () => {
           message="성공적으로 저장되었습니다"
           onDismiss={mockOnDismiss}
         />
-      </SafeAreaProvider>
+      </SafeAreaProvider>,
     );
 
     expect(getByText('성공적으로 저장되었습니다')).toBeTruthy();
@@ -61,7 +61,7 @@ describe('Toast Component', () => {
           message="오류가 발생했습니다"
           onDismiss={mockOnDismiss}
         />
-      </SafeAreaProvider>
+      </SafeAreaProvider>,
     );
 
     expect(getByText('오류가 발생했습니다')).toBeTruthy();
@@ -76,7 +76,7 @@ describe('Toast Component', () => {
           message="주의가 필요합니다"
           onDismiss={mockOnDismiss}
         />
-      </SafeAreaProvider>
+      </SafeAreaProvider>,
     );
 
     expect(getByText('주의가 필요합니다')).toBeTruthy();
@@ -91,7 +91,7 @@ describe('Toast Component', () => {
           message="정보를 확인하세요"
           onDismiss={mockOnDismiss}
         />
-      </SafeAreaProvider>
+      </SafeAreaProvider>,
     );
 
     expect(getByText('정보를 확인하세요')).toBeTruthy();
@@ -106,7 +106,7 @@ describe('Toast Component', () => {
           message="테스트 메시지"
           onDismiss={mockOnDismiss}
         />
-      </SafeAreaProvider>
+      </SafeAreaProvider>,
     );
 
     const closeButton = getByLabelText('토스트 닫기');
@@ -122,7 +122,7 @@ describe('Toast Component', () => {
           message="테스트 메시지"
           onDismiss={mockOnDismiss}
         />
-      </SafeAreaProvider>
+      </SafeAreaProvider>,
     );
 
     const closeButton = getByLabelText('토스트 닫기');
@@ -162,7 +162,7 @@ describe('ToastContext', () => {
     const { getByTestId } = render(
       <Wrapper>
         <TestComponent />
-      </Wrapper>
+      </Wrapper>,
     );
 
     expect(getByTestId('show-success')).toBeTruthy();

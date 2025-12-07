@@ -44,12 +44,12 @@ interface SkeletonProps {
  *
  * shimmer 애니메이션이 적용된 자리 표시자입니다.
  */
-export const Skeleton = memo(function Skeleton({
+export const Skeleton = memo(({
   width = '100%',
   height = 16,
   borderRadius = 4,
   style,
-}: SkeletonProps) {
+}: SkeletonProps) => {
   const shimmerProgress = useSharedValue(0);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export const Skeleton = memo(function Skeleton({
         easing: Easing.linear,
       }),
       -1, // 무한 반복
-      false // 역방향 없음
+      false, // 역방향 없음
     );
   }, [shimmerProgress]);
 
@@ -67,7 +67,7 @@ export const Skeleton = memo(function Skeleton({
     const translateX = interpolate(
       shimmerProgress.value,
       [0, 1],
-      [-100, 100]
+      [-100, 100],
     );
 
     return {
@@ -100,7 +100,7 @@ export const Skeleton = memo(function Skeleton({
  * RecordCard 레이아웃과 동일한 구조의 스켈레톤입니다.
  * 내 기록 목록에서 로딩 시 표시됩니다.
  */
-export const RecordCardSkeleton = memo(function RecordCardSkeleton() {
+export const RecordCardSkeleton = memo(() => {
   return (
     <View
       style={styles.recordCardContainer}
@@ -153,9 +153,9 @@ interface RecordCardSkeletonListProps {
  *
  * 여러 개의 RecordCardSkeleton을 렌더링합니다.
  */
-export const RecordCardSkeletonList = memo(function RecordCardSkeletonList({
+export const RecordCardSkeletonList = memo(({
   count = 3,
-}: RecordCardSkeletonListProps) {
+}: RecordCardSkeletonListProps) => {
   return (
     <View>
       {Array.from({ length: count }).map((_, index) => (
@@ -175,9 +175,9 @@ interface FeedCardSkeletonProps {
   cardHeight: number;
 }
 
-export const FeedCardSkeleton = memo(function FeedCardSkeleton({
+export const FeedCardSkeleton = memo(({
   cardHeight,
-}: FeedCardSkeletonProps) {
+}: FeedCardSkeletonProps) => {
   return (
     <View
       style={[styles.feedCardContainer, { height: cardHeight }]}

@@ -44,6 +44,6 @@ export const useOnboardingStore = create<OnboardingStore>()(
         // 복원 완료 후 로딩 상태 해제
         state?.setLoading(false);
       },
-    }
-  )
+    },
+  ),
 );

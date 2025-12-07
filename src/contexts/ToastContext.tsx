@@ -49,7 +49,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
       const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       setToasts(prev => [...prev, { id, type, message, duration }]);
     },
-    []
+    [],
   );
 
   const hideToast = useCallback((id: string) => {

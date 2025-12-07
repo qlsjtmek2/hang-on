@@ -61,7 +61,7 @@ export function EmotionButton({
       // 탭 애니메이션
       scale.value = withSequence(
         withTiming(0.95, { duration: 120 }),
-        withTiming(isSelected ? 1.1 : 1, { duration: 120 })
+        withTiming(isSelected ? 1.1 : 1, { duration: 120 }),
       );
 
       onPress(emotionLevel);

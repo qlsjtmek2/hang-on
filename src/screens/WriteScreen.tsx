@@ -77,7 +77,7 @@ export const WriteScreen: React.FC = () => {
       savedOpacity.value = withSequence(
         withTiming(1, { duration: 200 }),
         withTiming(1, { duration: 2000 }),
-        withTiming(0, { duration: 300 })
+        withTiming(0, { duration: 300 }),
       );
       setTimeout(() => setShowSavedIndicator(false), 2500);
     }

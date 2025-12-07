@@ -1,3 +1,4 @@
+import { Cloud, CloudRain, CloudLightning, CloudSun, Sun, Heart, Users } from 'lucide-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import {
   Dimensions,
@@ -14,7 +15,6 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { Cloud, CloudRain, CloudLightning, CloudSun, Sun, Heart, Users } from 'lucide-react-native';
 
 import { useOnboardingStore } from '@/store/onboardingStore';
 import { theme } from '@/theme';
@@ -104,7 +104,7 @@ export const OnboardingScreen: React.FC = () => {
         setCurrentIndex(viewableItems[0].index);
       }
     },
-    []
+    [],
   );
 
   const viewabilityConfig = useRef({

@@ -65,8 +65,8 @@ export const useDraftStore = create<DraftState>()(
       name: DRAFT_STORAGE_KEY,
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({ draft: state.draft }), // draft만 저장
-    }
-  )
+    },
+  ),
 );
 
 /**

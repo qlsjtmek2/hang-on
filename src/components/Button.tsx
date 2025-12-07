@@ -8,6 +8,7 @@ import {
   ViewStyle,
   TextStyle,
   View,
+  Platform,
 } from 'react-native';
 
 import { theme } from '@/theme';
@@ -119,11 +120,35 @@ const styles = StyleSheet.create({
   // Variants
   container_primary: {
     backgroundColor: theme.colors.primary.main,
+    // 입체감 있는 그림자
+    ...Platform.select({
+      ios: {
+        shadowColor: theme.colors.primary.main,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   container_secondary: {
-    backgroundColor: theme.colors.neutral.gray100,
+    backgroundColor: theme.colors.neutral.white,
     borderWidth: 1,
-    borderColor: theme.colors.neutral.gray300,
+    borderColor: theme.colors.neutral.gray200,
+    // 미세한 그림자
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 1,
+      },
+    }),
   },
   container_ghost: {
     backgroundColor: 'transparent',
@@ -153,6 +178,15 @@ const styles = StyleSheet.create({
   container_disabled: {
     opacity: 0.6,
     backgroundColor: theme.colors.neutral.gray300,
+    // 그림자 제거
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0,
+      },
+      android: {
+        elevation: 0,
+      },
+    }),
   },
   container_fullWidth: {
     width: '100%',

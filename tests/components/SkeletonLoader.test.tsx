@@ -2,8 +2,8 @@
  * SkeletonLoader Component Tests
  */
 
-import React from 'react';
 import { render } from '@testing-library/react-native';
+import React from 'react';
 
 import {
   Skeleton,
@@ -20,7 +20,7 @@ describe('Skeleton', () => {
 
   it('renders with custom dimensions', () => {
     const { getByLabelText } = render(
-      <Skeleton width={100} height={20} borderRadius={8} />
+      <Skeleton width={100} height={20} borderRadius={8} />,
     );
     const skeleton = getByLabelText('로딩 중');
     expect(skeleton).toBeTruthy();
@@ -31,7 +31,7 @@ describe('Skeleton', () => {
           height: 20,
           borderRadius: 8,
         }),
-      ])
+      ]),
     );
   });
 
@@ -44,7 +44,7 @@ describe('Skeleton', () => {
         expect.objectContaining({
           width: '80%',
         }),
-      ])
+      ]),
     );
   });
 
@@ -97,7 +97,7 @@ describe('FeedCardSkeleton', () => {
   it('applies correct card height', () => {
     const testHeight = 750;
     const { getByLabelText } = render(
-      <FeedCardSkeleton cardHeight={testHeight} />
+      <FeedCardSkeleton cardHeight={testHeight} />,
     );
     const container = getByLabelText('피드 로딩 중');
     expect(container.props.style).toEqual(
@@ -105,7 +105,7 @@ describe('FeedCardSkeleton', () => {
         expect.objectContaining({
           height: testHeight,
         }),
-      ])
+      ]),
     );
   });
 

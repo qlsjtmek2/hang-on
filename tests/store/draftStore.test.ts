@@ -8,7 +8,7 @@ import { useDraftStore, hasDraft, getDraftAgeMinutes, isDraftStale } from '@/sto
 
 // AsyncStorage mock
 jest.mock('@react-native-async-storage/async-storage', () =>
-  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
 describe('draftStore', () => {

@@ -82,7 +82,7 @@ export function HeartButton({
     // 펄스 애니메이션 (Reanimated)
     scale.value = withSequence(
       withTiming(1.15, { duration: 120 }),
-      withTiming(1, { duration: 120 })
+      withTiming(1, { duration: 120 }),
     );
 
     onPress();

@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Hand } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
   View,
@@ -10,6 +11,7 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -110,8 +112,17 @@ export const SignUpScreen: React.FC = () => {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          {/* 헤더 */}
+          {/* 헤더 - 로고 심볼 + 브랜드명 */}
           <View style={styles.header}>
+            <View style={styles.logoOuterCircle}>
+              <View style={styles.logoInnerCircle}>
+                <Hand
+                  size={40}
+                  color={theme.colors.primary.main}
+                  strokeWidth={1.5}
+                />
+              </View>
+            </View>
             <Text style={styles.title}>회원가입</Text>
             <Text style={styles.subtitle}>Hang On과 함께 시작해보세요</Text>
           </View>
@@ -124,6 +135,7 @@ export const SignUpScreen: React.FC = () => {
               onChangeText={handleEmailChange}
               onBlur={() => validateEmail(email)}
               error={emailError}
+              variant="filled"
               keyboardType="email-address"
               autoCapitalize="none"
               autoComplete="email"
@@ -136,11 +148,12 @@ export const SignUpScreen: React.FC = () => {
               onChangeText={handlePasswordChange}
               onBlur={() => validatePassword(password)}
               error={passwordError}
+              variant="filled"
               secureTextEntry
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.xs }}
+              containerStyle={{ marginTop: theme.spacing.sm }}
             />
 
             <Input
@@ -149,11 +162,12 @@ export const SignUpScreen: React.FC = () => {
               onChangeText={handleConfirmPasswordChange}
               onBlur={() => validateConfirmPassword(confirmPassword)}
               error={confirmPasswordError}
+              variant="filled"
               secureTextEntry
               autoCapitalize="none"
               autoComplete="password-new"
               editable={!isLoading}
-              containerStyle={{ marginTop: theme.spacing.xs }}
+              containerStyle={{ marginTop: theme.spacing.sm }}
             />
 
             {/* 서버 에러 또는 안내 메시지 */}
@@ -172,8 +186,10 @@ export const SignUpScreen: React.FC = () => {
               title={isLoading ? '가입 중...' : '회원가입'}
               onPress={handleSignUp}
               variant="primary"
+              size="large"
               disabled={isLoading}
-              style={{ marginTop: theme.spacing.sm }}
+              fullWidth
+              style={{ marginTop: theme.spacing.lg }}
             />
 
             {isLoading && (
@@ -193,32 +209,28 @@ export const SignUpScreen: React.FC = () => {
           </View>
 
           {/* 소셜 회원가입 */}
-          <View style={styles.socialSection}>
-            <Button
-              title="Google로 회원가입"
-              onPress={handleGoogleSignUp}
-              variant="secondary"
-              disabled={isLoading}
-              leftIcon={
-                <View style={styles.googleIcon}>
-                  <Text style={styles.googleIconText}>G</Text>
-                </View>
-              }
-            />
-          </View>
+          <TouchableOpacity
+            style={styles.googleButton}
+            onPress={handleGoogleSignUp}
+            disabled={isLoading}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.googleIconText}>G</Text>
+            <Text style={styles.googleButtonText}>Google로 시작하기</Text>
+          </TouchableOpacity>
 
           {/* 로그인 링크 */}
           <View style={styles.footer}>
             <Text style={styles.footerText}>이미 계정이 있으신가요?</Text>
-            <Button
-              title="로그인"
+            <TouchableOpacity
               onPress={() => {
                 clearError();
                 navigation.navigate('Login');
               }}
-              variant="ghost"
               disabled={isLoading}
-            />
+            >
+              <Text style={styles.loginText}>로그인</Text>
+            </TouchableOpacity>
           </View>
 
           {/* 약관 동의 안내 */}
@@ -234,31 +246,54 @@ export const SignUpScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#FFFFFF',
   },
   keyboardView: {
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
-    padding: theme.spacing.xl,
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+    paddingVertical: theme.spacing.xl,
   },
+
+  // 헤더 (로고 + 브랜드명)
   header: {
     alignItems: 'center',
-    marginTop: theme.spacing.xxl,
-    marginBottom: theme.spacing.xl,
+    marginBottom: 32,
+  },
+  logoOuterCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: `${theme.colors.primary.main}15`, // 10% opacity
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: theme.spacing.lg,
+  },
+  logoInnerCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: `${theme.colors.primary.main}25`, // 20% opacity
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
-    ...theme.typography.h1,
+    fontSize: 28,
+    fontWeight: '700',
     color: theme.colors.text.primary,
-    marginBottom: theme.spacing.sm,
+    marginBottom: theme.spacing.xs,
   },
   subtitle: {
     ...theme.typography.body,
-    color: theme.colors.text.secondary,
+    color: '#666666',
   },
+
+  // 폼 섹션
   form: {
-    marginBottom: theme.spacing.xl,
+    marginBottom: theme.spacing.lg,
   },
   messageText: {
     ...theme.typography.caption,
@@ -274,6 +309,8 @@ const styles = StyleSheet.create({
   loader: {
     marginTop: theme.spacing.md,
   },
+
+  // 구분선
   dividerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -282,49 +319,61 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: theme.colors.neutral.gray300,
+    backgroundColor: '#E0E0E0',
   },
   dividerText: {
     ...theme.typography.caption,
-    color: theme.colors.text.secondary,
+    color: '#999999',
     marginHorizontal: theme.spacing.md,
   },
-  socialSection: {
-    marginBottom: theme.spacing.xl,
-  },
-  googleIcon: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: theme.colors.neutral.white,
+
+  // Google 버튼 (커스텀 스타일)
+  googleButton: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: theme.colors.neutral.gray300,
+    borderColor: '#E0E0E0',
+    borderRadius: 16,
+    paddingVertical: 16,
+    marginBottom: theme.spacing.lg,
   },
   googleIconText: {
-    ...theme.typography.button,
-    fontSize: 12,
+    fontSize: 20,
     fontWeight: '700',
-    color: theme.colors.primary.main,
+    color: '#DB4437',
+    marginRight: theme.spacing.sm,
   },
+  googleButtonText: {
+    ...theme.typography.button,
+    color: '#333333',
+  },
+
+  // 하단 링크
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 'auto',
-    paddingTop: theme.spacing.xl,
+    paddingVertical: theme.spacing.md,
   },
   footerText: {
     ...theme.typography.body,
-    color: theme.colors.text.secondary,
-    marginRight: theme.spacing.sm,
+    color: '#666666',
   },
+  loginText: {
+    ...theme.typography.body,
+    fontWeight: '700',
+    color: theme.colors.primary.main,
+    marginLeft: theme.spacing.xs,
+  },
+
+  // 약관 안내
   termsText: {
     ...theme.typography.caption,
-    color: theme.colors.text.secondary,
+    color: '#999999',
     textAlign: 'center',
-    marginTop: theme.spacing.xl,
+    marginTop: theme.spacing.md,
     lineHeight: 20,
   },
 });

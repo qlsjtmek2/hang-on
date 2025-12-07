@@ -48,7 +48,7 @@ export interface RecordCardProps {
  * │ ❤️ 12    💬 3                   │  ← 반응
  * └─────────────────────────────────┘
  */
-export const RecordCard = memo(function RecordCard({
+export const RecordCard = memo(({
   id,
   emotionLevel,
   content,
@@ -60,7 +60,7 @@ export const RecordCard = memo(function RecordCard({
   onEmpathyPress,
   onMessagePress,
   style,
-}: RecordCardProps) {
+}: RecordCardProps) => {
   const emotionInfo = EMOTION_DATA[emotionLevel];
   const EmotionIcon = emotionInfo.icon;
 

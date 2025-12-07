@@ -51,7 +51,7 @@ interface UseDraftReturn {
 export function useDraft(
   emotionLevel: EmotionLevel,
   content: string,
-  enabled: boolean = true
+  enabled: boolean = true,
 ): UseDraftReturn {
   const { draft, saveDraft: storeSaveDraft, clearDraft: storeClearDraft } = useDraftStore();
 

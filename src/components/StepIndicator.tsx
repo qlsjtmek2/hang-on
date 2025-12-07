@@ -35,14 +35,14 @@ export interface StepIndicatorProps {
  * - dot: 점 형태 (기본값)
  * - bar: 바/진행률 형태
  */
-export const StepIndicator = memo(function StepIndicator({
+export const StepIndicator = memo(({
   currentStep,
   totalSteps,
   variant = 'dot',
   labels,
   showLabels = false,
   style,
-}: StepIndicatorProps) {
+}: StepIndicatorProps) => {
   if (variant === 'bar') {
     return (
       <BarIndicator
@@ -77,13 +77,13 @@ interface IndicatorInternalProps {
 /**
  * DotIndicator - 점 형태 인디케이터
  */
-const DotIndicator = memo(function DotIndicator({
+const DotIndicator = memo(({
   currentStep,
   totalSteps,
   labels,
   showLabels,
   style,
-}: IndicatorInternalProps) {
+}: IndicatorInternalProps) => {
   return (
     <View
       style={[styles.container, style]}
@@ -127,10 +127,10 @@ interface AnimatedDotProps {
 /**
  * AnimatedDot - 애니메이션이 적용된 단일 점
  */
-const AnimatedDot = memo(function AnimatedDot({
+const AnimatedDot = memo(({
   isActive,
   isCompleted,
-}: AnimatedDotProps) {
+}: AnimatedDotProps) => {
   const scale = useSharedValue(isActive ? 1.3 : 1);
 
   useEffect(() => {
@@ -156,13 +156,13 @@ const AnimatedDot = memo(function AnimatedDot({
 /**
  * BarIndicator - 바 형태 인디케이터
  */
-const BarIndicator = memo(function BarIndicator({
+const BarIndicator = memo(({
   currentStep,
   totalSteps,
   labels,
   showLabels,
   style,
-}: IndicatorInternalProps) {
+}: IndicatorInternalProps) => {
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
   const progressWidth = useSharedValue(progress);
 
