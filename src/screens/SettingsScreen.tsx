@@ -21,7 +21,6 @@ import {
   Switch,
   Linking,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BottomSheet } from '@/components/BottomSheet';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
@@ -139,7 +138,7 @@ export const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* 프로필 섹션 */}
         <View style={styles.profileSection}>
@@ -293,7 +292,7 @@ export const SettingsScreen: React.FC = () => {
         variant="danger"
         loading={isDeleting}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

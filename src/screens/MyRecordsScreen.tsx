@@ -3,7 +3,6 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FileEdit } from 'lucide-react-native';
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RecordCard } from '@/components/RecordCard';
 import { RecordCardSkeletonList } from '@/components/SkeletonLoader';
@@ -90,16 +89,16 @@ export const MyRecordsScreen: React.FC = () => {
   // 로딩 중일 때 스켈레톤 표시
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.container}>
         <View style={styles.listContent}>
           <RecordCardSkeletonList count={5} />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       {records.length === 0 ? (
         renderEmptyState()
       ) : (
@@ -124,7 +123,7 @@ export const MyRecordsScreen: React.FC = () => {
           }
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
