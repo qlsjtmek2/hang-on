@@ -108,6 +108,7 @@ export const MyRecordsScreen: React.FC = () => {
           keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
           // 성능 최적화 옵션
           initialNumToRender={10}
           maxToRenderPerBatch={10}
@@ -133,8 +134,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   listContent: {
-    padding: theme.spacing.md,
+    padding: 16, // px-4 pt-4
     paddingBottom: 100, // FAB 공간 확보
+  },
+  separator: {
+    height: 16, // gap-4
   },
   emptyContent: {
     flex: 1,
