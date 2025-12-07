@@ -12,7 +12,16 @@ import {
 } from 'react-native';
 
 import { EmotionLevel, EMOTION_DATA } from '@/constants/emotions';
+import { RecordVisibility } from '@/store/recordStore';
 import { theme } from '@/theme';
+import { formatDateLabel } from '@/utils/dateFormatter';
+
+// visibility 라벨 매핑
+const VISIBILITY_LABELS: Record<RecordVisibility, string> = {
+  public: '공개',
+  private: '비공개',
+  scheduled: '예약공개',
+};
 
 export interface RecordCardProps {
   id: string;
@@ -21,42 +30,12 @@ export interface RecordCardProps {
   createdAt: Date | string;
   empathyCount?: number;
   messageCount?: number;
-  isShared?: boolean;
+  visibility?: RecordVisibility;
   onPress?: (id: string) => void;
   onEmpathyPress?: (id: string) => void;
   onMessagePress?: (id: string) => void;
   style?: StyleProp<ViewStyle>;
-  formatTime?: (date: Date | string) => string;
 }
-
-// 기본 시간 포맷터 (나중에 dateFormatter 유틸리티로 대체)
-const defaultFormatTime = (date: Date | string): string => {
-  const d = typeof date === 'string' ? new Date(date) : date;
-  const now = new Date();
-  const diff = now.getTime() - d.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-
-  if (minutes < 1) return '방금 전';
-  if (minutes < 60) return `${minutes}분 전`;
-  if (hours < 24) return `${hours}시간 전`;
-  if (days < 7) return `${days}일 전`;
-
-  // 일주일 이상인 경우 날짜 표시
-  const month = d.getMonth() + 1;
-  const day = d.getDate();
-  const hour = d.getHours();
-  const minute = d.getMinutes();
-  const ampm = hour >= 12 ? '오후' : '오전';
-  const displayHour = hour % 12 || 12;
-
-  if (d.getFullYear() === now.getFullYear()) {
-    return `${month}월 ${day}일 ${ampm} ${displayHour}:${minute.toString().padStart(2, '0')}`;
-  }
-
-  return `${d.getFullYear()}.${month}.${day}`;
-};
 
 // 텍스트 미리보기 생성
 const getPreviewText = (text: string, maxLength: number = 100): string => {
@@ -68,6 +47,15 @@ const getPreviewText = (text: string, maxLength: number = 100): string => {
  * RecordCard - 기록 카드 컴포넌트
  *
  * React.memo로 최적화되어 props가 변경되지 않으면 리렌더링을 방지합니다.
+ *
+ * 레이아웃:
+ * ┌─────────────────────────────────┐
+ * │ 오늘                      🌐 🌧️ │  ← 날짜 + 공유아이콘 + 감정아이콘
+ * │                                 │
+ * │ 오늘 하루가 정말 힘들었어...     │  ← 내용 미리보기
+ * │                                 │
+ * │ ❤️ 5     💬 3                   │  ← 반응 (구분선 없음)
+ * └─────────────────────────────────┘
  */
 export const RecordCard = memo(function RecordCard({
   id,
@@ -76,12 +64,11 @@ export const RecordCard = memo(function RecordCard({
   createdAt,
   empathyCount = 0,
   messageCount = 0,
-  isShared = false,
+  visibility = 'private',
   onPress,
   onEmpathyPress,
   onMessagePress,
   style,
-  formatTime = defaultFormatTime,
 }: RecordCardProps) {
   const emotionInfo = EMOTION_DATA[emotionLevel];
   const EmotionIcon = emotionInfo.icon;
@@ -107,27 +94,20 @@ export const RecordCard = memo(function RecordCard({
       activeOpacity={0.9}
       accessible={true}
       accessibilityRole="button"
-      accessibilityLabel={`${emotionInfo.label} 감정 기록`}
+      accessibilityLabel={`${emotionInfo.label} 감정 기록, ${formatDateLabel(createdAt)}`}
       accessibilityHint="탭하여 상세 내용 보기"
     >
-      {/* Header: 감정 아이콘과 시간 */}
+      {/* Header: 날짜+감정(왼쪽) / 공개상태(오른쪽) */}
       <View style={styles.header}>
-        <View style={styles.emotionContainer}>
-          <View style={[styles.emotionIcon, { backgroundColor: emotionInfo.color + '20' }]}>
+        <View style={styles.dateGroup}>
+          <View style={[styles.emotionBadge, { backgroundColor: emotionInfo.color + '20' }]}>
             <EmotionIcon size={18} color={emotionInfo.color} strokeWidth={2} />
           </View>
-          <Text style={[styles.emotionLabel, { color: emotionInfo.color }]}>
-            {emotionInfo.label}
-          </Text>
+          <Text style={styles.dateText}>{formatDateLabel(createdAt)}</Text>
         </View>
-        <View style={styles.timeContainer}>
-          {isShared && (
-            <View style={styles.sharedBadge}>
-              <Text style={styles.sharedText}>공유됨</Text>
-            </View>
-          )}
-          <Text style={styles.timeText}>{formatTime(createdAt)}</Text>
-        </View>
+        <Text style={styles.visibilityText}>
+          {VISIBILITY_LABELS[visibility]}
+        </Text>
       </View>
 
       {/* Content Preview */}
@@ -135,7 +115,7 @@ export const RecordCard = memo(function RecordCard({
         {getPreviewText(content, 120)}
       </Text>
 
-      {/* Footer: 공감과 메시지 카운트 */}
+      {/* Footer: 공감과 메시지 카운트 (구분선 없음) */}
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.actionButton}
@@ -146,8 +126,8 @@ export const RecordCard = memo(function RecordCard({
           accessibilityHint="탭하여 공감 목록을 확인합니다"
           accessibilityRole="button"
         >
-          <Heart size={16} color={theme.colors.neutral.gray600} />
-          {empathyCount > 0 && <Text style={styles.actionCount}>{empathyCount}</Text>}
+          <Heart size={14} color={theme.colors.neutral.gray500} />
+          <Text style={styles.actionCount}>{empathyCount}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -159,8 +139,8 @@ export const RecordCard = memo(function RecordCard({
           accessibilityHint="탭하여 메시지 목록을 확인합니다"
           accessibilityRole="button"
         >
-          <MessageCircle size={16} color={theme.colors.neutral.gray600} />
-          {messageCount > 0 && <Text style={styles.actionCount}>{messageCount}</Text>}
+          <MessageCircle size={14} color={theme.colors.neutral.gray500} />
+          <Text style={styles.actionCount}>{messageCount}</Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -170,9 +150,9 @@ export const RecordCard = memo(function RecordCard({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.neutral.white,
-    borderRadius: 12,
-    padding: theme.spacing.md,
-    marginBottom: theme.spacing.sm,
+    borderRadius: 16,
+    padding: theme.spacing.lg,
+    marginBottom: theme.spacing.md, // sm → md로 카드 사이 여백 확대
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -188,69 +168,51 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: theme.spacing.sm,
+    alignItems: 'center',
+    marginBottom: theme.spacing.md,
   },
-  emotionContainer: {
+  dateGroup: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: theme.spacing.sm, // xs → sm으로 여백 확대
   },
-  emotionIcon: {
-    width: 32,
+  dateText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: theme.colors.neutral.gray900,
+  },
+  visibilityText: {
+    fontSize: 12,
+    color: theme.colors.neutral.gray400,
+  },
+  emotionBadge: {
+    width: 32, // 28 → 32로 키움
     height: 32,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emotionLabel: {
-    ...theme.typography.caption,
-    fontWeight: '600',
-    marginLeft: theme.spacing.xs,
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sharedBadge: {
-    backgroundColor: theme.colors.primary.light,
-    paddingHorizontal: theme.spacing.xs,
-    paddingVertical: 2,
-    borderRadius: 4,
-    marginRight: theme.spacing.xs,
-  },
-  sharedText: {
-    ...theme.typography.caption,
-    color: theme.colors.primary.dark,
-    fontSize: 10,
-    fontWeight: '600',
-  },
-  timeText: {
-    ...theme.typography.caption,
-    color: theme.colors.neutral.gray600,
-  },
   content: {
-    ...theme.typography.body,
-    color: theme.colors.neutral.gray900,
-    lineHeight: 22,
-    marginBottom: theme.spacing.sm,
+    fontSize: 14, // body(16) → 14로 줄임
+    color: theme.colors.neutral.gray700,
+    lineHeight: 21,
+    marginBottom: theme.spacing.md,
   },
   footer: {
     flexDirection: 'row',
-    paddingTop: theme.spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.neutral.gray200,
+    // borderTop 제거
   },
   actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    minWidth: 48, // 고정 최소 너비로 간격 일관성
     marginRight: theme.spacing.md,
-    paddingVertical: theme.spacing.xs,
   },
   actionCount: {
     ...theme.typography.caption,
-    color: theme.colors.neutral.gray700,
+    color: theme.colors.neutral.gray500, // gray700 → gray500으로 약화
     marginLeft: theme.spacing.xs,
-    fontWeight: '500',
+    minWidth: 16, // 숫자 영역 고정
   },
 });
 

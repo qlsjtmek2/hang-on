@@ -1,11 +1,11 @@
 /**
  * Hang On - Color Palette
  *
- * 디자인 시스템 색상 정의
+ * 보라색 기반의 부드럽고 따뜻한 디자인 시스템
  *
  * 사용 예시:
  * import { colors } from '@/theme';
- * <View style={{ backgroundColor: colors.primary }} />
+ * <View style={{ backgroundColor: colors.primary.main }} />
  *
  * 참조: docs/DESIGN_SYSTEM.md
  */
@@ -13,11 +13,11 @@
 import type { EmotionLevel } from '@/types/emotion';
 
 export const colors = {
-  // Primary Colors (주요 색상) - WCAG AA 대비 충족
+  // Primary Colors (보라색 계열)
   primary: {
-    main: '#3565C0', // 메인 블루 (CTA, 강조) - 대비 5.2:1 ✅
-    light: '#6B8FD4', // 밝은 블루 (호버, 비활성화)
-    dark: '#2A4A8C', // 어두운 블루 (눌림)
+    main: '#8f4ae3', // 메인 보라 (CTA, 강조)
+    light: '#a875e8', // 밝은 보라 (호버, 비활성화)
+    dark: '#7a3bc7', // 어두운 보라 (눌림)
   },
 
   // Emotion Weather Colors (감정 날씨 색상)
@@ -34,37 +34,37 @@ export const colors = {
     success: '#4CAF50', // 성공 (초록)
     warning: '#FF9800', // 경고 (주황)
     error: '#F44336', // 에러 (빨강)
-    info: '#2196F3', // 정보 (파랑)
+    info: '#8f4ae3', // 정보 (보라 - primary와 통일)
   },
 
-  // Neutral Colors (중립 색상)
+  // Neutral Colors (보라빛 warm gray)
   neutral: {
-    white: '#FFFFFF', // 흰색
-    gray100: '#F5F5F5', // 가장 밝은 회색
-    gray200: '#EEEEEE', // 매우 밝은 회색
-    gray300: '#E0E0E0', // 밝은 회색
-    gray400: '#BDBDBD', // 중간 밝은 회색
-    gray500: '#9E9E9E', // 중간 회색
-    gray600: '#757575', // 중간 어두운 회색
-    gray700: '#616161', // 어두운 회색
-    gray800: '#424242', // 매우 어두운 회색
-    gray900: '#212121', // 가장 어두운 회색
-    black: '#000000', // 검정
+    white: '#FFFFFF',
+    gray100: '#faf8fb', // 가장 밝은 (배경과 동일)
+    gray200: '#ede8f2', // 테두리
+    gray300: '#d9d1e3',
+    gray400: '#a495b7', // disabled
+    gray500: '#6f5194', // muted text
+    gray600: '#5a4279',
+    gray700: '#453261',
+    gray800: '#2d1f42',
+    gray900: '#140e1a', // 거의 검정
+    black: '#000000',
   },
 
   // Background Colors
-  background: '#FFFFFF', // 메인 배경
-  surface: '#F5F5F5', // 카드 배경
-  surfaceHover: '#EEEEEE', // 카드 호버
-  border: '#E0E0E0', // 구분선
-  overlay: 'rgba(0, 0, 0, 0.5)', // 다이얼로그 뒤 오버레이
+  background: '#faf8fb', // 메인 배경 (연한 라벤더 크림)
+  surface: '#ffffff', // 카드 배경 (순백)
+  surfaceHover: '#ede8f2', // 카드 호버
+  border: '#ede8f2', // 구분선 (연한 보라)
+  overlay: 'rgba(20, 14, 26, 0.5)', // 다이얼로그 뒤 오버레이
 
-  // Text Colors (텍스트 색상) - 호환성을 위해 유지
+  // Text Colors (텍스트 색상)
   text: {
-    primary: '#212121', // 주요 텍스트 (검정)
-    secondary: '#757575', // 보조 텍스트 (회색)
-    disabled: '#BDBDBD', // 비활성화 텍스트 (연한 회색)
-    inverse: '#FFFFFF', // 역전 텍스트 (흰색, Primary 버튼 위)
+    primary: '#140e1a', // 주요 텍스트 (거의 검정)
+    secondary: '#6f5194', // 보조 텍스트 (보라빛 회색)
+    disabled: '#a495b7', // 비활성화 텍스트
+    inverse: '#FFFFFF', // 역전 텍스트 (Primary 버튼 위)
   },
 } as const;
 

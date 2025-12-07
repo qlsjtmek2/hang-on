@@ -67,7 +67,7 @@ export const MyRecordsScreen: React.FC = () => {
       createdAt={item.createdAt}
       empathyCount={item.heartsCount}
       messageCount={item.messagesCount}
-      isShared={item.visibility === 'public'}
+      visibility={item.visibility}
       onPress={handleRecordPress}
       onEmpathyPress={handleEmpathyPress}
       onMessagePress={handleMessagePress}

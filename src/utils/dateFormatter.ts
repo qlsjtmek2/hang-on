@@ -284,5 +284,46 @@ export function formatDateDifference(
   return `${minutes}분`;
 }
 
+/**
+ * 같은 날인지 확인하는 헬퍼 함수
+ */
+const isSameDay = (d1: Date, d2: Date): boolean => {
+  return (
+    d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getFullYear() === d2.getFullYear()
+  );
+};
+
+/**
+ * 날짜 라벨 포맷 (시간 없이 날짜만)
+ * - 오늘: "오늘"
+ * - 어제: "어제"
+ * - 올해: "12월 5일"
+ * - 다른 해: "2024.12.5"
+ *
+ * RecordCard 등에서 날짜를 간결하게 표시할 때 사용
+ */
+export function formatDateLabel(date: Date | string | number): string {
+  const d = toDate(date);
+  const now = new Date();
+
+  // 오늘 확인
+  if (isSameDay(d, now)) return '오늘';
+
+  // 어제 확인
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (isSameDay(d, yesterday)) return '어제';
+
+  // 올해면 "12월 5일"
+  if (d.getFullYear() === now.getFullYear()) {
+    return `${d.getMonth() + 1}월 ${d.getDate()}일`;
+  }
+
+  // 다른 해면 "2024.12.5"
+  return `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+}
+
 // RecordCard 컴포넌트에서 사용할 기본 포맷터 export
 export const defaultFormatTime = formatSmartTime;
