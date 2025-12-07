@@ -37,6 +37,7 @@ export function EmotionButton({
   // Reanimated 애니메이션 값
   const scale = useSharedValue(1);
   const opacity = useSharedValue(isSelected ? 1 : 0.7);
+  const textTranslateY = useSharedValue(isSelected ? 4 : 0);
 
   const emotionInfo = EMOTION_DATA[emotionLevel];
 
@@ -45,15 +46,21 @@ export function EmotionButton({
     if (isSelected) {
       scale.value = withTiming(1.1, { duration: 225 });
       opacity.value = withTiming(1, { duration: 150 });
+      textTranslateY.value = withTiming(4, { duration: 225 });
     } else {
       scale.value = withTiming(1, { duration: 225 });
       opacity.value = withTiming(0.7, { duration: 150 });
+      textTranslateY.value = withTiming(0, { duration: 225 });
     }
-  }, [isSelected, scale, opacity]);
+  }, [isSelected, scale, opacity, textTranslateY]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const animatedIconStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
     opacity: opacity.value,
+  }));
+
+  const animatedTextStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: textTranslateY.value }],
   }));
 
   const handlePress = () => {
@@ -88,6 +95,12 @@ export function EmotionButton({
     large: 14,
   }[size];
 
+  const emotionSize = {
+    small: 8,
+    medium: 10,
+    large: 11,
+  }[size];
+
   return (
     <TouchableOpacity
       onPress={handlePress}
@@ -96,7 +109,7 @@ export function EmotionButton({
       style={style}
       accessible={true}
       accessibilityRole="button"
-      accessibilityLabel={`감정 ${emotionInfo.label}`}
+      accessibilityLabel={`감정 ${emotionInfo.label} - ${emotionInfo.emotion}`}
       accessibilityHint={`현재 ${isSelected ? '선택됨' : '선택 안 됨'}. 탭하여 ${
         emotionInfo.label
       } 감정을 선택하세요.`}
@@ -111,30 +124,46 @@ export function EmotionButton({
           {
             width: containerSize,
             height: containerSize,
-            backgroundColor: isSelected ? emotionInfo.color : 'transparent',
-            borderColor: emotionInfo.color,
+            backgroundColor: isSelected ? emotionInfo.color : theme.colors.surface,
+            borderColor: isSelected ? 'transparent' : theme.colors.neutral.gray200,
           },
-          animatedStyle,
+          isSelected && styles.selectedContainer,
+          animatedIconStyle,
           disabled && styles.disabled,
         ]}
       >
         <IconComponent
           size={iconSize}
-          color={isSelected ? theme.colors.neutral.white : emotionInfo.color}
-          strokeWidth={2.5}
+          color={isSelected ? theme.colors.neutral.white : theme.colors.neutral.gray400}
+          strokeWidth={isSelected ? 2.5 : 2}
         />
       </Animated.View>
-      <Text
-        style={[
-          styles.label,
-          {
-            fontSize: labelSize,
-            color: isSelected ? emotionInfo.color : theme.colors.neutral.gray600,
-          },
-        ]}
-      >
-        {emotionInfo.label}
-      </Text>
+      <Animated.View style={animatedTextStyle}>
+        <Text
+          style={[
+            styles.label,
+            {
+              fontSize: labelSize,
+              color: isSelected ? emotionInfo.color : theme.colors.neutral.gray500,
+              fontWeight: isSelected ? '700' : '600',
+            },
+          ]}
+        >
+          {emotionInfo.label}
+        </Text>
+        <Text
+          style={[
+            styles.emotionText,
+            {
+              fontSize: emotionSize,
+              color: isSelected ? emotionInfo.color : theme.colors.neutral.gray400,
+              opacity: isSelected ? 0.9 : 0.7,
+            },
+          ]}
+        >
+          {emotionInfo.emotion}
+        </Text>
+      </Animated.View>
     </TouchableOpacity>
   );
 }
@@ -178,14 +207,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    borderWidth: 2,
-    borderColor: theme.colors.neutral.gray300,
+    borderWidth: 1.5,
+    borderColor: theme.colors.neutral.gray200,
+  },
+  selectedContainer: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 5,
   },
   label: {
     marginTop: theme.spacing.xs,
     textAlign: 'center',
     ...theme.typography.caption,
     fontWeight: '600',
+  },
+  emotionText: {
+    marginTop: 2,
+    textAlign: 'center',
   },
   disabled: {
     opacity: 0.4,

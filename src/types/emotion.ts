@@ -33,8 +33,10 @@ export type EmotionWeather =
 export interface EmotionData {
   /** 감정을 나타내는 Lucide 아이콘 */
   icon: LucideIcon;
-  /** 감정의 한글 라벨 */
+  /** 감정의 한글 라벨 (날씨 이름) */
   label: string;
+  /** 실제 감정 키워드 (예: "불안/화남", "기쁨/행복") */
+  emotion: string;
   /** 감정의 테마 색상 (Hex 코드) */
   color: string;
 }

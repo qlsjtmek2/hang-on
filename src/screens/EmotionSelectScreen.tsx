@@ -5,14 +5,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Button } from '@/components/Button';
-import { EmotionSelector } from '@/components/EmotionButton';
-import { StepIndicator } from '@/components/StepIndicator';
+import { EmotionButton } from '@/components/EmotionButton';
+import { EMOTION_DATA } from '@/constants/emotions';
 import type { CreateStackParamList } from '@/navigation/CreateStackNavigator';
 import { theme } from '@/theme';
 import type { EmotionLevel } from '@/types/emotion';
 
-const STEP_LABELS = ['감정 선택', '글쓰기', '공유 설정'];
+const BUTTON_GAP = 24;
 
 type EmotionSelectScreenNavigationProp = NativeStackNavigationProp<
   CreateStackParamList,
@@ -23,9 +22,9 @@ type EmotionSelectScreenNavigationProp = NativeStackNavigationProp<
  * 감정 선택 화면
  *
  * 털어놓기 플로우의 첫 번째 단계
- * - 5단계 날씨 아이콘으로 현재 감정 선택
- * - 선택 시 확대 + 색상 강조 애니메이션
- * - "다음" 버튼으로 글쓰기 화면 이동
+ * - 2x2 그리드 + 1 레이아웃으로 감정 선택
+ * - 감정 키워드 표시로 직관성 향상
+ * - 선택 시 피드백 메시지 표시
  */
 export const EmotionSelectScreen: React.FC = () => {
   const navigation = useNavigation<EmotionSelectScreenNavigationProp>();
@@ -45,6 +44,9 @@ export const EmotionSelectScreen: React.FC = () => {
     navigation.goBack();
   };
 
+  // 선택된 감정 데이터
+  const selectedData = selectedEmotion ? EMOTION_DATA[selectedEmotion] : null;
+
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       {/* 헤더 */}
@@ -62,57 +64,102 @@ export const EmotionSelectScreen: React.FC = () => {
         <View style={styles.headerSpacer} />
       </View>
 
-      {/* 단계 표시 */}
-      <View style={styles.stepContainer}>
-        <StepIndicator
-          currentStep={1}
-          totalSteps={3}
-          variant="dot"
-          labels={STEP_LABELS}
-          showLabels
-        />
-      </View>
-
       {/* 메인 콘텐츠 */}
       <View style={styles.content}>
-        <Text style={styles.title}>지금 기분이 어때요?</Text>
-        <Text style={styles.subtitle}>오늘의 감정을 날씨로 표현해보세요</Text>
-
-        {/* 감정 선택 */}
-        <View style={styles.emotionContainer}>
-          <EmotionSelector
-            selectedLevel={selectedEmotion}
-            onSelect={handleEmotionSelect}
-            size="large"
-            style={styles.emotionSelector}
-          />
+        {/* 타이틀 */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>지금 기분이 어때요?</Text>
+          <Text style={styles.subtitle}>오늘의 감정을 날씨로 표현해보세요</Text>
         </View>
 
-        {/* 선택된 감정 설명 */}
-        {selectedEmotion && (
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionText}>
-              {getEmotionDescription(selectedEmotion)}
-            </Text>
+        {/* 감정 선택 그리드 (2x2 + 1) */}
+        <View style={styles.gridContainer}>
+          {/* 첫 번째 줄: 맑음, 구름 */}
+          <View style={styles.gridRow}>
+            <EmotionButton
+              emotionLevel={5}
+              isSelected={selectedEmotion === 5}
+              onPress={handleEmotionSelect}
+              size="large"
+              style={styles.gridItem}
+            />
+            <EmotionButton
+              emotionLevel={4}
+              isSelected={selectedEmotion === 4}
+              onPress={handleEmotionSelect}
+              size="large"
+              style={styles.gridItem}
+            />
+          </View>
+
+          {/* 두 번째 줄: 흐림, 비 */}
+          <View style={styles.gridRow}>
+            <EmotionButton
+              emotionLevel={3}
+              isSelected={selectedEmotion === 3}
+              onPress={handleEmotionSelect}
+              size="large"
+              style={styles.gridItem}
+            />
+            <EmotionButton
+              emotionLevel={2}
+              isSelected={selectedEmotion === 2}
+              onPress={handleEmotionSelect}
+              size="large"
+              style={styles.gridItem}
+            />
+          </View>
+
+          {/* 세 번째 줄: 폭풍 (중앙) */}
+          <View style={styles.gridRowCenter}>
+            <EmotionButton
+              emotionLevel={1}
+              isSelected={selectedEmotion === 1}
+              onPress={handleEmotionSelect}
+              size="large"
+              style={styles.gridItem}
+            />
+          </View>
+        </View>
+
+        {/* 피드백 메시지 영역 (선택 시에만 표시) */}
+        {selectedData && (
+          <View style={styles.feedbackContainer}>
+            <View
+              style={[
+                styles.messageBubble,
+                { borderColor: selectedData.color },
+              ]}
+            >
+              <Text style={styles.messageText}>
+                {getEmotionDescription(selectedEmotion!)}
+              </Text>
+            </View>
           </View>
         )}
       </View>
 
       {/* 하단 버튼 */}
       <View style={styles.footer}>
-        <Button
-          title="다음"
+        <TouchableOpacity
+          style={[
+            styles.nextButton,
+            !selectedEmotion && styles.disabledButton,
+            selectedEmotion && { backgroundColor: selectedData?.color },
+          ]}
           onPress={handleNext}
-          variant="primary"
-          size="large"
           disabled={!selectedEmotion}
-          fullWidth
+          accessibilityRole="button"
+          accessibilityLabel="다음"
           accessibilityHint={
             selectedEmotion
               ? '글쓰기 화면으로 이동합니다'
               : '먼저 감정을 선택해주세요'
           }
-        />
+          accessibilityState={{ disabled: !selectedEmotion }}
+        >
+          <Text style={styles.nextButtonText}>다음</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -123,11 +170,11 @@ export const EmotionSelectScreen: React.FC = () => {
  */
 function getEmotionDescription(level: EmotionLevel): string {
   const descriptions: Record<EmotionLevel, string> = {
-    1: '많이 힘든 하루였나요. 괜찮아요, 여기서 털어놓아도 돼요.',
-    2: '기분이 좋지 않은 날이네요. 당신의 이야기를 들려주세요.',
-    3: '평범한 하루를 보내고 계시군요. 오늘 있었던 일을 나눠볼까요?',
-    4: '기분 좋은 일이 있었나 봐요. 그 이야기가 궁금해요.',
-    5: '정말 좋은 하루네요! 그 기쁨을 나눠주세요.',
+    1: '마음속에 폭풍우가 몰아치고 있군요. 어떤 일이 있었나요?',
+    2: '마음에도 비가 내리는 날이 있죠. 잠시 쉬어가도 괜찮아요.',
+    3: '구름이 낀 것처럼 답답한가요? 이야기를 털어놓아 보세요.',
+    4: '나쁘지 않은 하루였군요. 소소한 즐거움이 있었나요?',
+    5: '햇살처럼 밝은 하루셨군요! 어떤 좋은 일이 있었는지 궁금해요.',
   };
   return descriptions[level];
 }
@@ -143,8 +190,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
   },
   closeButton: {
     padding: theme.spacing.xs,
@@ -154,20 +199,21 @@ const styles = StyleSheet.create({
     color: theme.colors.text.primary,
   },
   headerSpacer: {
-    width: 40, // closeButton과 같은 너비로 중앙 정렬
-  },
-  stepContainer: {
-    paddingVertical: theme.spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
+    width: 40,
   },
   content: {
     flex: 1,
     paddingHorizontal: theme.spacing.xl,
-    paddingTop: theme.spacing.xxxl,
+    alignItems: 'center',
+  },
+  titleContainer: {
+    alignItems: 'center',
+    marginTop: theme.spacing.xl,
+    marginBottom: theme.spacing.xxl,
   },
   title: {
-    ...theme.typography.h1,
+    fontSize: 26,
+    fontWeight: '800',
     color: theme.colors.text.primary,
     textAlign: 'center',
     marginBottom: theme.spacing.sm,
@@ -176,31 +222,66 @@ const styles = StyleSheet.create({
     ...theme.typography.body,
     color: theme.colors.text.secondary,
     textAlign: 'center',
-    marginBottom: theme.spacing.xxxl,
   },
-  emotionContainer: {
+  gridContainer: {
+    width: '100%',
+    gap: theme.spacing.lg,
+  },
+  gridRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: BUTTON_GAP + 16,
+  },
+  gridRowCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  gridItem: {
     alignItems: 'center',
   },
-  emotionSelector: {
-    paddingVertical: theme.spacing.xl,
-  },
-  descriptionContainer: {
+  feedbackContainer: {
+    width: '100%',
+    alignItems: 'center',
     marginTop: theme.spacing.xxl,
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.md,
-    backgroundColor: theme.colors.neutral.gray100,
-    borderRadius: 12,
+    minHeight: 80,
   },
-  descriptionText: {
-    ...theme.typography.body,
-    color: theme.colors.text.secondary,
-    textAlign: 'center',
+  messageBubble: {
+    backgroundColor: theme.colors.neutral.gray100,
+    padding: theme.spacing.lg,
+    borderRadius: 20,
+    width: '100%',
+    borderWidth: 1,
+  },
+  messageText: {
+    fontSize: 16,
     lineHeight: 24,
+    textAlign: 'center',
+    color: theme.colors.text.primary,
+    fontWeight: '500',
   },
   footer: {
     paddingHorizontal: theme.spacing.xl,
     paddingVertical: theme.spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.border,
+  },
+  nextButton: {
+    backgroundColor: theme.colors.primary.main,
+    borderRadius: 16,
+    paddingVertical: 18,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  disabledButton: {
+    backgroundColor: theme.colors.neutral.gray300,
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  nextButtonText: {
+    color: theme.colors.text.inverse,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
