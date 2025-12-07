@@ -1,5 +1,12 @@
-import { Cloud, CloudRain, CloudLightning, CloudSun, Sun, Heart, Users } from 'lucide-react-native';
-import React, { useCallback, useRef, useState } from 'react';
+import {
+  Cloud,
+  CloudLightning,
+  CloudRain,
+  CloudSun,
+  Heart,
+  Sun,
+} from 'lucide-react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -10,8 +17,13 @@ import {
   ViewToken,
 } from 'react-native';
 import Animated, {
+  Easing,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
+  withRepeat,
+  withSequence,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
@@ -24,66 +36,201 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 interface OnboardingSlide {
   id: string;
   title: string;
-  description: string;
+  subtitle: string;
   backgroundColor: string;
-  iconType: 'emotions' | 'write' | 'together';
+  iconType: 'emotional' | 'trust';
 }
 
 const SLIDES: OnboardingSlide[] = [
   {
     id: '1',
-    title: '감정을 날씨로 표현해요',
-    description: '폭풍부터 맑음까지,\n오늘의 기분을 직관적으로 기록하세요',
-    backgroundColor: '#F0F4FF',
-    iconType: 'emotions',
+    title: '오늘, 마음이 어떠세요?',
+    subtitle: '혼자 삼키지 않아도 괜찮아요',
+    backgroundColor: theme.colors.background,
+    iconType: 'emotional',
   },
   {
     id: '2',
-    title: '마음을 털어놓으세요',
-    description: '500자 안에 오늘의 감정을 담아\n가볍게 또는 진솔하게 기록해요',
-    backgroundColor: '#F5F5F5',
-    iconType: 'write',
-  },
-  {
-    id: '3',
-    title: '누군가와 함께해요',
-    description: '익명으로 서로의 마음에 공감하고\n따뜻한 메시지를 나눠요',
-    backgroundColor: '#FFF5F5',
-    iconType: 'together',
+    title: '익명으로 나누고,\n함께 견뎌요',
+    subtitle: '당신의 이야기는 안전하게 보호됩니다',
+    backgroundColor: theme.colors.background,
+    iconType: 'trust',
   },
 ];
 
-// 슬라이드별 아이콘 렌더링 컴포넌트
-const SlideIcon: React.FC<{ type: OnboardingSlide['iconType'] }> = ({ type }) => {
-  switch (type) {
-    case 'emotions':
-      return (
-        <View style={styles.iconRow}>
-          <CloudLightning size={40} color={theme.colors.emotion.stormy} />
-          <CloudRain size={40} color={theme.colors.emotion.rainy} />
-          <Cloud size={40} color={theme.colors.emotion.cloudy} />
-          <CloudSun size={40} color={theme.colors.emotion.partly} />
-          <Sun size={40} color={theme.colors.emotion.sunny} />
-        </View>
-      );
-    case 'write':
-      return (
-        <View style={styles.iconContainer}>
-          <View style={styles.writeIconBg}>
-            <Cloud size={64} color={theme.colors.emotion.cloudy} />
-          </View>
-        </View>
-      );
-    case 'together':
-      return (
-        <View style={styles.iconContainer}>
-          <View style={styles.togetherIcons}>
-            <Heart size={48} color={theme.colors.primary.main} fill={theme.colors.primary.main} />
-            <Users size={56} color={theme.colors.neutral.gray600} style={styles.usersIcon} />
-          </View>
-        </View>
-      );
-  }
+// 날씨 아이콘 색상
+const WEATHER_COLORS = [
+  theme.colors.emotion.stormy,
+  theme.colors.emotion.rainy,
+  theme.colors.emotion.cloudy,
+  theme.colors.emotion.partly,
+  theme.colors.emotion.sunny,
+];
+
+// 슬라이드 1: 날씨 전환 애니메이션
+const WeatherTransitionIcon: React.FC = () => {
+  const [currentWeather, setCurrentWeather] = useState(0);
+  const opacity = useSharedValue(1);
+  const scale = useSharedValue(1);
+  const floatY = useSharedValue(0);
+
+  // JS 스레드에서 state 업데이트하는 함수
+  const updateWeather = useCallback(() => {
+    setCurrentWeather((prev) => (prev + 1) % 5);
+  }, []);
+
+  // Float 애니메이션
+  useEffect(() => {
+    floatY.value = withRepeat(
+      withSequence(
+        withTiming(-8, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+      ),
+      -1,
+      true,
+    );
+  }, [floatY]);
+
+  // 날씨 전환 애니메이션 (폭풍 → 맑음)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 페이드 아웃
+      opacity.value = withTiming(0, { duration: 400 }, () => {
+        // 다음 날씨로 전환 (runOnJS로 JS 스레드에서 실행)
+        runOnJS(updateWeather)();
+        // 페이드 인 (스프링 없이 부드럽게)
+        opacity.value = withTiming(1, { duration: 400 });
+        scale.value = withSequence(
+          withTiming(0.95, { duration: 0 }),
+          withTiming(1, { duration: 400, easing: Easing.out(Easing.ease) }),
+        );
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [opacity, scale, updateWeather]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }, { translateY: floatY.value }],
+  }));
+
+  const renderWeatherIcon = () => {
+    const size = 80;
+    const color = WEATHER_COLORS[currentWeather];
+
+    switch (currentWeather) {
+      case 0:
+        return <CloudLightning size={size} color={color} />;
+      case 1:
+        return <CloudRain size={size} color={color} />;
+      case 2:
+        return <Cloud size={size} color={color} />;
+      case 3:
+        return <CloudSun size={size} color={color} />;
+      case 4:
+        return <Sun size={size} color={color} />;
+      default:
+        return <Cloud size={size} color={color} />;
+    }
+  };
+
+  return (
+    <View style={styles.weatherContainer}>
+      <Animated.View style={animatedStyle}>
+        {renderWeatherIcon()}
+      </Animated.View>
+      {/* 날씨 인디케이터 */}
+      <View style={styles.weatherIndicator}>
+        {[0, 1, 2, 3, 4].map((index) => (
+          <View
+            key={index}
+            style={[
+              styles.weatherDot,
+              currentWeather === index && styles.weatherDotActive,
+              { backgroundColor: WEATHER_COLORS[index] },
+            ]}
+          />
+        ))}
+      </View>
+    </View>
+  );
+};
+
+// 슬라이드 2: 하트 아이콘 (첫 번째 슬라이드와 일관된 스타일)
+const HeartIcon: React.FC = () => {
+  const floatY = useSharedValue(0);
+  const heartScale = useSharedValue(1);
+
+  useEffect(() => {
+    // Float 애니메이션 (첫 번째 슬라이드와 동일)
+    floatY.value = withRepeat(
+      withSequence(
+        withTiming(-8, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+      ),
+      -1,
+      true,
+    );
+
+    // 하트 펄스 애니메이션
+    heartScale.value = withRepeat(
+      withSequence(
+        withTiming(1.05, { duration: 1200 }),
+        withTiming(1, { duration: 1200 }),
+      ),
+      -1,
+      true,
+    );
+  }, [floatY, heartScale]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { scale: heartScale.value },
+      { translateY: floatY.value },
+    ],
+  }));
+
+  return (
+    <View style={styles.heartContainer}>
+      <Animated.View style={animatedStyle}>
+        <Heart size={80} color={theme.colors.semantic.error} fill={theme.colors.semantic.error} />
+      </Animated.View>
+    </View>
+  );
+};
+
+// 애니메이션 텍스트 컴포넌트
+const AnimatedText: React.FC<{
+  text: string;
+  style: object;
+  delay?: number;
+}> = ({ text, style, delay = 0 }) => {
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue(16);
+
+  useEffect(() => {
+    // 부드럽게 아래에서 위로 올라오는 애니메이션
+    opacity.value = withDelay(
+      delay,
+      withTiming(1, { duration: 500, easing: Easing.out(Easing.ease) }),
+    );
+    translateY.value = withDelay(
+      delay,
+      withTiming(0, { duration: 500, easing: Easing.out(Easing.cubic) }),
+    );
+  }, [delay, opacity, translateY]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateY: translateY.value }],
+  }));
+
+  return (
+    <Animated.Text style={[style, animatedStyle]}>
+      {text}
+    </Animated.Text>
+  );
 };
 
 export const OnboardingScreen: React.FC = () => {
@@ -91,9 +238,8 @@ export const OnboardingScreen: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const completeOnboarding = useOnboardingStore((state) => state.completeOnboarding);
 
-  // 애니메이션 값
+  // 버튼 애니메이션
   const buttonScale = useSharedValue(1);
-  const buttonOpacity = useSharedValue(1);
 
   const isLastSlide = currentIndex === SLIDES.length - 1;
 
@@ -113,12 +259,12 @@ export const OnboardingScreen: React.FC = () => {
 
   // 다음/시작하기 버튼 핸들러
   const handleNext = useCallback(() => {
-    buttonScale.value = withSpring(0.95, {}, () => {
-      buttonScale.value = withSpring(1);
-    });
+    buttonScale.value = withSequence(
+      withTiming(0.95, { duration: 100 }),
+      withSpring(1),
+    );
 
     if (isLastSlide) {
-      buttonOpacity.value = withTiming(0, { duration: 200 });
       completeOnboarding();
     } else {
       flatListRef.current?.scrollToIndex({
@@ -126,7 +272,7 @@ export const OnboardingScreen: React.FC = () => {
         animated: true,
       });
     }
-  }, [currentIndex, isLastSlide, completeOnboarding, buttonScale, buttonOpacity]);
+  }, [currentIndex, isLastSlide, completeOnboarding, buttonScale]);
 
   // 건너뛰기 핸들러
   const handleSkip = useCallback(() => {
@@ -136,34 +282,49 @@ export const OnboardingScreen: React.FC = () => {
   // 버튼 애니메이션 스타일
   const buttonAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: buttonScale.value }],
-    opacity: buttonOpacity.value,
   }));
 
   // 슬라이드 렌더링
-  const renderSlide = useCallback(({ item }: { item: OnboardingSlide }) => (
-    <View style={[styles.slide, { backgroundColor: item.backgroundColor }]}>
-      <View style={styles.slideContent}>
-        <View style={styles.iconWrapper}>
-          <SlideIcon type={item.iconType} />
-        </View>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
-      </View>
-    </View>
-  ), []);
+  const renderSlide = useCallback(
+    ({ item, index }: { item: OnboardingSlide; index: number }) => (
+      <View style={[styles.slide, { backgroundColor: item.backgroundColor }]}>
+        <View style={styles.slideContent}>
+          {/* 아이콘 영역 */}
+          <View style={styles.iconWrapper}>
+            {item.iconType === 'emotional' ? <WeatherTransitionIcon /> : <HeartIcon />}
+          </View>
 
-  // 페이지 인디케이터 렌더링
+          {/* 텍스트 영역 */}
+          <View style={styles.textContainer}>
+            <AnimatedText
+              text={item.title}
+              style={styles.title}
+              delay={index === currentIndex ? 200 : 0}
+            />
+            <AnimatedText
+              text={item.subtitle}
+              style={styles.subtitle}
+              delay={index === currentIndex ? 400 : 0}
+            />
+          </View>
+        </View>
+      </View>
+    ),
+    [currentIndex],
+  );
+
+  // 페이지 인디케이터
   const renderPagination = () => (
     <View style={styles.pagination}>
-      {SLIDES.map((_, index) => (
-        <View
-          key={index}
-          style={[
-            styles.paginationDot,
-            index === currentIndex && styles.paginationDotActive,
-          ]}
-        />
-      ))}
+      {SLIDES.map((_, index) => {
+        const isActive = index === currentIndex;
+        return (
+          <View
+            key={index}
+            style={[styles.paginationDot, isActive && styles.paginationDotActive]}
+          />
+        );
+      })}
     </View>
   );
 
@@ -241,34 +402,16 @@ const styles = StyleSheet.create({
   },
   slideContent: {
     alignItems: 'center',
-    paddingHorizontal: 40,
+    paddingHorizontal: 32,
   },
   iconWrapper: {
     marginBottom: 48,
-  },
-  iconRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  iconContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  writeIconBg: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    minHeight: 180,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  togetherIcons: {
-    flexDirection: 'row',
+  textContainer: {
     alignItems: 'center',
-  },
-  usersIcon: {
-    marginLeft: -8,
   },
   title: {
     fontSize: 28,
@@ -276,18 +419,46 @@ const styles = StyleSheet.create({
     color: theme.colors.text.primary,
     textAlign: 'center',
     marginBottom: 16,
+    lineHeight: 38,
   },
-  description: {
-    fontSize: 16,
+  subtitle: {
+    fontSize: 17,
     fontWeight: '400',
     color: theme.colors.text.secondary,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 26,
   },
+
+  // Weather transition styles
+  weatherContainer: {
+    alignItems: 'center',
+  },
+  weatherIndicator: {
+    flexDirection: 'row',
+    marginTop: 24,
+    gap: 8,
+  },
+  weatherDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    opacity: 0.3,
+  },
+  weatherDotActive: {
+    opacity: 1,
+    transform: [{ scale: 1.3 }],
+  },
+
+  // Heart icon styles
+  heartContainer: {
+    alignItems: 'center',
+  },
+
+  // Bottom area
   bottomContainer: {
     paddingHorizontal: 24,
     paddingBottom: 48,
-    backgroundColor: theme.colors.background,
+    backgroundColor: 'transparent',
   },
   pagination: {
     flexDirection: 'row',

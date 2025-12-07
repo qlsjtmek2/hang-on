@@ -90,7 +90,7 @@ export const useNotificationStore = create<NotificationState & NotificationActio
 
         return {
           notifications: state.notifications.map((n) =>
-            n.id === id ? { ...n, isRead: true } : n
+            n.id === id ? { ...n, isRead: true } : n,
           ),
           unreadCount: Math.max(0, state.unreadCount - 1),
         };
@@ -107,5 +107,5 @@ export const useNotificationStore = create<NotificationState & NotificationActio
     clearAll: () => {
       set({ notifications: [], unreadCount: 0 });
     },
-  })
+  }),
 );
